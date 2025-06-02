@@ -122,3 +122,7 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
+
+@theme {
+  --font-yapari: "yapari", sans-serif;
+}

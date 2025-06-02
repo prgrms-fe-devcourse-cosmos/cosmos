@@ -1,5 +1,9 @@
 import React from "react";
 
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <div className="min-h-screen w-full  flex justify-center items-center">
+      HOME
+    </div>
+  );
 }
