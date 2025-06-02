@@ -5,6 +5,7 @@ import Default from "./layouts/RootLayout";
 import Daily from "./pages/Daily";
 import Lounge from "./pages/Lounge";
 import Lab from "./pages/Lab";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
     hydrateFallbackElement: <h1>Loading...</h1>,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/login", element: <Login /> },
       { path: "/daily", element: <Daily /> },
       { path: "/lounge", element: <Lounge /> },
       { path: "/lab", element: <Lab /> },
