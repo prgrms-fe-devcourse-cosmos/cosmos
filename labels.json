@@ -1,0 +1,61 @@
+[
+  { "name": "☑ feature", "color": "1D76DB", "description": "새로운 기능 추가" },
+
+  { "name": "⚙️ config", "color": "fcdd74", "description": "설정 파일 추가" },
+  {
+    "name": "✅ test",
+    "color": "ccffc4",
+    "description": "테스트(테스트 코드 추가, 수정, 삭제, 비즈니스 로직에 변경이 없는 경우)"
+  },
+
+  {
+    "name": "✨ clean up",
+    "color": "a2eeef",
+    "description": "비즈니스 로직에 변경이 없고 코드 수정을 하는 경우"
+  },
+  {
+    "name": "🎨 design",
+    "color": "FEF2C0",
+    "description": "CSS 등 사용자 UI 디자인 변경"
+  },
+  {
+    "name": "🏷️ rename",
+    "color": "f7d26d",
+    "description": "파일이나 디렉토리의 이름만 수정하는 경우"
+  },
+  { "name": "🐞 fix", "color": "d73a4a", "description": "버그 수정 또는 typo" },
+  {
+    "name": "📃 docs",
+    "color": "C5DEF5",
+    "description": "문서 작업만 수행하는 경우"
+  },
+
+  {
+    "name": "📝 comment",
+    "color": "008672",
+    "description": "필요한 주석 추가 및 변경"
+  },
+
+  {
+    "name": "🔨 refactor",
+    "color": "f29a4e",
+    "description": "코드를 리팩토링하는 경우"
+  },
+
+  {
+    "name": "🗑️ remove",
+    "color": "5e7291",
+    "description": "파일을 삭제하는 작업만 수행하는 경우"
+  },
+  {
+    "name": "🙋‍♂️ question",
+    "color": "08C1F6",
+    "description": "질문이 있는 경우"
+  },
+  { "name": "🚨 conflict", "color": "D93F0B", "description": "충돌 해결 내용" },
+  {
+    "name": "🧾 chore",
+    "color": "fd7dff",
+    "description": "위에 걸리지 않는 기타 변경사항(빌드 스크립트 수정, assets image, 패키지 매니저 등)"
+  }
+]
