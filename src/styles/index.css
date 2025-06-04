@@ -141,3 +141,12 @@ body::-webkit-scrollbar {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+@layer components {
+  .login-input {
+    @apply border border-[var(--gray-200)] p-3 rounded-lg focus:border-[var(--primary-300)] focus:outline focus:outline-[var(--primary-300)] text-[15px];
+  }
+  .login-btn {
+    @apply border border-[var(--gray-200)] p-3.5 rounded-lg active:border-[var(--primary-300)] active:text-[var(--primary-300)] cursor-pointer text-[14px] flex justify-center items-center gap-2;
+  }
+}

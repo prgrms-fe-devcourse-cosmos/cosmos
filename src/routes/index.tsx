@@ -6,6 +6,7 @@ import Daily from "./pages/Daily";
 import Lounge from "./pages/Lounge";
 import Lab from "./pages/Lab";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: "/daily", element: <Daily /> },
       { path: "/lounge", element: <Lounge /> },
       { path: "/lab", element: <Lab /> },
+      { path: "/signup", element: <Signup /> },
     ],
   },
   { path: "*", element: <NotFound /> },

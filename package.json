@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.9",
     "@tailwindcss/vite": "^4.1.4",
     "github-label-sync": "^3.0.0",
     "lucide-react": "^0.511.0",
