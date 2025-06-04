@@ -3,7 +3,13 @@
 :root {
   --white: #ffffff;
   --primary-300: #d0f700;
+  --primary-200: #7a9100;
   --bg-color: #141414;
+  --bg-color-80: #14141480;
+  --gray-300: #696969;
+  --gray-200: #909090;
+  --gray-100: #c7c7c7;
+  --red: #e24413;
 }
 
 @font-face {
@@ -125,4 +131,13 @@ body::-webkit-scrollbar {
 
 @theme {
   --font-yapari: "yapari", sans-serif;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
