@@ -141,3 +141,8 @@ body::-webkit-scrollbar {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* font yapari 전역 클래스 추가 */
+.font-yapari {
+  font-family: "yapari", sans-serif;
+}
