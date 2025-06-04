@@ -16,7 +16,6 @@ const spaceKeywords = [
   "starship",
   "star",
   "alien",
-  "宇宙", // 일본어 우주 (글로벌 대응이라면)
   "우주", // 한글 우주
   "외계",
   "thanos",
@@ -31,19 +30,41 @@ function spaceFilter(movie: Movie): boolean {
 
 // SF 장르 영화 중 우주 관련만 필터링
 export const getSpaceMovies = async (): Promise<Movie[]> => {
-  const data = await movieFetch<{ results: Movie[] }>(
-    "/discover/movie",
-    "get",
-    {
-      with_genres: 878, // SF 장르
-      sort_by: "popularity.desc",
-      language: "ko-KR",
-    }
-  );
+  let page = 1;
+  const maxPage = 500;
+  const filteredMovies: Movie[] = [];
 
-  if (!data || !Array.isArray(data.results)) return [];
+  while (filteredMovies.length < 9 && page <= maxPage) {
+    const data = await movieFetch<{ results: Movie[] }>(
+      "/discover/movie",
+      "get",
+      {
+        with_genres: 878, // SF 장르
+        sort_by: "popularity.desc",
+        language: "ko-KR",
+        page,
+      }
+    );
+    if (!data || !Array.isArray(data.results)) break;
+    const filtered = data.results.filter(spaceFilter);
+    filteredMovies.push(...filtered);
+    page++;
+  }
+  return filteredMovies.slice(0, 9);
 
-  return data.results.filter(spaceFilter);
+  // const data = await movieFetch<{ results: Movie[] }>(
+  //   "/discover/movie",
+  //   "get",
+  //   {
+  //     with_genres: 878, // SF 장르
+  //     sort_by: "popularity.desc",
+  //     language: "ko-KR",
+  //   }
+  // );
+
+  // if (!data || !Array.isArray(data.results)) return [];
+
+  // return data.results.filter(spaceFilter);
   //   return data.results;
 };
 
