@@ -12,7 +12,7 @@ export default function Button({
   ...rest
 }: ButtonProps) {
   const baseStyle =
-    "flex justify-center items-center h-[30px] px-[16px] rounded-[8px] cursor-pointer transition-all duration-300";
+    "flex justify-center items-center h-[30px] px-[16px] rounded-[8px] cursor-pointer transition-all duration-300 font-[yapari]";
   let variantStyle = "";
   if (variant === "white_outline") {
     variantStyle =
