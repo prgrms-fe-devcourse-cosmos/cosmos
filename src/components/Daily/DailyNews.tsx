@@ -19,7 +19,7 @@ export default function DailyNews() {
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-[300px] h-[370px] overflow-hidden bg-white/10 backdrop-blur-sm"
+                className="block w-[300px] h-[370px] bg-white/10 backdrop-blur-sm cursor-pointer"
               >
                 {/* 뉴스 이미지 */}
                 <img
