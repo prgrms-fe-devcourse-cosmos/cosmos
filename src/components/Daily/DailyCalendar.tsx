@@ -48,16 +48,19 @@ export default function DailyCalendar() {
           </div>
 
           {/* 오늘 이후 이벤트 내용 */}
-          <div className="w-full h-[150px] overflow-auto bg-[var(--white)]/10 backdrop-blur-xl">
+          <div className="w-full h-[150px] bg-[var(--white)]/10 backdrop-blur-xl justify-center items-center">
             {upcomingEvents.length === 0 ? (
-              <p className="w-full h-full flex justify-center items-center text-[#c7c7c7]">
+              <p className="w-full h-full flex text-[#c7c7c7]">
                 다가오는 이벤트가 없습니다.
               </p>
             ) : (
-              <ul className="flex flex-wrap gap-x-8 gap-y-4 my-6 ml-20 items-center">
-                {upcomingEvents.map(({ day, events }, idx) => (
-                  <li key={idx} className="flex items-center gap-3 w-[200px]">
-                    <span className="w-8 font-[yapari] text-[var(--primary-300)] text-lg mr-2">
+              <ul className="flex flex-wrap gap-x-31 gap-y-2 my-6 px-10">
+                {upcomingEvents.slice(0, 6).map(({ day, events }, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-1 mt-7 w-[250px]"
+                  >
+                    <span className="font-[yapari] text-[var(--primary-300)] text-lg mr-2">
                       {day}
                     </span>
                     <span className="text-sm line-clamp-3">
