@@ -6,7 +6,7 @@ export default function Lab() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen w-[1080px] flex pt-10">
+    <div className="min-h-screen w-[1080px] flex pt-10 justify-between">
       <div className="flex flex-col py-4 font-[yapari] gap-8 w-[240px]">
         {[
           { name: "Quiz", path: "/lab/quiz" },
@@ -30,7 +30,7 @@ export default function Lab() {
           </button>
         ))}
       </div>
-      <div className="flex-1 w-full flex justify-center items-center">
+      <div className=" w-[768px] flex ">
         <Outlet />
       </div>
     </div>

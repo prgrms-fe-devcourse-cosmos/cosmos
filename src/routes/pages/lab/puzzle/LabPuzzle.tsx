@@ -12,7 +12,7 @@ export default function LabPuzzle() {
 
   const [showIntro, setShowIntro] = useState(true);
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center">
+    <div className=" w-full flex flex-col items-center pt-30">
       {showIntro ? (
         <IntroScreen onLaunch={() => setShowIntro(false)} />
       ) : mode === null ? (

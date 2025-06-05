@@ -35,12 +35,15 @@ export default function PuzzleScreen({ category, difficulty }: Props) {
   const { rows, cols } = difficultyMap[difficulty];
   return (
     <>
-      <JigsawPuzzle
-        imageSrc={imageUrl ?? ""}
-        rows={rows}
-        columns={cols}
-        onSolved={() => alert("solved")}
-      />
+      <div className="w-full h-full flex gap-8 flex-col items-center text-[color:var(--primary-300)] font-[yapari]">
+        <h1 className="text-2xl">LV.1</h1>
+        <JigsawPuzzle
+          imageSrc={imageUrl ?? ""}
+          rows={rows}
+          columns={cols}
+          onSolved={() => alert("solved")}
+        />
+      </div>
     </>
   );
 }
