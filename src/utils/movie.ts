@@ -5,8 +5,7 @@ const axiosInstance = axios.create({
   baseURL: "https://api.themoviedb.org/3",
   headers: {
     accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YzBmY2IwYjg4Mjc3NDRkMjdjMTRmNGVkODAyYzI5YyIsIm5iZiI6MTc0NTQ2MzA0NC42LCJzdWIiOiI2ODA5YTcwNDI3NmJmNjRlNDFhYjhiZTAiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.U3Q66q2RJET5MO90GgzMV6C_BdHwJ6QA9tMWVklZMp4",
+    Authorization: import.meta.env.VITE_TMDB_ACCESS_TOKEN,
   },
 });
 
@@ -35,10 +34,10 @@ export async function movieFetch<T>(
     }
 
     const response = await axiosInstance<T>(config);
-    console.log("[movieFetch] 요청 성공 ✅");
-    console.log("요청 URL:", config.url);
-    console.log("요청 params:", config.params);
-    console.log("응답 전체 데이터:", response.data);
+    // console.log("[movieFetch] 요청 성공 ✅");
+    // console.log("요청 URL:", config.url);
+    // console.log("요청 params:", config.params);
+    // console.log("응답 전체 데이터:", response.data);
     return response.data;
   } catch (error) {
     console.error(error);

@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
@@ -7,14 +6,13 @@ import Daily from "./pages/Daily";
 import Lounge from "./pages/Lounge";
 import Lab from "./pages/Lab";
 import Login from "./pages/Login";
-import Films from "../components/lounge/Films";
-import FilmsDetail from "../components/lounge/FilmsDetail";
-import Gallery from "../components/lounge/Gallery";
-import GalleryDetail from "../components/lounge/GalleryDetail";
-import Talk from "../components/lounge/Talk";
-import TalkDetail from "../components/lounge/TalkDetail";
-import { DailyLoader } from './loader/dallyspace.loader';
-
+import Films from "../components/Lounge/Films";
+import FilmsDetail from "../components/Lounge/FilmsDetail";
+import Gallery from "../components/Lounge/Gallery";
+import GalleryDetail from "../components/Lounge/GalleryDetail";
+import Talk from "../components/Lounge/Talk";
+import TalkDetail from "../components/Lounge/TalkDetail";
+import { DailyLoader } from "./loader/dallyspace.loader";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +23,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
       {
-        path: '/daily',
+        path: "/daily",
         loader: DailyLoader,
         element: <Daily />,
       },
@@ -44,7 +42,7 @@ const router = createBrowserRouter([
       { path: "/lab", element: <Lab /> },
     ],
   },
-  { path: '*', element: <NotFound /> },
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default function Router() {

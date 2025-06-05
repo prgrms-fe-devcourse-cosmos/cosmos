@@ -1,15 +1,25 @@
 import { create } from "zustand";
-import { getMovieDetail, getSpaceMovies } from "../apis/movie";
+import { getMovieDetail, getSpaceMovies } from "../api/movie";
 
-export const useMovieStore = create<SpaceMovieState>((set) => ({
+export const useMovieStore = create<SpaceMovieState>((set, get) => ({
   spaceMovies: [],
+  page: 1,
+  hasMore: true,
   loading: false,
   fetchSpaceMovies: async () => {
+    const { page, spaceMovies } = get();
     set({ loading: true });
     try {
-      const data = await getSpaceMovies();
-      console.log("우주 영화 필터링 결과:", data);
-      set({ spaceMovies: data });
+      const newMovies = await getSpaceMovies(page);
+      if (newMovies.length === 0) {
+        set({ hasMore: false });
+        return;
+      }
+      set({
+        spaceMovies: [...spaceMovies, ...newMovies],
+        page: page + 1,
+        hasMore: true,
+      });
     } catch (e) {
       console.error("fetchSpaceMovies 실패:", e);
     } finally {
