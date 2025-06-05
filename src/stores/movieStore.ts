@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getSpaceMovies } from "../apis/movie";
+import { getMovieDetail, getSpaceMovies } from "../apis/movie";
 
 export const useMovieStore = create<SpaceMovieState>((set) => ({
   spaceMovies: [],
@@ -12,6 +12,22 @@ export const useMovieStore = create<SpaceMovieState>((set) => ({
       set({ spaceMovies: data });
     } catch (e) {
       console.error("fetchSpaceMovies 실패:", e);
+    } finally {
+      set({ loading: false });
+    }
+  },
+}));
+
+export const useMovieDetailStore = create<MovieDetailStore>((set) => ({
+  detail: null,
+  loading: false,
+  fetchDetail: async (id: string | number) => {
+    set({ loading: true });
+    try {
+      const data = await getMovieDetail(id);
+      set({ detail: data });
+    } catch (e) {
+      console.error("영화 디테일 요청 실패", e);
     } finally {
       set({ loading: false });
     }

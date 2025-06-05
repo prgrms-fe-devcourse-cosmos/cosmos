@@ -28,7 +28,23 @@ function spaceFilter(movie: Movie): boolean {
   return spaceKeywords.some((keyword) => text.includes(keyword));
 }
 
-// SF 장르 영화 중 우주 관련만 필터링
+// 영화 감독 정보 가져오기
+export const getMovieCredits = async (id: number) => {
+  const data = await movieFetch<{ crew: { job: string; name: string }[] }>(
+    `/movie/${id}/credits`,
+    "get",
+    { language: "ko-KR" }
+  );
+  return data?.crew || [];
+};
+
+export const getDirectorName = async (id: number): Promise<string> => {
+  const crew = await getMovieCredits(id);
+  const director = crew.find((member) => member.job === "Director");
+  return director?.name || "감독 정보 없음";
+};
+
+// SF 장르 영화 중 우주 관련만 필터링 + 영화 감독 정보
 export const getSpaceMovies = async (): Promise<Movie[]> => {
   let page = 1;
   const maxPage = 500;
@@ -47,29 +63,20 @@ export const getSpaceMovies = async (): Promise<Movie[]> => {
     );
     if (!data || !Array.isArray(data.results)) break;
     const filtered = data.results.filter(spaceFilter);
-    filteredMovies.push(...filtered);
+    for (const movie of filtered) {
+      if (filteredMovies.length >= 9) break;
+      const director = await getDirectorName(movie.id);
+      filteredMovies.push({ ...movie, director });
+    }
     page++;
   }
   return filteredMovies.slice(0, 9);
-
-  // const data = await movieFetch<{ results: Movie[] }>(
-  //   "/discover/movie",
-  //   "get",
-  //   {
-  //     with_genres: 878, // SF 장르
-  //     sort_by: "popularity.desc",
-  //     language: "ko-KR",
-  //   }
-  // );
-
-  // if (!data || !Array.isArray(data.results)) return [];
-
-  // return data.results.filter(spaceFilter);
-  //   return data.results;
 };
 
 // 영화 상세 + 크레딧 (감독, 배우 정보 포함)
-export const getMovieDetail = (id: number | string) => {
+export const getMovieDetail = (
+  id: number | string
+): Promise<MovieDetail | undefined> => {
   return movieFetch(`/movie/${id}`, "get", {
     append_to_response: "credits",
     language: "ko-KR",

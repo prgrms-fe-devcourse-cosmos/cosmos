@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 export default function Lounge() {
@@ -8,11 +7,8 @@ export default function Lounge() {
     }`;
 
   return (
-    // <div className="min-h-screen w-full  flex justify-center items-center">
-    //   LOUNGE
-    // </div>
     <>
-      <div className="min-h-screen w-[1080px] flex justify-center m-auto gap-[72px]">
+      <div className="min-h-screen w-[1080px] flex justify-center m-auto pt-10 gap-[72px]">
         <nav className="font-yapari flex gap-8 flex-col text-[20px]">
           <NavLink
             to="/lounge"
@@ -40,7 +36,7 @@ export default function Lounge() {
             Talk
           </NavLink>
         </nav>
-        <div className="w-full border border-red-700">
+        <div className="w-full">
           <Outlet />
         </div>
       </div>

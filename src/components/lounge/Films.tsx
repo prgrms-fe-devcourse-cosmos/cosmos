@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useMovieStore } from "../../stores/movieStore";
-import { NavLink } from "react-router-dom";
+import FilmCard from "./FilmCard";
 
 export default function Films() {
   const { spaceMovies, fetchSpaceMovies, loading } = useMovieStore();
@@ -11,17 +11,9 @@ export default function Films() {
 
   if (loading) return <div>로딩로딩</div>;
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="flex flex-wrap justify-between gap-y-[88px]">
       {spaceMovies.map((movie) => (
-        <NavLink to={`/films/${movie.id}`} key={movie.id}>
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <h3>{movie.title}</h3>
-          <p>개봉일: {movie.release_date}</p>
-          <p>⭐ {movie.vote_average}</p>
-        </NavLink>
+        <FilmCard key={movie.id} movie={movie} />
       ))}
     </div>
   );
