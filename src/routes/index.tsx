@@ -3,16 +3,16 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import NotFound from './pages/NotFound';
-import Home from './pages/Home';
-import Default from './layouts/RootLayout';
-import Daily from './pages/Daily';
-import Lounge from './pages/Lounge';
+import NotFound from "./pages/NotFound";
+import Home from "./pages/Home";
+import Default from "./layouts/RootLayout";
+import Daily from "./pages/Daily";
+import Lounge from "./pages/Lounge";
 import Lab from "./pages/lab/Lab";
 import Login from "./pages/Login";
 import LabQuiz from "./pages/lab/quiz/LabQuiz";
 import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
-import { DailyLoader } from './loader/dallyspace.loader';
+import { DailyLoader } from "./loader/dallyspace.loader";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
       {
-        path: '/daily',
+        path: "/daily",
         loader: DailyLoader,
         element: <Daily />,
       },
@@ -37,11 +37,9 @@ const router = createBrowserRouter([
           { path: "puzzle", element: <LabPuzzle /> },
         ],
       },
-      { path: "/lab/quiz", element: <LabQuiz /> },
-
     ],
   },
-  { path: '*', element: <NotFound /> },
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default function Router() {
