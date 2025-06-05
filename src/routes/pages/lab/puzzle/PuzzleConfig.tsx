@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
-type Props = {
-  onStart: (config: {
-    category: "space" | "film";
-    difficulty: "easy" | "medium" | "hard";
-  }) => void;
-  onBack: () => void;
+type Config = {
+  category: "space" | "film";
+  difficulty: "easy" | "medium" | "hard";
 };
-export default function PuzzleConfig({ onStart, onBack }: Props) {
+
+export default function PuzzleConfig() {
+  const navigate = useNavigate();
+  const { onStart } = useOutletContext<{ onStart: (config: Config) => void }>();
+
   const [category, setCategory] = useState<"space" | "film">("space");
   const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">(
     "easy"
@@ -34,6 +36,7 @@ export default function PuzzleConfig({ onStart, onBack }: Props) {
             <div className="flex flex-col gap-2 text-sm ">
               {categories.map((item) => (
                 <button
+                  key={item}
                   className={`cursor-pointer hover:text-[color:var(--primary-300)] ${
                     category === item
                       ? "font-medium text-[color:var(--primary-300)]"
@@ -51,6 +54,7 @@ export default function PuzzleConfig({ onStart, onBack }: Props) {
             <div className="flex flex-col gap-2 ">
               {difficulties.map((item) => (
                 <button
+                  key={item}
                   className={`cursor-pointer hover:text-[color:var(--primary-300)] ${
                     difficulty === item
                       ? "font-medium text-[color:var(--primary-300)]"
@@ -67,7 +71,7 @@ export default function PuzzleConfig({ onStart, onBack }: Props) {
         <div className="w-full flex justify-center items-center gap-10 text-sm">
           <button
             className="w-[160px] z-20 cursor-pointer py-1 text-[color:var(--gray-200)] hover:text-[color:var(--primary-300)]"
-            onClick={() => onBack()}
+            onClick={() => navigate("/lab/puzzle")}
           >
             BACK
           </button>

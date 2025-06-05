@@ -3,11 +3,15 @@ import {
   fetchFilmPuzzleImages,
   fetchSpacePuzzleImages,
 } from "../../../../loader/puzzle.loader";
+import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
+import { useOutletContext } from "react-router-dom";
 
-type Props = {
-  category: "space" | "film";
-  difficulty: "easy" | "medium" | "hard";
+type ContextType = {
+  config: {
+    category: "space" | "film";
+    difficulty: "easy" | "medium" | "hard";
+  } | null;
 };
 
 const difficultyMap = {
@@ -16,13 +20,18 @@ const difficultyMap = {
   hard: { rows: 5, cols: 6 },
 };
 
-export default function PuzzleScreen({ category, difficulty }: Props) {
+export default function PuzzleScreen() {
+  const { config } = useOutletContext<ContextType>();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!config) return;
+
     const loadImage = async () => {
       const fetcher =
-        category === "space" ? fetchSpacePuzzleImages : fetchFilmPuzzleImages;
+        config.category === "space"
+          ? fetchSpacePuzzleImages
+          : fetchFilmPuzzleImages;
       const images = await fetcher();
       if (images?.length) {
         const random = images[Math.floor(Math.random() * images.length)];
@@ -30,13 +39,18 @@ export default function PuzzleScreen({ category, difficulty }: Props) {
       }
     };
     loadImage();
-  }, [category]);
+  }, [config]);
 
+  if (!config) {
+    return <div>Loading config...</div>;
+  }
+
+  const { category, difficulty } = config;
   const { rows, cols } = difficultyMap[difficulty];
   return (
     <>
       <div className="w-full h-full flex gap-8 flex-col items-center text-[color:var(--primary-300)] font-[yapari]">
-        <h1 className="text-2xl">LV.1</h1>
+        <h1 className="text-2xl">LV.1 {category}</h1>
         <JigsawPuzzle
           imageSrc={imageUrl ?? ""}
           rows={rows}

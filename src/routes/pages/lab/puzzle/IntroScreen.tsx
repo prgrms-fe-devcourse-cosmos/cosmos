@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function IntroScreen({ onLaunch }: { onLaunch: () => void }) {
+export default function IntroScreen() {
   const [isHover, setIsHover] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="relative w-[768px] h-[560px]">
@@ -19,7 +21,7 @@ export default function IntroScreen({ onLaunch }: { onLaunch: () => void }) {
         <div className="w-full flex justify-center items-center flex-col ">
           <button
             className="w-[160px] cursor-pointer border-1 py-2 rounded-lg text-sm hover:text-[color:var(--bg-color)] hover:bg-[color:var(--primary-300)] hover:font-medium z-20 transition-all duration-300"
-            onClick={() => onLaunch()}
+            onClick={() => navigate("config")}
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
           >
