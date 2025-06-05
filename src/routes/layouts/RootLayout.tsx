@@ -6,10 +6,10 @@ import Footer from "../../components/common/Footer";
 export default function RootLayout() {
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-[#0D1117] text-[#c9d1d9]">
+      <div className="flex flex-col min-h-screen bg-[#0D1117] text-[#c9d1d9] w-full">
         <Header />
 
-        <main className="flex-grow">
+        <main className="flex-grow w-full flex justify-center items-center">
           <Outlet />
         </main>
         <Footer />
