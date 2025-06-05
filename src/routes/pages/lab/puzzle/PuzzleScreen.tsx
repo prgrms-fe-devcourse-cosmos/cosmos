@@ -41,7 +41,7 @@ export default function PuzzleScreen() {
     loadImage();
   }, [config]);
 
-  if (!config) {
+  if (!config || !imageUrl) {
     return <div>Loading config...</div>;
   }
 
@@ -52,7 +52,7 @@ export default function PuzzleScreen() {
       <div className="w-full h-full flex gap-8 flex-col items-center text-[color:var(--primary-300)] font-[yapari]">
         <h1 className="text-2xl">LV.1 {category}</h1>
         <JigsawPuzzle
-          imageSrc={imageUrl ?? ""}
+          imageSrc={imageUrl}
           rows={rows}
           columns={cols}
           onSolved={() => alert("solved")}
