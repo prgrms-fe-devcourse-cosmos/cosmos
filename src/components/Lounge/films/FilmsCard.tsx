@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function FilmCard({ movie }: { movie: Movie }) {
   return (
     <NavLink
-      to={`film/${movie.id}`}
+      to={`${movie.id}`}
       key={movie.id}
       className="w-[220px] h-[444px] flex flex-col overflow-hidden "
     >
@@ -26,7 +26,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
         <h3 className="text-[16px] truncate whitespace-nowrap overflow-hidden">
           {movie.title}
         </h3>
-        <p className="text-[14px]">{movie.director || "감독 몰루"}</p>
+        <p className="text-[14px]">{movie.director || "감독 없음"}</p>
         <div className="flex justify-between">
           <p className="text-[12px] text-[#909090]">
             {movie.release_date.replace(/-/g, ".")} 개봉

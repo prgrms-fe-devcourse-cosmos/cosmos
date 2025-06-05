@@ -11,8 +11,7 @@ export default function Lounge() {
       <div className="min-h-screen w-[1080px] flex justify-center m-auto pt-10 gap-[72px]">
         <nav className="font-yapari flex gap-8 flex-col text-[20px]">
           <NavLink
-            to="/lounge"
-            end
+            to="/lounge/films"
             className={({ isActive }) => activeLoungeTab(isActive)}
             style={{ letterSpacing: "5%" }}
           >

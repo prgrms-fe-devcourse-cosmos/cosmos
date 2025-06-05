@@ -1,10 +1,17 @@
 import { useCallback, useEffect, useRef } from "react";
-import { useMovieStore } from "../../stores/movieStore";
-import FilmCard from "./FilmCard";
-import FilmCardSkeleton from "./FilmCardSkeleton";
+import FilmCard from "./FilmsCard";
+import FilmCardSkeleton from "./FilmsCardSkeleton";
+import { useMovieStore } from "../../../stores/movieStore";
 
 export default function Films() {
-  const { spaceMovies, fetchSpaceMovies, loading, hasMore } = useMovieStore();
+  const {
+    spaceMovies,
+    fetchSpaceMovies,
+    loading,
+    hasMore,
+    changeSortBy,
+    sortBy,
+  } = useMovieStore();
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -39,9 +46,23 @@ export default function Films() {
   return (
     <>
       <div className="flex justify-between mb-[24px] items-center">
-        <ul className="flex ml-2 gap-4">
-          <li className="cursor-pointer">평점순</li>
-          <li className="cursor-pointer">최신순</li>
+        <ul className="flex ml-2 gap-4 text-[13px] font-medium">
+          <li
+            className={`cursor-pointer ${
+              sortBy === "vote_average.desc" ? "text-[#D0F700]" : ""
+            }`}
+            onClick={() => changeSortBy("vote_average.desc")}
+          >
+            평점순
+          </li>
+          <li
+            className={`cursor-pointer ${
+              sortBy === "release_date.desc" ? "text-[#D0F700]" : ""
+            }`}
+            onClick={() => changeSortBy("release_date.desc")}
+          >
+            최신순
+          </li>
         </ul>
         <input
           type="text"

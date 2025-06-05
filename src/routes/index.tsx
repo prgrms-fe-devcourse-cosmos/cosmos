@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Default from "./layouts/RootLayout";
@@ -6,12 +10,12 @@ import Daily from "./pages/Daily";
 import Lounge from "./pages/Lounge";
 import Lab from "./pages/Lab";
 import Login from "./pages/Login";
-import Films from "../components/Lounge/Films";
-import FilmsDetail from "../components/Lounge/FilmsDetail";
-import Gallery from "../components/Lounge/Gallery";
-import GalleryDetail from "../components/Lounge/GalleryDetail";
-import Talk from "../components/Lounge/Talk";
-import TalkDetail from "../components/Lounge/TalkDetail";
+import Films from "../components/Lounge/films/Films";
+import FilmsDetail from "../components/Lounge/films/FilmsDetail";
+import Gallery from "../components/Lounge/gallery/Gallery";
+import GalleryDetail from "../components/Lounge/gallery/GalleryDetail";
+import Talk from "../components/Lounge/talk/Talk";
+import TalkDetail from "../components/Lounge/talk/TalkDetail";
 import { DailyLoader } from "./loader/dallyspace.loader";
 
 const router = createBrowserRouter([
@@ -31,12 +35,28 @@ const router = createBrowserRouter([
         path: "/lounge",
         element: <Lounge />,
         children: [
-          { index: true, element: <Films /> },
-          { path: "film/:id", element: <FilmsDetail /> },
-          { path: "gallery", element: <Gallery /> },
-          { path: "gallery/:id", element: <GalleryDetail /> },
-          { path: "talk", element: <Talk /> },
-          { path: "talk/:id", element: <TalkDetail /> },
+          { index: true, element: <Navigate to="films" replace /> },
+          {
+            path: "films",
+            children: [
+              { index: true, element: <Films /> },
+              { path: ":id", element: <FilmsDetail /> },
+            ],
+          },
+          {
+            path: "gallery",
+            children: [
+              { index: true, element: <Gallery /> },
+              { path: ":id", element: <GalleryDetail /> },
+            ],
+          },
+          {
+            path: "talk",
+            children: [
+              { index: true, element: <Talk /> },
+              { path: ":id", element: <TalkDetail /> },
+            ],
+          },
         ],
       },
       { path: "/lab", element: <Lab /> },

@@ -14,6 +14,8 @@ interface SpaceMovieState {
   fetchSpaceMovies: () => Promise<void>;
   page: number;
   hasMore: boolean;
+  sortBy: string;
+  changeSortBy: (newSort: string) => void;
 }
 
 interface MovieDetail {

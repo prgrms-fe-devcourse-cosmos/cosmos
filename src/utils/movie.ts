@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, Method } from "axios";
 
-// 배포할때는 .env로 key 숨기기
 const axiosInstance = axios.create({
   baseURL: "https://api.themoviedb.org/3",
   headers: {
@@ -34,10 +33,6 @@ export async function movieFetch<T>(
     }
 
     const response = await axiosInstance<T>(config);
-    // console.log("[movieFetch] 요청 성공 ✅");
-    // console.log("요청 URL:", config.url);
-    // console.log("요청 params:", config.params);
-    // console.log("응답 전체 데이터:", response.data);
     return response.data;
   } catch (error) {
     console.error(error);
