@@ -1,3 +1,4 @@
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
@@ -12,15 +13,22 @@ import Gallery from "../components/lounge/Gallery";
 import GalleryDetail from "../components/lounge/GalleryDetail";
 import Talk from "../components/lounge/Talk";
 import TalkDetail from "../components/lounge/TalkDetail";
+import { DailyLoader } from './loader/dallyspace.loader';
+
 
 const router = createBrowserRouter([
   {
     element: <Default />,
     hydrateFallbackElement: <h1>Loading...</h1>,
+    errorElement: <div>데이터를 불러오는 데 실패했습니다.</div>,
     children: [
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
-      { path: "/daily", element: <Daily /> },
+      {
+        path: '/daily',
+        loader: DailyLoader,
+        element: <Daily />,
+      },
       {
         path: "/lounge",
         element: <Lounge />,
@@ -36,7 +44,7 @@ const router = createBrowserRouter([
       { path: "/lab", element: <Lab /> },
     ],
   },
-  { path: "*", element: <NotFound /> },
+  { path: '*', element: <NotFound /> },
 ]);
 
 export default function Router() {
