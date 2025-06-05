@@ -19,7 +19,7 @@ export default function Lab() {
             key={item.name}
             onClick={() => navigate(item.path)}
             className={`hover:text-[color:var(--primary-300)] cursor-pointer text-2xl text-left pb-4 transition-colors  ${
-              location.pathname === item.path
+              location.pathname.includes(item.name.toLowerCase())
                 ? "text-[color:var(--primary-300)] border-b-1"
                 : "text-[color:var(--white)] hover:text-[color:var(--primary-300)]"
             }`}

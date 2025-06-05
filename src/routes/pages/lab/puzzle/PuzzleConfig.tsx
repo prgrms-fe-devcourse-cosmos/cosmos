@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-
-type Config = {
-  category: "space" | "film";
-  difficulty: "easy" | "medium" | "hard";
-};
+import type {
+  Category,
+  Difficulty,
+  PuzzleConfig,
+} from "../../../../types/puzzle";
 
 export default function PuzzleConfig() {
   const navigate = useNavigate();
-  const { onStart } = useOutletContext<{ onStart: (config: Config) => void }>();
+  const { onStart } = useOutletContext<{
+    onStart: (config: PuzzleConfig) => void;
+  }>();
 
-  const [category, setCategory] = useState<"space" | "film">("space");
-  const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">(
-    "easy"
-  );
+  const [category, setCategory] = useState<Category>("space");
+  const [difficulty, setDifficulty] = useState<Difficulty>("easy");
 
   const categories: ("space" | "film")[] = ["space", "film"];
   const difficulties: ("easy" | "medium" | "hard")[] = [
