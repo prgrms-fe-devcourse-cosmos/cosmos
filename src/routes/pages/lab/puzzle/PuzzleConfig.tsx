@@ -12,28 +12,32 @@ export default function PuzzleConfig({ onStart }: Props) {
     "easy"
   );
   return (
-    <>
-      <div className="flex flex-col py-10 px-8 w-[768px] h-[432px] bg-[color:var(--primary-300)] text-[color:var(--bg-color)] font-[yapari] justify-between">
-        <div className="w-full flex justify-center items-center font-medium text-2xl">
+    <div className="relative w-[768px] h-[432px] overflow-hidden text-[color:var(--primary-300)]">
+      <div className="absolute inset-0 bg-[url('/images/puzzle/puzzle_start.png')] brightness-50 bg-cover" />
+
+      <div className="relative w-[768px] h-[432px] z-10 flex flex-col py-20 px-8 font-[yapari] justify-between">
+        <div className="w-full flex justify-center items-center text-2xl">
           <h1>SELECT MODE</h1>
         </div>
-        <div className="flex w-full justify-center gap-20">
+        <div className="flex w-full justify-center gap-20 text-white">
           <div className="flex flex-col gap-4">
-            <h2 className="border-1 border-[color:var(--bg-color)] px-3 py-1 font-medium rounded-xl">
-              Category
-            </h2>
-            <div className="flex flex-col gap-2">
+            <h2 className="border-b-1 px-3 py-1 ">Category</h2>
+            <div className="flex flex-col gap-2 text-sm  ">
               <button
-                className={`cursor-pointer hover:font-medium ${
-                  category === "space" ? "font-medium" : ""
+                className={`cursor-pointer hover:text-[color:var(--primary-300)] ${
+                  category === "space"
+                    ? "font-medium text-[color:var(--primary-300)]"
+                    : ""
                 }`}
                 onClick={() => setCategory("space")}
               >
                 Space
               </button>
               <button
-                className={`cursor-pointer hover:font-medium ${
-                  category === "film" ? "font-medium" : ""
+                className={`cursor-pointer hover:text-[color:var(--primary-300)] ${
+                  category === "film"
+                    ? "font-medium text-[color:var(--primary-300)]"
+                    : ""
                 }`}
                 onClick={() => setCategory("film")}
               >
@@ -42,29 +46,33 @@ export default function PuzzleConfig({ onStart }: Props) {
             </div>
           </div>
           <div className="flex flex-col  gap-4">
-            <h2 className="border-1 border-[color:var(--bg-color)] px-3 py-1 font-medium rounded-xl">
-              Difficulty
-            </h2>
-            <div className="flex flex-col gap-2">
+            <h2 className="border-b-1 px-3 py-1 ">Difficulty</h2>
+            <div className="flex flex-col gap-2 ">
               <button
-                className={`cursor-pointer hover:font-medium ${
-                  difficulty === "easy" ? "font-medium" : ""
+                className={`cursor-pointer hover:text-[color:var(--primary-300)] ${
+                  difficulty === "easy"
+                    ? "font-medium text-[color:var(--primary-300)]"
+                    : ""
                 }`}
                 onClick={() => setDifficulty("easy")}
               >
                 Easy
               </button>
               <button
-                className={`cursor-pointer hover:font-medium ${
-                  difficulty === "medium" ? "font-medium" : ""
+                className={`cursor-pointer hover:text-[color:var(--primary-300)] ${
+                  difficulty === "medium"
+                    ? "font-medium text-[color:var(--primary-300)]"
+                    : ""
                 }`}
                 onClick={() => setDifficulty("medium")}
               >
                 Medium
               </button>
               <button
-                className={`cursor-pointer hover:font-medium ${
-                  difficulty === "hard" ? "font-medium" : ""
+                className={`cursor-pointer hover:text-[color:var(--primary-300)] ${
+                  difficulty === "hard"
+                    ? "font-medium text-[color:var(--primary-300)]"
+                    : ""
                 }`}
                 onClick={() => setDifficulty("hard")}
               >
@@ -75,13 +83,13 @@ export default function PuzzleConfig({ onStart }: Props) {
         </div>
         <div className="w-full flex justify-center items-center">
           <button
-            className="bg-[color:var(--bg-color)] w-[160px] text-white cursor-pointer"
+            className="w-[160px] cursor-pointer border-1 py-1 rounded-lg text-sm hover:text-[color:var(--bg-color)] hover:bg-[color:var(--primary-300)] hover:font-medium z-20 transition-all duration-300"
             onClick={() => onStart({ category, difficulty })}
           >
-            START
+            LAUNCH
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

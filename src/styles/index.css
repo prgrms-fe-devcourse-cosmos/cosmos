@@ -119,6 +119,12 @@
   src: url("/src/assets/fonts/yapari/YapariTrial-Ultra.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "watermelonSalad";
+  src: url("/src/assets/fonts/ef_watermelonSalad/EF_watermelonSalad.otf")
+    format("opentype");
+}
+
 body {
   font-weight: 300;
   font-family: "helvetica-neue";
@@ -131,6 +137,7 @@ body::-webkit-scrollbar {
 
 @theme {
   --font-yapari: "yapari", sans-serif;
+  --font-watermelon: "watermelonSalad", sans-serif;
 }
 
 .scrollbar-hide {
