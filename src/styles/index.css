@@ -119,6 +119,12 @@
   src: url("/src/assets/fonts/yapari/YapariTrial-Ultra.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "watermelonSalad";
+  src: url("/src/assets/fonts/ef_watermelonSalad/EF_watermelonSalad.otf")
+    format("opentype");
+}
+
 body {
   font-weight: 300;
   font-family: "helvetica-neue";
@@ -131,6 +137,7 @@ body::-webkit-scrollbar {
 
 @theme {
   --font-yapari: "yapari", sans-serif;
+  --font-watermelon: "watermelonSalad", sans-serif;
 }
 
 .scrollbar-hide {
@@ -157,6 +164,10 @@ body::-webkit-scrollbar {
 .jigsaw-puzzle {
   border: 2px solid #ccc;
   background-color: transparent;
-  width: 300px;
-  height: 400px;
+  width: 400px;
+  height: 600px;
+}
+
+.picker div[style*="height: 1px"][style*="background"] {
+  display: none !important;
 }

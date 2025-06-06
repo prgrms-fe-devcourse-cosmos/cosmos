@@ -1,16 +1,18 @@
-import React from "react";
-import { JigsawPuzzle } from "react-jigsaw-puzzle";
-import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { PuzzleConfig } from "../../../../types/puzzle";
 
 export default function LabPuzzle() {
+  const navigate = useNavigate();
+  const [config, setConfig] = useState<PuzzleConfig | null>(null);
+
+  const handleStart = (config: PuzzleConfig) => {
+    setConfig(config);
+    navigate("play");
+  };
   return (
-    <div className="min-h-screen w-full flex justify-center items-center">
-      <JigsawPuzzle
-        imageSrc="/images/puzzle/space/astronaut.jpg"
-        rows={3}
-        columns={4}
-        onSolved={() => alert("solved")}
-      />
+    <div className=" w-full flex flex-col items-center pt-10">
+      <Outlet context={{ onStart: handleStart, config }} />
     </div>
   );
 }
