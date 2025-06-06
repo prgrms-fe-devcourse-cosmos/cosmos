@@ -40,7 +40,7 @@ export default function Lab() {
             </div>
             <div className="w-full flex justify-center items-center">
               <button
-                className="border-1 px-10 py-2 cursor-pointer"
+                className="px-10 py-2 cursor-pointer border-1 rounded-lg  hover:text-[color:var(--bg-color)] hover:bg-[color:var(--primary-300)] hover:font-medium z-20 transition-all duration-300"
                 onClick={() => navigate(destination)}
               >
                 LIFT OFF
