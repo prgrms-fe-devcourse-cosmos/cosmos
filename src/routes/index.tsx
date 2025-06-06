@@ -10,11 +10,13 @@ import Daily from "./pages/Daily";
 import Lounge from "./pages/Lounge";
 import Lab from "./pages/lab/Lab";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import LabQuiz from "./pages/lab/quiz/LabQuiz";
 import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
 import { DailyLoader } from "./loader/dallyspace.loader";
 import PuzzleConfig from "./pages/lab/puzzle/PuzzleConfig";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
+
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,7 @@ const router = createBrowserRouter([
         element: <Daily />,
       },
       { path: "/lounge", element: <Lounge /> },
+      { path: "/signup", element: <Signup /> },
       {
         path: "/lab",
         element: <Lab />,

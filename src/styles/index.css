@@ -149,6 +149,18 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+@layer components {
+  .login-input {
+    @apply border border-[var(--gray-200)] p-2 rounded-lg focus:border-[var(--primary-300)] focus:outline focus:outline-[var(--primary-300)] text-[15px] placeholder:align-middle;
+  }
+  .login-btn {
+    @apply border p-3 rounded-lg text-[var(--bg-color)] text-[12px] font-medium bg-[var(--primary-300)] border-[var(--primary-300)] cursor-pointer disabled:bg-transparent disabled:border-[var(--gray-200)] disabled:text-[var(--gray-200)] disabled:cursor-default disabled:font-normal;
+  }
+  .social-login-btn {
+    @apply border border-[var(--gray-200)] flex justify-center items-center gap-2 p-2 rounded-lg cursor-pointer hover:border-[var(--primary-300)] text-sm;
+  }
+}
+
 .jigsaw-puzzle {
   border: 2px solid #ccc;
   background-color: transparent;
