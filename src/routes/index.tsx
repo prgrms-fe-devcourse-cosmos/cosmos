@@ -13,7 +13,6 @@ import Login from "./pages/Login";
 import LabQuiz from "./pages/lab/quiz/LabQuiz";
 import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
 import { DailyLoader } from "./loader/dallyspace.loader";
-import IntroScreen from "./pages/lab/puzzle/IntroScreen";
 import PuzzleConfig from "./pages/lab/puzzle/PuzzleConfig";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 
@@ -35,13 +34,12 @@ const router = createBrowserRouter([
         path: "/lab",
         element: <Lab />,
         children: [
-          { index: true, element: <Navigate to="quiz" replace /> },
           { path: "quiz", element: <LabQuiz /> },
           {
             path: "puzzle",
             element: <LabPuzzle />,
             children: [
-              { index: true, element: <IntroScreen /> },
+              { index: true, element: <Navigate to="config" replace /> },
               { path: "config", element: <PuzzleConfig /> },
               { path: "play", element: <PuzzleScreen /> },
             ],

@@ -71,7 +71,7 @@ export default function PuzzleConfig() {
         <div className="w-full flex justify-center items-center gap-10 text-sm">
           <button
             className="w-[160px] z-20 cursor-pointer py-1 text-[color:var(--gray-200)] hover:text-[color:var(--primary-300)]"
-            onClick={() => navigate("/lab/puzzle")}
+            onClick={() => navigate(-1)}
           >
             BACK
           </button>
