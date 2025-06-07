@@ -6,8 +6,8 @@ import UserSection from "./UserSection";
 export default function Header() {
   return (
     <>
-      <nav className="hidden md:block font-[yapari] text-white sticky top-0 z-50 border-b border-[#30363d]">
-        <div className="flex items-center justify-between h-16 w-full px-20">
+      <nav className="hidden md:block font-[yapari] text-white sticky top-0 z-50 ">
+        <div className="flex items-center justify-between h-16 w-full px-10 xl:px-20">
           <Logo />
           <MainNav />
           <UserSection />

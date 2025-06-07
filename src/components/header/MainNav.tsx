@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function MainNav() {
   const navigate = useNavigate();
+
   const isActive = (path: string) => {
     return (
       // 라우터와 같거나 라우터의 하위문서로가도 작동한다.
