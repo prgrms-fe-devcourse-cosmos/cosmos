@@ -3,6 +3,7 @@ import { useMovieDetailStore } from "../../../stores/movieStore";
 import { useEffect } from "react";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
+import FilmDetailSkeleton from "./FilmDetailSkeleton";
 
 export default function FilmsDetail() {
   const { id } = useParams();
@@ -13,7 +14,7 @@ export default function FilmsDetail() {
     if (id) fetchDetail(id);
   }, [id]);
 
-  if (loading || !detail) return <div>로딩로딩</div>;
+  if (loading || !detail) return <FilmDetailSkeleton />;
 
   // 개봉날짜 포맷 함수
   const formatKoreanDate = (date: string) => {
@@ -31,9 +32,9 @@ export default function FilmsDetail() {
   const runtime = `${Math.floor(detail.runtime / 60)}h ${detail.runtime % 60}m`;
   return (
     <>
-      <div className="border border-amber-600 pl-[32px] ">
+      <div className="pl-[32px]">
         {/* 필름 헤더 - 뒤로가기버튼, 장르배열 */}
-        <div className="flex justify-between mt-[24px] border border-blue-600">
+        <div className="flex justify-between">
           {/* 뒤로가기 */}
           <div>
             <button
@@ -70,18 +71,18 @@ export default function FilmsDetail() {
           {/* 영화 정보 */}
           <div className="flex flex-col justify-between h-[430px]">
             {/* 제목 */}
-            <h2 className="text-[36px] font-bold text-white leading-tight border border-amber-900">
+            <h2 className="text-[36px] font-bold text-white leading-tight">
               {detail.title}
             </h2>
             {/* 줄거리 영역 */}
-            <div className="flex-grow border border-amber-300 flex items-center max-h-[120px]">
+            <div className="flex-grow flex items-center max-h-[120px]">
               <p className="truncate-multiline leading-[30px] h-full">
                 {detail.overview}
               </p>
             </div>
             {/* <p className="h-full leading-[30px]">{detail.overview}</p> */}
             {/* 세부 정보 */}
-            <div className="space-y-4  border border-fuchsia-800">
+            <div className="space-y-4">
               <div className="flex">
                 <p className="w-[142px] shrink-0">Release.</p>
                 <p>{formatKoreanDate(detail.release_date)}</p>

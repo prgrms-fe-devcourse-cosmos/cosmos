@@ -16,6 +16,15 @@ interface SpaceMovieState {
   hasMore: boolean;
   sortBy: string;
   changeSortBy: (newSort: string) => void;
+  // 검색
+  searchInput: string; // 👈 추가
+  setSearchInput: (input: string) => void; // 👈 추가
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  searchResults: Movie[];
+  searchLoading: boolean;
+  searchMovies: (query: string) => Promise<void>;
+  setSearchResults: (results: Movie[]) => void;
 }
 
 interface MovieDetail {

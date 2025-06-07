@@ -1,5 +1,16 @@
 import { movieFetch } from "../utils/movie";
 
+// 검색 api 전용 타입
+type RawSearchMovie = {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+  genre_ids: number[];
+};
+
 // 우주 관련 키워드 리스트
 const spaceKeywords = [
   "space",
@@ -23,10 +34,15 @@ const spaceKeywords = [
 ];
 
 // 우주 키워드 필터링 함수, 줄거리 없으면 필터링
-function spaceFilter(movie: Movie): boolean {
+function spaceFilter(movie: Movie, query?: string): boolean {
   if (!movie.overview || movie.overview.trim().length === 0) return false;
+
   const text = `${movie.title} ${movie.overview}`.toLowerCase();
-  return spaceKeywords.some((keyword) => text.includes(keyword));
+
+  const keywordMatch = spaceKeywords.some((keyword) => text.includes(keyword));
+  const queryMatch = query ? text.includes(query.toLowerCase()) : false;
+
+  return keywordMatch || queryMatch;
 }
 
 // 줄거리가 비어있으면 영어로라도 가져오기
@@ -47,6 +63,7 @@ export const getMovieCredits = async (id: number) => {
   return data?.crew || [];
 };
 
+// 감독
 export const getDirectorName = async (id: number): Promise<string> => {
   const crew = await getMovieCredits(id);
   const director = crew.find((member) => member.job === "Director");
@@ -123,4 +140,104 @@ export const getMovieDetail = async (
   }
 
   return detail;
+};
+
+// 검색 api
+// export const getSearchMovies = async (query: string): Promise<Movie[]> => {
+//   if (!query.trim()) return [];
+
+//   // TMDB 검색 요청
+//   const res = await movieFetch<{ results: RawSearchMovie[] }>(
+//     "/search/movie",
+//     "get",
+//     {
+//       query,
+//       // language: "ko-KR",
+//     }
+//   );
+
+//   if (!res || !res.results) return [];
+
+//   // 필터링 + 후처리
+//   const filtered = await Promise.all(
+//     res.results.map(async (raw) => {
+//       // 개봉일 유효성 검사
+//       if (!raw.release_date) return null;
+//       const releaseDate = new Date(raw.release_date);
+//       if (isNaN(releaseDate.getTime()) || releaseDate > new Date()) return null;
+
+//       // overview 없을 시 영어로 보완
+//       if (!raw.overview || raw.overview.trim().length === 0) {
+//         const fallback = await getFallbackOverview(raw.id);
+//         if (!fallback) return null;
+//         raw.overview = fallback;
+//       }
+
+//       // SF 장르 포함 + 우주 키워드 포함 필터
+//       const isSF = raw.genre_ids.includes(878);
+//       const isSpace = spaceFilter(raw, query);
+//       if (!isSF || !isSpace) return null;
+
+//       // 감독 정보 추가
+//       const director = await getDirectorName(raw.id);
+
+//       // Movie 형태로 반환
+//       const movie: Movie = {
+//         id: raw.id,
+//         title: raw.title,
+//         overview: raw.overview,
+//         poster_path: raw.poster_path,
+//         release_date: raw.release_date,
+//         vote_average: raw.vote_average,
+//         director,
+//       };
+
+//       return movie;
+//     })
+//   );
+
+//   // null 제거 후 반환
+//   return filtered.filter((m): m is Movie => m !== null);
+// };
+export const getSearchMovies = async (query: string): Promise<Movie[]> => {
+  if (!query.trim()) return [];
+
+  const res = await movieFetch<{ results: RawSearchMovie[] }>(
+    "/search/movie",
+    "get",
+    { query }
+  );
+
+  if (!res || !res.results) return [];
+
+  const filtered = await Promise.all(
+    res.results.map(async (raw) => {
+      if (!raw.release_date) return null;
+      const releaseDate = new Date(raw.release_date);
+      if (isNaN(releaseDate.getTime()) || releaseDate > new Date()) return null;
+
+      if (!raw.overview || raw.overview.trim().length === 0) {
+        const fallback = await getFallbackOverview(raw.id);
+        if (!fallback) return null;
+        raw.overview = fallback;
+      }
+
+      const isSF = raw.genre_ids.includes(878);
+      if (!isSF) return null; // ✅ SF 장르만 필터링
+
+      const director = await getDirectorName(raw.id);
+
+      return {
+        id: raw.id,
+        title: raw.title,
+        overview: raw.overview,
+        poster_path: raw.poster_path,
+        release_date: raw.release_date,
+        vote_average: raw.vote_average,
+        director,
+      } as Movie;
+    })
+  );
+
+  return filtered.filter((m): m is Movie => m !== null);
 };
