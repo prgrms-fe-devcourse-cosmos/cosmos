@@ -1,6 +1,6 @@
-import DailySpaceimage from '../../components/Daily/DailySpaceimage';
-import DailyNews from '../../components/Daily/DailyNews';
-import DailyCalendar from '../../components/Daily/DailyCalendar';
+import DailySpaceimage from '../../components/daily/DailySpaceimage';
+import DailyNews from '../../components/daily/DailyNews';
+import DailyCalendar from '../../components/daily/DailyCalendar';
 
 export default function Daily() {
   return (
