@@ -17,8 +17,8 @@ interface SpaceMovieState {
   sortBy: string;
   changeSortBy: (newSort: string) => void;
   // 검색
-  searchInput: string; // 👈 추가
-  setSearchInput: (input: string) => void; // 👈 추가
+  searchInput: string;
+  setSearchInput: (input: string) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   searchResults: Movie[];

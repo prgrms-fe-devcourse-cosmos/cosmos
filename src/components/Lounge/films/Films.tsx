@@ -2,23 +2,8 @@ import { useCallback, useEffect, useRef } from "react";
 import FilmCard from "./FilmsCard";
 import FilmCardSkeleton from "./FilmsCardSkeleton";
 import { useMovieStore } from "../../../stores/movieStore";
-// import useFilmSearch from "../../../hooks/useFilmSearch";
 
 export default function Films() {
-  // const {
-  //   spaceMovies,
-  //   fetchSpaceMovies,
-  //   loading,
-  //   hasMore,
-  //   changeSortBy,
-  //   sortBy,
-  //   searchQuery,
-  //   setSearchQuery,
-  //   searchMovies,
-  //   searchResults,
-  //   searchLoading,
-  //   // setSearchResults,
-  // } = useMovieStore();
   const {
     spaceMovies,
     fetchSpaceMovies,
@@ -33,6 +18,7 @@ export default function Films() {
     searchMovies,
     searchResults,
     searchLoading,
+    setSearchResults,
   } = useMovieStore();
 
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -102,12 +88,14 @@ export default function Films() {
             const value = e.target.value;
             setSearchInput(value);
             if (!value.trim()) {
-              setSearchQuery(""); // 검색어 지우면 초기 상태로 복귀
+              setSearchQuery("");
+              setSearchResults([]);
             }
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               setSearchQuery(searchInput);
+              setSearchResults([]);
               searchMovies(searchInput);
             }
           }}
@@ -115,6 +103,7 @@ export default function Films() {
           className="w-[280px] border border-[#909090] px-[16px] py-[6px] text-[14px] rounded-[8px] outline-none focus:border-[#D0F700] hover:border-[#D0F700]"
         />
       </div>
+      {/* 영화 리스트 */}
       <div className="grid grid-cols-3 gap-x-[54px] gap-y-[88px] mb-[50px]">
         {moviesToRender.map((movie, index) => {
           const isLast = index === moviesToRender.length - 1;

@@ -85,7 +85,7 @@ export const getSpaceMovies = async (
       page,
       "primary_release_date.lte": today, // 오늘까지 개봉한 영화만
       "primary_release_date.gte": "2000-01-01", // 너무 옛날 영화 제외
-      "vote_count.gte": 28, // 평점이 최소 10개 이상
+      "vote_count.gte": 28, // 평점이 최소 28개 이상
       // language: "ko-KR",
     }
   );
@@ -143,62 +143,6 @@ export const getMovieDetail = async (
 };
 
 // 검색 api
-// export const getSearchMovies = async (query: string): Promise<Movie[]> => {
-//   if (!query.trim()) return [];
-
-//   // TMDB 검색 요청
-//   const res = await movieFetch<{ results: RawSearchMovie[] }>(
-//     "/search/movie",
-//     "get",
-//     {
-//       query,
-//       // language: "ko-KR",
-//     }
-//   );
-
-//   if (!res || !res.results) return [];
-
-//   // 필터링 + 후처리
-//   const filtered = await Promise.all(
-//     res.results.map(async (raw) => {
-//       // 개봉일 유효성 검사
-//       if (!raw.release_date) return null;
-//       const releaseDate = new Date(raw.release_date);
-//       if (isNaN(releaseDate.getTime()) || releaseDate > new Date()) return null;
-
-//       // overview 없을 시 영어로 보완
-//       if (!raw.overview || raw.overview.trim().length === 0) {
-//         const fallback = await getFallbackOverview(raw.id);
-//         if (!fallback) return null;
-//         raw.overview = fallback;
-//       }
-
-//       // SF 장르 포함 + 우주 키워드 포함 필터
-//       const isSF = raw.genre_ids.includes(878);
-//       const isSpace = spaceFilter(raw, query);
-//       if (!isSF || !isSpace) return null;
-
-//       // 감독 정보 추가
-//       const director = await getDirectorName(raw.id);
-
-//       // Movie 형태로 반환
-//       const movie: Movie = {
-//         id: raw.id,
-//         title: raw.title,
-//         overview: raw.overview,
-//         poster_path: raw.poster_path,
-//         release_date: raw.release_date,
-//         vote_average: raw.vote_average,
-//         director,
-//       };
-
-//       return movie;
-//     })
-//   );
-
-//   // null 제거 후 반환
-//   return filtered.filter((m): m is Movie => m !== null);
-// };
 export const getSearchMovies = async (query: string): Promise<Movie[]> => {
   if (!query.trim()) return [];
 
@@ -223,7 +167,7 @@ export const getSearchMovies = async (query: string): Promise<Movie[]> => {
       }
 
       const isSF = raw.genre_ids.includes(878);
-      if (!isSF) return null; // ✅ SF 장르만 필터링
+      if (!isSF) return null;
 
       const director = await getDirectorName(raw.id);
 
