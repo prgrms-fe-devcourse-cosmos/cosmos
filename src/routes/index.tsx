@@ -8,15 +8,21 @@ import Home from "./pages/Home";
 import Default from "./layouts/RootLayout";
 import Daily from "./pages/Daily";
 import Lounge from "./pages/Lounge";
-import Lab from "./pages/Lab";
-import Login from "./pages/Login";
+
 import Films from "../components/Lounge/films/Films";
 import FilmsDetail from "../components/Lounge/films/FilmsDetail";
 import Gallery from "../components/Lounge/gallery/Gallery";
 import GalleryDetail from "../components/Lounge/gallery/GalleryDetail";
 import Talk from "../components/Lounge/talk/Talk";
 import TalkDetail from "../components/Lounge/talk/TalkDetail";
+import Lab from "./pages/lab/Lab";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import LabQuiz from "./pages/lab/quiz/LabQuiz";
+import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
 import { DailyLoader } from "./loader/dallyspace.loader";
+import PuzzleConfig from "./pages/lab/puzzle/PuzzleConfig";
+import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 
 const router = createBrowserRouter([
   {
@@ -59,10 +65,26 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: "/lab", element: <Lab /> },
+      { path: "/signup", element: <Signup /> },
+      {
+        path: "/lab",
+        element: <Lab />,
+        children: [
+          { path: "quiz", element: <LabQuiz /> },
+          {
+            path: "puzzle",
+            element: <LabPuzzle />,
+            children: [
+              { index: true, element: <Navigate to="config" replace /> },
+              { path: "config", element: <PuzzleConfig /> },
+              { path: "play", element: <PuzzleScreen /> },
+            ],
+          },
+        ],
+      },
+      { path: "*", element: <NotFound /> },
     ],
   },
-  { path: "*", element: <NotFound /> },
 ]);
 
 export default function Router() {

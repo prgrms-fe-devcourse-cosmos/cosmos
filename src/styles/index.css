@@ -119,6 +119,12 @@
   src: url("/src/assets/fonts/yapari/YapariTrial-Ultra.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "watermelonSalad";
+  src: url("/src/assets/fonts/ef_watermelonSalad/EF_watermelonSalad.otf")
+    format("opentype");
+}
+
 body {
   font-weight: 300;
   font-family: "helvetica-neue";
@@ -131,6 +137,7 @@ body::-webkit-scrollbar {
 
 @theme {
   --font-yapari: "yapari", sans-serif;
+  --font-watermelon: "watermelonSalad", sans-serif;
 }
 
 .scrollbar-hide {
@@ -154,4 +161,27 @@ body::-webkit-scrollbar {
   -webkit-box-orient: vertical;
   overflow: hidden;
   max-height: 120px; /* 4줄 × 30px 줄 간격 */
+}
+
+@layer components {
+  .login-input {
+    @apply border border-[var(--gray-200)] p-2 rounded-lg focus:border-[var(--primary-300)] focus:outline focus:outline-[var(--primary-300)] text-[15px] placeholder:align-middle;
+  }
+  .login-btn {
+    @apply border p-3 rounded-lg text-[var(--bg-color)] text-[12px] font-medium bg-[var(--primary-300)] border-[var(--primary-300)] cursor-pointer disabled:bg-transparent disabled:border-[var(--gray-200)] disabled:text-[var(--gray-200)] disabled:cursor-default disabled:font-normal;
+  }
+  .social-login-btn {
+    @apply border border-[var(--gray-200)] flex justify-center items-center gap-2 p-2 rounded-lg cursor-pointer hover:border-[var(--primary-300)] text-sm;
+  }
+}
+
+.jigsaw-puzzle {
+  border: 2px solid #ccc;
+  background-color: transparent;
+  width: 400px;
+  height: 600px;
+}
+
+.picker div[style*="height: 1px"][style*="background"] {
+  display: none !important;
 }

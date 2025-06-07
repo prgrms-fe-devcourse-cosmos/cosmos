@@ -12,7 +12,7 @@ export default function Home() {
     globe.controls().autoRotate = true;
     globe.controls().autoRotateSpeed = 0.35;
 
-    const CLOUDS_IMG_URL = "/clouds.png";
+    const CLOUDS_IMG_URL = "/images/earth/clouds.png";
     const CLOUDS_ALT = 0.004;
     const CLOUDS_ROTATION_SPEED = -0.006;
 
@@ -35,28 +35,28 @@ export default function Home() {
       rotateClouds();
     });
 
-    const starGeometry = new THREE.BufferGeometry();
-    const starCount = 10000;
-    const positions = new Float32Array(starCount * 3);
+    // const starGeometry = new THREE.BufferGeometry();
+    // const starCount = 10000;
+    // const positions = new Float32Array(starCount * 3);
 
-    for (let i = 0; i < starCount; i++) {
-      positions[i * 3] = Math.random() * 2000 - 1000;
-      positions[i * 3 + 1] = Math.random() * 2000 - 1000;
-      positions[i * 3 + 2] = Math.random() * 2000 - 1000;
-    }
+    // for (let i = 0; i < starCount; i++) {
+    //   positions[i * 3] = Math.random() * 2000 - 1000;
+    //   positions[i * 3 + 1] = Math.random() * 2000 - 1000;
+    //   positions[i * 3 + 2] = Math.random() * 2000 - 1000;
+    // }
 
-    starGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(positions, 3)
-    );
+    // starGeometry.setAttribute(
+    //   "position",
+    //   new THREE.BufferAttribute(positions, 3)
+    // );
 
-    const starMaterial = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.5,
-    });
-    const stars = new THREE.Points(starGeometry, starMaterial);
+    // const starMaterial = new THREE.PointsMaterial({
+    //   color: 0xffffff,
+    //   size: 0.5,
+    // });
+    // const stars = new THREE.Points(starGeometry, starMaterial);
 
-    globe.scene().add(stars);
+    // globe.scene().add(stars);
   }, []);
 
   return (
