@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  fetchFilmPuzzleImages,
-  fetchSpacePuzzleImages,
-} from "../../../../loader/puzzle.loader";
+import { fetchFilmPuzzleImages } from "../../../../loader/puzzle.loader";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
-import { useOutletContext } from "react-router-dom";
+import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { LoaderData } from "../../../../types/types";
+import Timer from "../../../../components/lab/puzzle/Timer";
+import PuzzleResultModal from "../../../../components/lab/puzzle/PuzzleResultModal";
 
 type ContextType = {
   config: {
@@ -21,43 +21,81 @@ const difficultyMap = {
 };
 
 export default function PuzzleScreen() {
+  const navigate = useNavigate();
   const { config } = useOutletContext<ContextType>();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const { nasa } = useLoaderData() as LoaderData;
+  const [showResultModal, setShowResultModal] = useState(false);
+  const closeHandler = () => {
+    setShowResultModal(false);
+    navigate("/lab");
+  };
+
+  const MINUTES_IN_MS = 1 * 60 * 1000;
+  const INTERVAL = 1000;
+  const [timeLeft, setTimeLeft] = useState<number>(MINUTES_IN_MS);
+  const countTime = () => {
+    setTimeLeft((prevTime) => prevTime - INTERVAL);
+  };
+
+  const solvedHandler = () => {
+    console.log("solved");
+    setShowResultModal(true);
+  };
 
   useEffect(() => {
+    let isMounted = true;
     if (!config) return;
 
-    const loadImage = async () => {
-      const fetcher =
-        config.category === "space"
-          ? fetchSpacePuzzleImages
-          : fetchFilmPuzzleImages;
-      const images = await fetcher();
-      if (images?.length) {
-        const random = images[Math.floor(Math.random() * images.length)];
-        setImageUrl(random.image_url);
-      }
+    if (
+      config.category === "space" &&
+      nasa.media_type === "image" &&
+      isMounted
+    ) {
+      setImageUrl(nasa.url);
+    } else {
+      const loadImage = async () => {
+        const fetcher = fetchFilmPuzzleImages;
+        const images = await fetcher();
+        if (isMounted && images?.length) {
+          const random = images[Math.floor(Math.random() * images.length)];
+          setImageUrl(random.image_url);
+        }
+      };
+      loadImage();
+    }
+    return () => {
+      isMounted = false;
     };
-    loadImage();
-  }, [config]);
+  }, [config, nasa]);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      setShowResultModal(true);
+    }
+  }, [timeLeft]);
 
   if (!config || !imageUrl) {
-    return <div>Loading config...</div>;
+    return <div>퍼즐 이미지를 불러오는 중입니다...</div>;
   }
 
-  const { category, difficulty } = config;
-  const { rows, cols } = difficultyMap[difficulty];
+  if (!imageUrl) {
+    return <div>이미지 정보를 불러올 수 없습니다.</div>;
+  }
+
+  const { rows, cols } = difficultyMap[config.difficulty];
   return (
     <>
-      <div className="w-full h-full flex gap-8 flex-col items-center text-[color:var(--primary-300)] font-[yapari]">
-        <h1 className="text-2xl">LV.1 {category}</h1>
+      <div className="w-full h-full flex gap-8 flex-col justify-center items-center text-[color:var(--primary-300)] font-[yapari] z-50">
+        <Timer timeLeft={timeLeft} countTime={countTime} />
         <JigsawPuzzle
           imageSrc={imageUrl}
           rows={rows}
           columns={cols}
-          onSolved={() => alert("solved")}
+          onSolved={() => solvedHandler()}
         />
       </div>
+      {showResultModal && <PuzzleResultModal onClose={closeHandler} />}
     </>
   );
 }

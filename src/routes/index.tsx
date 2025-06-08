@@ -17,7 +17,6 @@ import { DailyLoader } from "./loader/dallyspace.loader";
 import PuzzleConfig from "./pages/lab/puzzle/PuzzleConfig";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 
-
 const router = createBrowserRouter([
   {
     element: <Default />,
@@ -44,7 +43,7 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <Navigate to="config" replace /> },
               { path: "config", element: <PuzzleConfig /> },
-              { path: "play", element: <PuzzleScreen /> },
+              { path: "play", loader: DailyLoader, element: <PuzzleScreen /> },
             ],
           },
         ],
