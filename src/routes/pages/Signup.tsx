@@ -26,6 +26,20 @@ export default function Signup() {
     }
   }, []);
 
+  const socialLoginHandler = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    p: "google" | "github"
+  ) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: p,
+    });
+    if (error) {
+      console.log(error);
+      alert("로그인이 정상적으로 완료되지 않았습니다.");
+    }
+  };
+
   const signupHandler = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -195,20 +209,20 @@ export default function Signup() {
                 SIGN UP
               </button>
               <div className="flex justify-center mt-3 gap-5">
-                <a href="https://www.google.com">
+                <button onClick={(e) => socialLoginHandler(e, "google")}>
                   <img
                     src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
                     alt="google"
                     className="size-5"
                   />
-                </a>
-                <a href="https://www.github.com">
+                </button>
+                <button onClick={(e) => socialLoginHandler(e, "github")}>
                   <img
                     src="https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg"
                     alt="github"
                     className="size-5"
                   />
-                </a>
+                </button>
               </div>
             </div>
           </div>
