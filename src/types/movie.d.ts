@@ -25,6 +25,7 @@ interface SpaceMovieState {
   searchLoading: boolean;
   searchMovies: (query: string) => Promise<void>;
   setSearchResults: (results: Movie[]) => void;
+  resetMovies: () => void;
 }
 
 interface MovieDetail {
