@@ -1,90 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase";
+// import { useAuthStore } from "../../stores/authStore";
 
 export default function Login() {
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
-  const signInWithGoogle = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-      });
-      if (error) {
-        console.log(error);
-        alert("로그인이 정상적으로 완료되지 않았습니다.");
-      }
-    } catch (error) {
-      console.log(error);
-      alert("로그인이 정상적으로 완료되지 않았습니다.");
+  useEffect(() => {
+    if (localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")) {
+      alert("이미 로그인되어있는 사용자입니다.");
+      navigate("/");
     }
-  };
-  const signInWithFacebook = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  }, []);
+
+  const socialLoginHandler = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    p: "google" | "github"
   ) => {
     e.preventDefault();
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "facebook",
-      });
-      if (error) {
-        console.log(error);
-        alert("로그인이 정상적으로 완료되지 않았습니다.");
-      }
-    } catch (error) {
-      console.log(error);
-      alert("로그인이 정상적으로 완료되지 않았습니다.");
-    }
-  };
-  const signInWithGithub = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "github",
-      });
-      if (error) {
-        console.log(error);
-        alert("로그인이 정상적으로 완료되지 않았습니다.");
-      }
-    } catch (error) {
-      console.log(error);
-      alert("로그인이 정상적으로 완료되지 않았습니다.");
-    }
-  };
-  const loginHandler = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: emailInput,
-        password: passwordInput,
-      });
-      console.log([emailInput, passwordInput]);
-      if (error) {
-        console.log(error);
-        alert("로그인이 정상적으로 완료되지 않았습니다.");
-      } else if (data) {
-        alert("로그인되었습니다.");
-        navigate("/");
-      }
-    } catch (error) {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: p,
+    });
+    if (error) {
       console.log(error);
       alert("로그인이 정상적으로 완료되지 않았습니다.");
     }
   };
 
+  const loginHandler = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailInput,
+      password: passwordInput,
+    });
+    if (error) {
+      console.log(error);
+      alert("로그인이 정상적으로 완료되지 않았습니다.");
+    } else navigate("/");
+  };
+
   return (
     <div className="h-[88vh] w-full flex">
-      <div className="w-1/2 flex items-center justify-center"></div>
-      <div className="w-1/2 flex items-center justify-center">
+      <div className="hidden md:h-full md:w-1/2 md:flex items-center justify-center"></div>
+      <div className="w-full md:w-1/2 md:flex items-center justify-center">
         <div className="text-xl bg-white/10 backdrop- w-full h-full flex flex-col justify-center items-center gap-7">
           <div className="text-[32px] font-yapari">WELCOME</div>
           <form className="flex flex-col justify-center w-[72.2%] gap-7">
@@ -123,7 +85,10 @@ export default function Login() {
               <hr className="w-full" />
             </div>
             <div className="w-full flex flex-col gap-2.5">
-              <button className="social-login-btn" onClick={signInWithGoogle}>
+              <button
+                className="social-login-btn"
+                onClick={(e) => socialLoginHandler(e, "google")}
+              >
                 <img
                   src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
                   alt="google"
@@ -131,17 +96,11 @@ export default function Login() {
                 />
                 Sign in with Google
               </button>
-              <button className="social-login-btn" onClick={signInWithFacebook}>
+              <button
+                className="social-login-btn"
+                onClick={(e) => socialLoginHandler(e, "github")}
+              >
                 <img
-                  src="https://static.wikia.nocookie.net/logopedia/images/8/82/Facebook_icon_2023.svg"
-                  alt="facebook"
-                  className="size-5"
-                />
-                Sign in with Facebook
-              </button>
-              <button className="social-login-btn" onClick={signInWithGithub}>
-                <img
-                  // src="https://static.wikia.nocookie.net/logopedia/images/8/8f/25231.svg"
                   src="https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg"
                   alt="github"
                   className="size-5"

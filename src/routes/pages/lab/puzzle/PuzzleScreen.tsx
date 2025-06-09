@@ -6,6 +6,7 @@ import {
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
 import { useOutletContext } from "react-router-dom";
+import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 
 type ContextType = {
   config: {
@@ -42,7 +43,7 @@ export default function PuzzleScreen() {
   }, [config]);
 
   if (!config || !imageUrl) {
-    return <div>Loading config...</div>;
+    return <LoadingSpinner />;
   }
 
   const { category, difficulty } = config;
