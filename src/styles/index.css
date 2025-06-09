@@ -176,10 +176,10 @@ body::-webkit-scrollbar {
 }
 
 .jigsaw-puzzle {
-  border: 2px solid #ccc;
+  border: 1px solid var(--primary-200);
   background-color: transparent;
-  width: 400px;
-  height: 600px;
+  width: 60%;
+  min-height: 500px;
 }
 
 .picker div[style*="height: 1px"][style*="background"] {

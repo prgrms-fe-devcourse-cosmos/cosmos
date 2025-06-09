@@ -309,39 +309,26 @@ export type Database = {
         }
         Relationships: []
       }
-      puzzle_ranking: {
+      puzzle_scores: {
         Row: {
-          difficulty: string
           id: number
-          played_at: string
           profile_id: string
-          puzzle_id: number
-          time_taken: number
+          score: number
+          solved_at: string
         }
         Insert: {
-          difficulty?: string
           id?: number
-          played_at?: string
           profile_id: string
-          puzzle_id: number
-          time_taken: number
+          score: number
+          solved_at?: string
         }
         Update: {
-          difficulty?: string
           id?: number
-          played_at?: string
           profile_id?: string
-          puzzle_id?: number
-          time_taken?: number
+          score?: number
+          solved_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "puzzle_ranking_puzzle_id_fkey"
-            columns: ["puzzle_id"]
-            isOneToOne: false
-            referencedRelation: "puzzle_images"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "puzzle_results_profile_id_fkey"
             columns: ["profile_id"]
