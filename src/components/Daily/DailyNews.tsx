@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import { LoaderData } from '../../types/types';
+import { LoaderData } from '../../types/daily';
 import { useLoaderData } from 'react-router-dom';
 
 export default function DailyNews() {

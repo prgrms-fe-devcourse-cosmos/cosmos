@@ -1,7 +1,7 @@
 import { getAstroEvents } from '../../api/calendar';
 import nasaAPI from '../../api/nasa';
 import newsAPI from '../../api/news';
-import { AstroEventItem } from '../../types/types';
+import { AstroEventItem } from '../../types/daily';
 
 export async function DailyLoader() {
   // 미국기준으로 년도 달 일을 가져온다.

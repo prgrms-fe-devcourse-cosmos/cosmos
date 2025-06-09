@@ -1,4 +1,4 @@
-import { LoaderData } from '../../types/types';
+import { LoaderData } from '../../types/daily';
 import { useLoaderData } from 'react-router-dom';
 
 export default function DailyCalendar() {

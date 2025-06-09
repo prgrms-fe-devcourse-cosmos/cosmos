@@ -1,5 +1,5 @@
 import { useLoaderData } from 'react-router-dom';
-import { LoaderData } from '../../types/types';
+import { LoaderData } from '../../types/daily';
 
 export default function DailySpaceimage() {
   const { nasa } = useLoaderData() as LoaderData;
