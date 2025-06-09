@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import FilmCard from "./FilmsCard";
 import FilmCardSkeleton from "./FilmsCardSkeleton";
 import { useMovieStore } from "../../../stores/movieStore";
+import searchIcon from "../../../assets/icons/search.svg";
+import searchGrayIcon from "../../../assets/icons/search_gray.svg";
 
 export default function Films() {
   const {
@@ -58,6 +60,8 @@ export default function Films() {
   const moviesToRender = searchQuery ? searchResults : spaceMovies;
   const isLoading = searchQuery ? searchLoading : loading;
 
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <>
       <div className="flex justify-between mb-[24px] items-center">
@@ -81,27 +85,36 @@ export default function Films() {
           </li>
         </ul>
         {/* 검색창 */}
-        <input
-          type="text"
-          value={searchInput}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSearchInput(value);
-            if (!value.trim()) {
-              setSearchQuery("");
-              setSearchResults([]);
-            }
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              setSearchQuery(searchInput);
-              setSearchResults([]);
-              searchMovies(searchInput);
-            }
-          }}
-          placeholder="영화 검색"
-          className="w-[280px] border border-[#909090] px-[16px] py-[6px] text-[14px] rounded-[8px] outline-none focus:border-[#D0F700] hover:border-[#D0F700]"
-        />
+        <div className="w-[280px] relative">
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearchInput(value);
+              if (!value.trim()) {
+                setSearchQuery("");
+                setSearchResults([]);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setSearchQuery(searchInput);
+                setSearchResults([]);
+                searchMovies(searchInput);
+              }
+            }}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholder="영화 검색"
+            className="w-full border border-[#909090] pl-[42px] py-[6px] text-[14px] rounded-[8px] outline-none focus:border-[#D0F700] hover:border-[#D0F700]"
+          />
+          <img
+            src={isFocused ? searchIcon : searchGrayIcon}
+            alt="검색아이콘"
+            className="absolute top-1/2 left-[16px] -translate-y-1/2 w-[14px] h-[14px]"
+          />
+        </div>
       </div>
       {/* 영화 리스트 */}
       <div className="grid grid-cols-3 gap-x-[54px] gap-y-[88px] mb-[50px]">

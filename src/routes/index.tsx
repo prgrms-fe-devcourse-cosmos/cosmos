@@ -23,6 +23,7 @@ import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
 import { DailyLoader } from "./loader/dallyspace.loader";
 import PuzzleConfig from "./pages/lab/puzzle/PuzzleConfig";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
+import { reviewLoader } from "./loader/review.loader";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
             path: "films",
             children: [
               { index: true, element: <Films /> },
-              { path: ":id", element: <FilmsDetail /> },
+              { path: ":id", loader: reviewLoader, element: <FilmsDetail /> },
             ],
           },
           {

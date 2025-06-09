@@ -47,3 +47,17 @@ interface MovieDetailStore {
   loading: boolean;
   fetchDetail: (id: string | number) => Promise<void>;
 }
+
+type MovieReview = {
+  id: number;
+  content: string;
+  rating: number;
+  created_at: string;
+  updated_at: string;
+  profiles: {
+    id: string;
+    username: string;
+    avatar_url: string;
+  };
+  movie_id: number;
+};

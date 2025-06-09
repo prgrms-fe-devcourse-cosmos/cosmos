@@ -35,7 +35,7 @@ export default function Lounge() {
             Talk
           </NavLink>
         </nav>
-        <div className="w-full">
+        <div className="w-full mb-[50px]">
           <Outlet />
         </div>
       </div>

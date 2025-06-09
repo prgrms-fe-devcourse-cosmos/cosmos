@@ -1,14 +1,18 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { useMovieDetailStore } from "../../../stores/movieStore";
 import { useEffect } from "react";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
 import FilmDetailSkeleton from "./FilmDetailSkeleton";
+import backIcon from "../../../assets/icons/back.svg";
 
 export default function FilmsDetail() {
   const { id } = useParams();
   const { detail, fetchDetail, loading } = useMovieDetailStore();
   const navigate = useNavigate();
+
+  // review
+  const reviews = useLoaderData() as MovieReview[];
 
   useEffect(() => {
     if (id) fetchDetail(id);
@@ -28,20 +32,21 @@ export default function FilmsDetail() {
 
   // 배우 3명만 보여지도록
   const cast = detail.credits.cast.slice(0, 3);
-  // const production = detail.production_companies.map((p) => p.name).join(", ");
   const runtime = `${Math.floor(detail.runtime / 60)}h ${detail.runtime % 60}m`;
+
   return (
-    <>
-      <div className="pl-[32px]">
+    <div className="pt-[24px] bg-[#141414]/80">
+      {/* movie detail */}
+      <div className="pl-[32px] pr-[12px]">
         {/* 필름 헤더 - 뒤로가기버튼, 장르배열 */}
         <div className="flex justify-between">
           {/* 뒤로가기 */}
           <div>
             <button
-              className="font-yapari text-[#D0F700] py-4 cursor-pointer"
+              className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2"
               onClick={() => navigate(-1)}
             >
-              BACK
+              <img src={backIcon} alt="뒤로가기 아이콘" /> BACK
             </button>
           </div>
           {/* 장르 배열 */}
@@ -80,7 +85,6 @@ export default function FilmsDetail() {
                 {detail.overview}
               </p>
             </div>
-            {/* <p className="h-full leading-[30px]">{detail.overview}</p> */}
             {/* 세부 정보 */}
             <div className="space-y-4">
               <div className="flex">
@@ -111,10 +115,21 @@ export default function FilmsDetail() {
           </div>
         </div>
       </div>
-      <div>
-        <ReviewList />
+      {/* review */}
+      <div className="mt-[60px] px-[32px] pb-[24px] border border-red-800">
+        {/* review header */}
+        <div className="flex justify-between mb-[40px]">
+          <h3 className="text-[#D0F700] font-medium text-[16px]">
+            REVIEW ({reviews.length})
+          </h3>
+          <ul className="flex items-center gap-4 text-[13px]">
+            <li>좋아요순</li>
+            <li>최신순</li>
+          </ul>
+        </div>
+        <ReviewList reviews={reviews} />
         <ReviewForm />
       </div>
-    </>
+    </div>
   );
 }

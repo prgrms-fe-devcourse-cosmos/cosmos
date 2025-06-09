@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import starIcon from "../../../assets/icons/star.svg";
 
 export default function FilmCard({ movie }: { movie: Movie }) {
   return (
@@ -23,7 +24,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
         }}
         className="pt-[21px] pb-[21px] px-[16px] flex flex-col justify-between gap-[4px]"
       >
-        <h3 className="text-[16px] truncate whitespace-nowrap overflow-hidden">
+        <h3 className="text-[16px] truncate whitespace-nowrap overflow-hidden font-medium">
           {movie.title}
         </h3>
         <p className="text-[14px]">{movie.director || "감독 없음"}</p>
@@ -31,8 +32,8 @@ export default function FilmCard({ movie }: { movie: Movie }) {
           <p className="text-[12px] text-[#909090]">
             {movie.release_date.replace(/-/g, ".")} 개봉
           </p>
-          <p className="text-[10px] flex gap-1">
-            <span>⭐</span>
+          <p className="text-[10px] flex gap-2 items-center">
+            <img src={starIcon} className="w-3 h-3" alt="평점" />
             <span>
               {movie.vote_average ? movie.vote_average.toFixed(1) : "?"}
             </span>
