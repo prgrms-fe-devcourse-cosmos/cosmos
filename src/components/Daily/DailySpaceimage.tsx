@@ -6,17 +6,24 @@ export default function DailySpaceimage() {
 
   return (
     <div>
-      <h1 className="text-center font-[yapari] text-[var(--primary-300)] text-2xl mb-15">
+      <h1 className="text-center font-[yapari] text-[var(--primary-300)] text-2xl mb-8 sm:mb-15">
         IMAGE OF THE DAY
       </h1>
-      <div className="w-[1080px] h-[583px] flex mx-auto">
+      <div
+        className="
+          flex mx-auto 
+          flex-col sm:flex-row
+          w-[270px] sm:w-[540px] md:w-[1080px] 
+          h-[610px] sm:h-[292px] md:h-[583px]
+        "
+      >
         {/* 오른쪽 이미지 */}
-        <div className="w-[540px] h-full bg-[var(--white)]/10 backdrop-blur-xl flex justify-start items-center">
+        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[var(--white)]/10 backdrop-blur-xl flex justify-start items-center">
           {nasa.media_type === 'image' ? (
             <img
               src={nasa.url}
               alt={nasa.title}
-              className="w-[476px] h-full object-cover shadow-md"
+              className="w-full h-full object-cover"
             />
           ) : (
             <div className="w-full flex justify-center items-center">
@@ -25,10 +32,12 @@ export default function DailySpaceimage() {
           )}
         </div>
         {/* 왼쪽 내용 */}
-        <div className="w-[540px] h-full bg-[var(--white)]/10 backdrop-blur-xl text-[var(--white)] flex flex-col justify-start items-start">
-          <div className="my-20 mr-15">
-            <h1 className="text-2xl font-bold mb-8">{nasa.title}</h1>
-            <p className="whitespace-pre-wrap leading-normal">
+        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[var(--white)]/10 backdrop-blur-xl text-[var(--white)] flex flex-col justify-start items-start">
+          <div className="my-6 mr-5 ml-5 sm:my-6 sm:mr-5 sm:ml-5 md:my-20 md:mr-13 md:ml-14">
+            <h1 className="md:text-2xl text-sm font-bold mb-2 md:mb-8">
+              {nasa.title}
+            </h1>
+            <p className="text-xs md:text-base line-clamp-12 md:line-clamp-none whitespace-pre-wrap leading-normal">
               {nasa.explanation}
             </p>
           </div>
