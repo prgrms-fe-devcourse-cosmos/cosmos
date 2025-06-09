@@ -24,20 +24,22 @@ import { DailyLoader } from "./loader/dallyspace.loader";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 import { reviewLoader } from "./loader/review.loader";
 import PuzzleConfigScreen from "./pages/lab/puzzle/PuzzleConfigScreen";
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const router = createBrowserRouter([
   {
     element: <Default />,
-    hydrateFallbackElement: <h1>Loading...</h1>,
+    hydrateFallbackElement: <LoadingSpinner />,
     errorElement: <div>데이터를 불러오는 데 실패했습니다.</div>,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/login", element: <Login /> },
+      { path: '/', element: <Home /> },
+      { path: '/login', element: <Login /> },
       {
-        path: "/daily",
+        path: '/daily',
         loader: DailyLoader,
         element: <Daily />,
       },
+
       {
         path: "/lounge",
         element: <Lounge />,
@@ -68,12 +70,12 @@ const router = createBrowserRouter([
       },
       { path: "/signup", element: <Signup /> },
       {
-        path: "/lab",
+        path: '/lab',
         element: <Lab />,
         children: [
-          { path: "quiz", element: <LabQuiz /> },
+          { path: 'quiz', element: <LabQuiz /> },
           {
-            path: "puzzle",
+            path: 'puzzle',
             element: <LabPuzzle />,
             children: [
               { index: true, element: <Navigate to="config" replace /> },

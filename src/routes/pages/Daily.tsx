@@ -16,7 +16,7 @@ export default function Daily() {
       </div>
 
       {/* 하단 */}
-      <div className="flex-1 flex justify-center items-start pt-24">
+      <div className="flex-1 flex justify-center items-start pt-24 pb-16">
         <DailyCalendar />
       </div>
     </div>

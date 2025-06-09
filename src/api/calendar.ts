@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
-import { AstroEventItem } from '../types/types';
+import { AstroEventItem } from '../types/daily';
 
 const calendarAPI = axios.create({
   baseURL:
