@@ -66,6 +66,7 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
       <div className="mt-[16px] flex">{renderStars()}</div>
       <div className="w-full relative">
         <input
+          value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="리뷰를 입력하세요"
           type="text"
