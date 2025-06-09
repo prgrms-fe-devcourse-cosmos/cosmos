@@ -9,7 +9,7 @@ export default function DailyCalendar() {
       <h1 className="text-center font-[yapari] text-[var(--primary-300)] text-2xl mb-10">
         COSMIC EVENTS
       </h1>
-      <div className="w-[1080px] mx-auto text-[var(--white)] mb-5">
+      <div className="w-[293px] sm:w-[690px] md:w-[880px] lg:w-[1080px] mx-auto text-[var(--white)] mb-5">
         <div className="w-full h-[162px] mb-20">
           {/* 오늘 이벤트 제목 */}
           <div className="w-full text-center mb-5">
@@ -48,27 +48,47 @@ export default function DailyCalendar() {
           </div>
 
           {/* 오늘 이후 이벤트 내용 */}
-          <div className="w-full h-[150px] bg-[var(--white)]/10 backdrop-blur-xl justify-center items-center">
+          <div className="w-full h-[188px] lg:h-[150px] bg-[var(--white)]/10 backdrop-blur-xl justify-center items-center">
             {upcomingEvents.length === 0 ? (
               <p className="w-full h-full flex text-[#c7c7c7]">
                 다가오는 이벤트가 없습니다.
               </p>
             ) : (
-              <ul className="flex flex-wrap gap-x-31 gap-y-2 my-6 px-10">
-                {upcomingEvents.slice(0, 6).map(({ day, events }, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-center gap-1 mt-7 w-[250px]"
-                  >
-                    <span className="font-[yapari] text-[var(--primary-300)] text-lg mr-2">
-                      {day}
-                    </span>
-                    <span className="text-sm line-clamp-3">
-                      {events ? events.join(', ') : ''}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <>
+                {/* 모바일 크기일때 3개까지만 나오도록 */}
+                <ul className="flex flex-wrap gap-x-31 gap-y-2 my-6 px-10 md:hidden">
+                  {upcomingEvents.slice(0, 3).map(({ day, events }, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-center gap-1 mt-6 w-[250px]"
+                    >
+                      <span className="font-[yapari] text-[var(--primary-300)] text-lg mr-2">
+                        {day}
+                      </span>
+                      <span className="text-sm line-clamp-3">
+                        {events ? events.join(', ') : ''}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* 기본 크기일때 6개까지만 나오도록 */}
+                <ul className="hidden md:flex flex-wrap gap-x-31 gap-y-2 my-6 px-10">
+                  {upcomingEvents.slice(0, 6).map(({ day, events }, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-center gap-1 mt-6 lg:mt-7 w-[250px]"
+                    >
+                      <span className="font-[yapari] text-[var(--primary-300)] text-lg mr-2">
+                        {day}
+                      </span>
+                      <span className="text-sm line-clamp-3">
+                        {events ? events.join(', ') : ''}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
           </div>
         </div>
