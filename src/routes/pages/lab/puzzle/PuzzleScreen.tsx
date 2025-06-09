@@ -12,6 +12,7 @@ import {
   PuzzleConfig,
 } from "../../../../types/puzzle";
 import { calculatePuzzleScore } from "../../../../utils/score";
+import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 
 export default function PuzzleScreen() {
   const navigate = useNavigate();
@@ -81,11 +82,7 @@ export default function PuzzleScreen() {
   }, [config, nasa]);
 
   if (!config || !imageUrl || !imageLoaded) {
-    return (
-      <div className="w-full h-full flex justify-center items-center text-white">
-        퍼즐 이미지를 불러오는 중입니다...
-      </div>
-    );
+    return <LoadingSpinner />;
   }
   return (
     <>
