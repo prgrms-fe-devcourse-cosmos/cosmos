@@ -3,9 +3,11 @@ import React from "react";
 export default function PuzzleResultModal({
   onClose,
   score,
+  totalScore,
 }: {
   onClose: () => void;
   score: number;
+  totalScore: number;
 }) {
   return (
     <>
@@ -13,6 +15,7 @@ export default function PuzzleResultModal({
         <div className="bg-[color:var(--bg-color)] p-10 rounded-3xl shadow-lg text-center  flex flex-col items-center justify-between h-[240px] ">
           <p className="text-2xl">Game Over</p>
           <p className="text-xl">Score : {score}</p>
+          <p className="text-xl">Total Score : {totalScore}</p>
           <div className="flex justify-center w-full gap-10">
             <button
               className="w-[160px] z-20 cursor-pointer py-1 text-[color:var(--gray-200)] hover:text-[color:var(--primary-300)]"

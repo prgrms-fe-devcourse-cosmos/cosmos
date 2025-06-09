@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { fetchFilmPuzzleImages } from "../../../../loader/puzzle.loader";
+import React, { startTransition, useEffect, useRef, useState } from "react";
+import {
+  fetchCurrentUserPuzzleScore,
+  fetchFilmPuzzleImages,
+} from "../../../../loader/puzzle.loader";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
@@ -13,6 +16,7 @@ import {
 } from "../../../../types/puzzle";
 import { calculatePuzzleScore } from "../../../../utils/score";
 import LoadingSpinner from "../../../../components/common/LoadingSpinner";
+import supabase from "../../../../utils/supabase";
 
 export default function PuzzleScreen() {
   const navigate = useNavigate();
@@ -24,16 +28,39 @@ export default function PuzzleScreen() {
   const [showResultModal, setShowResultModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(1);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
+  const isSolvedRef = useRef(false);
   const [score, setScore] = useState(0);
+  const [totalScore, setTotalScore] = useState(0);
   const [puzzleGrid, setPuzzleGrid] = useState<{ rows: number; cols: number }>({
     rows: 1,
     cols: 1,
   });
 
   const solvedHandler = () => {
+    if (isSolvedRef.current) return;
+    isSolvedRef.current = true;
+
     setIsTimerRunning(false);
-    setScore(calculatePuzzleScore(config.difficulty, timeLeft));
-    setShowResultModal(true);
+    const finalScore = calculatePuzzleScore(config.difficulty, timeLeft);
+    setScore(finalScore);
+
+    startTransition(async () => {
+      const { data } = await supabase.from("puzzle_scores").insert([
+        {
+          score: finalScore,
+          profile_id: "24ebfed1-5c40-4d11-8647-1df1d1eaa7c4",
+        },
+      ]);
+
+      if (data) {
+        alert("점수 등록 완료");
+      }
+      const total = await fetchCurrentUserPuzzleScore({
+        userId: "24ebfed1-5c40-4d11-8647-1df1d1eaa7c4",
+      });
+      setTotalScore(total ?? 0);
+      setShowResultModal(true);
+    });
   };
 
   const closeHandler = () => {
@@ -53,7 +80,8 @@ export default function PuzzleScreen() {
   };
 
   useEffect(() => {
-    if (timeLeft <= 0) {
+    if (timeLeft <= 0 && !isSolvedRef.current) {
+      isSolvedRef.current = true;
       setIsTimerRunning(false);
       setShowResultModal(true);
     }
@@ -94,13 +122,19 @@ export default function PuzzleScreen() {
         />
         <JigsawPuzzle
           imageSrc={imageUrl}
-          rows={puzzleGrid.rows}
-          columns={puzzleGrid.cols}
+          // rows={puzzleGrid.rows}
+          // columns={puzzleGrid.cols}
+          rows={2}
+          columns={2}
           onSolved={() => solvedHandler()}
         />
       </div>
       {showResultModal && (
-        <PuzzleResultModal onClose={closeHandler} score={score} />
+        <PuzzleResultModal
+          onClose={closeHandler}
+          score={score}
+          totalScore={totalScore}
+        />
       )}
     </>
   );
