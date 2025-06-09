@@ -37,7 +37,7 @@ export default function DailySpaceimage() {
             <h1 className="md:text-xl text-sm font-bold mb-2 md:mb-5">
               {nasa.title}
             </h1>
-            <p className="text-xs md:text-base line-clamp-12 md:line-clamp-18 lg:line-clamp-none whitespace-pre-wrap leading-normal">
+            <p className="text-xs md:text-base line-clamp-12 md:line-clamp-18 whitespace-pre-wrap leading-normal">
               {nasa.explanation}
             </p>
           </div>
