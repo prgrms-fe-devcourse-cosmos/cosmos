@@ -149,6 +149,20 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+/* font yapari 전역 클래스 추가 */
+.font-yapari {
+  font-family: "yapari", sans-serif;
+}
+
+/* 줄거리 말줄임 */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 120px; /* 4줄 × 30px 줄 간격 */
+}
+
 @layer components {
   .login-input {
     @apply border border-[var(--gray-200)] p-2 rounded-lg focus:border-[var(--primary-300)] focus:outline focus:outline-[var(--primary-300)] text-[15px] placeholder:align-middle;
