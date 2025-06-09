@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "../../utils/supabase";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,13 @@ export default function Signup() {
     /^[a-zA-Z0-9]([-_\.]?[0-9a-zA-Z])*@[a-zA-Z0-9]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z0-9]([-_\.]?[0-9a-zA-Z]){1,}$/;
   const passwordCheck =
     /[a-zA-Z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]{8,}$/;
+
+  useEffect(() => {
+    if (localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")) {
+      alert("이미 로그인되어있는 사용자입니다.");
+      navigate("/");
+    }
+  }, []);
 
   const signupHandler = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -55,8 +62,8 @@ export default function Signup() {
 
   return (
     <div className="h-[88vh] w-full flex">
-      <div className="w-1/2 flex items-center justify-center"></div>
-      <div className="w-1/2 flex items-center justify-center">
+      <div className="hidden md:w-1/2 md:flex items-center justify-center"></div>
+      <div className="w-full md:w-1/2 md:flex justify-center">
         <div className="text-xl bg-white/10 backdrop- w-full h-full flex flex-col justify-center items-center gap-7">
           <div className="text-[32px] font-yapari">SIGN UP</div>
           <div className="flex flex-col justify-center w-[72.2%] gap-8">
@@ -192,13 +199,6 @@ export default function Signup() {
                   <img
                     src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
                     alt="google"
-                    className="size-5"
-                  />
-                </a>
-                <a href="https://www.facebook.com">
-                  <img
-                    src="https://static.wikia.nocookie.net/logopedia/images/8/82/Facebook_icon_2023.svg"
-                    alt="facebook"
                     className="size-5"
                   />
                 </a>
