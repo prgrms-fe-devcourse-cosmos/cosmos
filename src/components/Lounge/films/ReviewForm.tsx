@@ -22,7 +22,7 @@ export default function ReviewForm() {
 
     const movieId = Number(id);
 
-    // 1. movie 테이블에 해당 ID가 존재하는지 확인
+    // movie 테이블에 해당 ID가 존재하는지 확인
     const { data: existingMovie, error: fetchError } = await supabase
       .from("movie")
       .select("tmdb_id")
@@ -35,7 +35,7 @@ export default function ReviewForm() {
       return;
     }
 
-    // 2. 존재하지 않으면 movie 테이블에 추가 (필요한 최소한의 정보 삽입)
+    // 존재하지 않으면 movie 테이블에 추가
     if (!existingMovie) {
       const { error: insertError } = await supabase.from("movie").insert({
         tmdb_id: movieId,
@@ -48,7 +48,7 @@ export default function ReviewForm() {
       }
     }
 
-    // 3. 리뷰 등록
+    // 리뷰 등록
     const { error } = await supabase.from("movie_reviews").insert({
       profile_id: examProfileId,
       movie_id: movieId,

@@ -1,5 +1,7 @@
 import { movieFetch } from "../utils/movie";
 
+// TMDB 관련 API 함수 모음
+
 // 검색 api 전용 타입
 type RawSearchMovie = {
   id: number;

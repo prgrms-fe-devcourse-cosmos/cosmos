@@ -174,7 +174,11 @@ export default function FilmsDetail() {
             </li>
           </ul>
         </div>
-        <ReviewList reviews={sortedReviews} onLikeToggle={handleLikeToggle} />
+        <ReviewList
+          reviews={sortedReviews}
+          onLikeToggle={handleLikeToggle}
+          setReviews={setReviews}
+        />
         <ReviewForm />
       </section>
     </div>

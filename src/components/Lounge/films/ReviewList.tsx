@@ -1,16 +1,29 @@
+import { useState } from "react";
+import { deleteReviewById } from "../../../api/review";
 import filledStar from "../../../assets/icons/filled_star.svg";
 import star from "../../../assets/icons/star.svg";
+import supabase from "../../../utils/supabase";
 import ReviewLikeButton from "./ReviewLikeButton";
 
 type Props = {
   reviews: MovieReviewWithLike[];
   onLikeToggle?: (reviewId: number, liked: boolean) => void;
+  setReviews: React.Dispatch<React.SetStateAction<MovieReviewWithLike[]>>;
 };
 
-export default function ReviewList({ reviews, onLikeToggle }: Props) {
-  if (!reviews || reviews.length === 0) {
-    return <p className="text-[#8b949e]">아직 작성된 리뷰가 없습니다.</p>;
-  }
+export default function ReviewList({
+  reviews,
+  onLikeToggle,
+  setReviews,
+}: Props) {
+  // 상태 추가
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [editedContent, setEditedContent] = useState("");
+  const [editedRating, setEditedRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+
+  // 임시 프로필 ID
+  const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
 
   // 한국 시간대로 날짜 포맷 함수
   function formatKoreanDateTime(isoString: string): string {
@@ -26,50 +39,172 @@ export default function ReviewList({ reviews, onLikeToggle }: Props) {
     });
   }
 
-  // 별
-  function StarRating({ rating }: { rating: number }) {
-    const fullStars = Math.round(rating / 2);
-    const stars = [];
+  // 리뷰 삭제
+  const handleDelete = async (reviewId: number) => {
+    const confirmDelete = window.confirm("리뷰를 삭제하시겠습니까?");
+    if (!confirmDelete) return;
 
-    for (let i = 0; i < 5; i++) {
-      const starSrc = i < fullStars ? filledStar : star;
-      stars.push(
-        <img
-          key={i}
-          src={starSrc}
-          alt={i < fullStars ? "Filled star" : "Empty star"}
-          className="w-[16px] h-[16px]"
-        />
-      );
+    try {
+      await deleteReviewById(reviewId);
+      setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+    } catch (e) {
+      alert("삭제 중 오류가 발생했습니다.");
+      console.error(e);
     }
+  };
 
-    return <div className="flex gap-1 items-center">{stars}</div>;
+  // 리뷰 수정
+  const handleEditClick = (review: MovieReviewWithLike) => {
+    setEditingReviewId(review.id);
+    setEditedContent(review.content);
+    setEditedRating(review.rating);
+  };
+
+  // 리뷰 수정 저장 핸들러
+  const handleSave = async (reviewId: number) => {
+    try {
+      const { error } = await supabase
+        .from("movie_reviews")
+        .update({
+          content: editedContent,
+          rating: editedRating,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", reviewId)
+        .eq("profile_id", TEMP_PROFILE_ID); // 본인 리뷰만
+
+      if (error) {
+        alert("리뷰 수정 실패");
+        return;
+      }
+
+      // 성공 시 상태 업데이트
+      setReviews((prev) =>
+        prev.map((r) =>
+          r.id === reviewId
+            ? { ...r, content: editedContent, rating: editedRating }
+            : r
+        )
+      );
+      setEditingReviewId(null);
+    } catch (e) {
+      console.error(e);
+      alert("수정 중 오류 발생");
+    }
+  };
+
+  // 리뷰 없을 때 보여질 내용
+  if (!reviews || reviews.length === 0) {
+    return <p className="text-[#909090]">아직 작성된 리뷰가 없습니다.</p>;
   }
 
   return (
     <div>
       {reviews.map((review) => (
         <div
-          className="border border-blue-900 mb-[24px] flex flex-col gap-[12px]"
           key={review.id}
+          className="border border-blue-900 mb-[24px] flex flex-col gap-[12px] p-4"
         >
           <div className="flex justify-between">
-            {/* 리뷰 작성자, 작성일, 별 */}
             <div className="flex gap-4">
               <h3 className="font-bold">{review.profiles.username}</h3>
               <p>{formatKoreanDateTime(review.created_at)}</p>
-              <StarRating rating={review.rating} />
+              {editingReviewId === review.id ? (
+                <div className="flex items-center">
+                  {[1, 2, 3, 4, 5].map((i) => {
+                    const value = i * 2;
+                    const filled = hoverRating
+                      ? hoverRating >= value
+                      : editedRating >= value;
+                    return (
+                      <img
+                        key={i}
+                        src={filled ? filledStar : star}
+                        alt={filled ? "별" : "빈별"}
+                        className="w-[20px] h-[16px] cursor-pointer pr-1"
+                        onClick={() => setEditedRating(value)}
+                        onMouseEnter={() => setHoverRating(value)}
+                        onMouseLeave={() => setHoverRating(0)}
+                      />
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex gap-1 items-center">
+                  {Array.from({ length: 5 }, (_, i) => {
+                    const starSrc =
+                      i < Math.round(review.rating / 2) ? filledStar : star;
+                    return (
+                      <img
+                        key={i}
+                        src={starSrc}
+                        alt={
+                          i < Math.round(review.rating / 2)
+                            ? "Filled star"
+                            : "Empty star"
+                        }
+                        className="w-[16px] h-[16px]"
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
-            {/* 작성자일경우 수정/삭제 */}
-            <div className="text-[#909090] font-medium text-[12px]">
-              <span className="mr-4 cursor-pointer">수정</span>
-              <span className="cursor-pointer">삭제</span>
-            </div>
+
+            {review.profile_id === TEMP_PROFILE_ID && (
+              <div className="text-[#909090] font-medium text-[12px]">
+                {editingReviewId === review.id ? (
+                  <>
+                    <button
+                      onClick={() => handleSave(review.id)}
+                      className="mr-4 hover:text-white"
+                    >
+                      저장
+                    </button>
+                    <button
+                      onClick={() => setEditingReviewId(null)}
+                      className="hover:text-white"
+                    >
+                      취소
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <span
+                      onClick={() => handleEditClick(review)}
+                      className="mr-4 cursor-pointer hover:text-white"
+                    >
+                      수정
+                    </span>
+                    <button
+                      onClick={() => handleDelete(review.id)}
+                      className="cursor-pointer hover:text-white"
+                    >
+                      삭제
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
           </div>
-          {/* 리뷰 내용 */}
-          <p>{review.content}</p>
-          {/* 리뷰 좋아요 */}
-          <div>
+
+          {editingReviewId === review.id ? (
+            <input
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+              className="w-full px-2 py-1 bg-transparent border border-white rounded text-white text-sm"
+            />
+          ) : (
+            <p>{review.content}</p>
+          )}
+
+          <div
+            className={`transition-opacity ${
+              editingReviewId === review.id
+                ? "opacity-40 pointer-events-none"
+                : ""
+            }`}
+          >
             <ReviewLikeButton
               reviewId={review.id}
               onLikeToggle={onLikeToggle}
