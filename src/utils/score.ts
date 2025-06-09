@@ -9,8 +9,7 @@ export function calculatePuzzleScore(
   timeLeft: number
 ): number {
   const score =
-    ((difficultyTimeLimit[difficulty] - timeLeft) /
-      difficultyTimeLimit[difficulty]) *
+    (timeLeft / difficultyTimeLimit[difficulty]) *
     difficultyMultiplier[difficulty] *
     100;
   return Math.round(score);
