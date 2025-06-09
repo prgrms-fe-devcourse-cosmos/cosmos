@@ -21,9 +21,9 @@ import Signup from "./pages/Signup";
 import LabQuiz from "./pages/lab/quiz/LabQuiz";
 import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
 import { DailyLoader } from "./loader/dallyspace.loader";
-import PuzzleConfig from "./pages/lab/puzzle/PuzzleConfig";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 import { reviewLoader } from "./loader/review.loader";
+import PuzzleConfigScreen from "./pages/lab/puzzle/PuzzleConfigScreen";
 
 const router = createBrowserRouter([
   {
@@ -77,8 +77,8 @@ const router = createBrowserRouter([
             element: <LabPuzzle />,
             children: [
               { index: true, element: <Navigate to="config" replace /> },
-              { path: "config", element: <PuzzleConfig /> },
-              { path: "play", element: <PuzzleScreen /> },
+              { path: "config", element: <PuzzleConfigScreen /> },
+              { path: "play", loader: DailyLoader, element: <PuzzleScreen /> },
             ],
           },
         ],

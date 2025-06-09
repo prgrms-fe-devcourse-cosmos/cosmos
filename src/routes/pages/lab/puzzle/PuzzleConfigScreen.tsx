@@ -3,21 +3,18 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import type { PuzzleConfig } from "../../../../types/puzzle";
 import Picker from "react-mobile-picker";
 
-const selections: Record<"category" | "difficulty", string[]> = {
+const selections: Record<keyof PuzzleConfig, string[]> = {
   category: ["space", "film"],
   difficulty: ["easy", "medium", "hard"],
 };
 
-export default function PuzzleConfig() {
+export default function PuzzleConfigScreen() {
   const navigate = useNavigate();
   const { onStart } = useOutletContext<{
     onStart: (config: PuzzleConfig) => void;
   }>();
 
-  const [pickerValue, setPickerValue] = useState<{
-    category: string;
-    difficulty: string;
-  }>({
+  const [pickerValue, setPickerValue] = useState<PuzzleConfig>({
     category: "space",
     difficulty: "easy",
   });
