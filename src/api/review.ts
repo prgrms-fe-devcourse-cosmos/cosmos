@@ -81,21 +81,49 @@ export async function ensureMovieExists(movieId: number): Promise<void> {
 }
 
 // 리뷰 등록
+// export async function createReview(
+//   movieId: number,
+//   content: string,
+//   rating: number
+// ): Promise<void> {
+//   const { error } = await supabase.from("movie_reviews").insert({
+//     profile_id: TEMP_PROFILE_ID,
+//     movie_id: movieId,
+//     content,
+//     rating,
+//   });
+
+//   if (error) {
+//     throw new Error("리뷰 등록 실패: " + error.message);
+//   }
+// }
 export async function createReview(
   movieId: number,
   content: string,
   rating: number
-): Promise<void> {
-  const { error } = await supabase.from("movie_reviews").insert({
-    profile_id: TEMP_PROFILE_ID,
-    movie_id: movieId,
-    content,
-    rating,
-  });
+): Promise<MovieReviewWithLike> {
+  const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
 
-  if (error) {
-    throw new Error("리뷰 등록 실패: " + error.message);
+  const { data, error } = await supabase
+    .from("movie_reviews")
+    .insert({
+      profile_id: TEMP_PROFILE_ID,
+      movie_id: movieId,
+      content,
+      rating,
+    })
+    .select("*, profiles(id, username, avatar_url)") // 프로필 정보 포함
+    .single();
+
+  if (error || !data) {
+    throw new Error("리뷰 등록 실패: " + (error?.message ?? ""));
   }
+
+  return {
+    ...data,
+    like_count: 0, // 등록 시 좋아요는 0
+    username: data.profiles.username, // 타입 일치
+  };
 }
 
 // 좋아요

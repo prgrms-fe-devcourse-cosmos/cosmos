@@ -5,7 +5,11 @@ import filledStar from "../../../assets/icons/filled_star.svg";
 import star from "../../../assets/icons/star.svg";
 import { createReview, ensureMovieExists } from "../../../api/review";
 
-export default function ReviewForm() {
+type Props = {
+  onReviewSubmit?: (review: MovieReviewWithLike) => void;
+};
+
+export default function ReviewForm({ onReviewSubmit }: Props) {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -21,7 +25,11 @@ export default function ReviewForm() {
 
     try {
       await ensureMovieExists(movieId); // 영화 존재 확인
-      await createReview(movieId, content, rating); // 리뷰 등록
+      // await createReview(movieId, content, rating); // 리뷰 등록
+      const newReview = await createReview(movieId, content, rating);
+
+      // 새 리뷰를 상위 컴포넌트로 전달
+      onReviewSubmit?.(newReview);
 
       alert("리뷰 등록 완료");
       setContent("");

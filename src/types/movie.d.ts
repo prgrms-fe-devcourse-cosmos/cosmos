@@ -54,7 +54,7 @@ type MovieReviewWithLike = {
   content: string;
   rating: number;
   created_at: string;
-  updated_at: string;
+  updated_at: string | null;
   movie_id: number;
   profile_id: string;
   username: string;
@@ -62,6 +62,6 @@ type MovieReviewWithLike = {
   profiles: {
     id: string;
     username: string;
-    avatar_url?: string;
+    avatar_url?: string | null;
   };
 };

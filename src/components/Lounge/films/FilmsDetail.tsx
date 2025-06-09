@@ -148,7 +148,7 @@ export default function FilmsDetail() {
         </div>
       </section>
       {/* review */}
-      <section className="mt-[60px] px-[32px] pb-[24px] border border-red-800">
+      <section className="mt-[60px] px-[32px] pb-[24px]">
         {/* review header */}
         <div className="flex justify-between mb-[40px]">
           <h3 className="text-[#D0F700] font-medium text-[16px]">
@@ -179,7 +179,11 @@ export default function FilmsDetail() {
           onLikeToggle={handleLikeToggle}
           setReviews={setReviews}
         />
-        <ReviewForm />
+        <ReviewForm
+          onReviewSubmit={(newReview) =>
+            setReviews((prev) => [newReview, ...prev])
+          }
+        />
       </section>
     </div>
   );

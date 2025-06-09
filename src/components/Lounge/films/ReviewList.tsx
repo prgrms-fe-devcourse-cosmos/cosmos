@@ -86,10 +86,7 @@ export default function ReviewList({
   return (
     <div>
       {reviews.map((review) => (
-        <div
-          key={review.id}
-          className="border border-blue-900 mb-[24px] flex flex-col gap-[12px] p-4"
-        >
+        <div key={review.id} className="mb-[24px] flex flex-col gap-[12px] p-4">
           <div className="flex justify-between">
             <div className="flex gap-4">
               <h3 className="font-bold">{review.profiles.username}</h3>
