@@ -209,14 +209,20 @@ export default function Signup() {
                 SIGN UP
               </button>
               <div className="flex justify-center mt-3 gap-5">
-                <button onClick={(e) => socialLoginHandler(e, "google")}>
+                <button
+                  className="cursor-pointer"
+                  onClick={(e) => socialLoginHandler(e, "google")}
+                >
                   <img
                     src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
                     alt="google"
                     className="size-5"
                   />
                 </button>
-                <button onClick={(e) => socialLoginHandler(e, "github")}>
+                <button
+                  className="cursor-pointer"
+                  onClick={(e) => socialLoginHandler(e, "github")}
+                >
                   <img
                     src="https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg"
                     alt="github"
