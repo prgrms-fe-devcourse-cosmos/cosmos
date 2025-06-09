@@ -12,7 +12,7 @@ export default function LabPuzzle() {
   };
   return (
     <div className=" w-full h-full flex flex-col items-center">
-      <Outlet context={{ onStart: handleStart, config }} />
+      <Outlet context={{ onStart: handleStart, ...config }} />
     </div>
   );
 }

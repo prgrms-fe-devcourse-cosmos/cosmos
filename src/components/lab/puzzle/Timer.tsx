@@ -3,17 +3,14 @@ import React, { useEffect } from "react";
 export default function Timer({
   timeLeft,
   countTime,
+  isRunning,
 }: {
   timeLeft: number;
   countTime: () => void;
+  isRunning: boolean;
 }) {
-  const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60)).padStart(
-    2,
-    "0"
-  );
-  const seconds = String(Math.floor((timeLeft / 1000) % 60)).padStart(2, "0");
-
   useEffect(() => {
+    if (!isRunning) return;
     const timer = setInterval(() => {
       countTime();
     }, 1000);
@@ -25,11 +22,16 @@ export default function Timer({
     return () => {
       clearInterval(timer);
     };
-  }, [timeLeft]);
+  }, [isRunning, timeLeft]);
 
-  return (
-    <div>
-      {minutes} : {seconds}
-    </div>
-  );
+  const formatTime = (ms: number) => {
+    const minutes = String(Math.floor((ms / (1000 * 60)) % 60)).padStart(
+      2,
+      "0"
+    );
+    const seconds = String(Math.floor((ms / 1000) % 60)).padStart(2, "0");
+    return `${minutes} : ${seconds}`;
+  };
+
+  return <div>{formatTime(timeLeft)}</div>;
 }
