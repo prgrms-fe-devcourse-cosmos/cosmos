@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 export default function Lounge() {
   const activeLoungeTab = (isActive: boolean) =>
@@ -36,6 +37,7 @@ export default function Lounge() {
           </NavLink>
         </nav>
         <div className="w-full mb-[50px]">
+          <ScrollToTop />
           <Outlet />
         </div>
       </div>
