@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { deleteReviewById } from "../../../api/review";
+import { deleteReviewById, updateReviewById } from "../../../api/review";
 import filledStar from "../../../assets/icons/filled_star.svg";
 import star from "../../../assets/icons/star.svg";
-import supabase from "../../../utils/supabase";
 import ReviewLikeButton from "./ReviewLikeButton";
 
 type Props = {
@@ -63,20 +62,7 @@ export default function ReviewList({
   // 리뷰 수정 저장 핸들러
   const handleSave = async (reviewId: number) => {
     try {
-      const { error } = await supabase
-        .from("movie_reviews")
-        .update({
-          content: editedContent,
-          rating: editedRating,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", reviewId)
-        .eq("profile_id", TEMP_PROFILE_ID); // 본인 리뷰만
-
-      if (error) {
-        alert("리뷰 수정 실패");
-        return;
-      }
+      await updateReviewById(reviewId, editedContent, editedRating);
 
       // 성공 시 상태 업데이트
       setReviews((prev) =>
@@ -89,7 +75,6 @@ export default function ReviewList({
       setEditingReviewId(null);
     } catch (e) {
       console.error(e);
-      alert("수정 중 오류 발생");
     }
   };
 

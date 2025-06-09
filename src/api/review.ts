@@ -32,3 +32,111 @@ export async function deleteReviewById(reviewId: number): Promise<void> {
     console.error("리뷰 삭제 실패:", error);
   }
 }
+
+// 리뷰 수정
+export async function updateReviewById(
+  reviewId: number,
+  content: string,
+  rating: number
+): Promise<void> {
+  const { error } = await supabase
+    .from("movie_reviews")
+    .update({
+      content,
+      rating,
+      updated_at: new Date().toISOString(),
+    })
+    .match({
+      id: reviewId,
+      profile_id: TEMP_PROFILE_ID,
+    });
+
+  if (error) {
+    throw new Error("리뷰 수정 실패");
+  }
+}
+
+// 영화ID가 movie테이블에 존재하는지 확인
+// 없으면 movie테이블에 추가
+export async function ensureMovieExists(movieId: number): Promise<void> {
+  const { data: existingMovie, error: fetchError } = await supabase
+    .from("movie")
+    .select("tmdb_id")
+    .eq("tmdb_id", movieId)
+    .single();
+
+  if (fetchError && fetchError.code !== "PGRST116") {
+    throw new Error("영화 확인 중 오류 발생: " + fetchError.message);
+  }
+
+  if (!existingMovie) {
+    const { error: insertError } = await supabase
+      .from("movie")
+      .insert({ tmdb_id: movieId });
+
+    if (insertError) {
+      throw new Error("영화 추가 실패: " + insertError.message);
+    }
+  }
+}
+
+// 리뷰 등록
+export async function createReview(
+  movieId: number,
+  content: string,
+  rating: number
+): Promise<void> {
+  const { error } = await supabase.from("movie_reviews").insert({
+    profile_id: TEMP_PROFILE_ID,
+    movie_id: movieId,
+    content,
+    rating,
+  });
+
+  if (error) {
+    throw new Error("리뷰 등록 실패: " + error.message);
+  }
+}
+
+// 좋아요
+// 좋아요 상태
+export async function fetchReviewLikeStatus(reviewId: number) {
+  const { data, error } = await supabase
+    .from("review_likes")
+    .select("id")
+    .eq("review_id", reviewId)
+    .eq("profile_id", TEMP_PROFILE_ID);
+
+  if (error) throw error;
+  return (data ?? []).length > 0;
+}
+
+// 좋아요 카운트
+export async function fetchReviewLikeCount(reviewId: number) {
+  const { count, error } = await supabase
+    .from("review_likes")
+    .select("id", { count: "exact", head: true })
+    .eq("review_id", reviewId);
+
+  if (error) throw error;
+  return count ?? 0;
+}
+
+// 좋아요 추가
+export async function addReviewLike(reviewId: number) {
+  const { error } = await supabase.from("review_likes").insert({
+    review_id: reviewId,
+    profile_id: TEMP_PROFILE_ID,
+  });
+  if (error) throw error;
+}
+
+// 좋아요 삭제
+export async function removeReviewLike(reviewId: number) {
+  const { error } = await supabase
+    .from("review_likes")
+    .delete()
+    .eq("review_id", reviewId)
+    .eq("profile_id", TEMP_PROFILE_ID);
+  if (error) throw error;
+}

@@ -1,18 +1,15 @@
 import { useState } from "react";
 import Button from "../../common/Button";
 import { useParams } from "react-router-dom";
-import supabase from "../../../utils/supabase";
 import filledStar from "../../../assets/icons/filled_star.svg";
 import star from "../../../assets/icons/star.svg";
+import { createReview, ensureMovieExists } from "../../../api/review";
 
 export default function ReviewForm() {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const { id } = useParams();
-
-  // 임시로 넣은 profile_id
-  const examProfileId = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
 
   const handleSubmit = async () => {
     if (!id) {
@@ -22,47 +19,15 @@ export default function ReviewForm() {
 
     const movieId = Number(id);
 
-    // movie 테이블에 해당 ID가 존재하는지 확인
-    const { data: existingMovie, error: fetchError } = await supabase
-      .from("movie")
-      .select("tmdb_id")
-      .eq("tmdb_id", movieId)
-      .single();
+    try {
+      await ensureMovieExists(movieId); // 영화 존재 확인
+      await createReview(movieId, content, rating); // 리뷰 등록
 
-    if (fetchError && fetchError.code !== "PGRST116") {
-      console.error("영화 확인 실패", fetchError.message);
-      alert("영화 확인 중 오류가 발생했습니다.");
-      return;
-    }
-
-    // 존재하지 않으면 movie 테이블에 추가
-    if (!existingMovie) {
-      const { error: insertError } = await supabase.from("movie").insert({
-        tmdb_id: movieId,
-      });
-
-      if (insertError) {
-        console.error("영화 추가 실패", insertError.message);
-        alert("영화 정보 등록 실패");
-        return;
-      }
-    }
-
-    // 리뷰 등록
-    const { error } = await supabase.from("movie_reviews").insert({
-      profile_id: examProfileId,
-      movie_id: movieId,
-      content,
-      rating,
-    });
-
-    if (error) {
-      alert("리뷰 등록 실패");
-      console.error(error.message);
-    } else {
       alert("리뷰 등록 완료");
       setContent("");
       setRating(0);
+    } catch (e) {
+      console.error(e);
     }
   };
 

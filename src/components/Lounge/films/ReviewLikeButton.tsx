@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
-import supabase from "../../../utils/supabase";
 import heart from "../../../assets/icons/heart.svg";
 import fillHeart from "../../../assets/icons/filled_heart.svg";
+import {
+  addReviewLike,
+  fetchReviewLikeCount,
+  fetchReviewLikeStatus,
+  removeReviewLike,
+} from "../../../api/review";
 
 type Props = {
   reviewId: number;
@@ -9,64 +14,42 @@ type Props = {
 };
 
 export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
-  const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da"; // 임시 사용자 ID
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
-    const fetchLikeStatus = async () => {
-      const { data, error } = await supabase
-        .from("review_likes")
-        .select("id")
-        .eq("review_id", reviewId)
-        .eq("profile_id", TEMP_PROFILE_ID);
-
-      if (error) {
-        console.error("좋아요 여부 확인 실패:", error);
-        setLiked(false);
-        return;
+    const fetchData = async () => {
+      try {
+        const [status, count] = await Promise.all([
+          fetchReviewLikeStatus(reviewId),
+          fetchReviewLikeCount(reviewId),
+        ]);
+        setLiked(status);
+        setLikeCount(count);
+      } catch (err) {
+        console.error("좋아요 정보 가져오기 실패:", err);
       }
-
-      setLiked((data ?? []).length > 0);
     };
 
-    const fetchLikeCount = async () => {
-      const { count, error } = await supabase
-        .from("review_likes")
-        .select("id", { count: "exact", head: true })
-        .eq("review_id", reviewId);
-
-      if (error) {
-        console.error("좋아요 수 확인 실패:", error);
-        setLikeCount(0);
-        return;
-      }
-
-      setLikeCount(count ?? 0);
-    };
-
-    fetchLikeStatus();
-    fetchLikeCount();
+    fetchData();
   }, [reviewId]);
 
+  // 좋아요 토글
   const handleToggleLike = async () => {
-    if (!liked) {
-      await supabase.from("review_likes").insert({
-        review_id: reviewId,
-        profile_id: TEMP_PROFILE_ID,
-      });
-      setLiked(true);
-      setLikeCount((prev) => prev + 1);
-      onLikeToggle?.(reviewId, true);
-    } else {
-      await supabase
-        .from("review_likes")
-        .delete()
-        .eq("review_id", reviewId)
-        .eq("profile_id", TEMP_PROFILE_ID);
-      setLiked(false);
-      setLikeCount((prev) => prev - 1);
-      onLikeToggle?.(reviewId, false);
+    try {
+      if (!liked) {
+        await addReviewLike(reviewId);
+        setLiked(true);
+        setLikeCount((prev) => prev + 1);
+        onLikeToggle?.(reviewId, true);
+      } else {
+        await removeReviewLike(reviewId);
+        setLiked(false);
+        setLikeCount((prev) => prev - 1);
+        onLikeToggle?.(reviewId, false);
+      }
+    } catch (err) {
+      console.error("좋아요 토글 실패:", err);
     }
   };
 
