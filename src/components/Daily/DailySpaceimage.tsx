@@ -6,7 +6,7 @@ export default function DailySpaceimage() {
 
   return (
     <div>
-      <h1 className="text-center font-[yapari] text-[var(--primary-300)] text-2xl mb-17">
+      <h1 className="text-center font-[yapari] text-[var(--primary-300)] text-2xl mb-15">
         IMAGE OF THE DAY
       </h1>
       <div className="w-[1080px] h-[583px] flex mx-auto">
