@@ -1,11 +1,13 @@
 import filledStar from "../../../assets/icons/filled_star.svg";
 import star from "../../../assets/icons/star.svg";
+import ReviewLikeButton from "./ReviewLikeButton";
 
 type Props = {
-  reviews: MovieReview[];
+  reviews: MovieReviewWithLike[];
+  onLikeToggle?: (reviewId: number, liked: boolean) => void;
 };
 
-export default function ReviewList({ reviews }: Props) {
+export default function ReviewList({ reviews, onLikeToggle }: Props) {
   if (!reviews || reviews.length === 0) {
     return <p className="text-[#8b949e]">아직 작성된 리뷰가 없습니다.</p>;
   }
@@ -59,16 +61,19 @@ export default function ReviewList({ reviews }: Props) {
               <StarRating rating={review.rating} />
             </div>
             {/* 작성자일경우 수정/삭제 */}
-            <div>
-              <span>수정</span>
-              <span>삭제</span>
+            <div className="text-[#909090] font-medium text-[12px]">
+              <span className="mr-4 cursor-pointer">수정</span>
+              <span className="cursor-pointer">삭제</span>
             </div>
           </div>
           {/* 리뷰 내용 */}
           <p>{review.content}</p>
           {/* 리뷰 좋아요 */}
           <div>
-            <button>❤️</button> <span>53</span>
+            <ReviewLikeButton
+              reviewId={review.id}
+              onLikeToggle={onLikeToggle}
+            />
           </div>
         </div>
       ))}

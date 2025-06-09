@@ -14,28 +14,6 @@ export default function ReviewForm() {
   // 임시로 넣은 profile_id
   const examProfileId = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
 
-  // const handleSubmit = async () => {
-  //   if (!id) {
-  //     alert("영화 ID가 없습니다.");
-  //     return;
-  //   }
-
-  //   const { error } = await supabase.from("movie_reviews").insert({
-  //     profile_id: examProfileId,
-  //     movie_id: Number(id),
-  //     content,
-  //     rating,
-  //   });
-
-  //   if (error) {
-  //     alert("리뷰 등록 실패");
-  //     console.error(error.message);
-  //   } else {
-  //     alert("리뷰 등록 완료");
-  //     setContent("");
-  //     setRating(0);
-  //   }
-  // };
   const handleSubmit = async () => {
     if (!id) {
       alert("영화 ID가 없습니다.");

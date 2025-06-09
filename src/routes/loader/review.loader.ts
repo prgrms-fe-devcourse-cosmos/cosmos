@@ -9,23 +9,9 @@ export const reviewLoader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   const { data, error } = await supabase
-    .from("movie_reviews")
-    .select(
-      `
-    id,
-    content,
-    rating,
-    created_at,
-    updated_at,
-    profiles:profiles!movie_reviews_profile_id_fkey (
-      id,
-      username,
-      avatar_url
-    )
-  `
-    )
-    .eq("movie_id", Number(movieId))
-    .order("created_at", { ascending: false });
+    .from("movie_reviews_with_likes")
+    .select("*")
+    .eq("movie_id", Number(movieId));
 
   if (error) {
     console.error("리뷰 로딩 실패:", error.message);
@@ -34,5 +20,15 @@ export const reviewLoader = async ({ params }: LoaderFunctionArgs) => {
     });
   }
 
-  return data;
+  // profiles 구조에 맞게 변환
+  const reviews = data.map((review) => ({
+    ...review,
+    profiles: {
+      id: review.profile_id,
+      username: review.username,
+      avatar_url: null,
+    },
+  }));
+
+  return reviews;
 };

@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { useMovieDetailStore } from "../../../stores/movieStore";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
 import FilmDetailSkeleton from "./FilmDetailSkeleton";
@@ -11,13 +11,42 @@ export default function FilmsDetail() {
   const { detail, fetchDetail, loading } = useMovieDetailStore();
   const navigate = useNavigate();
 
-  // review
-  const reviews = useLoaderData() as MovieReview[];
+  // 리뷰 정보
+  const loaderData = useLoaderData() as MovieReviewWithLike[];
+  const [reviews, setReviews] = useState<MovieReviewWithLike[]>(loaderData);
+
+  // 리뷰 정렬 상태
+  const [sortBy, setSortBy] = useState<"like" | "recent">("like");
 
   useEffect(() => {
-    if (id) fetchDetail(id);
+    if (!id) return;
+    fetchDetail(id);
   }, [id]);
 
+  // 리뷰 정렬
+  const sortedReviews = useMemo(() => {
+    return [...reviews].sort((a, b) => {
+      if (sortBy === "recent") {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      }
+      return (b.like_count ?? 0) - (a.like_count ?? 0);
+    });
+  }, [reviews, sortBy]);
+
+  // 좋아요 토글 함수
+  const handleLikeToggle = (reviewId: number, liked: boolean) => {
+    setReviews((prev) =>
+      prev.map((r) =>
+        r.id === reviewId
+          ? { ...r, like_count: (r.like_count ?? 0) + (liked ? 1 : -1) }
+          : r
+      )
+    );
+  };
+
+  // 로딩중에는 스켈레톤 보여지도록
   if (loading || !detail) return <FilmDetailSkeleton />;
 
   // 개봉날짜 포맷 함수
@@ -26,18 +55,21 @@ export default function FilmsDetail() {
     return `${y}년 ${m}월 ${d}일`;
   };
 
+  // 감독 정보
   const director =
     detail.credits.crew.find((c) => c.job === "Director")?.name ||
     "감독 정보 없음";
 
   // 배우 3명만 보여지도록
   const cast = detail.credits.cast.slice(0, 3);
+
+  // 시간 포맷
   const runtime = `${Math.floor(detail.runtime / 60)}h ${detail.runtime % 60}m`;
 
   return (
     <div className="pt-[24px] bg-[#141414]/80">
       {/* movie detail */}
-      <div className="pl-[32px] pr-[12px]">
+      <section className="pl-[32px] pr-[12px]">
         {/* 필름 헤더 - 뒤로가기버튼, 장르배열 */}
         <div className="flex justify-between">
           {/* 뒤로가기 */}
@@ -114,22 +146,37 @@ export default function FilmsDetail() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
       {/* review */}
-      <div className="mt-[60px] px-[32px] pb-[24px] border border-red-800">
+      <section className="mt-[60px] px-[32px] pb-[24px] border border-red-800">
         {/* review header */}
         <div className="flex justify-between mb-[40px]">
           <h3 className="text-[#D0F700] font-medium text-[16px]">
             REVIEW ({reviews.length})
           </h3>
-          <ul className="flex items-center gap-4 text-[13px]">
-            <li>좋아요순</li>
-            <li>최신순</li>
+          {/* review sort */}
+          <ul className="flex items-center gap-4 text-[13px] font-medium">
+            <li
+              className={`cursor-pointer ${
+                sortBy === "like" ? "text-[#D0F700]" : ""
+              }`}
+              onClick={() => setSortBy("like")}
+            >
+              좋아요순
+            </li>
+            <li
+              className={`cursor-pointer ${
+                sortBy === "recent" ? "text-[#D0F700]" : ""
+              }`}
+              onClick={() => setSortBy("recent")}
+            >
+              최신순
+            </li>
           </ul>
         </div>
-        <ReviewList reviews={reviews} />
+        <ReviewList reviews={sortedReviews} onLikeToggle={handleLikeToggle} />
         <ReviewForm />
-      </div>
+      </section>
     </div>
   );
 }

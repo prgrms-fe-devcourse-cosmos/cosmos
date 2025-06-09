@@ -48,16 +48,20 @@ interface MovieDetailStore {
   fetchDetail: (id: string | number) => Promise<void>;
 }
 
-type MovieReview = {
+// 리뷰 좋아요 포함 타입
+type MovieReviewWithLike = {
   id: number;
   content: string;
   rating: number;
   created_at: string;
   updated_at: string;
+  movie_id: number;
+  profile_id: string;
+  username: string;
+  like_count: number;
   profiles: {
     id: string;
     username: string;
-    avatar_url: string;
+    avatar_url?: string;
   };
-  movie_id: number;
 };
