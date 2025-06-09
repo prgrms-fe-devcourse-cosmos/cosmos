@@ -103,11 +103,7 @@ export default function PuzzleScreen() {
         />
       </div>
       {showResultModal && (
-        <PuzzleResultModal
-          onClose={closeHandler}
-          timeLeft={timeLeft / 1000}
-          score={score}
-        />
+        <PuzzleResultModal onClose={closeHandler} score={score} />
       )}
     </>
   );
