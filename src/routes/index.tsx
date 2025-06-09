@@ -16,7 +16,7 @@ import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
 import { DailyLoader } from "./loader/dallyspace.loader";
 import PuzzleConfig from "./pages/lab/puzzle/PuzzleConfig";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
-
+import LabRank from "./pages/lab/rank/LabRank";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +47,7 @@ const router = createBrowserRouter([
               { path: "play", element: <PuzzleScreen /> },
             ],
           },
+          { path: "rank", element: <LabRank /> },
         ],
       },
     ],
