@@ -14,7 +14,7 @@ export default function DailySpaceimage() {
           flex mx-auto 
           flex-col sm:flex-row
           w-[270px] sm:w-[540px] md:w-[880px] lg:w-[1080px]
-          h-[610px] sm:h-[292px] md:h-[552px] lg:h-[583px]
+          h-[610px] sm:h-[292px] md:h-[583px]
         "
       >
         {/* 오른쪽 이미지 */}
@@ -33,11 +33,11 @@ export default function DailySpaceimage() {
         </div>
         {/* 왼쪽 내용 */}
         <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[var(--white)]/10 backdrop-blur-xl text-[var(--white)] flex flex-col justify-start items-start">
-          <div className="my-6 mr-5 ml-5 md:my-15 md:mr-10 md:ml-10 lg:my-20 lg:mr-13 lg:ml-14">
-            <h1 className="md:text-2xl text-sm font-bold mb-2 md:mb-5 lg:mb-8">
+          <div className="my-5 mr-5 ml-5 md:my-12 md:mr-10 md:ml-10">
+            <h1 className="md:text-xl text-sm font-bold mb-2 md:mb-5">
               {nasa.title}
             </h1>
-            <p className="text-xs md:text-base line-clamp-12 md:line-clamp-17 lg:line-clamp-none whitespace-pre-wrap leading-normal">
+            <p className="text-xs md:text-base line-clamp-12 md:line-clamp-18 lg:line-clamp-none whitespace-pre-wrap leading-normal">
               {nasa.explanation}
             </p>
           </div>
