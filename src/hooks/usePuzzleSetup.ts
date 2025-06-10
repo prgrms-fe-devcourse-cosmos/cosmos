@@ -4,8 +4,8 @@ import {
   difficultyTimeLimit,
   PuzzleConfig,
 } from "../types/puzzle";
-import { fetchFilmPuzzleImages } from "../loader/puzzle.loader";
-import { ApodData } from "../types/types";
+import { ApodData } from "../types/daily";
+import { getSpaceMovies } from "../api/movie";
 
 export const usePuzzleSetup = (config: PuzzleConfig, nasa: ApodData) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -24,15 +24,17 @@ export const usePuzzleSetup = (config: PuzzleConfig, nasa: ApodData) => {
   };
 
   const setup = async () => {
+    //space 선택 시
     if (config.category === "space" && nasa.media_type === "image") {
       loadImage(nasa.url);
     } else {
-      const images = await fetchFilmPuzzleImages();
-      if (!images?.length) return;
-      const random = images[Math.floor(Math.random() * images.length)];
-      if (random?.image_url) {
-        loadImage(random.image_url);
-      }
+      // film 선택 시
+      const movies = await getSpaceMovies(1, "vote_average.desc");
+      const filtered = movies.filter((m) => m.poster_path);
+      if (filtered.length === 0) return;
+      const random = filtered[Math.floor(Math.random() * filtered.length)];
+      const fullPostUrl = `https://image.tmdb.org/t/p/w500${random.poster_path}`;
+      loadImage(fullPostUrl);
     }
     const { rows, cols } = difficultyMap[config.difficulty];
     setPuzzleGrid({ rows, cols });
