@@ -1,64 +1,81 @@
 import React, { useEffect, useState } from "react";
-import {
-  fetchFilmPuzzleImages,
-  fetchSpacePuzzleImages,
-} from "../../../../loader/puzzle.loader";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
-import { useOutletContext } from "react-router-dom";
+import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import Timer from "../../../../components/lab/puzzle/Timer";
+import PuzzleResultModal from "../../../../components/lab/puzzle/PuzzleResultModal";
+import { PuzzleConfig } from "../../../../types/puzzle";
 import LoadingSpinner from "../../../../components/common/LoadingSpinner";
-
-type ContextType = {
-  config: {
-    category: "space" | "film";
-    difficulty: "easy" | "medium" | "hard";
-  } | null;
-};
-
-const difficultyMap = {
-  easy: { rows: 3, cols: 4 },
-  medium: { rows: 4, cols: 5 },
-  hard: { rows: 5, cols: 6 },
-};
+import { usePuzzleSolver } from "../../../../hooks/usePuzzleSolver";
+import { usePuzzleSetup } from "../../../../hooks/usePuzzleSetup";
+import { LoaderData } from "../../../../types/daily";
 
 export default function PuzzleScreen() {
-  const { config } = useOutletContext<ContextType>();
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const config = useOutletContext<PuzzleConfig>();
+  const { nasa } = useLoaderData() as LoaderData;
+
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [isTimerRunning, setIsTimerRunning] = useState(true);
+  const [showResultModal, setShowResultModal] = useState(false);
+
+  const { imageUrl, imageLoaded, puzzleGrid, timeLimit, setup } =
+    usePuzzleSetup(config, nasa);
+  const { solve, score, totalScore } = usePuzzleSolver(
+    config,
+    timeLeft!,
+    () => {
+      setIsTimerRunning(false);
+      setShowResultModal(true);
+    }
+  );
 
   useEffect(() => {
-    if (!config) return;
-
-    const loadImage = async () => {
-      const fetcher =
-        config.category === "space"
-          ? fetchSpacePuzzleImages
-          : fetchFilmPuzzleImages;
-      const images = await fetcher();
-      if (images?.length) {
-        const random = images[Math.floor(Math.random() * images.length)];
-        setImageUrl(random.image_url);
-      }
-    };
-    loadImage();
+    setup();
   }, [config]);
 
-  if (!config || !imageUrl) {
+  useEffect(() => {
+    if (timeLimit) setTimeLeft(timeLimit);
+  }, [timeLimit]);
+
+  useEffect(() => {
+    if (timeLeft !== null && timeLeft <= 0) solve();
+  }, [timeLeft]);
+
+  const closeHandler = () => {
+    setShowResultModal(false);
+    navigate("/lab");
+  };
+
+  const decrementTime = () => {
+    setTimeLeft((prev) => Math.max(prev! - 1000, 0));
+  };
+
+  if (!config || !imageUrl || !imageLoaded) {
     return <LoadingSpinner />;
   }
-
-  const { category, difficulty } = config;
-  const { rows, cols } = difficultyMap[difficulty];
   return (
     <>
-      <div className="w-full h-full flex gap-8 flex-col items-center text-[color:var(--primary-300)] font-[yapari]">
-        <h1 className="text-2xl">LV.1 {category}</h1>
+      <div className="w-full h-full flex gap-8 flex-col justify-center items-center text-[color:var(--primary-300)] font-[yapari] z-50">
+        <Timer
+          timeLeft={timeLeft!}
+          countTime={decrementTime}
+          isRunning={isTimerRunning}
+        />
         <JigsawPuzzle
           imageSrc={imageUrl}
-          rows={rows}
-          columns={cols}
-          onSolved={() => alert("solved")}
+          rows={puzzleGrid.rows}
+          columns={puzzleGrid.cols}
+          onSolved={solve}
         />
       </div>
+      {showResultModal && (
+        <PuzzleResultModal
+          onClose={closeHandler}
+          score={score}
+          totalScore={totalScore}
+        />
+      )}
     </>
   );
 }

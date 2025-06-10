@@ -1,4 +1,5 @@
-@import "./tailwind.css";
+@import url('https://fonts.googleapis.com/css2?family=Exo&display=swap');
+@import './tailwind.css';
 
 :root {
   --white: #ffffff;
@@ -13,121 +14,121 @@
 }
 
 @font-face {
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   font-weight: 100;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueUltraLight.otf")
-    format("opentype");
+  src: url('/src/assets/fonts/helvetica-neue/HelveticaNeueUltraLight.otf')
+    format('opentype');
 }
 
 @font-face {
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   font-weight: 200;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueThin.otf")
-    format("opentype");
+  src: url('/src/assets/fonts/helvetica-neue/HelveticaNeueThin.otf')
+    format('opentype');
 }
 
 @font-face {
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   font-weight: 300;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueLight.otf")
-    format("opentype");
+  src: url('/src/assets/fonts/helvetica-neue/HelveticaNeueLight.otf')
+    format('opentype');
 }
 
 @font-face {
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   font-weight: 400;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueRegular.otf")
-    format("opentype");
+  src: url('/src/assets/fonts/helvetica-neue/HelveticaNeueRegular.otf')
+    format('opentype');
 }
 
 @font-face {
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   font-weight: 500;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueMedium.otf")
-    format("opentype");
+  src: url('/src/assets/fonts/helvetica-neue/HelveticaNeueMedium.otf')
+    format('opentype');
 }
 
 @font-face {
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   font-weight: 600;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueBold.otf")
-    format("opentype");
+  src: url('/src/assets/fonts/helvetica-neue/HelveticaNeueBold.otf')
+    format('opentype');
 }
 
 @font-face {
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   font-weight: 700;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueHeavy.otf")
-    format("opentype");
+  src: url('/src/assets/fonts/helvetica-neue/HelveticaNeueHeavy.otf')
+    format('opentype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 100;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Thin.ttf") format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-Thin.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 200;
-  src: url("/src/assets/fonts/yapari/YapariTrial-ExtraLight.ttf")
-    format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-ExtraLight.ttf')
+    format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 300;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Light.ttf") format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-Light.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 400;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Regular.ttf")
-    format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-Regular.ttf')
+    format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 500;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Medium.ttf") format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-Medium.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 600;
-  src: url("/src/assets/fonts/yapari/YapariTrial-SemiBold.ttf")
-    format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-SemiBold.ttf')
+    format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 700;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Bold.ttf") format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-Bold.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 800;
-  src: url("/src/assets/fonts/yapari/YapariTrial-ExtraBold.ttf")
-    format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-ExtraBold.ttf')
+    format('truetype');
 }
 
 @font-face {
-  font-family: "yapari";
+  font-family: 'yapari';
   font-weight: 900;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Ultra.ttf") format("truetype");
+  src: url('/src/assets/fonts/yapari/YapariTrial-Ultra.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "watermelonSalad";
-  src: url("/src/assets/fonts/ef_watermelonSalad/EF_watermelonSalad.otf")
-    format("opentype");
+  font-family: 'watermelonSalad';
+  src: url('/src/assets/fonts/ef_watermelonSalad/EF_watermelonSalad.otf')
+    format('opentype');
 }
 
 body {
   font-weight: 300;
-  font-family: "helvetica-neue";
+  font-family: 'helvetica-neue';
   background-color: var(--bg-color);
   color: var(--white);
 }
@@ -135,9 +136,14 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+/* exo폰트추가 */
+.exo-font {
+  font-family: 'Exo', sans-serif;
+}
+
 @theme {
-  --font-yapari: "yapari", sans-serif;
-  --font-watermelon: "watermelonSalad", sans-serif;
+  --font-yapari: 'yapari', sans-serif;
+  --font-watermelon: 'watermelonSalad', sans-serif;
 }
 
 .scrollbar-hide {
@@ -147,6 +153,20 @@ body::-webkit-scrollbar {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* font yapari 전역 클래스 추가 */
+.font-yapari {
+  font-family: "yapari", sans-serif;
+}
+
+/* 줄거리 말줄임 */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 120px; /* 4줄 × 30px 줄 간격 */
 }
 
 @layer components {
@@ -162,12 +182,12 @@ body::-webkit-scrollbar {
 }
 
 .jigsaw-puzzle {
-  border: 2px solid #ccc;
+  border: 1px solid var(--primary-200);
   background-color: transparent;
-  width: 400px;
-  height: 600px;
+  width: 60%;
+  min-height: 500px;
 }
 
-.picker div[style*="height: 1px"][style*="background"] {
+.picker div[style*='height: 1px'][style*='background'] {
   display: none !important;
 }
