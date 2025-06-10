@@ -9,7 +9,7 @@ const openai = new OpenAI({
 
 let isRequseting = false;
 
-export const translateContentByGpt = async (
+export const summarizeAndTranslateContent = async (
   prompt: string
 ): Promise<string> => {
   if (isRequseting) throw new Error("이미 요청 진행 중");

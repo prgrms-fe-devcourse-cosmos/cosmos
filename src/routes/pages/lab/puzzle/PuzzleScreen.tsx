@@ -9,7 +9,7 @@ import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 import { usePuzzleSolver } from "../../../../hooks/usePuzzleSolver";
 import { usePuzzleSetup } from "../../../../hooks/usePuzzleSetup";
 import { LoaderData } from "../../../../types/daily";
-import { useTranslations } from "../../../../hooks/useTranslations";
+import { useTranslateAndSummarize } from "../../../../hooks/useTranslateAndSummarize";
 
 export default function PuzzleScreen() {
   const navigate = useNavigate();
@@ -33,7 +33,8 @@ export default function PuzzleScreen() {
     setIsTimerRunning(false);
     setShowResultModal(true);
   });
-  const { translations, isLoading } = useTranslations(explanation);
+  const { translatedSummary: translatedSummary, isLoading } =
+    useTranslateAndSummarize(explanation);
 
   useEffect(() => {
     setup();
@@ -69,10 +70,10 @@ export default function PuzzleScreen() {
         />
         <JigsawPuzzle
           imageSrc={imageUrl}
-          // rows={puzzleGrid.rows}
-          // columns={puzzleGrid.cols}
-          rows={2}
-          columns={2}
+          rows={puzzleGrid.rows}
+          columns={puzzleGrid.cols}
+          // rows={2}
+          // columns={2}
           onSolved={solve}
         />
       </div>
@@ -82,7 +83,7 @@ export default function PuzzleScreen() {
           score={score}
           title={title!}
           imgSrc={imageUrl}
-          explanation={translations!}
+          explanation={translatedSummary!}
         />
       )}
     </>
