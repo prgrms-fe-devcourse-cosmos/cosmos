@@ -22,6 +22,7 @@ import LabQuiz from './pages/lab/quiz/LabQuiz';
 import LabPuzzle from './pages/lab/puzzle/LabPuzzle';
 import { DailyLoader } from './loader/dallyspace.loader';
 import PuzzleScreen from './pages/lab/puzzle/PuzzleScreen';
+import LabRank from './pages/lab/rank/LabRank';
 import { reviewLoader } from './loader/review.loader';
 import PuzzleConfigScreen from './pages/lab/puzzle/PuzzleConfigScreen';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -85,6 +86,7 @@ const router = createBrowserRouter([
               { path: 'play', loader: DailyLoader, element: <PuzzleScreen /> },
             ],
           },
+          { path: 'rank', element: <LabRank /> },
         ],
       },
       { path: '*', element: <NotFound /> },
