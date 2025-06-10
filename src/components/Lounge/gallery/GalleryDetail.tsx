@@ -44,10 +44,10 @@ export default function GalleryDetail() {
         </div>
       </div>
 
-      <div className="w-[704px] h-[470px] bg-black mb-2">
+      <div className="w-[704px] h-[470px] mb-2">
         <img src={textimage} alt="테스트용이미지" className="w-full h-full" />
       </div>
-      <div className="w-[704px] h-[293px] bg-black">
+      <div className="w-[704px] h-[293px]">
         <GalleryComment />
       </div>
     </div>

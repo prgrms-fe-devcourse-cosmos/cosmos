@@ -57,7 +57,7 @@ export default function Gallery() {
           <Button
             variant="neon_filled"
             onClick={() => navigate('/lounge/gallery/add')}
-            className="font-[yapari] font-medium text-sm ml-2"
+            className="font-[yapari] font-medium text-sm ml-2 h-[34px]"
           >
             + Post
           </Button>

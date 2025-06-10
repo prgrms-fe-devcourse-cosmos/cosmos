@@ -51,18 +51,18 @@ export default function GalleryAdd() {
               onChange={handleImageChange}
             />
           </div>
-          <div className="w-full h-[86px] bg-black mb-7 text-base">
+          <div className="w-full h-[86px] mb-7 text-base">
             <h2 className="mb-4">제목</h2>
             <input
               type="text"
-              placeholder="제목"
+              placeholder="제목을 입력하세요."
               className="w-full h-[50px] border border-[var(--primary-300)] rounded-[8px] p-5 focus:outline-none"
             />
           </div>
-          <div className="w-full h-[169px] bg-black mb-7 text-base ">
+          <div className="w-full h-[169px] mb-7 text-base ">
             <h2 className="mb-4">본문</h2>
             <textarea
-              placeholder="본문"
+              placeholder="본문을 입력하세요."
               className="w-full h-[133px] border border-[var(--primary-300)] rounded-[8px] p-5 focus:outline-none resize-none"
             ></textarea>
           </div>
