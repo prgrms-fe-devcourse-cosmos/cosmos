@@ -19,16 +19,19 @@ export default function PuzzleScreen() {
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
 
-  const { imageUrl, imageLoaded, puzzleGrid, timeLimit, setup } =
-    usePuzzleSetup(config, nasa);
-  const { solve, score, totalScore } = usePuzzleSolver(
-    config,
-    timeLeft!,
-    () => {
-      setIsTimerRunning(false);
-      setShowResultModal(true);
-    }
-  );
+  const {
+    imageUrl,
+    title,
+    explanation,
+    imageLoaded,
+    puzzleGrid,
+    timeLimit,
+    setup,
+  } = usePuzzleSetup(config, nasa);
+  const { solve, score } = usePuzzleSolver(config, timeLeft!, () => {
+    setIsTimerRunning(false);
+    setShowResultModal(true);
+  });
 
   useEffect(() => {
     setup();
@@ -73,7 +76,9 @@ export default function PuzzleScreen() {
         <PuzzleResultModal
           onClose={closeHandler}
           score={score}
-          totalScore={totalScore}
+          title={title!}
+          imgSrc={imageUrl}
+          explanation={explanation!}
         />
       )}
     </>
