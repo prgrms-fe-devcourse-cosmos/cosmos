@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
-import { LoaderData } from "../../../../types/types";
 import Timer from "../../../../components/lab/puzzle/Timer";
 import PuzzleResultModal from "../../../../components/lab/puzzle/PuzzleResultModal";
 import { PuzzleConfig } from "../../../../types/puzzle";
 import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 import { usePuzzleSolver } from "../../../../hooks/usePuzzleSolver";
 import { usePuzzleSetup } from "../../../../hooks/usePuzzleSetup";
+import { LoaderData } from "../../../../types/daily";
 
 export default function PuzzleScreen() {
   const navigate = useNavigate();
