@@ -20,7 +20,8 @@ export default function Films() {
     searchResults,
     searchLoading,
     setSearchResults,
-    resetMovies,
+    // resetMovies,
+    resetAndFetchMovies,
   } = useMovieStore();
 
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -36,14 +37,12 @@ export default function Films() {
       searchMovies(trimmed);
     } else {
       // 검색어가 없으면 전체 영화 리스트 초기화
-      resetMovies();
-      fetchSpaceMovies();
+      resetAndFetchMovies();
     }
   };
 
   useEffect(() => {
-    fetchSpaceMovies();
-    // 검색어 초기화
+    resetAndFetchMovies();
     setSearchInput("");
     setSearchQuery("");
   }, []);
@@ -78,7 +77,7 @@ export default function Films() {
 
   return (
     <>
-      <div className="flex justify-between mb-[24px] items-center">
+      <div className="flex justify-between mb-[24px] items-center h-[35px]">
         {/* 정렬 필터 */}
         <ul className="flex ml-2 gap-4 text-[13px] font-medium">
           <li

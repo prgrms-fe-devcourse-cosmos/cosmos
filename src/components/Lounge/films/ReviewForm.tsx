@@ -70,7 +70,9 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
           onChange={(e) => setContent(e.target.value)}
           placeholder="리뷰를 입력하세요"
           type="text"
-          className="w-full pl-[24px] h-[51px] border border-white rounded-[8px]"
+          className="w-full pl-[24px] h-[51px] 
+          border border-white rounded-[8px]
+          focus:outline-none"
         />
         <Button
           onClick={handleSubmit}

@@ -98,15 +98,15 @@ export const useMovieStore = create<SpaceMovieState>((set, get) => ({
   },
 
   setSearchResults: (results) => set({ searchResults: results }),
-
-  // 빈 검색어 입력 시 페이지와 리스트 초기화
-  resetMovies: () => {
+  // 페이지 초기화
+  resetAndFetchMovies: async () => {
     set({
       spaceMovies: [],
       page: 1,
       hasMore: true,
       loading: false,
     });
+    await get().fetchSpaceMovies();
   },
 }));
 

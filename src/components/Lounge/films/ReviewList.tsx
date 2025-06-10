@@ -80,7 +80,9 @@ export default function ReviewList({
 
   // 리뷰 없을 때 보여질 내용
   if (!reviews || reviews.length === 0) {
-    return <p className="text-[#909090]">아직 작성된 리뷰가 없습니다.</p>;
+    return (
+      <p className="text-[#909090] mb-[24px]">아직 작성된 리뷰가 없습니다.</p>
+    );
   }
 
   return (
@@ -174,7 +176,9 @@ export default function ReviewList({
             <input
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full px-2 py-1 bg-transparent border border-white rounded text-white text-sm"
+              className="w-full px-2 py-1 bg-transparent 
+              border-b border-white/80 text-white text-sm
+              focus:outline-none"
             />
           ) : (
             <p>{review.content}</p>
