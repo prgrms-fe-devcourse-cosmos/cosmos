@@ -1,6 +1,6 @@
-import { getAstroEvents } from "../api/calendar";
-import nasaAPI from "../api/nasa";
-import newsAPI from "../api/news";
+import { getAstroEvents } from "../api/daily/calendar";
+import nasaAPI from "../api/daily/nasa";
+import newsAPI from "../api/daily/news";
 import { AstroEventItem } from "../types/daily";
 
 export async function DailyLoader() {

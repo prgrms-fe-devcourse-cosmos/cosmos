@@ -28,9 +28,9 @@ export default function PuzzleResultModal({
               src={imgSrc}
               alt=""
             />
-            <div className="w-[60%] h-[200px] flex flex-col justify-center overflow-hidden gap-3 items-center">
-              <p>{title}</p>
-              <p className="text-white font-[helvetica-neue] text-sm line-clamp-6">
+            <div className="w-[60%] h-[200px] flex flex-col justify-center text-left overflow-hidden gap-3 items-center">
+              <p className="w-full">{title}</p>
+              <p className="text-white font-[helvetica-neue] text-sm leading-6">
                 {explanation}
               </p>
             </div>

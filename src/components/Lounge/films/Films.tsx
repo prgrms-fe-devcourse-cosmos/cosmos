@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useMovieStore } from "../../../stores/movieStore";
 import searchIcon from "../../../assets/icons/search.svg";
 import searchGrayIcon from "../../../assets/icons/search_gray.svg";
-import FilmCardSkeleton from "./FilmsCardSkeleton";
 import FilmCard from "./FilmsCard";
+import FilmCardSkeleton from "./FilmsCardSkeleton";
 
 export default function Films() {
   const {
