@@ -6,6 +6,7 @@ import {
   removeRecentSearch,
 } from "../../utils/recentSearch";
 import { X, Search } from "lucide-react";
+
 type Props = {
   scope: string;
   value: string;
@@ -45,12 +46,7 @@ export default function SearchInput({
     const trimmed = query.trim();
     if (!trimmed) return;
     onSearch(trimmed);
-
-    const existing = getRecentSearches(scope);
-    if (!existing.includes(trimmed)) {
-      addRecentSearch(scope, trimmed);
-    }
-
+    addRecentSearch(scope, trimmed);
     setRecentSearches(getRecentSearches(scope));
     setIsFocused(false);
   };
