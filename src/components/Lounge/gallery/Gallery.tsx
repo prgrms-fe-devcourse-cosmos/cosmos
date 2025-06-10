@@ -8,7 +8,7 @@ import GalleryCard from './GalleryCard';
 export default function Gallery() {
   const [isFocused, setIsFocused] = useState(false);
 
-  const [sortBy, setSortBy] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('like.desc');
 
   const navigate = useNavigate();
 
@@ -23,9 +23,9 @@ export default function Gallery() {
         <ul className="flex ml-2 gap-4 text-[13px] font-medium">
           <li
             className={`cursor-pointer ${
-              sortBy === 'vote_average.desc' ? 'text-[#D0F700]' : ''
+              sortBy === 'like.desc' ? 'text-[#D0F700]' : ''
             }`}
-            onClick={() => handleSortClick('vote_average.desc')}
+            onClick={() => handleSortClick('like.desc')}
           >
             좋아요순
           </li>
