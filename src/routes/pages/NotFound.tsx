@@ -1,7 +1,7 @@
-import React from 'react';
-import NotFoundimg from '../../assets/images/404.svg';
-import Button from '../../components/common/Button';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import NotFoundimg from "../../assets/images/404.svg";
+import Button from "../../components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -14,17 +14,15 @@ export default function NotFound() {
         <h2 className="text-2xl font-light exo-font">PAGE NOT FOUND</h2>
       </div>
       <div className="flex gap-20 mt-5">
-        <Button
-          className="w-[130px] h-[43px] text-[var(--gray-200)]"
-          variant="dark_line"
-          onClick={() => window.history.back()}
-        >
-          BACK
-        </Button>
+        <div className="group">
+          <Button variant="back" onClick={() => window.history.back()}>
+            BACK
+          </Button>
+        </div>
         <Button
           className="w-[130px] h-[43px] text-[var(--bg-color)]"
           variant="neon_filled"
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
         >
           HOME
         </Button>

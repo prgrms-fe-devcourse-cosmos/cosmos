@@ -46,7 +46,10 @@ export default function PuzzleResultModal({
               </Button>
             </div>
             <div className="group">
-              <Button variant="hover_fill" onClick={() => navigate("/rank")}>
+              <Button
+                variant="hover_fill"
+                onClick={() => navigate("/lab/rank")}
+              >
                 RANK
               </Button>
             </div>
