@@ -2,9 +2,6 @@
 
 import supabase from "../../utils/supabase";
 
-// 임시 사용자 ID
-// const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
-
 // 리뷰에 달린 좋아요가 있으면 먼저 삭제
 async function deleteLikesByReviewId(reviewId: number): Promise<void> {
   const { error } = await supabase

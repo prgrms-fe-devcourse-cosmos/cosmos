@@ -14,6 +14,7 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const { id } = useParams();
+  const [error, setError] = useState("");
 
   const handleSubmit = async () => {
     if (!id) {
@@ -43,8 +44,24 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
       alert("리뷰 등록 완료");
       setContent("");
       setRating(0);
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
+
+      // 유니크 제약 조건 위반 체크
+      if (e instanceof Error) {
+        const message = e.message;
+
+        if (
+          message.includes("duplicate key") ||
+          message.includes("unique constraint")
+        ) {
+          setError("이미 해당 영화에 리뷰를 작성하셨습니다.");
+        } else {
+          setError("리뷰 등록 중 오류가 발생했습니다.");
+        }
+      } else {
+        setError("알 수 없는 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -76,12 +93,15 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
       <div className="w-full relative">
         <input
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {
+            setContent(e.target.value);
+            setError("");
+          }}
           placeholder="리뷰를 입력하세요"
           type="text"
-          className="w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
-          border border-white rounded-[8px]
-          focus:outline-none"
+          className={`w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
+          border rounded-[8px] focus:outline-none
+          ${error ? "border-[#E24413]" : "border-white"}`}
         />
         <Button
           onClick={handleSubmit}
@@ -91,6 +111,9 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
         >
           ENTER
         </Button>
+        {error && (
+          <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>
+        )}
       </div>
     </div>
   );

@@ -168,7 +168,7 @@ export default function FilmsDetail() {
       {/* review */}
       <section className="mt-[60px] px-[32px] pb-[24px]">
         {/* review header */}
-        <div className="flex justify-between mb-[40px]">
+        <div className="flex justify-between mb-[28px]">
           <h3 className="text-[#D0F700] font-medium text-[16px]">
             REVIEW ({reviews.length})
           </h3>

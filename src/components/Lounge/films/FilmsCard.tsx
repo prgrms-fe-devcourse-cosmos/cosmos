@@ -12,7 +12,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
         <img
           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
           alt={movie.title}
-          className="w-full h-full object-cover"
+          className="w-full aspect-[2/3] object-cover"
         />
       </div>
       <div

@@ -101,11 +101,12 @@ export default function ReviewList({
   }
 
   return (
-    <div>
+    <div className="mb-[28px]">
       {reviews.map((review) => (
         <div
           key={review.id}
-          className="mb-[24px] flex flex-col gap-[12px] px-2"
+          className={`py-[12px] flex flex-col gap-[12px] px-2 rounded-[8px]
+          ${review.profile_id === currentUserId ? "bg-white/5" : ""}`}
         >
           {/* 유저 정보 + 작성일 + 별점 + 수정/삭제/저장/취소 */}
           <div className="flex justify-between">
