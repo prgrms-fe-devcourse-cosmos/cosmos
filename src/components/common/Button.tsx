@@ -7,6 +7,7 @@ type ButtonProps = ComponentPropsWithoutRef<'button'> & {
     | 'neon_outline'
     | 'neon_filled'
     | 'dark_line'
+    | 'back'
     | 'disabled';
 };
 
@@ -28,7 +29,9 @@ export default function Button({
   } else if (variant === 'neon_filled') {
     variantStyle = 'bg-[#D0F700] text-black hover:opacity-90';
   } else if (variant === 'dark_line') {
-    variantStyle = 'border-[#909090] text-[#909090] opacity-50 ';
+    variantStyle = 'border-[#909090] text-[#909090]';
+  } else if (variant === 'back') {
+    variantStyle = 'text-[#D0F700] w-[85px] h-[49px]';
   } else if (variant === 'disabled') {
     variantStyle =
       'border border-[#909090] text-[#909090] cursor-not-allowed opacity-50 pointer-events-none';

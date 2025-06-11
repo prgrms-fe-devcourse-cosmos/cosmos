@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteReviewById, updateReviewById } from "../../../api/review";
+import { deleteReviewById, updateReviewById } from "../../../api/lounge/review";
 import { Star } from "lucide-react";
 import ReviewLikeButton from "./ReviewLikeButton";
 import supabase from "../../../utils/supabase";

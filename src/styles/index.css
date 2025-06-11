@@ -184,8 +184,7 @@ body::-webkit-scrollbar {
 .jigsaw-puzzle {
   border: 1px solid var(--primary-200);
   background-color: transparent;
-  width: 60%;
-  min-height: 500px;
+  width: 360px;
 }
 
 .picker div[style*="height: 1px"][style*="background"] {

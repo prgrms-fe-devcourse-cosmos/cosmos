@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase";
-// import { useAuthStore } from "../../stores/authStore";
 
 export default function Login() {
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-
-  useEffect(() => {
-    if (localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")) {
-      alert("이미 로그인되어있는 사용자입니다.");
-      navigate("/");
-    }
-  }, []);
 
   const socialLoginHandler = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -40,7 +32,10 @@ export default function Login() {
     if (error) {
       console.log(error);
       alert("로그인이 정상적으로 완료되지 않았습니다.");
-    } else navigate("/");
+    } else {
+      alert("로그인되었습니다.");
+      navigate("/");
+    }
   };
 
   return (

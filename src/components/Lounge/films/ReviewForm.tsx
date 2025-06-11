@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../../common/Button";
 import { useParams } from "react-router-dom";
 import { Star } from "lucide-react";
-import { createReview, ensureMovieExists } from "../../../api/review";
+import { createReview, ensureMovieExists } from "../../../api/lounge/review";
 import supabase from "../../../utils/supabase";
 
 type Props = {

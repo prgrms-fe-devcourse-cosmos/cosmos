@@ -263,7 +263,7 @@ export type Database = {
           email: string
           id: string
           updated_at: string | null
-          user_code: string | null
+          usercode: string | null
           username: string
         }
         Insert: {
@@ -273,7 +273,7 @@ export type Database = {
           email: string
           id: string
           updated_at?: string | null
-          user_code?: string | null
+          usercode?: string | null
           username: string
         }
         Update: {
@@ -283,32 +283,8 @@ export type Database = {
           email?: string
           id?: string
           updated_at?: string | null
-          user_code?: string | null
+          usercode?: string | null
           username?: string
-        }
-        Relationships: []
-      }
-      puzzle_images: {
-        Row: {
-          category: string
-          created_at: string
-          id: number
-          image_url: string
-          title: string
-        }
-        Insert: {
-          category?: string
-          created_at?: string
-          id?: number
-          image_url: string
-          title: string
-        }
-        Update: {
-          category?: string
-          created_at?: string
-          id?: number
-          image_url?: string
-          title?: string
         }
         Relationships: []
       }
@@ -386,7 +362,7 @@ export type Database = {
       quiz_questions: {
         Row: {
           correct_answer: string
-          difficulty: number | null
+          difficulty: string | null
           explanation: string | null
           id: number
           options: Json | null
@@ -395,7 +371,7 @@ export type Database = {
         }
         Insert: {
           correct_answer: string
-          difficulty?: number | null
+          difficulty?: string | null
           explanation?: string | null
           id?: number
           options?: Json | null
@@ -404,7 +380,7 @@ export type Database = {
         }
         Update: {
           correct_answer?: string
-          difficulty?: number | null
+          difficulty?: string | null
           explanation?: string | null
           id?: number
           options?: Json | null

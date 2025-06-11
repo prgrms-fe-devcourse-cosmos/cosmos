@@ -5,7 +5,7 @@ import {
   fetchReviewLikeCount,
   fetchReviewLikeStatus,
   removeReviewLike,
-} from "../../../api/review";
+} from "../../../api/lounge/review";
 import supabase from "../../../utils/supabase";
 
 type Props = {

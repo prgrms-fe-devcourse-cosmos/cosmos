@@ -1,6 +1,6 @@
 // 리뷰 Supabase 관련 API
 
-import supabase from "../utils/supabase";
+import supabase from "../../utils/supabase";
 
 // 임시 사용자 ID
 // const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";

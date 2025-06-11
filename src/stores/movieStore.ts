@@ -1,5 +1,9 @@
 import { create } from "zustand";
-import { getMovieDetail, getSearchMovies, getSpaceMovies } from "../api/movie";
+import {
+  getMovieDetail,
+  getSearchMovies,
+  getSpaceMovies,
+} from "../api/lounge/movie";
 
 export const useMovieStore = create<SpaceMovieState>((set, get) => ({
   //  영화 리스트
