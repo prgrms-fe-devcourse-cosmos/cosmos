@@ -2,30 +2,31 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-} from "react-router-dom";
-import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
-import Default from "./layouts/RootLayout";
-import Daily from "./pages/Daily";
-import Lounge from "./pages/Lounge";
+} from 'react-router-dom';
+import NotFound from './pages/NotFound';
+import Home from './pages/Home';
+import Default from './layouts/RootLayout';
+import Daily from './pages/Daily';
+import Lounge from './pages/Lounge';
 
-import Films from "../components/lounge/films/Films";
-import FilmsDetail from "../components/lounge/films/FilmsDetail";
-import Gallery from "../components/lounge/gallery/Gallery";
-import GalleryDetail from "../components/lounge/gallery/GalleryDetail";
-import Talk from "../components/lounge/talk/Talk";
-import TalkDetail from "../components/lounge/talk/TalkDetail";
-import Lab from "./pages/lab/Lab";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import LabQuiz from "./pages/lab/quiz/LabQuiz";
-import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
-import { DailyLoader } from "../loader/dallyspace.loader";
-import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
-import LabRank from "./pages/lab/rank/LabRank";
-import { reviewLoader } from "./loader/review.loader";
-import PuzzleConfigScreen from "./pages/lab/puzzle/PuzzleConfigScreen";
-import LoadingSpinner from "../components/common/LoadingSpinner";
+import Films from '../components/Lounge/films/Films';
+import FilmsDetail from '../components/Lounge/films/FilmsDetail';
+import Gallery from '../components/Lounge/gallery/Gallery';
+import GalleryDetail from '../components/Lounge/gallery/GalleryDetail';
+import Talk from '../components/Lounge/talk/Talk';
+import TalkDetail from '../components/Lounge/talk/TalkDetail';
+import Lab from './pages/lab/Lab';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import LabQuiz from './pages/lab/quiz/LabQuiz';
+import LabPuzzle from './pages/lab/puzzle/LabPuzzle';
+import { DailyLoader } from './loader/dallyspace.loader';
+import PuzzleScreen from './pages/lab/puzzle/PuzzleScreen';
+import LabRank from './pages/lab/rank/LabRank';
+import { reviewLoader } from './loader/review.loader';
+import PuzzleConfigScreen from './pages/lab/puzzle/PuzzleConfigScreen';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import GalleryAdd from '../components/Lounge/gallery/GalleryAdd';
 
 const router = createBrowserRouter([
   {
@@ -42,34 +43,35 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/lounge",
+        path: '/lounge',
         element: <Lounge />,
         children: [
           { index: true, element: <Navigate to="films" replace /> },
           {
-            path: "films",
+            path: 'films',
             children: [
               { index: true, element: <Films /> },
-              { path: ":id", loader: reviewLoader, element: <FilmsDetail /> },
+              { path: ':id', loader: reviewLoader, element: <FilmsDetail /> },
             ],
           },
           {
-            path: "gallery",
+            path: 'gallery',
             children: [
               { index: true, element: <Gallery /> },
-              { path: ":id", element: <GalleryDetail /> },
+              { path: ':id', element: <GalleryDetail /> },
+              { path: 'add', element: <GalleryAdd /> },
             ],
           },
           {
-            path: "talk",
+            path: 'talk',
             children: [
               { index: true, element: <Talk /> },
-              { path: ":id", element: <TalkDetail /> },
+              { path: ':id', element: <TalkDetail /> },
             ],
           },
         ],
       },
-      { path: "/signup", element: <Signup /> },
+      { path: '/signup', element: <Signup /> },
       {
         path: "/lab",
         element: <Lab />,
@@ -80,14 +82,14 @@ const router = createBrowserRouter([
             element: <LabPuzzle />,
             children: [
               { index: true, element: <Navigate to="config" replace /> },
-              { path: "config", element: <PuzzleConfigScreen /> },
-              { path: "play", loader: DailyLoader, element: <PuzzleScreen /> },
+              { path: 'config', element: <PuzzleConfigScreen /> },
+              { path: 'play', loader: DailyLoader, element: <PuzzleScreen /> },
             ],
           },
-          { path: "rank", element: <LabRank /> },
+          { path: 'rank', element: <LabRank /> },
         ],
       },
-      { path: "*", element: <NotFound /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);
