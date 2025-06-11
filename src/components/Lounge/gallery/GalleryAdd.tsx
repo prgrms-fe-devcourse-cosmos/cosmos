@@ -2,22 +2,56 @@ import Button from '../../common/Button';
 import backIcon from '../../../assets/icons/back.svg';
 import postimage from '../../../assets/images/post.svg';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGalleryPostStore } from '../../../stores/galleryPostStore';
 
 export default function GalleryAdd() {
   const [imagePreview, setImagePreview] = useState(postimage);
-
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+  const {
+    setImageFile,
+    setTitle,
+    setContent,
+    uploadPost,
+    imageFile,
+    title,
+    content,
+  } = useGalleryPostStore();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const previewURL = URL.createObjectURL(file);
       setImagePreview(previewURL);
+      setImageFile(file);
     }
   };
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleSubmit = async () => {
+    if (!imageFile) {
+      alert('이미지를 넣어주세요.');
+      return;
+    }
+
+    if (title.trim() === '') {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+
+    if (content.trim() === '') {
+      alert('본문을 입력해주세요.');
+      return;
+    }
+    const success = await uploadPost();
+    if (success) {
+      navigate('/lounge/gallery');
+    }
   };
 
   return (
@@ -32,12 +66,11 @@ export default function GalleryAdd() {
             게시글 작성
           </h1>
         </div>
-        <div className="w-full h-[561px]flex flex-col">
+        <div className="w-full h-[561px] flex flex-col">
           <div
             className="w-full h-[240px] mb-7 rounded-[10px]"
             onClick={handleImageClick}
           >
-            {/* 이미지 */}
             <img
               src={imagePreview}
               alt="이미지넣기"
@@ -57,6 +90,7 @@ export default function GalleryAdd() {
               type="text"
               placeholder="제목을 입력하세요."
               className="w-full h-[50px] border border-[var(--primary-300)] rounded-[8px] p-5 focus:outline-none"
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className="w-full h-[169px] mb-7 text-base ">
@@ -64,6 +98,7 @@ export default function GalleryAdd() {
             <textarea
               placeholder="본문을 입력하세요."
               className="w-full h-[133px] border border-[var(--primary-300)] rounded-[8px] p-5 focus:outline-none resize-none"
+              onChange={(e) => setContent(e.target.value)}
             ></textarea>
           </div>
         </div>
@@ -75,7 +110,11 @@ export default function GalleryAdd() {
           >
             CANCEL
           </Button>
-          <Button variant="neon_filled" className="text-xs w-[90px] h-[38px]">
+          <Button
+            variant="neon_filled"
+            className="text-xs w-[90px] h-[38px]"
+            onClick={handleSubmit}
+          >
             SAVE
           </Button>
         </div>
