@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
+import Leaderboard from "./Leaderboard";
 
 const tabs = [
   { id: "puzzle", label: "PUZZLE" },
@@ -35,7 +36,7 @@ export default function LabRank() {
   return (
     <>
       <div className="w-full max-w-md mx-auto font-[yapari] h-full py-5 flex flex-col gap-6 justify-between">
-        <div className="text-center text-3xl flex flex-col gap-3">
+        <div className="text-center text-xl flex flex-col gap-2">
           <p>TOP</p> <p>EXPLORERS</p>
         </div>
         <div
@@ -48,9 +49,9 @@ export default function LabRank() {
               key={tab.id}
               data-id={tab.id}
               onClick={() => setSelected(tab.id)}
-              className={`relative flex-1 z-1 py-2 text-center transition-colors cursor-pointer  ${
+              className={`relative flex-1 z-1 py-2 text-center transition-colors cursor-pointer text-sm ${
                 selected === tab.id
-                  ? "text-black"
+                  ? "text-black font-medium"
                   : "text-[color:var(--bg-color-80)]"
               }`}
               role="tab"
@@ -68,7 +69,13 @@ export default function LabRank() {
           />
         </div>
         <div className="flex-1">
-          {selected === "puzzle" ? <div>puzzle</div> : <div>quiz</div>}
+          {selected === "puzzle" ? (
+            <div>
+              <Leaderboard />
+            </div>
+          ) : (
+            <div>quiz</div>
+          )}
         </div>
         <div className="flex w-full justify-center">
           <div className="group w-40">
