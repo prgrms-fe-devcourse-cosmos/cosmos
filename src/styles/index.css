@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo&display=swap");
 @import "./tailwind.css";
 
 :root {
@@ -135,6 +136,11 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+/* exo폰트추가 */
+.exo-font {
+  font-family: "Exo", sans-serif;
+}
+
 @theme {
   --font-yapari: "yapari", sans-serif;
   --font-watermelon: "watermelonSalad", sans-serif;
@@ -147,6 +153,20 @@ body::-webkit-scrollbar {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* font yapari 전역 클래스 추가 */
+.font-yapari {
+  font-family: "yapari", sans-serif;
+}
+
+/* 줄거리 말줄임 */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 120px; /* 4줄 × 30px 줄 간격 */
 }
 
 @layer components {
@@ -162,10 +182,9 @@ body::-webkit-scrollbar {
 }
 
 .jigsaw-puzzle {
-  border: 2px solid #ccc;
+  border: 1px solid var(--primary-200);
   background-color: transparent;
-  width: 400px;
-  height: 600px;
+  width: 360px;
 }
 
 .picker div[style*="height: 1px"][style*="background"] {
