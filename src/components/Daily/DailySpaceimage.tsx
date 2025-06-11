@@ -1,8 +1,12 @@
-import { useLoaderData } from 'react-router-dom';
-import { LoaderData } from '../../types/daily';
+import { useLoaderData } from "react-router-dom";
+import { LoaderData } from "../../types/daily";
+import { useTranslate } from "../../hooks/useTranslate";
 
 export default function DailySpaceimage() {
   const { nasa } = useLoaderData() as LoaderData;
+  const { translation: translation, isLoading } = useTranslate(
+    nasa.explanation
+  );
 
   return (
     <div>
@@ -19,7 +23,7 @@ export default function DailySpaceimage() {
       >
         {/* 오른쪽 이미지 */}
         <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] flex justify-start items-center">
-          {nasa.media_type === 'image' ? (
+          {nasa.media_type === "image" ? (
             <img
               src={nasa.url}
               alt={nasa.title}
@@ -32,14 +36,20 @@ export default function DailySpaceimage() {
           )}
         </div>
         {/* 왼쪽 내용 */}
-        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] text-[var(--white)] flex flex-col justify-start items-start">
-          <div className="my-5 mr-5 ml-5 md:my-12 md:mr-10 md:ml-10">
+        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] text-[var(--white)] flex flex-col justify-start items-start px-12">
+          <div className="my-5  md:my-12  w-full">
             <h1 className="md:text-xl text-sm font-bold mb-2 md:mb-5">
               {nasa.title}
             </h1>
-            <p className="text-xs md:text-base line-clamp-12 md:line-clamp-18 whitespace-pre-wrap leading-normal">
-              {nasa.explanation}
-            </p>
+            {isLoading ? (
+              <div className="space-y-2 animate-pulse w-full">
+                <div className="h-4 bg-gray-500 rounded w-full"></div>
+              </div>
+            ) : (
+              <p className="text-xs md:text-base line-clamp-12 md:line-clamp-18 whitespace-pre-wrap leading-normal">
+                {translation}
+              </p>
+            )}
           </div>
         </div>
       </div>

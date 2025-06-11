@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import Default from "./layouts/RootLayout";
 import Daily from "./pages/Daily";
 import Lounge from "./pages/Lounge";
-
 import Films from "../components/lounge/films/Films";
 import FilmsDetail from "../components/lounge/films/FilmsDetail";
 import Gallery from "../components/lounge/gallery/Gallery";
@@ -23,9 +22,9 @@ import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
 import { DailyLoader } from "../loader/dallyspace.loader";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 import LabRank from "./pages/lab/rank/LabRank";
-import { reviewLoader } from "./loader/review.loader";
 import PuzzleConfigScreen from "./pages/lab/puzzle/PuzzleConfigScreen";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import { reviewLoader } from "../loader/review.loader";
 
 const router = createBrowserRouter([
   {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { translateContentByDeepL } from "../api/translator/getTranslationByDeepL";
+import { translateContentByGemini } from "../api/translator/getTranslationByGemini";
+import { getPromptFromContent } from "./getPromptFromContent";
 
 export const useTranslate = (content: string | null) => {
   const [translation, setTranslation] = useState<string>();
@@ -10,7 +11,8 @@ export const useTranslate = (content: string | null) => {
     const fetchTranslation = async () => {
       setIsLoading(true);
       try {
-        const result = await translateContentByDeepL(content);
+        const prompt = getPromptFromContent(content);
+        const result = await translateContentByGemini(prompt);
         setTranslation(result);
       } catch (e) {
         console.error("번역 실패 : ", e);
