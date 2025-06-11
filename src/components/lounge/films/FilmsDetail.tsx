@@ -1,9 +1,9 @@
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { useMovieDetailStore } from "../../../stores/movieStore";
 import { useEffect, useMemo, useState } from "react";
-import ReviewList from "./ReviewList";
-import ReviewForm from "./ReviewForm";
-import FilmDetailSkeleton from "./FilmDetailSkeleton";
+import ReviewList from "../../lounge/films/ReviewList";
+import ReviewForm from "../../lounge/films/ReviewForm";
+import FilmDetailSkeleton from "../../lounge/films/FilmDetailSkeleton";
 import { ArrowLeft } from "lucide-react";
 
 export default function FilmsDetail() {

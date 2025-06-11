@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from "react";
-import FilmCard from "./FilmsCard";
-import FilmCardSkeleton from "./FilmsCardSkeleton";
 import { useMovieStore } from "../../../stores/movieStore";
 import SearchInput from "../../common/SearchInput";
+import FilmCard from "../../lounge/films/FilmsCard";
+import FilmCardSkeleton from "../../lounge/films/FilmsCardSkeleton";
 
 export default function Films() {
   const {

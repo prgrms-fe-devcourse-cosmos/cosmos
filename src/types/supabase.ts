@@ -34,6 +34,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      apod_translations: {
+        Row: {
+          created_at: string
+          date: string
+          original: string
+          translated: string | null
+          translated_summary: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          original: string
+          translated?: string | null
+          translated_summary?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          original?: string
+          translated?: string | null
+          translated_summary?: string | null
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           content: string
@@ -122,7 +146,15 @@ export type Database = {
           image_url?: string
           post_id?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: true
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       likes: {
         Row: {
