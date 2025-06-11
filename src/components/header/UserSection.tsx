@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import profileImage from "../../assets/images/profile.svg";
-import userIcon from "../../assets/images/user.svg";
-import logoutIcon from "../../assets/images/log-out.svg";
-import light from "../../assets/images/lightMode.svg";
-import dark from "../../assets/images/darkMode.svg";
-import { useAuthStore } from "../../stores/authStore";
-import supabase from "../../utils/supabase";
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import profileImage from '../../assets/images/profile.svg';
+import userIcon from '../../assets/images/user.svg';
+import logoutIcon from '../../assets/images/log-out.svg';
+import light from '../../assets/images/lightMode.svg';
+import dark from '../../assets/images/darkMode.svg';
+import { useAuthStore } from '../../stores/authStore';
+import supabase from '../../utils/supabase';
 
 export default function UserSection() {
   const navigate = useNavigate();
@@ -24,29 +24,29 @@ export default function UserSection() {
     }
 
     // 바깥 클릭 이벤트 리스너 추가
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
     return () => {
       // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
   async function logOutHandler() {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      alert("오류가 발생했습니다.");
+      alert('오류가 발생했습니다.');
       console.log(error);
     } else {
       clearUser();
-      sessionStorage.removeItem("auth-store");
-      alert("로그아웃되었습니다.");
-      navigate("/");
+      sessionStorage.removeItem('auth-store');
+      alert('로그아웃되었습니다.');
+      window.location.href = '/';
     }
   }
 
   return (
     <>
-      {user && localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token") ? (
+      {user && localStorage.getItem('sb-qwntelixvmmeluarhlrr-auth-token') ? (
         <div ref={menuRef}>
           <button
             type="button"
@@ -95,7 +95,7 @@ export default function UserSection() {
       ) : (
         <button
           className="py-2 px-4 border-1 hover:border-[color:var(--primary-300)] hover:text-[color:var(--primary-300)] text-xs rounded-lg cursor-pointer"
-          onClick={() => navigate("/login")}
+          onClick={() => navigate('/login')}
         >
           JOIN
         </button>

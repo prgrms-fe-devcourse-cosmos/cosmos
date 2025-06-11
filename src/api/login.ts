@@ -6,6 +6,7 @@ export async function Uid() {
 
   if (error || !data.user) {
     console.error('유저 정보를 가져올 수 없습니다:', error);
+    userStore.getState().clearUid();
     return;
   }
 
