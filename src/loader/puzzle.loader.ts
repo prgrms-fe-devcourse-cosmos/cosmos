@@ -10,7 +10,6 @@ export const fetchCurrentUserPuzzleScore = async ({
       .from("puzzle_scores")
       .select("score")
       .eq("profile_id", userId);
-    console.log("🔍 fetched scores:", data);
     return data?.reduce((acc, curr) => acc + curr.score, 0);
   } catch (e) {
     console.error(e);

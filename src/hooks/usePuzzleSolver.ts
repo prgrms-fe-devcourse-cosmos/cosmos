@@ -5,7 +5,7 @@ import supabase from "../utils/supabase";
 import { fetchCurrentUserPuzzleScore } from "../loader/puzzle.loader";
 
 export function usePuzzleSolver(
-  config: PuzzleConfig,
+  config: PuzzleConfig | null,
   timeLeft: number,
   onDone: () => void
 ) {
@@ -14,6 +14,8 @@ export function usePuzzleSolver(
   const [totalScore, setTotalScore] = useState(0);
 
   const solve = async () => {
+    if (!config) return;
+
     if (isSolvedRef.current) return;
     isSolvedRef.current = true;
 

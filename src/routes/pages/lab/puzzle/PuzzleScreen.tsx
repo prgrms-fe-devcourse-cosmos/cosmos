@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Timer from "../../../../components/lab/puzzle/Timer";
 import PuzzleResultModal from "../../../../components/lab/puzzle/PuzzleResultModal";
-import { PuzzleConfig } from "../../../../types/puzzle";
 import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 import { usePuzzleSolver } from "../../../../hooks/usePuzzleSolver";
 import { usePuzzleSetup } from "../../../../hooks/usePuzzleSetup";
 import { LoaderData } from "../../../../types/daily";
-import { useTranslations } from "../../../../hooks/useTranslations";
+import { useTranslateAndSummarize } from "../../../../hooks/useTranslateAndSummarize";
+import { usePuzzleStore } from "../../../../stores/puzzleStore";
 
 export default function PuzzleScreen() {
   const navigate = useNavigate();
-  const config = useOutletContext<PuzzleConfig>();
+  const { config } = usePuzzleStore();
   const { nasa } = useLoaderData() as LoaderData;
 
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
@@ -23,6 +23,7 @@ export default function PuzzleScreen() {
   const {
     imageUrl,
     title,
+    date,
     explanation,
     imageLoaded,
     puzzleGrid,
@@ -33,7 +34,8 @@ export default function PuzzleScreen() {
     setIsTimerRunning(false);
     setShowResultModal(true);
   });
-  const { translations, isLoading } = useTranslations(explanation);
+  const { translatedSummary: translatedSummary, isLoading } =
+    useTranslateAndSummarize(explanation, date!);
 
   useEffect(() => {
     setup();
@@ -69,10 +71,10 @@ export default function PuzzleScreen() {
         />
         <JigsawPuzzle
           imageSrc={imageUrl}
-          // rows={puzzleGrid.rows}
-          // columns={puzzleGrid.cols}
-          rows={2}
-          columns={2}
+          rows={puzzleGrid.rows}
+          columns={puzzleGrid.cols}
+          // rows={2}
+          // columns={2}
           onSolved={solve}
         />
       </div>
@@ -82,7 +84,7 @@ export default function PuzzleScreen() {
           score={score}
           title={title!}
           imgSrc={imageUrl}
-          explanation={translations!}
+          explanation={translatedSummary!}
         />
       )}
     </>
