@@ -297,6 +297,7 @@ export type Database = {
           updated_at: string | null;
           usercode: string | null;
           username: string;
+          usercode: string;
         };
         Insert: {
           avatar_url?: string | null;
@@ -307,6 +308,7 @@ export type Database = {
           updated_at?: string | null;
           usercode?: string | null;
           username: string;
+          usercode: string;
         };
         Update: {
           avatar_url?: string | null;
@@ -317,6 +319,7 @@ export type Database = {
           updated_at?: string | null;
           usercode?: string | null;
           username?: string;
+          usercode?: string;
         };
         Relationships: [];
       };
@@ -464,6 +467,10 @@ export type Database = {
           }
         ];
       };
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
       search_logs: {
         Row: {
           category: string | null;
@@ -528,6 +535,10 @@ export type Database = {
         ];
       };
     };
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     Functions: {
       [_ in never]: never;
     };

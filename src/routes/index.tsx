@@ -19,12 +19,13 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LabQuiz from "./pages/lab/quiz/LabQuiz";
 import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
-import { DailyLoader } from "../loader/dallyspace.loader";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 import LabRank from "./pages/lab/rank/LabRank";
 import PuzzleConfigScreen from "./pages/lab/puzzle/PuzzleConfigScreen";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import GalleryAdd from "../components/lounge/gallery/GalleryAdd";
 import { reviewLoader } from "../loader/review.loader";
+import { DailyLoader } from "../loader/dallyspace.loader";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <Gallery /> },
               { path: ":id", element: <GalleryDetail /> },
+              { path: "add", element: <GalleryAdd /> },
             ],
           },
           {
