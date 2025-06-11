@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../common/Button";
 import { useParams } from "react-router-dom";
 import { Star } from "lucide-react";
@@ -15,6 +15,20 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
   const [hoverRating, setHoverRating] = useState(0);
   const { id } = useParams();
   const [error, setError] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+  const [loginNotice, setLoginNotice] = useState(false);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setIsLogin(!!user);
+    };
+
+    checkLogin();
+  }, []);
 
   const handleSubmit = async () => {
     if (!id) {
@@ -93,6 +107,11 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
       <div className="w-full relative">
         <input
           value={content}
+          onFocus={() => {
+            if (!isLogin) {
+              setLoginNotice(true);
+            }
+          }}
           onChange={(e) => {
             setContent(e.target.value);
             setError("");
@@ -101,7 +120,7 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
           type="text"
           className={`w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
           border rounded-[8px] focus:outline-none
-          ${error ? "border-[#E24413]" : "border-white"}`}
+          ${error || loginNotice ? "border-[#E24413]" : "border-white"}`}
         />
         <Button
           onClick={handleSubmit}
@@ -113,6 +132,11 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
         </Button>
         {error && (
           <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>
+        )}
+        {loginNotice && !isLogin && !error && (
+          <p className="text-[#E24413] text-[12px] mt-1 pl-2">
+            로그인 후 리뷰를 작성할 수 있습니다.
+          </p>
         )}
       </div>
     </div>
