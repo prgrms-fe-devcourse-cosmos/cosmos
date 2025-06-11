@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from "react-router";
-import supabase from "../../utils/supabase";
+import supabase from "../utils/supabase";
 
 export const reviewLoader = async ({ params }: LoaderFunctionArgs) => {
   const movieId = params.id;

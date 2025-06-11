@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import supabase from "../../utils/supabase";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function Signup() {
   const [usernameInput, setUsernameInput] = useState("");
@@ -13,6 +14,7 @@ export default function Signup() {
   const [invalidConfirmPassword, setInvalidConfirmPassword] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState(false);
   const navigate = useNavigate();
+  const setUser = useAuthStore((state) => state.setUser);
 
   const emailCheck =
     /^[a-zA-Z0-9]([-_\.]?[0-9a-zA-Z])*@[a-zA-Z0-9]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z0-9]([-_\.]?[0-9a-zA-Z]){1,}$/;
@@ -44,7 +46,6 @@ export default function Signup() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    console.log(emailInput);
     try {
       const { data, error } = await supabase.auth.signUp({
         email: emailInput,
@@ -60,18 +61,21 @@ export default function Signup() {
       if (error) {
         console.log(error);
         alert("회원가입을 정상적으로 완료하지 못했습니다.");
-      } else if (data) {
-        console.log(data);
-        alert("회원가입이 완료되었습니다.");
-        navigate("/");
+      } else if (data.session && data.user) {
+        const { data: userData } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", data.user.id);
+        if (userData) {
+          alert("회원가입이 완료되었습니다.");
+          setUser(userData[0], data.session.access_token);
+          navigate("/");
+        }
       }
     } catch (e) {
       console.log(e);
       alert("회원가입을 정상적으로 완료하지 못했습니다.");
     }
-    // } finally {
-    //   navigate("/");
-    // }
   };
 
   return (

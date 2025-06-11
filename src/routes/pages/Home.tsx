@@ -1,9 +1,44 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Globe from "react-globe.gl";
 import * as THREE from "three";
+import supabase from "../../utils/supabase";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function Home() {
   const globeEl = useRef<any>(null);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  useEffect(() => {
+    if (localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")) {
+      async function setUserInHome() {
+        const localId = JSON.parse(
+          localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")!
+        ).user.id;
+        const localToken = JSON.parse(
+          localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")!
+        ).access_token;
+        const { data } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", localId);
+        setUser(data![0], localToken);
+        console.log(localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token"));
+      }
+      setUserInHome();
+    }
+  }, []);
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session && event === "SIGNED_IN") {
+        const { data: userData } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id);
+        userData && setUser(userData[0], session.access_token);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const globe = globeEl.current;

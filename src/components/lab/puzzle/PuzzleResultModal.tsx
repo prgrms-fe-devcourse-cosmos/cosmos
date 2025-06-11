@@ -3,19 +3,39 @@ import React from "react";
 export default function PuzzleResultModal({
   onClose,
   score,
-  totalScore,
+  title,
+  explanation,
+  imgSrc,
 }: {
   onClose: () => void;
   score: number;
-  totalScore: number;
+  title: string;
+  explanation: string;
+  imgSrc: string;
 }) {
   return (
     <>
       <div className="fixed inset-0 bg-black/50 z-100 flex justify-center items-center ">
-        <div className="bg-[color:var(--bg-color)] p-10 rounded-3xl shadow-lg text-center  flex flex-col items-center justify-between h-[240px] ">
-          <p className="text-2xl">Game Over</p>
-          <p className="text-xl">Score : {score}</p>
-          <p className="text-xl">Total Score : {totalScore}</p>
+        <div className="bg-[color:var(--bg-color)] p-10 rounded-3xl shadow-lg text-center  flex flex-col items-center justify-between h-auto gap-6">
+          <div className="flex flex-col gap-2">
+            <p className="text-2xl">Game Over</p>
+            <p className="text-xl text-white">Score : {score}</p>
+          </div>
+
+          <div className="flex w-[600px] gap-4">
+            <img
+              className="max-h-[200px] w-[40%] object-contain"
+              src={imgSrc}
+              alt=""
+            />
+            <div className="w-[60%] h-[200px] flex flex-col justify-center text-left overflow-hidden gap-3 items-center">
+              <p className="w-full">{title}</p>
+              <p className="text-white font-[helvetica-neue] text-sm leading-6">
+                {explanation}
+              </p>
+            </div>
+          </div>
+
           <div className="flex justify-center w-full gap-10">
             <button
               className="w-[160px] z-20 cursor-pointer py-1 text-[color:var(--gray-200)] hover:text-[color:var(--primary-300)]"
