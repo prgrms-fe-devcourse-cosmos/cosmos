@@ -34,6 +34,30 @@ export type Database = {
   };
   public: {
     Tables: {
+      apod_translations: {
+        Row: {
+          created_at: string;
+          date: string;
+          original: string;
+          translated: string | null;
+          translated_summary: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          date: string;
+          original: string;
+          translated?: string | null;
+          translated_summary?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          date?: string;
+          original?: string;
+          translated?: string | null;
+          translated_summary?: string | null;
+        };
+        Relationships: [];
+      };
       comments: {
         Row: {
           content: string;
@@ -122,7 +146,15 @@ export type Database = {
           image_url?: string;
           post_id?: number;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: true;
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       likes: {
         Row: {
@@ -263,6 +295,7 @@ export type Database = {
           email: string;
           id: string;
           updated_at: string | null;
+          usercode: string | null;
           username: string;
           usercode: string;
         };
@@ -273,6 +306,7 @@ export type Database = {
           email: string;
           id: string;
           updated_at?: string | null;
+          usercode?: string | null;
           username: string;
           usercode: string;
         };
@@ -283,32 +317,9 @@ export type Database = {
           email?: string;
           id?: string;
           updated_at?: string | null;
+          usercode?: string | null;
           username?: string;
           usercode?: string;
-        };
-        Relationships: [];
-      };
-      puzzle_images: {
-        Row: {
-          category: string;
-          created_at: string;
-          id: number;
-          image_url: string;
-          title: string;
-        };
-        Insert: {
-          category?: string;
-          created_at?: string;
-          id?: number;
-          image_url: string;
-          title: string;
-        };
-        Update: {
-          category?: string;
-          created_at?: string;
-          id?: number;
-          image_url?: string;
-          title?: string;
         };
         Relationships: [];
       };
@@ -317,16 +328,19 @@ export type Database = {
           id: number;
           profile_id: string;
           score: number;
+          solved_at: string;
         };
         Insert: {
           id?: number;
           profile_id: string;
           score: number;
+          solved_at?: string;
         };
         Update: {
           id?: number;
           profile_id?: string;
           score?: number;
+          solved_at?: string;
         };
         Relationships: [
           {
@@ -383,7 +397,7 @@ export type Database = {
       quiz_questions: {
         Row: {
           correct_answer: string;
-          difficulty: number | null;
+          difficulty: string | null;
           explanation: string | null;
           id: number;
           options: Json | null;
@@ -392,7 +406,7 @@ export type Database = {
         };
         Insert: {
           correct_answer: string;
-          difficulty?: number | null;
+          difficulty?: string | null;
           explanation?: string | null;
           id?: number;
           options?: Json | null;
@@ -401,7 +415,7 @@ export type Database = {
         };
         Update: {
           correct_answer?: string;
-          difficulty?: number | null;
+          difficulty?: string | null;
           explanation?: string | null;
           id?: number;
           options?: Json | null;
@@ -453,7 +467,10 @@ export type Database = {
           }
         ];
       };
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
       search_logs: {
         Row: {
           category: string | null;
@@ -518,7 +535,10 @@ export type Database = {
         ];
       };
     };
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
     Functions: {
       [_ in never]: never;
     };
