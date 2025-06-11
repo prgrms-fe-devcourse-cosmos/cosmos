@@ -38,6 +38,12 @@ export default function PuzzleScreen() {
     useTranslateAndSummarize(explanation, date!);
 
   useEffect(() => {
+    if (config == null) {
+      navigate("/lab");
+    }
+  }, [config]);
+
+  useEffect(() => {
     setup();
   }, [config]);
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import type { PuzzleConfig } from "../../../../types/puzzle";
 import Picker from "react-mobile-picker";
+import Button from "../../../../components/common/Button";
 
 const selections: Record<keyof PuzzleConfig, string[]> = {
   category: ["space", "film"],
@@ -64,18 +65,17 @@ export default function PuzzleConfigScreen() {
         </Picker>
 
         <div className="w-full flex justify-center items-center gap-10 ">
-          <button
-            className="w-[160px] z-20 cursor-pointer py-1 text-[color:var(--gray-200)] hover:text-[color:var(--primary-300)]"
-            onClick={() => navigate(-1)}
-          >
-            BACK
-          </button>
-          <button
-            className="px-10 py-2 cursor-pointer border-1 rounded-lg  hover:text-[color:var(--bg-color)] hover:bg-[color:var(--primary-300)] hover:font-medium z-20 transition-all duration-300"
-            onClick={() => onStart(pickerValue)}
-          >
-            LAUNCH
-          </button>
+          <div className="group">
+            <Button variant="back" onClick={() => navigate(-1)}>
+              BACK
+            </Button>
+          </div>
+
+          <div className="group">
+            <Button variant="hover_fill" onClick={() => onStart(pickerValue)}>
+              LAUNCH
+            </Button>
+          </div>
         </div>
       </div>
     </div>

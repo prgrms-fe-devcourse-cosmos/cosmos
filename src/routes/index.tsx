@@ -20,12 +20,12 @@ import Signup from './pages/Signup';
 import LabQuiz from './pages/lab/quiz/LabQuiz';
 import LabPuzzle from './pages/lab/puzzle/LabPuzzle';
 import PuzzleScreen from './pages/lab/puzzle/PuzzleScreen';
-import LabRank from './pages/lab/rank/LabRank';
 import PuzzleConfigScreen from './pages/lab/puzzle/PuzzleConfigScreen';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import LabRank from './pages/lab/rank/LabRank';
 import GalleryAdd from '../components/lounge/gallery/GalleryAdd';
-import { reviewLoader } from '../loader/review.loader';
 import { DailyLoader } from '../loader/dallyspace.loader';
+import { reviewLoader } from '../loader/review.loader';
 
 const router = createBrowserRouter([
   {

@@ -3,6 +3,7 @@ import { PuzzleConfig } from "../types/puzzle";
 import { calculatePuzzleScore } from "../utils/score";
 import supabase from "../utils/supabase";
 import { fetchCurrentUserPuzzleScore } from "../loader/puzzle.loader";
+import { useAuthStore } from "../stores/authStore";
 
 export function usePuzzleSolver(
   config: PuzzleConfig | null,
@@ -12,9 +13,10 @@ export function usePuzzleSolver(
   const isSolvedRef = useRef(false);
   const [score, setScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
+  const user = useAuthStore((state) => state.user);
 
   const solve = async () => {
-    if (!config) return;
+    if (!config || !user) return;
 
     if (isSolvedRef.current) return;
     isSolvedRef.current = true;
@@ -25,7 +27,7 @@ export function usePuzzleSolver(
     const { error } = await supabase.from("puzzle_scores").insert([
       {
         score: finalScore,
-        profile_id: "24ebfed1-5c40-4d11-8647-1df1d1eaa7c4",
+        profile_id: user.id,
       },
     ]);
 
@@ -33,7 +35,7 @@ export function usePuzzleSolver(
       console.error("Score insert error:", error);
     }
     const total = await fetchCurrentUserPuzzleScore({
-      userId: "24ebfed1-5c40-4d11-8647-1df1d1eaa7c4",
+      userId: user.id,
     });
     setTotalScore(total ?? 0);
     onDone();

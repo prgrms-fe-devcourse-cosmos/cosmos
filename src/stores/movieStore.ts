@@ -102,6 +102,16 @@ export const useMovieStore = create<SpaceMovieState>((set, get) => ({
   },
 
   setSearchResults: (results) => set({ searchResults: results }),
+  // 페이지 초기화
+  resetAndFetchMovies: async () => {
+    set({
+      spaceMovies: [],
+      page: 1,
+      hasMore: true,
+      loading: false,
+    });
+    await get().fetchSpaceMovies();
+  },
 }));
 
 export const useMovieDetailStore = create<MovieDetailStore>((set) => ({
