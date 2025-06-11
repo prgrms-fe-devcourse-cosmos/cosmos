@@ -5,7 +5,8 @@ import { useTranslate } from "../../hooks/useTranslate";
 export default function DailySpaceimage() {
   const { nasa } = useLoaderData() as LoaderData;
   const { translation: translation, isLoading } = useTranslate(
-    nasa.explanation
+    nasa.explanation,
+    nasa.date
   );
 
   return (

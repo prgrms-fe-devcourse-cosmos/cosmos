@@ -1,4 +1,4 @@
-export const getPromptFromContent = (content: string): string => {
+export const getGeminiPrompt = (content: string): string => {
   if (!content || content.length === 0) {
     throw new Error("내용 없음");
   }

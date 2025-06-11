@@ -1,4 +1,4 @@
-export const getPromptFromOverview = (overview: string): string => {
+export const getOpenaiPrompt = (overview: string): string => {
   if (!overview || overview.length === 0) {
     throw new Error("내용 없음");
   }

@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import { translateContentByGemini } from "../api/translator/getTranslationByGemini";
-import { getPromptFromContent } from "./getPromptFromContent";
+import { summarizeAndTranslateByAi } from "../api/ai/getSummarizeAndTranslateByAI";
 
-export const useTranslate = (content: string | null) => {
+export const useTranslate = (content: string | null, date: string) => {
   const [translation, setTranslation] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!content) return;
+    if (!content || !date) return;
     const fetchTranslation = async () => {
       setIsLoading(true);
       try {
-        const prompt = getPromptFromContent(content);
-        const result = await translateContentByGemini(prompt);
-        setTranslation(result);
+        const { translated } = await summarizeAndTranslateByAi(content, date);
+        setTranslation(translated);
       } catch (e) {
         console.error("번역 실패 : ", e);
       } finally {
@@ -21,6 +19,6 @@ export const useTranslate = (content: string | null) => {
       }
     };
     fetchTranslation();
-  }, [content]);
+  }, [content, date]);
   return { translation: translation, isLoading };
 };

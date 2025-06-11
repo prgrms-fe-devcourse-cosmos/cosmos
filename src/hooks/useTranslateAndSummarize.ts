@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { getPromptFromOverview } from "./getPromptFromOverview";
-import { summarizeAndTranslateContent } from "../api/openai/getSummarizeAndTranslateByGPT";
+import { summarizeAndTranslateByAi } from "../api/ai/getSummarizeAndTranslateByAI";
 
-export const useTranslateAndSummarize = (content: string | null) => {
+export const useTranslateAndSummarize = (
+  content: string | null,
+  date: string
+) => {
   const [translatedSummary, setTranslatedSummary] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!content) return;
+    if (!content || !date) return;
 
     const fetchTranslatedSummary = async () => {
       setIsLoading(true);
       try {
-        const prompt = getPromptFromOverview(content);
-
-        const result = await summarizeAndTranslateContent(prompt);
-        setTranslatedSummary(result);
+        const { summary } = await summarizeAndTranslateByAi(content, date);
+        setTranslatedSummary(summary);
       } catch (e) {
         console.error("ChatGPT 번역&요약 실패 : ", e);
       } finally {
@@ -23,6 +23,6 @@ export const useTranslateAndSummarize = (content: string | null) => {
       }
     };
     fetchTranslatedSummary();
-  }, [content]);
+  }, [content, date]);
   return { translatedSummary: translatedSummary, isLoading };
 };
