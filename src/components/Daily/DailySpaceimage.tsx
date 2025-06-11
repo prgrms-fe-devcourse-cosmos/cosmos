@@ -18,7 +18,7 @@ export default function DailySpaceimage() {
         "
       >
         {/* 오른쪽 이미지 */}
-        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[var(--white)]/10 backdrop-blur-xl flex justify-start items-center">
+        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] flex justify-start items-center">
           {nasa.media_type === 'image' ? (
             <img
               src={nasa.url}
@@ -32,7 +32,7 @@ export default function DailySpaceimage() {
           )}
         </div>
         {/* 왼쪽 내용 */}
-        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[var(--white)]/10 backdrop-blur-xl text-[var(--white)] flex flex-col justify-start items-start">
+        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] text-[var(--white)] flex flex-col justify-start items-start">
           <div className="my-5 mr-5 ml-5 md:my-12 md:mr-10 md:ml-10">
             <h1 className="md:text-xl text-sm font-bold mb-2 md:mb-5">
               {nasa.title}

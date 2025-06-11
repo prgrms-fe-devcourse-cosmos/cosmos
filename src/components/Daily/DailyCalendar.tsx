@@ -17,7 +17,7 @@ export default function DailyCalendar() {
           </div>
 
           {/* 오늘 이벤트 내용 */}
-          <div className="w-full h-[147px] bg-[var(--white)]/10 backdrop-blur-xl flex justify-center items-center">
+          <div className="w-full h-[147px] bg-[rgba(255,255,255,0.09)] flex justify-center items-center">
             {todayEvents.length === 0 ? (
               <p className="text-[#c7c7c7]">오늘은 이벤트가 없습니다.</p>
             ) : (
@@ -48,7 +48,7 @@ export default function DailyCalendar() {
           </div>
 
           {/* 오늘 이후 이벤트 내용 */}
-          <div className="w-full h-[188px] lg:h-[150px] bg-[var(--white)]/10 backdrop-blur-xl justify-center items-center">
+          <div className="w-full h-[188px] lg:h-[150px] bg-[rgba(255,255,255,0.09)] justify-center items-center">
             {upcomingEvents.length === 0 ? (
               <p className="w-full h-full flex text-[#c7c7c7]">
                 다가오는 이벤트가 없습니다.
