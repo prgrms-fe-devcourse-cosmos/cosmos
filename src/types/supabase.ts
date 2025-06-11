@@ -264,6 +264,7 @@ export type Database = {
           id: string;
           updated_at: string | null;
           username: string;
+          usercode: string;
         };
         Insert: {
           avatar_url?: string | null;
@@ -273,6 +274,7 @@ export type Database = {
           id: string;
           updated_at?: string | null;
           username: string;
+          usercode: string;
         };
         Update: {
           avatar_url?: string | null;
@@ -282,6 +284,7 @@ export type Database = {
           id?: string;
           updated_at?: string | null;
           username?: string;
+          usercode?: string;
         };
         Relationships: [];
       };
@@ -442,14 +445,14 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "review_likes_review_id_fkey"
-            columns: ["review_id"]
-            isOneToOne: false
-            referencedRelation: "movie_reviews_with_likes"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+            foreignKeyName: "review_likes_review_id_fkey";
+            columns: ["review_id"];
+            isOneToOne: false;
+            referencedRelation: "movie_reviews_with_likes";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
 
       search_logs: {
         Row: {
@@ -487,34 +490,34 @@ export type Database = {
     Views: {
       movie_reviews_with_likes: {
         Row: {
-          content: string | null
-          created_at: string | null
-          id: number | null
-          like_count: number | null
-          movie_id: number | null
-          profile_id: string | null
-          rating: number | null
-          updated_at: string | null
-          username: string | null
-        }
+          content: string | null;
+          created_at: string | null;
+          id: number | null;
+          like_count: number | null;
+          movie_id: number | null;
+          profile_id: string | null;
+          rating: number | null;
+          updated_at: string | null;
+          username: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "movie_reviews_movie_id_fkey"
-            columns: ["movie_id"]
-            isOneToOne: false
-            referencedRelation: "movie"
-            referencedColumns: ["tmdb_id"]
+            foreignKeyName: "movie_reviews_movie_id_fkey";
+            columns: ["movie_id"];
+            isOneToOne: false;
+            referencedRelation: "movie";
+            referencedColumns: ["tmdb_id"];
           },
           {
-            foreignKeyName: "movie_reviews_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-    }
+            foreignKeyName: "movie_reviews_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+    };
 
     Functions: {
       [_ in never]: never;

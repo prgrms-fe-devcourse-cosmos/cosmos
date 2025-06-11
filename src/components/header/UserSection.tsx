@@ -1,15 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profileImage from "../../assets/images/profile.svg";
 import userIcon from "../../assets/images/user.svg";
-import logout from "../../assets/images/log-out.svg";
+import logoutIcon from "../../assets/images/log-out.svg";
 import light from "../../assets/images/lightMode.svg";
 import dark from "../../assets/images/darkMode.svg";
+import { useAuthStore } from "../../stores/authStore";
+import supabase from "../../utils/supabase";
 
 export default function UserSection() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const user = useAuthStore((state) => state.user);
+  const clearUser = useAuthStore((state) => state.clearUser);
 
   useEffect(() => {
     // 바깥 클릭을 감지하여 메뉴 상태 업데이트
@@ -27,9 +31,22 @@ export default function UserSection() {
     };
   }, []);
 
+  async function logOutHandler() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      alert("오류가 발생했습니다.");
+      console.log(error);
+    } else {
+      clearUser();
+      sessionStorage.removeItem("auth-store");
+      alert("로그아웃되었습니다.");
+      navigate("/");
+    }
+  }
+
   return (
     <>
-      {localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token") ? (
+      {user && localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token") ? (
         <div ref={menuRef}>
           <button
             type="button"
@@ -37,40 +54,28 @@ export default function UserSection() {
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <img
-              src={
-                JSON.parse(
-                  localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")!
-                ).user.user_metadata.avatar_url.length > 0
-                  ? JSON.parse(
-                      localStorage.getItem(
-                        "sb-qwntelixvmmeluarhlrr-auth-token"
-                      )!
-                    ).user.user_metadata.avatar_url
-                  : profileImage
-              }
+              src={user.avatar_url || profileImage}
               alt="profileImage"
               className="rounded-full size-8"
             />
           </button>
           {menuOpen && (
-            <div className="flex flex-col gap-4 fixed z-1 right-19 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border">
+            <div className="flex flex-col gap-4 fixed z-1 right-10 xl:right-20 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border">
               <div className="flex flex-col gap-2.5 items-center">
-                <button className="flex gap-2 cursor-pointer">
+                <Link
+                  className="flex gap-2 cursor-pointer"
+                  to={`/user/${user.usercode}`}
+                  onClick={() => setMenuOpen(false)}
+                >
                   <img src={userIcon} alt="" />
                   <span className="font-medium text-sm mt-1">마이페이지</span>
-                </button>
+                </Link>
                 <button
+                  type="button"
                   className="flex gap-2 items-center cursor-pointer"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    alert("로그아웃되었습니다.");
-                    localStorage.removeItem(
-                      "sb-qwntelixvmmeluarhlrr-auth-token"
-                    );
-                    navigate("/");
-                  }}
+                  onClick={logOutHandler}
                 >
-                  <img src={logout} alt="" />
+                  <img src={logoutIcon} alt="" />
                   <span className="font-medium text-sm mt-1 text-[var(--red)]">
                     로그아웃
                   </span>
