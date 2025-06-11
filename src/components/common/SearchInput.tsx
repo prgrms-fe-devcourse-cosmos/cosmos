@@ -52,7 +52,10 @@ export default function SearchInput({
   };
 
   return (
-    <div ref={searchRef} className="w-[280px] bg-[#141414] relative">
+    <div
+      ref={searchRef}
+      className="w-[170px] sm:w-[280px] bg-[#141414] relative"
+    >
       <div className="relative">
         {/* 검색 입력창 */}
         <input
@@ -97,7 +100,7 @@ export default function SearchInput({
         bg-[#141414] border-x border-b border-[#909090] 
         rounded-bl-[8px] rounded-br-[8px] px-4 pt-[12px] text-sm z-10"
         >
-          <div className="flex justify-between items-center mb-[12px] px-2 text-[#909090] text-[10px]">
+          <div className="flex justify-between items-center mb-[12px] px-0 sm:px-2 text-[#909090] text-[9px] sm:text-[10px]">
             <span>최근 검색</span>
             <button
               className="cursor-pointer hover:text-white/80"

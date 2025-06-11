@@ -20,7 +20,6 @@ export default function Films() {
     searchResults,
     searchLoading,
     setSearchResults,
-    // resetMovies,
     resetAndFetchMovies,
   } = useMovieStore();
 
@@ -76,7 +75,7 @@ export default function Films() {
   const isLoading = searchQuery ? searchLoading : loading;
 
   return (
-    <>
+    <div>
       <div className="flex justify-between mb-[24px] items-center h-[35px]">
         {/* 정렬 필터 */}
         <ul className="flex ml-2 gap-4 text-[13px] font-medium">
@@ -106,13 +105,18 @@ export default function Films() {
         />
       </div>
       {/* 영화 리스트 */}
-      <div className="grid grid-cols-3 gap-x-[54px] gap-y-[88px] mb-[50px]">
+      <div
+        className="grid grid-cols-2 lg:grid-cols-3 
+              gap-x-[54px] sm:gap-x-[70px] 
+              lg:gap-x-[54px] gap-y-[88px] mb-[50px]"
+      >
         {moviesToRender.map((movie, index) => {
           const isLast = index === moviesToRender.length - 1;
           return (
             <div
               key={movie.id}
               ref={isLast && !searchQuery ? lastMovieRef : null}
+              className="w-full"
             >
               <FilmCard movie={movie} />
             </div>
@@ -128,6 +132,6 @@ export default function Films() {
           <div className="text-[#909090] mt-[24px]">검색 결과가 없습니다.</div>
         )}
       </div>
-    </>
+    </div>
   );
 }

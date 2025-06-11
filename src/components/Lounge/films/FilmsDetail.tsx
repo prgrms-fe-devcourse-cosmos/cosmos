@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import ReviewList from "./ReviewList";
 import ReviewForm from "./ReviewForm";
 import FilmDetailSkeleton from "./FilmDetailSkeleton";
-import backIcon from "../../../assets/icons/back.svg";
+import { ArrowLeft } from "lucide-react";
 
 export default function FilmsDetail() {
   const { id } = useParams();
@@ -46,6 +46,18 @@ export default function FilmsDetail() {
     );
   };
 
+  // 장르부분
+  const [maxGenres, setMaxGenres] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMaxGenres(window.innerWidth >= 768 ? 4 : 3); // md: 768px 기준
+    };
+    handleResize(); // 초기 실행
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // 로딩중에는 스켈레톤 보여지도록
   if (loading || !detail) return <FilmDetailSkeleton />;
 
@@ -69,34 +81,36 @@ export default function FilmsDetail() {
   return (
     <div className="pt-[24px] bg-[#141414]/80">
       {/* movie detail */}
-      <section className="pl-[32px] pr-[12px]">
+      <section className="px-8 md:pr-[12px]">
         {/* 필름 헤더 - 뒤로가기버튼, 장르배열 */}
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row justify-between">
           {/* 뒤로가기 */}
           <div>
             <button
-              className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2"
+              className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-[14px]"
               onClick={() => navigate(-1)}
             >
-              <img src={backIcon} alt="뒤로가기 아이콘" /> BACK
+              <ArrowLeft className="w-4 h-4 text-[#D0F700] cursor-pointer" />{" "}
+              BACK
             </button>
           </div>
           {/* 장르 배열 */}
-          <div className="flex items-center">
-            {detail.genres.slice(0, 4).map((genre) => (
+          <div className="flex items-center justify-end flex-wrap gap-x-2 md:gap-x-4 gap-y-2">
+            {detail.genres.slice(0, maxGenres).map((genre) => (
               <span
                 key={genre.id}
-                className="font-yapari border border-[#D0F700] text-[#D0F700] text-[12px] px-4 py-2 rounded-[8px] ml-4 first:ml-0"
+                className="font-yapari border border-[#D0F700] text-[#D0F700] text-[9px] sm:text-[10px] md:text-[12px] px-4 py-2 rounded-[8px]"
               >
-                {genre.name}
+                {/* 장르 배열 중에 Science Fiction은 SF로 표현되게 */}
+                {genre.name === "Science Fiction" ? "SF" : genre.name}
               </span>
             ))}
           </div>
         </div>
         {/* 포스터 + 영화 정보 */}
-        <div className="mt-1 flex gap-4">
+        <div className="mt-1 flex flex-col sm:flex-row gap-4">
           {/* 포스터 */}
-          <div className="w-[300px] h-[430px] flex-shrink-0">
+          <div className="w-full max-w-[320px] mx-auto h-auto aspect-[2/3] sm:max-w-[250px] md:max-w-[300px] flex-shrink-0">
             {detail.poster_path && (
               <img
                 src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
@@ -106,33 +120,35 @@ export default function FilmsDetail() {
             )}
           </div>
           {/* 영화 정보 */}
-          <div className="flex flex-col justify-between h-[430px]">
+          <div className="flex flex-col gap-[14px]">
             {/* 제목 */}
-            <h2 className="text-[36px] font-bold text-white leading-tight">
+            <h2 className="text-[24px] lg:text-[36px] font-bold text-white">
               {detail.title}
             </h2>
             {/* 줄거리 영역 */}
-            <div className="flex-grow flex items-center max-h-[120px]">
-              <p className="truncate-multiline leading-[30px] h-full">
+            <div>
+              <p className="text-[14px] lg:text-[16px] truncate-multiline leading-[24px] md:leading-[30px]">
                 {detail.overview}
               </p>
             </div>
             {/* 세부 정보 */}
-            <div className="space-y-4">
+            <div className="space-y-2 lg:space-y-4 text-[14px]">
               <div className="flex">
-                <p className="w-[142px] shrink-0">Release.</p>
+                <p className="w-[100px] md:w-[142px] shrink-0">Release.</p>
                 <p>{formatKoreanDate(detail.release_date)}</p>
               </div>
               <div className="flex ">
-                <p className="w-[142px] shrink-0">Casting.</p>
-                <p className="">{cast.map((a) => a.name).join(", ")}</p>
+                <p className="w-[100px] md:w-[142px] shrink-0">Casting.</p>
+                <p className="leading-[30px]">
+                  {cast.map((a) => a.name).join(", ")}
+                </p>
               </div>
               <div className="flex ">
-                <p className="w-[142px] shrink-0">Directed By.</p>
+                <p className="w-[100px] md:w-[142px] shrink-0">Directed By.</p>
                 <p>{director}</p>
               </div>
               <div className="flex ">
-                <p className="w-[142px] shrink-0">Production.</p>
+                <p className="w-[100px] md:w-[142px] shrink-0">Production.</p>
                 <p>
                   {detail.production_companies.length > 0
                     ? detail.production_companies.map((p) => p.name).join(", ")
@@ -140,7 +156,9 @@ export default function FilmsDetail() {
                 </p>
               </div>
               <div className="flex">
-                <span className="w-[142px] shrink-0">Running Time.</span>
+                <span className="w-[100px] md:w-[142px] shrink-0">
+                  Running Time.
+                </span>
                 <span>{runtime}</span>
               </div>
             </div>

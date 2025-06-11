@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import heart from "../../../assets/icons/heart.svg";
-import fillHeart from "../../../assets/icons/filled_heart.svg";
+import { Heart } from "lucide-react";
 import {
   addReviewLike,
   fetchReviewLikeCount,
   fetchReviewLikeStatus,
   removeReviewLike,
 } from "../../../api/review";
+import supabase from "../../../utils/supabase";
 
 type Props = {
   reviewId: number;
@@ -20,10 +20,19 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) return;
+
+        const profileId = user.id;
+
         const [status, count] = await Promise.all([
-          fetchReviewLikeStatus(reviewId),
+          fetchReviewLikeStatus(reviewId, profileId),
           fetchReviewLikeCount(reviewId),
         ]);
+
         setLiked(status);
         setLikeCount(count);
       } catch (err) {
@@ -37,13 +46,23 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
   // 좋아요 토글
   const handleToggleLike = async () => {
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      const profileId = user.id;
+
       if (!liked) {
-        await addReviewLike(reviewId);
+        await addReviewLike(reviewId, profileId);
         setLiked(true);
         setLikeCount((prev) => prev + 1);
         onLikeToggle?.(reviewId, true);
       } else {
-        await removeReviewLike(reviewId);
+        await removeReviewLike(reviewId, profileId);
         setLiked(false);
         setLikeCount((prev) => prev - 1);
         onLikeToggle?.(reviewId, false);
@@ -58,12 +77,12 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
       onClick={handleToggleLike}
       className="flex items-center gap-[12px] cursor-pointer"
     >
-      <img
-        src={liked ? fillHeart : heart}
-        alt="좋아요"
-        className="w-[16px] h-[16px]"
+      <Heart
+        size={16}
+        className="transition-all text-[#D0F700]"
+        fill={liked ? "currentColor" : "none"}
       />
-      <span>{likeCount}</span>
+      <span className="text-[12px] md:text-sm">{likeCount}</span>
     </button>
   );
 }

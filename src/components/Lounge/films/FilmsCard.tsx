@@ -1,14 +1,14 @@
 import { NavLink } from "react-router-dom";
-import starIcon from "../../../assets/icons/star.svg";
+import { Star } from "lucide-react";
 
 export default function FilmCard({ movie }: { movie: Movie }) {
   return (
     <NavLink
       to={`${movie.id}`}
       key={movie.id}
-      className="w-[220px] h-[444px] flex flex-col overflow-hidden "
+      className="w-full lg:max-w-[220px] flex flex-col overflow-hidden"
     >
-      <div className="w-[220px] aspect-[2/3]">
+      <div className="w-full aspect-[2/3]">
         <img
           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
           alt={movie.title}
@@ -22,19 +22,25 @@ export default function FilmCard({ movie }: { movie: Movie }) {
           borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
           borderLeft: "1px solid rgba(255, 255, 255, 0.1)",
         }}
-        className="pt-[21px] pb-[21px] px-[16px] flex flex-col justify-between gap-[4px]"
+        className="pt-[21px] pb-[21px] px-[16px] flex flex-col justify-between gap-[6px]"
       >
-        <h3 className="text-[16px] truncate whitespace-nowrap overflow-hidden font-medium">
+        <h3 className="text-[13px] sm:text-[16px] truncate whitespace-nowrap overflow-hidden font-medium">
           {movie.title}
         </h3>
-        <p className="text-[14px]">{movie.director || "감독 없음"}</p>
-        <div className="flex justify-between">
-          <p className="text-[12px] text-[#909090]">
+        <p className="text-[11px] sm:text-[14px] truncate whitespace-nowrap overflow-hidden">
+          {movie.director || "감독 정보 없음"}
+        </p>
+        <div className="flex justify-between items-center">
+          <p className="text-[10px] sm:text-[12px] text-[#909090]">
             {movie.release_date.replace(/-/g, ".")} 개봉
           </p>
-          <p className="text-[10px] flex gap-2 items-center">
-            <img src={starIcon} className="w-3 h-3" alt="평점" />
-            <span>
+          <p className="inline-flex gap-1 sm:gap-2 items-center">
+            <Star
+              className="w-[10px] sm:w-3 h-[10px] sm:h-3 text-[#D0F700] relative top-[-1px] sm:top-0"
+              // fill="#D0F700"
+              strokeWidth={2}
+            />
+            <span className="text-[8px] sm:text-[10px] leading-none">
               {movie.vote_average ? movie.vote_average.toFixed(1) : "?"}
             </span>
           </p>
