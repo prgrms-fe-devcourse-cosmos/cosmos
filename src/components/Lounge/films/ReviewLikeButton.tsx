@@ -20,21 +20,21 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // 좋아요 개선
+        // 좋아요 수는 항상 조회
+        const count = await fetchReviewLikeCount(reviewId);
+        setLikeCount(count);
+
+        // 로그인한 경우에만 좋아요 상태 변경 가능
         const {
           data: { user },
         } = await supabase.auth.getUser();
 
-        if (!user) return;
-
-        const profileId = user.id;
-
-        const [status, count] = await Promise.all([
-          fetchReviewLikeStatus(reviewId, profileId),
-          fetchReviewLikeCount(reviewId),
-        ]);
-
-        setLiked(status);
-        setLikeCount(count);
+        if (user) {
+          const profileId = user.id;
+          const status = await fetchReviewLikeStatus(reviewId, profileId);
+          setLiked(status);
+        }
       } catch (err) {
         console.error("좋아요 정보 가져오기 실패:", err);
       }
