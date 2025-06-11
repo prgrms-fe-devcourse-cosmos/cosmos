@@ -17,6 +17,7 @@
     "fast-xml-parser": "^5.2.3",
     "github-label-sync": "^3.0.0",
     "lucide-react": "^0.511.0",
+    "openai": "^5.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-globe.gl": "^2.33.2",
@@ -26,9 +27,9 @@
     "react-router-dom": "^7.6.1",
     "swiper": "^11.2.8",
     "tailwind-merge": "^3.2.0",
-    "zustand": "^5.0.5",
     "tailwindcss": "^4.1.8",
-    "three": "^0.177.0"
+    "three": "^0.177.0",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

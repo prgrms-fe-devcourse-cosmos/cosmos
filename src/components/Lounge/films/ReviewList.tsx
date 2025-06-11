@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { deleteReviewById, updateReviewById } from "../../../api/review";
+import { deleteReviewById, updateReviewById } from "../../../api/lounge/review";
 import filledStar from "../../../assets/icons/filled_star.svg";
 import star from "../../../assets/icons/star.svg";
 import ReviewLikeButton from "./ReviewLikeButton";

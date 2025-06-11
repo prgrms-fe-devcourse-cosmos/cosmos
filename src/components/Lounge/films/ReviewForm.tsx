@@ -3,7 +3,7 @@ import Button from "../../common/Button";
 import { useParams } from "react-router-dom";
 import filledStar from "../../../assets/icons/filled_star.svg";
 import star from "../../../assets/icons/star.svg";
-import { createReview, ensureMovieExists } from "../../../api/review";
+import { createReview, ensureMovieExists } from "../../../api/lounge/review";
 
 type Props = {
   onReviewSubmit?: (review: MovieReviewWithLike) => void;

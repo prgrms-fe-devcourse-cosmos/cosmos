@@ -6,7 +6,7 @@ import {
   fetchReviewLikeCount,
   fetchReviewLikeStatus,
   removeReviewLike,
-} from "../../../api/review";
+} from "../../../api/lounge/review";
 
 type Props = {
   reviewId: number;
