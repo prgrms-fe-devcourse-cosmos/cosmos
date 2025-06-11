@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Picker from "react-mobile-picker";
 
-const selections = ["quiz", "puzzle"];
+const selections = ["quiz", "puzzle", "rank"];
 export default function Lab() {
   const navigate = useNavigate();
   const location = useLocation();
   const isRoot = location.pathname === "/lab";
 
-  const [pickerValue, setPickerValue] = useState("quiz");
+  const [pickerValue, setPickerValue] = useState("puzzle");
 
   return (
     <div className="min-h-screen w-[1080px] flex pt-10 justify-between flex-col font-[yapari] text-[color:var(--primary-300)]">
