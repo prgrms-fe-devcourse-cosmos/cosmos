@@ -166,7 +166,7 @@ body::-webkit-scrollbar {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  max-height: 120px; /* 4줄 × 30px 줄 간격 */
+  max-height: 120px;
 }
 
 @layer components {

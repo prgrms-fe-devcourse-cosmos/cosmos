@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import heart from "../../../assets/icons/heart.svg";
-import fillHeart from "../../../assets/icons/filled_heart.svg";
+import { Heart } from "lucide-react";
 import {
   addReviewLike,
   fetchReviewLikeCount,
   fetchReviewLikeStatus,
   removeReviewLike,
 } from "../../../api/lounge/review";
+import supabase from "../../../utils/supabase";
 
 type Props = {
   reviewId: number;
@@ -20,12 +20,21 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [status, count] = await Promise.all([
-          fetchReviewLikeStatus(reviewId),
-          fetchReviewLikeCount(reviewId),
-        ]);
-        setLiked(status);
+        // 좋아요 개선
+        // 좋아요 수는 항상 조회
+        const count = await fetchReviewLikeCount(reviewId);
         setLikeCount(count);
+
+        // 로그인한 경우에만 좋아요 상태 변경 가능
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user) {
+          const profileId = user.id;
+          const status = await fetchReviewLikeStatus(reviewId, profileId);
+          setLiked(status);
+        }
       } catch (err) {
         console.error("좋아요 정보 가져오기 실패:", err);
       }
@@ -37,13 +46,23 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
   // 좋아요 토글
   const handleToggleLike = async () => {
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      const profileId = user.id;
+
       if (!liked) {
-        await addReviewLike(reviewId);
+        await addReviewLike(reviewId, profileId);
         setLiked(true);
         setLikeCount((prev) => prev + 1);
         onLikeToggle?.(reviewId, true);
       } else {
-        await removeReviewLike(reviewId);
+        await removeReviewLike(reviewId, profileId);
         setLiked(false);
         setLikeCount((prev) => prev - 1);
         onLikeToggle?.(reviewId, false);
@@ -58,12 +77,12 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
       onClick={handleToggleLike}
       className="flex items-center gap-[12px] cursor-pointer"
     >
-      <img
-        src={liked ? fillHeart : heart}
-        alt="좋아요"
-        className="w-[16px] h-[16px]"
+      <Heart
+        size={16}
+        className="transition-all text-[#D0F700]"
+        fill={liked ? "currentColor" : "none"}
       />
-      <span>{likeCount}</span>
+      <span className="text-[12px] md:text-sm">{likeCount}</span>
     </button>
   );
 }

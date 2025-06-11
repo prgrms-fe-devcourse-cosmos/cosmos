@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { deleteReviewById, updateReviewById } from "../../../api/lounge/review";
-import filledStar from "../../../assets/icons/filled_star.svg";
-import star from "../../../assets/icons/star.svg";
-import ReviewLikeButton from "./ReviewLikeButton";
+import { Star } from "lucide-react";
+import supabase from "../../../utils/supabase";
+import ReviewLikeButton from "../../lounge/films/ReviewLikeButton";
 
 type Props = {
   reviews: MovieReviewWithLike[];
@@ -20,9 +20,18 @@ export default function ReviewList({
   const [editedContent, setEditedContent] = useState("");
   const [editedRating, setEditedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
-  // 임시 프로필 ID
-  const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setCurrentUserId(user?.id ?? null);
+    };
+
+    fetchUser();
+  }, []);
 
   // 한국 시간대로 날짜 포맷 함수
   function formatKoreanDateTime(isoString: string): string {
@@ -41,10 +50,10 @@ export default function ReviewList({
   // 리뷰 삭제
   const handleDelete = async (reviewId: number) => {
     const confirmDelete = window.confirm("리뷰를 삭제하시겠습니까?");
-    if (!confirmDelete) return;
+    if (!confirmDelete || !currentUserId) return;
 
     try {
-      await deleteReviewById(reviewId);
+      await deleteReviewById(reviewId, currentUserId);
       setReviews((prev) => prev.filter((r) => r.id !== reviewId));
     } catch (e) {
       alert("삭제 중 오류가 발생했습니다.");
@@ -61,8 +70,14 @@ export default function ReviewList({
 
   // 리뷰 수정 저장 핸들러
   const handleSave = async (reviewId: number) => {
+    if (!currentUserId) return;
     try {
-      await updateReviewById(reviewId, editedContent, editedRating);
+      await updateReviewById(
+        reviewId,
+        editedContent,
+        editedRating,
+        currentUserId
+      );
 
       // 성공 시 상태 업데이트
       setReviews((prev) =>
@@ -80,30 +95,42 @@ export default function ReviewList({
 
   // 리뷰 없을 때 보여질 내용
   if (!reviews || reviews.length === 0) {
-    return <p className="text-[#909090]">아직 작성된 리뷰가 없습니다.</p>;
+    return (
+      <p className="text-[#909090] mb-[24px]">아직 작성된 리뷰가 없습니다.</p>
+    );
   }
 
   return (
-    <div>
+    <div className="mb-[28px]">
       {reviews.map((review) => (
-        <div key={review.id} className="mb-[24px] flex flex-col gap-[12px] p-4">
+        <div
+          key={review.id}
+          className={`py-[12px] flex flex-col gap-[12px] px-2 rounded-[8px]
+          ${review.profile_id === currentUserId ? "bg-white/5" : ""}`}
+        >
+          {/* 유저 정보 + 작성일 + 별점 + 수정/삭제/저장/취소 */}
           <div className="flex justify-between">
             <div className="flex gap-4">
-              <h3 className="font-bold">{review.profiles.username}</h3>
-              <p>{formatKoreanDateTime(review.created_at)}</p>
+              <h3 className="text-[13px] lg:text-[15px] font-bold">
+                {review.profiles.username}
+              </h3>
+              <p className="text-[12px] lg:text-[14px]">
+                {formatKoreanDateTime(review.created_at)}
+              </p>
+              {/* 별점 */}
               {editingReviewId === review.id ? (
-                <div className="flex items-center">
+                <div className="flex gap-1 items-center">
                   {[1, 2, 3, 4, 5].map((i) => {
                     const value = i * 2;
-                    const filled = hoverRating
+                    const isFilled = hoverRating
                       ? hoverRating >= value
                       : editedRating >= value;
                     return (
-                      <img
+                      <Star
                         key={i}
-                        src={filled ? filledStar : star}
-                        alt={filled ? "별" : "빈별"}
-                        className="w-[20px] h-[16px] cursor-pointer pr-1"
+                        size={16}
+                        className="cursor-pointer text-[#D0F700]"
+                        fill={isFilled ? "currentColor" : "none"}
                         onClick={() => setEditedRating(value)}
                         onMouseEnter={() => setHoverRating(value)}
                         onMouseLeave={() => setHoverRating(0)}
@@ -114,18 +141,13 @@ export default function ReviewList({
               ) : (
                 <div className="flex gap-1 items-center">
                   {Array.from({ length: 5 }, (_, i) => {
-                    const starSrc =
-                      i < Math.round(review.rating / 2) ? filledStar : star;
+                    const isFilled = i < Math.round(review.rating / 2);
                     return (
-                      <img
+                      <Star
                         key={i}
-                        src={starSrc}
-                        alt={
-                          i < Math.round(review.rating / 2)
-                            ? "Filled star"
-                            : "Empty star"
-                        }
-                        className="w-[16px] h-[16px]"
+                        size={16}
+                        className="text-[#D0F700]"
+                        fill={isFilled ? "currentColor" : "none"}
                       />
                     );
                   })}
@@ -133,13 +155,13 @@ export default function ReviewList({
               )}
             </div>
 
-            {review.profile_id === TEMP_PROFILE_ID && (
+            {review.profile_id === currentUserId && (
               <div className="text-[#909090] font-medium text-[12px]">
                 {editingReviewId === review.id ? (
                   <>
                     <button
                       onClick={() => handleSave(review.id)}
-                      className="mr-4 hover:text-white"
+                      className="mr-2 md:mr-4 hover:text-white"
                     >
                       저장
                     </button>
@@ -154,7 +176,7 @@ export default function ReviewList({
                   <>
                     <span
                       onClick={() => handleEditClick(review)}
-                      className="mr-4 cursor-pointer hover:text-white"
+                      className="mr-2 md:mr-4 cursor-pointer hover:text-white"
                     >
                       수정
                     </span>
@@ -174,10 +196,12 @@ export default function ReviewList({
             <input
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full px-2 py-1 bg-transparent border border-white rounded text-white text-sm"
+              className="w-full px-2 py-1 bg-transparent 
+              border-b border-white/80 text-white text-sm md:text-[16px]
+              focus:outline-none"
             />
           ) : (
-            <p>{review.content}</p>
+            <p className="text-sm md:text-[16px]">{review.content}</p>
           )}
 
           <div
