@@ -264,6 +264,7 @@ export type Database = {
           id: string;
           updated_at: string | null;
           username: string;
+          usercode: string;
         };
         Insert: {
           avatar_url?: string | null;
@@ -273,6 +274,7 @@ export type Database = {
           id: string;
           updated_at?: string | null;
           username: string;
+          usercode: string;
         };
         Update: {
           avatar_url?: string | null;
@@ -282,6 +284,7 @@ export type Database = {
           id?: string;
           updated_at?: string | null;
           username?: string;
+          usercode?: string;
         };
         Relationships: [];
       };
