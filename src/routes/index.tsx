@@ -34,10 +34,10 @@ const router = createBrowserRouter([
     hydrateFallbackElement: <LoadingSpinner />,
     errorElement: <div>데이터를 불러오는 데 실패했습니다.</div>,
     children: [
-      { path: '/', element: <Home /> },
-      { path: '/login', element: <Login /> },
+      { path: "/", element: <Home /> },
+      { path: "/login", element: <Login /> },
       {
-        path: '/daily',
+        path: "/daily",
         loader: DailyLoader,
         element: <Daily />,
       },
@@ -73,12 +73,12 @@ const router = createBrowserRouter([
       },
       { path: '/signup', element: <Signup /> },
       {
-        path: '/lab',
+        path: "/lab",
         element: <Lab />,
         children: [
-          { path: 'quiz', element: <LabQuiz /> },
+          { path: "quiz", element: <LabQuiz /> },
           {
-            path: 'puzzle',
+            path: "puzzle",
             element: <LabPuzzle />,
             children: [
               { index: true, element: <Navigate to="config" replace /> },

@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { XMLParser } from 'fast-xml-parser';
-import { AstroEventItem } from '../types/daily';
+import axios from "axios";
+import { XMLParser } from "fast-xml-parser";
+import { AstroEventItem } from "../../types/daily";
 
 const calendarAPI = axios.create({
   baseURL:
-    'https://apis.data.go.kr/B090041/openapi/service/AstroEventInfoService',
+    "https://apis.data.go.kr/B090041/openapi/service/AstroEventInfoService",
 });
 
 export async function getAstroEvents(
@@ -12,14 +12,14 @@ export async function getAstroEvents(
   month: number
 ): Promise<AstroEventItem[]> {
   try {
-    const res = await calendarAPI.get('/getAstroEventInfo', {
+    const res = await calendarAPI.get("/getAstroEventInfo", {
       params: {
         solYear: year,
-        solMonth: String(month).padStart(2, '0'),
-        _type: 'xml',
+        solMonth: String(month).padStart(2, "0"),
+        _type: "xml",
         ServiceKey: import.meta.env.VITE_CALENDAR_API_KEY,
       },
-      responseType: 'text',
+      responseType: "text",
     });
 
     const parser = new XMLParser({ ignoreAttributes: false });
@@ -32,13 +32,13 @@ export async function getAstroEvents(
     const itemArray = Array.isArray(items) ? items : [items];
 
     return itemArray.map((item) => ({
-      astroEvent: item.astroEvent ?? '',
-      astroTitle: item.astroTitle ?? '',
-      astroTime: item.astroTime ?? '',
+      astroEvent: item.astroEvent ?? "",
+      astroTitle: item.astroTitle ?? "",
+      astroTime: item.astroTime ?? "",
       locdate: Number(item.locdate ?? 0),
     }));
   } catch (error) {
-    console.error('astroAPI error:', error);
+    console.error("astroAPI error:", error);
     return [];
   }
 }

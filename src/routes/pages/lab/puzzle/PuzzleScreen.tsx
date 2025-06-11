@@ -9,6 +9,7 @@ import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 import { usePuzzleSolver } from "../../../../hooks/usePuzzleSolver";
 import { usePuzzleSetup } from "../../../../hooks/usePuzzleSetup";
 import { LoaderData } from "../../../../types/daily";
+import { useTranslations } from "../../../../hooks/useTranslations";
 
 export default function PuzzleScreen() {
   const navigate = useNavigate();
@@ -19,16 +20,20 @@ export default function PuzzleScreen() {
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
 
-  const { imageUrl, imageLoaded, puzzleGrid, timeLimit, setup } =
-    usePuzzleSetup(config, nasa);
-  const { solve, score, totalScore } = usePuzzleSolver(
-    config,
-    timeLeft!,
-    () => {
-      setIsTimerRunning(false);
-      setShowResultModal(true);
-    }
-  );
+  const {
+    imageUrl,
+    title,
+    explanation,
+    imageLoaded,
+    puzzleGrid,
+    timeLimit,
+    setup,
+  } = usePuzzleSetup(config, nasa);
+  const { solve, score } = usePuzzleSolver(config, timeLeft!, () => {
+    setIsTimerRunning(false);
+    setShowResultModal(true);
+  });
+  const { translations, isLoading } = useTranslations(explanation);
 
   useEffect(() => {
     setup();
@@ -51,7 +56,7 @@ export default function PuzzleScreen() {
     setTimeLeft((prev) => Math.max(prev! - 1000, 0));
   };
 
-  if (!config || !imageUrl || !imageLoaded) {
+  if (!config || !imageUrl || !imageLoaded || isLoading) {
     return <LoadingSpinner />;
   }
   return (
@@ -64,8 +69,10 @@ export default function PuzzleScreen() {
         />
         <JigsawPuzzle
           imageSrc={imageUrl}
-          rows={puzzleGrid.rows}
-          columns={puzzleGrid.cols}
+          // rows={puzzleGrid.rows}
+          // columns={puzzleGrid.cols}
+          rows={2}
+          columns={2}
           onSolved={solve}
         />
       </div>
@@ -73,7 +80,9 @@ export default function PuzzleScreen() {
         <PuzzleResultModal
           onClose={closeHandler}
           score={score}
-          totalScore={totalScore}
+          title={title!}
+          imgSrc={imageUrl}
+          explanation={translations!}
         />
       )}
     </>
