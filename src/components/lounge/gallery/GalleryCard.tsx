@@ -42,6 +42,8 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
               <GalleryLike
                 postId={post.id}
                 profileId={uid || ''}
+                initialLiked={post.liked}
+                initialCount={post.like_count}
                 IconLiked={
                   <img
                     src={heartfilledIcon}

@@ -11,6 +11,8 @@ interface GalleryLikeProps {
   profileId: string;
   IconLiked: ReactNode;
   IconNotLiked: ReactNode;
+  initialLiked?: boolean | null;
+  initialCount?: number | null;
   disabled?: boolean;
   onToggle?: (likesCount: number, liked: boolean) => void;
 }
@@ -20,6 +22,8 @@ export default function GalleryLike({
   profileId,
   IconLiked,
   IconNotLiked,
+  initialLiked = false,
+  initialCount = 0,
   onToggle,
 }: GalleryLikeProps) {
   const [liked, setLiked] = useState(false);
@@ -28,6 +32,17 @@ export default function GalleryLike({
   const [isToggling, setIsToggling] = useState(false);
 
   useEffect(() => {
+    setLiked(initialLiked ?? false);
+    setLikesCount(initialCount ?? 0);
+  }, [initialLiked, initialCount]);
+
+  useEffect(() => {
+    // 초기값이 있으면 서버 호출을 건너뛸 수 있음
+    if (initialLiked !== undefined && initialCount !== undefined) {
+      setIsInitialLoading(false);
+      return;
+    }
+
     let isCancelled = false;
 
     async function loadInitialData() {
@@ -57,7 +72,7 @@ export default function GalleryLike({
     return () => {
       isCancelled = true;
     };
-  }, [postId, profileId]);
+  }, [postId, profileId, initialLiked, initialCount]);
 
   const toggleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -86,8 +101,6 @@ export default function GalleryLike({
       const success = prevLiked
         ? await removeLike(postId, profileId)
         : await addLike(postId, profileId);
-      console.log('API success:', success);
-      console.log('API', prevLiked);
 
       if (!success) {
         // API 실패 시 원상복구
