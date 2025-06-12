@@ -68,14 +68,8 @@ export default function LabRank() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
         </div>
-        <div className="flex-1">
-          {selected === "puzzle" ? (
-            <div>
-              <Leaderboard />
-            </div>
-          ) : (
-            <div>quiz</div>
-          )}
+        <div className="flex-1  min-h-0 overflow-y-auto">
+          {selected === "puzzle" ? <Leaderboard /> : <div>quiz</div>}
         </div>
         <div className="flex w-full justify-center">
           <div className="group w-40">
