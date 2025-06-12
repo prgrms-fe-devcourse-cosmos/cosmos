@@ -25,7 +25,7 @@ import LabRank from './pages/lab/rank/LabRank';
 import { reviewLoader } from '../loader/review.loader';
 import PuzzleConfigScreen from './pages/lab/puzzle/PuzzleConfigScreen';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import GalleryAdd from '../components/Lounge/gallery/GalleryAdd';
+import GalleryAdd from '../components/lounge/gallery/GalleryAdd';
 import User from './pages/User';
 
 const router = createBrowserRouter([

@@ -6,5 +6,5 @@ type ProfileType = {
   id: string;
   updated_at: string | null;
   username: string;
-  usercode: string;
+  usercode: string | null;
 } | null;
