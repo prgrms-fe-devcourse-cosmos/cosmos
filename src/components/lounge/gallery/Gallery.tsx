@@ -81,12 +81,15 @@ export default function Gallery() {
           ? Array.from({ length: 2 }).map((_, idx) => (
               <GalleryCardSkeleton key={idx} />
             ))
-          : posts.map((post) => {
-              if (!post.gallery_images) return null;
-              return (
-                <GalleryCard key={post.id} post={{ ...post, id: post.id }} />
-              );
-            })}
+          : posts
+              .slice()
+              .reverse()
+              .map((post) => {
+                if (!post.gallery_images) return null;
+                return (
+                  <GalleryCard key={post.id} post={{ ...post, id: post.id }} />
+                );
+              })}
       </div>
     </>
   );
