@@ -1,7 +1,7 @@
 import React from "react";
-import { Player } from "../../../types/player";
-import LeaderboardList from "./LeaderboardList";
-import TopThreeLeaderboard from "./TopThreeLeaderboard";
+import { Player } from "../../../../types/player";
+import LeaderboardList from "../../../../components/lab/rank/LeaderboardList";
+import TopThreeLeaderboard from "../../../../components/lab/rank/TopThreeLeaderboard";
 
 type LeaderboardProps = {
   allPlayers: Player[];

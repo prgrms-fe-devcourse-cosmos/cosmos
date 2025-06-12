@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
-import Leaderboard from "../../../../components/lab/rank/Leaderboard";
+import Leaderboard from "./Leaderboard";
 import usePuzzleLeaderBoard from "../../../../hooks/usePuzzleLeaderBoard";
 import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 
