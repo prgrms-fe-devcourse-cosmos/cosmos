@@ -24,20 +24,20 @@ export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
     <div className={`relative ${className}`} ref={menuRef}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-2xl font-bold px-1 py-1"
+        className="text-2xl font-bold w-15 px-1 py-1"
         aria-label="메뉴 열기"
       >
         ...
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-24 z-10">
+        <div className="absolute left-5 top-full w-15 border border-[var(--gray-200)]">
           <button
             onClick={() => {
               setIsOpen(false);
               onEdit();
             }}
-            className="block w-full text-left px-4 py-2 cursor-pointer hover:text-white"
+            className="block w-full text-left px-3 py-2 cursor-pointer hover:text-white"
           >
             수정
           </button>
@@ -46,7 +46,7 @@ export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
               setIsOpen(false);
               onDelete();
             }}
-            className="block w-full text-left px-4 py-2 cursor-pointer hover:text-white"
+            className="block w-full text-left px-3 py-2 cursor-pointer hover:text-white"
           >
             삭제
           </button>
