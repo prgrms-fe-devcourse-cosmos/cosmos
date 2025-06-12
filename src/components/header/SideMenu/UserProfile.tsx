@@ -4,13 +4,15 @@ import { ProfileType } from "../../../stores/authStore";
 
 export default function UserProfile({ user }: { user: ProfileType }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 text-2xl">
       <img
         src={user?.avatar_url || profileImage}
-        className="rounded-full size-8"
+        className="rounded-full size-12"
       />
-      <p>WELCOME,</p>
-      <p className="font-[watermelonSalad]">{user?.username}</p>
+      <div className="space-y-1">
+        <p className="text-[color:var(--primary-300)]">WELCOME</p>
+        <p>{user?.username}</p>
+      </div>
     </div>
   );
 }

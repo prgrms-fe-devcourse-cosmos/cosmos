@@ -10,6 +10,7 @@ export default function AuthButtons({
   isLoggedIn: boolean;
   toggleMenu: () => void;
 }) {
+  const user = useAuthStore((state) => state.user);
   const clearUser = useAuthStore((state) => state.clearUser);
   const navigate = useNavigate();
 
@@ -24,20 +25,29 @@ export default function AuthButtons({
     }
   }
   return (
-    <div className="text-[10px] w-full">
+    <div className="text-xs w-full">
       {isLoggedIn ? (
-        <div className="flex justify-center gap-4">
-          <button className="cursor-pointer" onClick={() => navigate("/")}>
+        <div className="flex justify-center gap-10">
+          <button
+            className="cursor-pointer hover:text-[color:var(--primary-300)]"
+            onClick={() => {
+              navigate(`/user/${user?.usercode}`);
+              toggleMenu();
+            }}
+          >
             MY PAGE
           </button>
-          <button className="cursor-pointer" onClick={logoutHandler}>
+          <button
+            className="cursor-pointer hover:text-[color:var(--primary-300)]"
+            onClick={logoutHandler}
+          >
             LOG OUT
           </button>
         </div>
       ) : (
         <div className="w-full flex justify-center">
           <button
-            className="cursor-pointer"
+            className="cursor-pointer hover:text-[color:var(--primary-300)]"
             onClick={() => {
               navigate("/login");
               toggleMenu();
