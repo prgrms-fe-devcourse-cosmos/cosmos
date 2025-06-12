@@ -1,16 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import searchIcon from '../../../assets/icons/search.svg';
 import searchGrayIcon from '../../../assets/icons/search_gray.svg';
 import Button from '../../common/Button';
 import { useNavigate } from 'react-router-dom';
 import GalleryCard from './GalleryCard';
+import { GalleryPosts } from '../../../api/gallery/gallerypost';
+import { GalleryPost } from '../../../types/gallery';
+import GalleryCardSkeleton from './GalleryCardSkeleton';
 
 export default function Gallery() {
   const [isFocused, setIsFocused] = useState(false);
-
   const [sortBy, setSortBy] = useState<string>('like.desc');
-
+  const [posts, setPosts] = useState<GalleryPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      const posts = await GalleryPosts();
+      setPosts(posts);
+      setIsLoading(false);
+    };
+    loadPosts();
+  }, []);
 
   const handleSortClick = (sortValue: string) => {
     setSortBy(sortValue);
@@ -65,8 +77,19 @@ export default function Gallery() {
       </div>
 
       <div className="grid grid-cols-2 gap-x-[54px] gap-y-[88px] mb-[50px]">
-        <GalleryCard />
-        <GalleryCard />
+        {isLoading
+          ? Array.from({ length: 2 }).map((_, idx) => (
+              <GalleryCardSkeleton key={idx} />
+            ))
+          : posts
+              .slice()
+              .reverse()
+              .map((post) => {
+                if (!post.gallery_images) return null;
+                return (
+                  <GalleryCard key={post.id} post={{ ...post, id: post.id }} />
+                );
+              })}
       </div>
     </>
   );
