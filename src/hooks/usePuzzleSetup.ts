@@ -44,6 +44,7 @@ export const usePuzzleSetup = (config: PuzzleConfig | null, nasa: ApodData) => {
       loadImage(fullPostUrl);
       setTitle(random.title);
       setExplanation(random.overview);
+      setDate(random.title);
     }
     const gridSetting = difficultyMap[config.difficulty];
     const time = difficultyTimeLimit[config.difficulty];
