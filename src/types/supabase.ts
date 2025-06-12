@@ -631,9 +631,10 @@ export type Database = {
 
 type DefaultSchema = Database[Extract<keyof Database, "public">];
 
+
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
@@ -660,7 +661,7 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
@@ -683,7 +684,7 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
@@ -706,7 +707,7 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+    | keyof DefaultSchema['Enums']
     | { schema: keyof Database },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof Database;
@@ -721,7 +722,7 @@ export type Enums<
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database;
