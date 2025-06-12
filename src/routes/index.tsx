@@ -19,13 +19,14 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import LabQuiz from './pages/lab/quiz/LabQuiz';
 import LabPuzzle from './pages/lab/puzzle/LabPuzzle';
+import { DailyLoader } from '../loader/dallyspace.loader';
 import PuzzleScreen from './pages/lab/puzzle/PuzzleScreen';
+import LabRank from './pages/lab/rank/LabRank';
+import { reviewLoader } from '../loader/review.loader';
 import PuzzleConfigScreen from './pages/lab/puzzle/PuzzleConfigScreen';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import LabRank from './pages/lab/rank/LabRank';
 import GalleryAdd from '../components/lounge/gallery/GalleryAdd';
-import { DailyLoader } from '../loader/dallyspace.loader';
-import { reviewLoader } from '../loader/review.loader';
+import User from './pages/User';
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
         path: '/lounge',
         element: <Lounge />,
         children: [
-          { index: true, element: <Navigate to="films" replace /> },
+          { index: true, element: <Navigate to='films' replace /> },
           {
             path: 'films',
             children: [
@@ -80,7 +81,7 @@ const router = createBrowserRouter([
             path: 'puzzle',
             element: <LabPuzzle />,
             children: [
-              { index: true, element: <Navigate to="config" replace /> },
+              { index: true, element: <Navigate to='config' replace /> },
               { path: 'config', element: <PuzzleConfigScreen /> },
               { path: 'play', loader: DailyLoader, element: <PuzzleScreen /> },
             ],
@@ -88,6 +89,7 @@ const router = createBrowserRouter([
           { path: 'rank', element: <LabRank /> },
         ],
       },
+      { path: '/user/:code', element: <User /> },
       { path: '*', element: <NotFound /> },
     ],
   },
