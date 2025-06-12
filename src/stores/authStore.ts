@@ -1,16 +1,5 @@
-import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
-
-type ProfileType = {
-  avatar_url: string | null;
-  bio: string | null;
-  created_at: string;
-  email: string;
-  id: string;
-  updated_at: string | null;
-  username: string;
-  usercode: string;
-} | null;
+import { create } from 'zustand';
+import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 type AuthStore = {
   user: ProfileType;
@@ -29,7 +18,7 @@ export const useAuthStore = create(
         clearUser: () => set({ user: null, token: null }),
       }),
       {
-        name: "auth-store",
+        name: 'auth-store',
         storage: createJSONStorage(() => sessionStorage),
       }
     )
