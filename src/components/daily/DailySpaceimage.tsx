@@ -1,9 +1,11 @@
 import { useLoaderData } from "react-router-dom";
 import { LoaderData } from "../../types/daily";
 import { useTranslate } from "../../hooks/useTranslate";
+import { useState } from "react";
 
 export default function DailySpaceimage() {
   const { nasa } = useLoaderData() as LoaderData;
+  const [showTranslation, setShowTranslation] = useState(false);
   const { translation: translation, isLoading } = useTranslate(
     nasa.explanation,
     nasa.date
@@ -25,11 +27,17 @@ export default function DailySpaceimage() {
         {/* 오른쪽 이미지 */}
         <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] flex justify-start items-center">
           {nasa.media_type === "image" ? (
-            <img
-              src={nasa.url}
-              alt={nasa.title}
-              className="w-full h-full object-cover"
-            />
+            <a
+              href="https://apod.nasa.gov/apod/astropix.html"
+              target="_blank"
+              className="w-full h-full"
+            >
+              <img
+                src={nasa.url}
+                alt={nasa.title}
+                className="w-full h-full object-cover"
+              />
+            </a>
           ) : (
             <div className="w-full flex justify-center items-center">
               <h1 className="text-center">이미지가 없습니다.</h1>
@@ -37,19 +45,50 @@ export default function DailySpaceimage() {
           )}
         </div>
         {/* 왼쪽 내용 */}
-        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] text-[var(--white)] flex flex-col justify-start items-start px-12">
-          <div className="my-5  md:my-12  w-full">
-            <h1 className="md:text-xl text-sm font-bold mb-2 md:mb-5">
+        <div className="w-full sm:w-1/2 md:h-full bg-[rgba(255,255,255,0.09)] text-[var(--white)] flex flex-col items-start px-6 py-6 md:px-12 md:py-12">
+          <div className=" h-full w-full flex flex-col justify-between">
+            <h1 className="md:text-2xl text-sm font-medium mb-2 md:mb-5">
               {nasa.title}
             </h1>
-            {isLoading ? (
-              <div className="space-y-2 animate-pulse w-full">
-                <div className="h-4 bg-gray-500 rounded w-full"></div>
-              </div>
+            {showTranslation ? (
+              <>
+                <div className="flex-1">
+                  {isLoading ? (
+                    <div className="space-y-2 animate-pulse w-full">
+                      <div className="h-4 bg-gray-500 rounded w-full"></div>
+                      <div className="h-4 bg-gray-500 rounded w-full"></div>
+                    </div>
+                  ) : (
+                    <p className="text-xs md:text-base line-clamp-10 md:line-clamp-14 whitespace-pre-wrap leading-5 md:leading-7 tracking-wide">
+                      {translation}
+                    </p>
+                  )}
+                </div>
+                <div className="w-full flex justify-end ">
+                  <button
+                    onClick={() => setShowTranslation(false)}
+                    className="text-[10px]  md:text-base text-[color:var(--gray-200)] cursor-pointer mt-1"
+                  >
+                    원문보기
+                  </button>{" "}
+                </div>
+              </>
             ) : (
-              <p className="text-xs md:text-base line-clamp-12 md:line-clamp-18 whitespace-pre-wrap leading-normal">
-                {translation}
-              </p>
+              <>
+                <div className="flex-1">
+                  <p className="text-xs md:text-base line-clamp-10 md:line-clamp-14 whitespace-pre-wrap leading-5 md:leading-7 tracking-wide">
+                    {nasa.explanation}
+                  </p>
+                </div>
+                <div className="w-full flex justify-end ">
+                  <button
+                    onClick={() => setShowTranslation(true)}
+                    className="text-[10px] md:text-base text-[color:var(--gray-200)] cursor-pointer mt-1"
+                  >
+                    번역보기
+                  </button>{" "}
+                </div>
+              </>
             )}
           </div>
         </div>
