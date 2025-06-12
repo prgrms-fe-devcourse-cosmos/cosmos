@@ -3,7 +3,7 @@ import backIcon from '../../../assets/icons/back.svg';
 import textimage from '../../../assets/images/default-logo.svg';
 import profileimage from '../../../assets/images/profile.svg';
 import GalleryComment from './GalleryComment';
-import Menu from '../../common/menu';
+import Menu from '../../common/Menu';
 
 export default function GalleryDetail() {
   const handleEdit = () => {
