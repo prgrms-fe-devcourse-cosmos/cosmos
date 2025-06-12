@@ -12,6 +12,7 @@ interface GalleryLikeProps {
   IconLiked: ReactNode;
   IconNotLiked: ReactNode;
   disabled?: boolean;
+  onToggle?: (likesCount: number, liked: boolean) => void;
 }
 
 export default function GalleryLike({
@@ -19,6 +20,7 @@ export default function GalleryLike({
   profileId,
   IconLiked,
   IconNotLiked,
+  onToggle,
 }: GalleryLikeProps) {
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
@@ -72,25 +74,33 @@ export default function GalleryLike({
     const prevLiked = liked;
     const prevCount = likesCount;
 
+    const newLiked = !prevLiked;
+    const newCount = prevCount + (newLiked ? 1 : -1);
+
     // 낙관적 업데이트
-    setLiked(!prevLiked);
-    setLikesCount(prevCount + (prevLiked ? -1 : 1));
+    setLiked(newLiked);
+    setLikesCount(newCount);
+    if (onToggle) onToggle(newCount, newLiked);
 
     try {
       const success = prevLiked
         ? await removeLike(postId, profileId)
         : await addLike(postId, profileId);
+      console.log('API success:', success);
+      console.log('API', prevLiked);
 
       if (!success) {
         // API 실패 시 원상복구
         setLiked(prevLiked);
         setLikesCount(prevCount);
+        if (onToggle) onToggle(prevCount, prevLiked);
       }
     } catch (error) {
       console.error('Failed to toggle like:', error);
       // 에러 발생 시 원상복구
       setLiked(prevLiked);
       setLikesCount(prevCount);
+      if (onToggle) onToggle(prevCount, prevLiked);
     } finally {
       setIsToggling(false);
     }

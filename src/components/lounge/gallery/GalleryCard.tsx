@@ -3,18 +3,14 @@ import heartIcon from '../../../assets/icons/heart.svg';
 import heartfilledIcon from '../../../assets/icons/filled_heart.svg';
 import GalleryLike from './GalleryLike';
 import { userStore } from '../../../stores/userStore';
+import { GalleryPost, GalleryPostWithLike } from '../../../types/gallery';
 
 interface GalleryCardProps {
-  post: {
-    id: number;
-    title: string;
-    content: string;
-    created_at: string;
-    gallery_images: { image_url: string } | null;
-  };
+  post: GalleryPost;
+  onLikeToggle: (updatedPost: GalleryPostWithLike) => void;
 }
 
-export default function GalleryCard({ post }: GalleryCardProps) {
+export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
   const navigate = useNavigate();
   const uid = userStore((state) => state.uid);
 
@@ -56,6 +52,13 @@ export default function GalleryCard({ post }: GalleryCardProps) {
                 IconNotLiked={
                   <img src={heartIcon} alt="좋아요안됨" className="w-5 h-5" />
                 }
+                onToggle={(updatedLikeCount, liked) => {
+                  onLikeToggle({
+                    ...post,
+                    like_count: updatedLikeCount,
+                    liked,
+                  });
+                }}
               />
             </div>
           </div>

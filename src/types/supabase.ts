@@ -254,6 +254,7 @@ export type Database = {
           content: string;
           created_at: string;
           id: number;
+          like_count: number | null;
           post_type: string;
           profile_id: string;
           title: string;
@@ -262,7 +263,8 @@ export type Database = {
         Insert: {
           content: string;
           created_at?: string;
-          id?: never;
+          id?: number;
+          like_count?: number | null;
           post_type: string;
           profile_id: string;
           title: string;
@@ -271,7 +273,8 @@ export type Database = {
         Update: {
           content?: string;
           created_at?: string;
-          id?: never;
+          id?: number;
+          like_count?: number | null;
           post_type?: string;
           profile_id?: string;
           title?: string;
