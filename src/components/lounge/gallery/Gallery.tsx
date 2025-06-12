@@ -52,11 +52,6 @@ export default function Gallery() {
   };
 
   const handlePostUpdate = (updatedPost: GalleryPost & { liked: boolean }) => {
-    console.log('Before update:', {
-      originalPosts: originalPosts.length,
-      posts: posts.length,
-    });
-    console.log('Updated post:', updatedPost);
     const updatedOriginalPosts = originalPosts.map((p) =>
       p.id === updatedPost.id
         ? { ...p, like_count: updatedPost.like_count, liked: updatedPost.liked }
@@ -64,19 +59,10 @@ export default function Gallery() {
     );
     setOriginalPosts(updatedOriginalPosts);
 
-    console.log(
-      'After mapping:',
-      updatedOriginalPosts.find((p) => p.id === updatedPost.id)
-    );
-
     const filtered = updatedOriginalPosts.filter((post) =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     const sorted = sortPosts(filtered, sortBy);
-    console.log(
-      'Final sorted posts:',
-      sorted.find((p) => p.id === updatedPost.id)
-    );
     setPosts(sorted);
   };
 
