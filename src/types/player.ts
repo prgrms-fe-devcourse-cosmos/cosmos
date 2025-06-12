@@ -1,5 +1,6 @@
 export interface Player {
-  name: string;
-  avatar: string;
-  score: number;
+  id: string;
+  username: string;
+  avatar_url: string;
+  total_score: number;
 }

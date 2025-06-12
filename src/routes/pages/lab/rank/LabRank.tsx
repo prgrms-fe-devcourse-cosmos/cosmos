@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
-import Leaderboard from "./Leaderboard";
+import Leaderboard from "../../../../components/lab/rank/Leaderboard";
+import usePuzzleLeaderBoard from "../../../../hooks/usePuzzleLeaderBoard";
+import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 
 const tabs = [
   { id: "puzzle", label: "PUZZLE" },
@@ -13,6 +15,8 @@ export default function LabRank() {
   const [selected, setSelected] = useState("puzzle");
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { puzzlePlayers, isLoading } = usePuzzleLeaderBoard();
+
   const [indicatorProps, setIndicatorProps] = useState<{
     left: number;
     width: number;
@@ -69,7 +73,13 @@ export default function LabRank() {
           />
         </div>
         <div className="flex-1  min-h-0 overflow-y-auto">
-          {selected === "puzzle" ? <Leaderboard /> : <div>quiz</div>}
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <Leaderboard
+              allPlayers={selected === "puzzle" ? puzzlePlayers : puzzlePlayers}
+            />
+          )}
         </div>
         <div className="flex w-full justify-center">
           <div className="group w-40">

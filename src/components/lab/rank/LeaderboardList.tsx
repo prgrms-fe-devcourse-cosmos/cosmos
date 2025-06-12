@@ -1,5 +1,5 @@
 import React from "react";
-import { Player } from "../../../../types/player";
+import { Player } from "../../../types/player";
 import LeaderboardItem from "./LeaderboardItem";
 
 type LeaderboardListProps = {
@@ -11,7 +11,7 @@ export default function LeaderboardList({ players }: LeaderboardListProps) {
     <>
       <div className="space-y-1">
         {players.map((player, i) => (
-          <LeaderboardItem key={player.name} player={player} rank={i + 4} />
+          <LeaderboardItem key={player.username} player={player} rank={i + 4} />
         ))}
       </div>
     </>
