@@ -22,23 +22,30 @@ export default function GalleryLike({
   profileId,
   IconLiked,
   IconNotLiked,
-  initialLiked = false,
-  initialCount = 0,
+  initialLiked = null,
+  initialCount = null,
   onToggle,
 }: GalleryLikeProps) {
-  const [liked, setLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(0);
+  // 초기값을 initialLiked와 initialCount로 설정
+  const [liked, setLiked] = useState(initialLiked ?? false);
+  const [likesCount, setLikesCount] = useState(initialCount ?? 0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isToggling, setIsToggling] = useState(false);
 
+  // initialLiked와 initialCount가 변경될 때 상태 업데이트
   useEffect(() => {
     setLiked(initialLiked ?? false);
     setLikesCount(initialCount ?? 0);
   }, [initialLiked, initialCount]);
 
   useEffect(() => {
-    // 초기값이 있으면 서버 호출을 건너뛸 수 있음
-    if (initialLiked !== undefined && initialCount !== undefined) {
+    // 초기값이 제공되었으면 서버 호출을 건너뛰기
+    if (
+      initialLiked !== null &&
+      initialLiked !== undefined &&
+      initialCount !== null &&
+      initialCount !== undefined
+    ) {
       setIsInitialLoading(false);
       return;
     }
