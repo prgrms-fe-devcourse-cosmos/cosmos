@@ -3,17 +3,25 @@ import backIcon from '../../../assets/icons/back.svg';
 import textimage from '../../../assets/images/default-logo.svg';
 import profileimage from '../../../assets/images/profile.svg';
 import GalleryComment from './GalleryComment';
+import Menu from '../../common/menu';
 
 export default function GalleryDetail() {
+  const handleEdit = () => {
+    alert('수정 클릭');
+  };
+
+  const handleDelete = () => {
+    alert('삭제 클릭');
+  };
   return (
     <div className="w-[768px] h-[1120px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
       <Button variant="back" onClick={() => window.history.back()}>
         <img src={backIcon} alt="뒤로가기" className="w-4 h-4 mr-2" />
         Back
       </Button>
-      <div className="w-[627px] h-[164px]flex flex-col">
+      <div className="w-[627px] h-[164px] flex flex-col">
         <div className="w-full h-[79px]">
-          <div className="w-[241px] h-[52px] flex justify-between items-center">
+          <div className="w-full h-[52px] flex justify-start items-center">
             {/* 프로필 */}
             <div className="flex items-center gap-3">
               <img
@@ -28,6 +36,11 @@ export default function GalleryDetail() {
                 </span>
               </div>
             </div>
+            <Menu
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              className="ml-auto self-start mt-[-15px]"
+            />
           </div>
         </div>
 
