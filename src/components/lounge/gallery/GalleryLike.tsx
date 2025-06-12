@@ -4,7 +4,7 @@ import {
   addLike,
   removeLike,
   getLikesCount,
-} from '../../../api/gallerylike';
+} from '../../../api/gallery/gallerylike';
 
 interface GalleryLikeProps {
   postId: number;

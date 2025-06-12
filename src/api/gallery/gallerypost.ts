@@ -1,5 +1,5 @@
-import supabase from '../utils/supabase';
-import { GalleryPost } from '../types/gallery';
+import supabase from '../../utils/supabase';
+import { GalleryPost } from '../../types/gallery';
 
 export async function GalleryPosts(): Promise<GalleryPost[]> {
   const { data, error } = await supabase

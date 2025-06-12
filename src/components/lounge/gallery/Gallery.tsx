@@ -4,7 +4,7 @@ import searchGrayIcon from '../../../assets/icons/search_gray.svg';
 import Button from '../../common/Button';
 import { useNavigate } from 'react-router-dom';
 import GalleryCard from './GalleryCard';
-import { GalleryPosts } from '../../../api/gallerypost';
+import { GalleryPosts } from '../../../api/gallery/gallerypost';
 import { GalleryPost } from '../../../types/gallery';
 import GalleryCardSkeleton from './GalleryCardSkeleton';
 

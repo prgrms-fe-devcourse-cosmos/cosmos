@@ -1,4 +1,4 @@
-import supabase from '../utils/supabase';
+import supabase from '../../utils/supabase';
 
 // 특정 게시글(post_id)에 대해 현재 사용자가 좋아요 눌렀는지 확인
 export async function checkUserLike(

@@ -10,15 +10,8 @@ export default function GalleryAdd() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const {
-    setImageFile,
-    setTitle,
-    setContent,
-    uploadPost,
-    imageFile,
-    title,
-    content,
-  } = useGalleryPostStore();
+  const { setImageFile, setTitle, setContent, uploadPost } =
+    useGalleryPostStore();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -34,20 +27,6 @@ export default function GalleryAdd() {
   };
 
   const handleSubmit = async () => {
-    if (!imageFile) {
-      alert('이미지를 넣어주세요.');
-      return;
-    }
-
-    if (title.trim() === '') {
-      alert('제목을 입력해주세요.');
-      return;
-    }
-
-    if (content.trim() === '') {
-      alert('본문을 입력해주세요.');
-      return;
-    }
     const success = await uploadPost();
     if (success) {
       navigate('/lounge/gallery');
