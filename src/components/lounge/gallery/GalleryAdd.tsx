@@ -10,8 +10,17 @@ export default function GalleryAdd() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const { setImageFile, setTitle, setContent, uploadPost } =
-    useGalleryPostStore();
+  const {
+    setImageFile,
+    setTitle,
+    setContent,
+    uploadPost,
+    imageFile,
+    title,
+    content,
+  } = useGalleryPostStore();
+
+  const isFormValid = imageFile && title && content;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -90,9 +99,10 @@ export default function GalleryAdd() {
             CANCEL
           </Button>
           <Button
-            variant="neon_filled"
+            variant={isFormValid ? 'neon_filled' : 'disabled'}
             className="text-xs w-[90px] h-[38px]"
             onClick={handleSubmit}
+            disabled={!isFormValid}
           >
             SAVE
           </Button>
