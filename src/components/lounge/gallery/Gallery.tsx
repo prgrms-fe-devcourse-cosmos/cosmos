@@ -1,37 +1,83 @@
 import { useEffect, useState } from 'react';
-import searchIcon from '../../../assets/icons/search.svg';
-import searchGrayIcon from '../../../assets/icons/search_gray.svg';
 import Button from '../../common/Button';
 import { useNavigate } from 'react-router-dom';
 import GalleryCard from './GalleryCard';
 import { GalleryPosts } from '../../../api/gallery/gallerypost';
 import { GalleryPost } from '../../../types/gallery';
 import GalleryCardSkeleton from './GalleryCardSkeleton';
+import { useAuthStore } from '../../../stores/authStore';
+import SearchInput from '../../common/SearchInput';
 
 export default function Gallery() {
-  const [isFocused, setIsFocused] = useState(false);
+  const isLoggedIn = useAuthStore((state) => !!state.user);
+  const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<string>('like.desc');
+  const [originalPosts, setOriginalPosts] = useState<GalleryPost[]>([]);
   const [posts, setPosts] = useState<GalleryPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadPosts = async () => {
-      const posts = await GalleryPosts();
-      setPosts(posts);
+      const fetchedPosts = await GalleryPosts();
+      setOriginalPosts(fetchedPosts);
+      const initialSorted = sortPosts(fetchedPosts, sortBy);
+      setPosts(initialSorted);
       setIsLoading(false);
     };
     loadPosts();
   }, []);
 
+  useEffect(() => {
+    if (originalPosts.length === 0) return;
+    const sorted = sortPosts(originalPosts, sortBy);
+    setPosts(sorted);
+  }, [sortBy, originalPosts]);
+
+  const sortPosts = (data: GalleryPost[], sort: string) => {
+    return [...data].sort((a, b) => {
+      if (sort === 'like.desc') {
+        return (b.like_count ?? 0) - (a.like_count ?? 0);
+      } else if (sort === 'release_date.desc') {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      }
+      return 0;
+    });
+  };
+
   const handleSortClick = (sortValue: string) => {
     setSortBy(sortValue);
+  };
+
+  const handlePostUpdate = (updatedPost: GalleryPost & { liked: boolean }) => {
+    const updatedOriginalPosts = originalPosts.map((p) =>
+      p.id === updatedPost.id
+        ? { ...p, like_count: updatedPost.like_count, liked: updatedPost.liked }
+        : p
+    );
+    setOriginalPosts(updatedOriginalPosts);
+
+    const filtered = updatedOriginalPosts.filter((post) =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const sorted = sortPosts(filtered, sortBy);
+    setPosts(sorted);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchTerm(query);
+    const filtered = originalPosts.filter((post) =>
+      post.title.toLowerCase().includes(query.toLowerCase())
+    );
+    const sorted = sortPosts(filtered, sortBy);
+    setPosts(sorted);
   };
 
   return (
     <>
       <div className="flex justify-between mb-[24px] items-center">
-        {/* 정렬 필터 */}
         <ul className="flex ml-2 gap-4 text-[13px] font-medium">
           <li
             className={`cursor-pointer ${
@@ -50,24 +96,19 @@ export default function Gallery() {
             최신순
           </li>
         </ul>
-        {/* 검색창 */}
+
         <div className="flex items-center">
           <div className="w-[280px] relative">
-            <input
-              type="text"
+            <SearchInput
+              scope="gallery"
+              value={searchTerm}
+              setValue={setSearchTerm}
+              onSearch={handleSearch}
               placeholder="게시글 검색"
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              className="w-full border border-[#909090] pl-[42px] py-[6px] text-[14px] rounded-[8px] outline-none focus:border-[#D0F700] hover:border-[#D0F700]"
-            />
-            <img
-              src={isFocused ? searchIcon : searchGrayIcon}
-              alt="검색아이콘"
-              className="absolute top-1/2 left-[16px] -translate-y-1/2 w-[14px] h-[14px]"
             />
           </div>
           <Button
-            variant="neon_filled"
+            variant={isLoggedIn ? 'neon_filled' : 'disabled'}
             onClick={() => navigate('/lounge/gallery/add')}
             className="font-[yapari] font-medium text-sm ml-2 h-[34px]"
           >
@@ -81,15 +122,16 @@ export default function Gallery() {
           ? Array.from({ length: 2 }).map((_, idx) => (
               <GalleryCardSkeleton key={idx} />
             ))
-          : posts
-              .slice()
-              .reverse()
-              .map((post) => {
-                if (!post.gallery_images) return null;
-                return (
-                  <GalleryCard key={post.id} post={{ ...post, id: post.id }} />
-                );
-              })}
+          : posts.map((post) => {
+              if (!post.gallery_images) return null;
+              return (
+                <GalleryCard
+                  key={post.id}
+                  post={post}
+                  onLikeToggle={handlePostUpdate}
+                />
+              );
+            })}
       </div>
     </>
   );

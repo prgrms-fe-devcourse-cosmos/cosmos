@@ -4,4 +4,9 @@ type Post = Database['public']['Tables']['posts']['Row'];
 
 export type GalleryPost = Post & {
   gallery_images: { image_url: string } | null;
+  liked?: boolean | null;
 };
+
+export interface GalleryPostWithLike extends GalleryPost {
+  liked: boolean;
+}
