@@ -3,7 +3,13 @@ import supabase from "../../../utils/supabase";
 import { useAuthStore } from "../../../stores/authStore";
 import { useNavigate } from "react-router-dom";
 
-export default function AuthButtons({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function AuthButtons({
+  isLoggedIn,
+  toggleMenu,
+}: {
+  isLoggedIn: boolean;
+  toggleMenu: () => void;
+}) {
   const clearUser = useAuthStore((state) => state.clearUser);
   const navigate = useNavigate();
 
@@ -30,7 +36,13 @@ export default function AuthButtons({ isLoggedIn }: { isLoggedIn: boolean }) {
         </div>
       ) : (
         <div className="w-full flex justify-center">
-          <button className="cursor-pointer" onClick={() => navigate("/login")}>
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              navigate("/login");
+              toggleMenu();
+            }}
+          >
             JOIN
           </button>
         </div>

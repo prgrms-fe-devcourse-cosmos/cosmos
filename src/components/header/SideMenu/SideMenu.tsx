@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useAuthStore } from "../../../stores/authStore";
 import NavigationMenu from "./NavigationMenu";
@@ -11,9 +11,24 @@ export default function SideMenu() {
   const toggleMenu = () => setOpen((prev) => !prev);
   const user = useAuthStore((state) => state.user);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const sideRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const outsideClickHandler = (event: MouseEvent) => {
+      if (sideRef.current && !sideRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    if (open) {
+      document.addEventListener("mousedown", outsideClickHandler);
+    }
+    return () => {
+      document.removeEventListener("mousedown", outsideClickHandler);
+    };
+  }, [open, setOpen]);
 
   return (
-    <>
+    <div ref={sideRef}>
       {!open && (
         <Menu strokeWidth={1} className="cursor-pointer" onClick={toggleMenu} />
       )}
@@ -31,12 +46,12 @@ export default function SideMenu() {
             />
             <div className="py-20 px-10 flex flex-col gap-10 h-full w-full">
               {user ? <UserProfile user={user} /> : <WelcomeSection />}
-              <NavigationMenu />
-              <AuthButtons isLoggedIn={isLoggedIn} />
+              <NavigationMenu toggleMenu={toggleMenu} />
+              <AuthButtons isLoggedIn={isLoggedIn} toggleMenu={toggleMenu} />
             </div>
           </div>
         </aside>
       )}
-    </>
+    </div>
   );
 }

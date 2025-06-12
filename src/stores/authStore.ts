@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
@@ -12,10 +11,6 @@ export type ProfileType = {
   username: string;
   usercode: string;
 } | null;
-=======
-import { create } from 'zustand';
-import { createJSONStorage, devtools, persist } from 'zustand/middleware';
->>>>>>> origin/main
 
 type AuthStore = {
   isLoggedIn: boolean;
@@ -37,7 +32,7 @@ export const useAuthStore = create(
         clearUser: () => set({ user: null, token: null, isLoggedIn: false }),
       }),
       {
-        name: 'auth-store',
+        name: "auth-store",
         storage: createJSONStorage(() => sessionStorage),
       }
     )
