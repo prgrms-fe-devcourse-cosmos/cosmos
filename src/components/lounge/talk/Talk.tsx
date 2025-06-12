@@ -1,13 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../common/Button";
 import SearchInput from "../../common/SearchInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TalkCard from "./TalkCard";
+import { fetchTalkPosts } from "../../../api/talk/talk";
+import { TalkPost } from "../../../types/talk";
 
 export default function Talk() {
   const navigate = useNavigate();
   // 검색 상태 정의
   const [searchInput, setSearchInput] = useState("");
+
+  // 게시글
+  const [talkPosts, setTalkPosts] = useState<TalkPost[]>([]);
+
+  // 게시글 불러오기
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const data = await fetchTalkPosts();
+        setTalkPosts(data);
+      } catch (err) {
+        console.error("게시글 불러오기 실패", err);
+      }
+    };
+
+    loadPosts();
+  }, []);
 
   // 검색 처리 함수
   const handleSearch = (query: string) => {
@@ -37,8 +56,14 @@ export default function Talk() {
         </Button>
       </div>
       {/* 전체 게시글 */}
-      <TalkCard />
-      <TalkCard />
+      {/* 게시글 리스트 */}
+      {talkPosts.length === 0 ? (
+        <p className="text-center text-gray-400 mt-10">
+          등록된 게시글이 없습니다.
+        </p>
+      ) : (
+        talkPosts.map((post) => <TalkCard key={post.id} post={post} />)
+      )}
     </div>
   );
 }

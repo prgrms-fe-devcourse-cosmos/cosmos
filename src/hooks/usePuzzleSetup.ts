@@ -5,7 +5,7 @@ import {
   PuzzleConfig,
 } from "../types/puzzle";
 import { ApodData } from "../types/daily";
-import { getSpaceMovies } from "../api/lounge/movie";
+import { getSpaceMovies } from "../api/films/movie";
 
 export const usePuzzleSetup = (config: PuzzleConfig | null, nasa: ApodData) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
