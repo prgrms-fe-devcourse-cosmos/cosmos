@@ -57,7 +57,7 @@ export default function Lab() {
                   variant="hover_fill"
                   onClick={() => navigate(pickerValue)}
                 >
-                  LIFT OFF
+                  MOVE
                 </Button>
               </div>
             </div>

@@ -27,7 +27,7 @@ export const summarizeAndTranslateByAi = async (
       .from("apod_translations")
       .select("translated, translated_summary")
       .eq("date", date)
-      .single();
+      .maybeSingle();
 
     if (data?.translated && data?.translated_summary) {
       return {
