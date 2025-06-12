@@ -1,28 +1,27 @@
-import { useEffect, useRef } from "react";
-import Globe from "react-globe.gl";
-import * as THREE from "three";
-import supabase from "../../utils/supabase";
-import { useAuthStore } from "../../stores/authStore";
+import { useEffect, useRef } from 'react';
+import Globe from 'react-globe.gl';
+import * as THREE from 'three';
+import supabase from '../../utils/supabase';
+import { useAuthStore } from '../../stores/authStore';
 
 export default function Home() {
   const globeEl = useRef<any>(null);
   const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
-    if (localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")) {
+    if (localStorage.getItem('sb-qwntelixvmmeluarhlrr-auth-token')) {
       async function setUserInHome() {
         const localId = JSON.parse(
-          localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")!
+          localStorage.getItem('sb-qwntelixvmmeluarhlrr-auth-token')!
         ).user.id;
         const localToken = JSON.parse(
-          localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")!
+          localStorage.getItem('sb-qwntelixvmmeluarhlrr-auth-token')!
         ).access_token;
         const { data } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", localId);
+          .from('profiles')
+          .select('*')
+          .eq('id', localId);
         setUser(data![0], localToken);
-        console.log(localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token"));
       }
       setUserInHome();
     }
@@ -30,11 +29,11 @@ export default function Home() {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session && event === "SIGNED_IN") {
+      if (session && event === 'SIGNED_IN') {
         const { data: userData } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id);
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id);
         userData && setUser(userData[0], session.access_token);
       }
     });
@@ -47,7 +46,7 @@ export default function Home() {
     globe.controls().autoRotate = true;
     globe.controls().autoRotateSpeed = 0.35;
 
-    const CLOUDS_IMG_URL = "/images/earth/clouds.png";
+    const CLOUDS_IMG_URL = '/images/earth/clouds.png';
     const CLOUDS_ALT = 0.004;
     const CLOUDS_ROTATION_SPEED = -0.006;
 
@@ -95,16 +94,16 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full flex justify-center items-center">
+    <div className='relative min-h-screen w-full flex justify-center items-center'>
       {/* <h1 className="absolute top-30 left-1/2 -translate-x-1/2 text-[color:var(--primary-300)] text-3xl font-[yapari] z-10">
         WELCOME
       </h1> */}
       <Globe
         ref={globeEl}
         animateIn={false}
-        globeImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg"
-        bumpImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png"
-        backgroundColor="rgba(0,0,0,0)"
+        globeImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg'
+        bumpImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png'
+        backgroundColor='rgba(0,0,0,0)'
       />
     </div>
   );

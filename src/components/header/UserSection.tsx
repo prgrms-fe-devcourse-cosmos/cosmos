@@ -37,10 +37,11 @@ export default function UserSection() {
       alert("오류가 발생했습니다.");
       console.log(error);
     } else {
+      setMenuOpen(false);
       clearUser();
       sessionStorage.removeItem("auth-store");
       alert("로그아웃되었습니다.");
-      window.location.href = "/";
+      navigate("/");
     }
   }
 
@@ -63,12 +64,12 @@ export default function UserSection() {
             <div className="flex flex-col gap-4 fixed z-1 right-10 xl:right-20 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border">
               <div className="flex flex-col gap-2.5 items-center">
                 <Link
-                  className="flex gap-2 cursor-pointer"
+                  className="flex gap-2 items-center cursor-pointer"
                   to={`/user/${user.usercode}`}
                   onClick={() => setMenuOpen(false)}
                 >
                   <img src={userIcon} alt="" />
-                  <span className="font-medium text-sm mt-1">마이페이지</span>
+                  <span className="font-medium text-sm">마이페이지</span>
                 </Link>
                 <button
                   type="button"
