@@ -12,6 +12,7 @@ type Props = {
   value: string;
   setValue: (v: string) => void;
   onSearch: (query: string) => void;
+  placeholder?: string;
 };
 
 export default function SearchInput({
@@ -19,6 +20,7 @@ export default function SearchInput({
   value,
   setValue,
   onSearch,
+  placeholder,
 }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -71,7 +73,7 @@ export default function SearchInput({
             if (e.key === "Enter") handleSearch(value);
           }}
           onFocus={() => setIsFocused(true)}
-          placeholder="영화 검색"
+          placeholder={placeholder}
           className={`w-full border border-[#909090] pl-[42px] py-[6px] text-[14px] rounded-[8px] outline-none focus:outline-none hover:placeholder-white/80 ${
             shouldOpenDropdown
               ? "border-b-0 rounded-bl-none rounded-br-none"

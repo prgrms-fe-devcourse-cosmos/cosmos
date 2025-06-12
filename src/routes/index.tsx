@@ -26,6 +26,7 @@ import LabRank from "./pages/lab/rank/LabRank";
 import GalleryAdd from "../components/lounge/gallery/GalleryAdd";
 import { DailyLoader } from "../loader/dallyspace.loader";
 import { reviewLoader } from "../loader/review.loader";
+import TalkAdd from "../components/lounge/talk/TalkAdd";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <Talk /> },
               { path: ":id", element: <TalkDetail /> },
+              { path: "add", element: <TalkAdd /> },
             ],
           },
         ],
