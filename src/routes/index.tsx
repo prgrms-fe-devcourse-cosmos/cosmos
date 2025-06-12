@@ -27,6 +27,8 @@ import PuzzleConfigScreen from './pages/lab/puzzle/PuzzleConfigScreen';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import GalleryAdd from '../components/lounge/gallery/GalleryAdd';
 import User from './pages/User';
+import QuizConfigScreen from './pages/lab/quiz/QuizConfigScreen';
+import QuizScreen from './pages/lab/quiz/QuizScreen';
 
 const router = createBrowserRouter([
   {
@@ -76,7 +78,15 @@ const router = createBrowserRouter([
         path: '/lab',
         element: <Lab />,
         children: [
-          { path: 'quiz', element: <LabQuiz /> },
+          {
+            path: 'quiz',
+            element: <LabQuiz />,
+            children: [
+              { index: true, element: <Navigate to='config' replace /> },
+              { path: 'config', element: <QuizConfigScreen /> },
+              { path: 'play', element: <QuizScreen /> },
+            ],
+          },
           {
             path: 'puzzle',
             element: <LabPuzzle />,
