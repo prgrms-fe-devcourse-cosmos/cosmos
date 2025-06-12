@@ -35,6 +35,7 @@ export default function UserSection() {
     const { error } = await supabase.auth.signOut();
     if (error) {
       alert('오류가 발생했습니다.');
+      alert('오류가 발생했습니다.');
       console.log(error);
     } else {
       setMenuOpen(false);

@@ -34,6 +34,30 @@ export type Database = {
   };
   public: {
     Tables: {
+      apod_translations: {
+        Row: {
+          created_at: string;
+          date: string;
+          original: string;
+          translated: string | null;
+          translated_summary: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          date: string;
+          original: string;
+          translated?: string | null;
+          translated_summary?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          date?: string;
+          original?: string;
+          translated?: string | null;
+          translated_summary?: string | null;
+        };
+        Relationships: [];
+      };
       comments: {
         Row: {
           content: string;
@@ -73,6 +97,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -101,10 +132,24 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "follows_follower_id_fkey";
+            columns: ["follower_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "follows_following_id_fkey";
             columns: ["following_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "follows_following_id_fkey";
+            columns: ["following_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
             referencedColumns: ["id"];
           }
         ];
@@ -122,7 +167,15 @@ export type Database = {
           image_url?: string;
           post_id?: number;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: true;
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       likes: {
         Row: {
@@ -156,6 +209,13 @@ export type Database = {
             columns: ["profile_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "likes_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
             referencedColumns: ["id"];
           }
         ];
@@ -214,6 +274,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "movie_reviews_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -222,6 +289,7 @@ export type Database = {
           content: string;
           created_at: string;
           id: number;
+          like_count: number | null;
           post_type: string;
           profile_id: string;
           title: string;
@@ -230,7 +298,8 @@ export type Database = {
         Insert: {
           content: string;
           created_at?: string;
-          id?: never;
+          id?: number;
+          like_count?: number | null;
           post_type: string;
           profile_id: string;
           title: string;
@@ -239,7 +308,8 @@ export type Database = {
         Update: {
           content?: string;
           created_at?: string;
-          id?: never;
+          id?: number;
+          like_count?: number | null;
           post_type?: string;
           profile_id?: string;
           title?: string;
@@ -252,6 +322,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "posts_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -263,8 +340,8 @@ export type Database = {
           email: string;
           id: string;
           updated_at: string | null;
+          usercode: string | null;
           username: string;
-          usercode: string;
         };
         Insert: {
           avatar_url?: string | null;
@@ -273,8 +350,8 @@ export type Database = {
           email: string;
           id: string;
           updated_at?: string | null;
+          usercode?: string | null;
           username: string;
-          usercode: string;
         };
         Update: {
           avatar_url?: string | null;
@@ -283,32 +360,8 @@ export type Database = {
           email?: string;
           id?: string;
           updated_at?: string | null;
+          usercode?: string | null;
           username?: string;
-          usercode?: string;
-        };
-        Relationships: [];
-      };
-      puzzle_images: {
-        Row: {
-          category: string;
-          created_at: string;
-          id: number;
-          image_url: string;
-          title: string;
-        };
-        Insert: {
-          category?: string;
-          created_at?: string;
-          id?: number;
-          image_url: string;
-          title: string;
-        };
-        Update: {
-          category?: string;
-          created_at?: string;
-          id?: number;
-          image_url?: string;
-          title?: string;
         };
         Relationships: [];
       };
@@ -317,16 +370,19 @@ export type Database = {
           id: number;
           profile_id: string;
           score: number;
+          solved_at: string;
         };
         Insert: {
           id?: number;
           profile_id: string;
           score: number;
+          solved_at?: string;
         };
         Update: {
           id?: number;
           profile_id?: string;
           score?: number;
+          solved_at?: string;
         };
         Relationships: [
           {
@@ -334,6 +390,13 @@ export type Database = {
             columns: ["profile_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "puzzle_results_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
             referencedColumns: ["id"];
           }
         ];
@@ -372,6 +435,13 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "quiz_answers_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "quiz_answers_question_id_fkey";
             columns: ["question_id"];
             isOneToOne: false;
@@ -383,7 +453,7 @@ export type Database = {
       quiz_questions: {
         Row: {
           correct_answer: string;
-          difficulty: number | null;
+          difficulty: string | null;
           explanation: string | null;
           id: number;
           options: Json | null;
@@ -392,7 +462,7 @@ export type Database = {
         };
         Insert: {
           correct_answer: string;
-          difficulty?: number | null;
+          difficulty?: string | null;
           explanation?: string | null;
           id?: number;
           options?: Json | null;
@@ -401,7 +471,7 @@ export type Database = {
         };
         Update: {
           correct_answer?: string;
-          difficulty?: number | null;
+          difficulty?: string | null;
           explanation?: string | null;
           id?: number;
           options?: Json | null;
@@ -438,6 +508,13 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "review_likes_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "review_likes_review_id_fkey";
             columns: ["review_id"];
             isOneToOne: false;
@@ -453,7 +530,6 @@ export type Database = {
           }
         ];
       };
-
       search_logs: {
         Row: {
           category: string | null;
@@ -482,6 +558,13 @@ export type Database = {
             columns: ["profile_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "search_logs_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
             referencedColumns: ["id"];
           }
         ];
@@ -514,11 +597,26 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "movie_reviews_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
+      puzzle_leaderboard: {
+        Row: {
+          avatar_url: string;
+          id: string;
+          total_score: number;
+          username: string;
+        };
+        Relationships: [];
+      };
     };
-
     Functions: {
       [_ in never]: never;
     };
@@ -533,9 +631,10 @@ export type Database = {
 
 type DefaultSchema = Database[Extract<keyof Database, "public">];
 
+
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
@@ -562,7 +661,7 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
@@ -585,7 +684,7 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
@@ -608,7 +707,7 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+    | keyof DefaultSchema['Enums']
     | { schema: keyof Database },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof Database;
@@ -623,7 +722,7 @@ export type Enums<
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database;

@@ -2,9 +2,6 @@
 
 import supabase from "../../utils/supabase";
 
-// 임시 사용자 ID
-const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
-
 // 리뷰에 달린 좋아요가 있으면 먼저 삭제
 async function deleteLikesByReviewId(reviewId: number): Promise<void> {
   const { error } = await supabase
@@ -18,14 +15,17 @@ async function deleteLikesByReviewId(reviewId: number): Promise<void> {
 }
 
 // 리뷰 삭제
-export async function deleteReviewById(reviewId: number): Promise<void> {
+export async function deleteReviewById(
+  reviewId: number,
+  profileId: string
+): Promise<void> {
   // 좋아요 먼저 삭제
   await deleteLikesByReviewId(reviewId);
 
   // 리뷰 삭제
   const { error } = await supabase.from("movie_reviews").delete().match({
     id: reviewId,
-    profile_id: TEMP_PROFILE_ID, // 나중에 로그인 유저 ID로 변경 예정
+    profile_id: profileId,
   });
 
   if (error) {
@@ -37,7 +37,8 @@ export async function deleteReviewById(reviewId: number): Promise<void> {
 export async function updateReviewById(
   reviewId: number,
   content: string,
-  rating: number
+  rating: number,
+  profileId: string
 ): Promise<void> {
   const { error } = await supabase
     .from("movie_reviews")
@@ -48,7 +49,7 @@ export async function updateReviewById(
     })
     .match({
       id: reviewId,
-      profile_id: TEMP_PROFILE_ID,
+      profile_id: profileId,
     });
 
   if (error) {
@@ -81,38 +82,21 @@ export async function ensureMovieExists(movieId: number): Promise<void> {
 }
 
 // 리뷰 등록
-// export async function createReview(
-//   movieId: number,
-//   content: string,
-//   rating: number
-// ): Promise<void> {
-//   const { error } = await supabase.from("movie_reviews").insert({
-//     profile_id: TEMP_PROFILE_ID,
-//     movie_id: movieId,
-//     content,
-//     rating,
-//   });
-
-//   if (error) {
-//     throw new Error("리뷰 등록 실패: " + error.message);
-//   }
-// }
 export async function createReview(
   movieId: number,
   content: string,
-  rating: number
+  rating: number,
+  profileId: string
 ): Promise<MovieReviewWithLike> {
-  const TEMP_PROFILE_ID = "0a3b30d8-1899-4eef-9cb7-6a9d8cc0b4da";
-
   const { data, error } = await supabase
     .from("movie_reviews")
     .insert({
-      profile_id: TEMP_PROFILE_ID,
+      profile_id: profileId,
       movie_id: movieId,
       content,
       rating,
     })
-    .select("*, profiles(id, username, avatar_url)") // 프로필 정보 포함
+    .select("*, profiles(id, username, avatar_url)")
     .single();
 
   if (error || !data) {
@@ -128,12 +112,15 @@ export async function createReview(
 
 // 좋아요
 // 좋아요 상태
-export async function fetchReviewLikeStatus(reviewId: number) {
+export async function fetchReviewLikeStatus(
+  reviewId: number,
+  profileId: string
+) {
   const { data, error } = await supabase
     .from("review_likes")
     .select("id")
     .eq("review_id", reviewId)
-    .eq("profile_id", TEMP_PROFILE_ID);
+    .eq("profile_id", profileId);
 
   if (error) throw error;
   return (data ?? []).length > 0;
@@ -151,20 +138,20 @@ export async function fetchReviewLikeCount(reviewId: number) {
 }
 
 // 좋아요 추가
-export async function addReviewLike(reviewId: number) {
+export async function addReviewLike(reviewId: number, profileId: string) {
   const { error } = await supabase.from("review_likes").insert({
     review_id: reviewId,
-    profile_id: TEMP_PROFILE_ID,
+    profile_id: profileId,
   });
   if (error) throw error;
 }
 
 // 좋아요 삭제
-export async function removeReviewLike(reviewId: number) {
+export async function removeReviewLike(reviewId: number, profileId: string) {
   const { error } = await supabase
     .from("review_likes")
     .delete()
     .eq("review_id", reviewId)
-    .eq("profile_id", TEMP_PROFILE_ID);
+    .eq("profile_id", profileId);
   if (error) throw error;
 }
