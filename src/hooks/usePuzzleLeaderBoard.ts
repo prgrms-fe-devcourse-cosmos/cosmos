@@ -16,7 +16,6 @@ export default function usePuzzleLeaderBoard() {
       if (error) {
         console.error("랭킹 불러오기 실패 : ", error);
       } else {
-        console.log(data);
         setPuzzlePlayers(data);
       }
       setIsLoading(false);
