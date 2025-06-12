@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import searchIcon from '../../../assets/icons/search.svg';
-import searchGrayIcon from '../../../assets/icons/search_gray.svg';
 import Button from '../../common/Button';
 import { useNavigate } from 'react-router-dom';
 import GalleryCard from './GalleryCard';
@@ -8,10 +6,11 @@ import { GalleryPosts } from '../../../api/gallery/gallerypost';
 import { GalleryPost } from '../../../types/gallery';
 import GalleryCardSkeleton from './GalleryCardSkeleton';
 import { useAuthStore } from '../../../stores/authStore';
+import SearchInput from '../../common/SearchInput';
 
 export default function Gallery() {
   const isLoggedIn = useAuthStore((state) => !!state.user);
-  const [isFocused, setIsFocused] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<string>('like.desc');
   const [originalPosts, setOriginalPosts] = useState<GalleryPost[]>([]);
   const [posts, setPosts] = useState<GalleryPost[]>([]);
@@ -52,11 +51,22 @@ export default function Gallery() {
     setSortBy(sortValue);
   };
 
-  const handlePostUpdate = (updatedPost: GalleryPost) => {
+  const handlePostUpdate = (updatedPost: GalleryPost & { liked: boolean }) => {
     const updatedPosts = originalPosts.map((p) =>
-      p.id === updatedPost.id ? updatedPost : p
+      p.id === updatedPost.id
+        ? { ...p, like_count: updatedPost.like_count, liked: updatedPost.liked }
+        : p
     );
     setOriginalPosts(updatedPosts);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchTerm(query);
+    const filtered = originalPosts.filter((post) =>
+      post.title.toLowerCase().includes(query.toLowerCase())
+    );
+    const sorted = sortPosts(filtered, sortBy);
+    setPosts(sorted);
   };
 
   return (
@@ -83,17 +93,12 @@ export default function Gallery() {
 
         <div className="flex items-center">
           <div className="w-[280px] relative">
-            <input
-              type="text"
+            <SearchInput
+              scope="gallery"
+              value={searchTerm}
+              setValue={setSearchTerm}
+              onSearch={handleSearch}
               placeholder="게시글 검색"
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              className="w-full border border-[#909090] pl-[42px] py-[6px] text-[14px] rounded-[8px] outline-none focus:border-[#D0F700] hover:border-[#D0F700]"
-            />
-            <img
-              src={isFocused ? searchIcon : searchGrayIcon}
-              alt="검색아이콘"
-              className="absolute top-1/2 left-[16px] -translate-y-1/2 w-[14px] h-[14px]"
             />
           </div>
           <Button
