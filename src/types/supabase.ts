@@ -85,18 +85,25 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'comments_post_id_fkey';
-            columns: ['post_id'];
+            foreignKeyName: "comments_post_id_fkey";
+            columns: ["post_id"];
             isOneToOne: false;
-            referencedRelation: 'posts';
-            referencedColumns: ['id'];
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: 'comments_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "comments_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -118,18 +125,32 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'follows_follower_id_fkey';
-            columns: ['follower_id'];
+            foreignKeyName: "follows_follower_id_fkey";
+            columns: ["follower_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: 'follows_following_id_fkey';
-            columns: ['following_id'];
+            foreignKeyName: "follows_follower_id_fkey";
+            columns: ["follower_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "follows_following_id_fkey";
+            columns: ["following_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "follows_following_id_fkey";
+            columns: ["following_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -148,11 +169,11 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'gallery_images_post_id_fkey';
-            columns: ['post_id'];
+            foreignKeyName: "gallery_images_post_id_fkey";
+            columns: ["post_id"];
             isOneToOne: true;
-            referencedRelation: 'posts';
-            referencedColumns: ['id'];
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -177,18 +198,25 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'likes_post_id_fkey';
-            columns: ['post_id'];
+            foreignKeyName: "likes_post_id_fkey";
+            columns: ["post_id"];
             isOneToOne: false;
-            referencedRelation: 'posts';
-            referencedColumns: ['id'];
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: 'likes_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "likes_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "likes_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -234,18 +262,25 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'movie_reviews_movie_id_fkey';
-            columns: ['movie_id'];
+            foreignKeyName: "movie_reviews_movie_id_fkey";
+            columns: ["movie_id"];
             isOneToOne: false;
-            referencedRelation: 'movie';
-            referencedColumns: ['tmdb_id'];
+            referencedRelation: "movie";
+            referencedColumns: ["tmdb_id"];
           },
           {
-            foreignKeyName: 'movie_reviews_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "movie_reviews_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "movie_reviews_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -254,6 +289,7 @@ export type Database = {
           content: string;
           created_at: string;
           id: number;
+          like_count: number | null;
           post_type: string;
           profile_id: string;
           title: string;
@@ -262,7 +298,8 @@ export type Database = {
         Insert: {
           content: string;
           created_at?: string;
-          id?: never;
+          id?: number;
+          like_count?: number | null;
           post_type: string;
           profile_id: string;
           title: string;
@@ -271,7 +308,8 @@ export type Database = {
         Update: {
           content?: string;
           created_at?: string;
-          id?: never;
+          id?: number;
+          like_count?: number | null;
           post_type?: string;
           profile_id?: string;
           title?: string;
@@ -279,11 +317,18 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'posts_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "posts_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "posts_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -341,11 +386,18 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'puzzle_results_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "puzzle_results_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "puzzle_results_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -376,18 +428,25 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'quiz_answers_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "quiz_answers_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: 'quiz_answers_question_id_fkey';
-            columns: ['question_id'];
+            foreignKeyName: "quiz_answers_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'quiz_questions';
-            referencedColumns: ['id'];
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "quiz_answers_question_id_fkey";
+            columns: ["question_id"];
+            isOneToOne: false;
+            referencedRelation: "quiz_questions";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -442,25 +501,32 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'review_likes_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "review_likes_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: 'review_likes_review_id_fkey';
-            columns: ['review_id'];
+            foreignKeyName: "review_likes_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'movie_reviews';
-            referencedColumns: ['id'];
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: 'review_likes_review_id_fkey';
-            columns: ['review_id'];
+            foreignKeyName: "review_likes_review_id_fkey";
+            columns: ["review_id"];
             isOneToOne: false;
-            referencedRelation: 'movie_reviews_with_likes';
-            referencedColumns: ['id'];
+            referencedRelation: "movie_reviews";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "review_likes_review_id_fkey";
+            columns: ["review_id"];
+            isOneToOne: false;
+            referencedRelation: "movie_reviews_with_likes";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -488,11 +554,18 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'search_logs_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "search_logs_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "search_logs_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
       };
@@ -512,20 +585,36 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'movie_reviews_movie_id_fkey';
-            columns: ['movie_id'];
+            foreignKeyName: "movie_reviews_movie_id_fkey";
+            columns: ["movie_id"];
             isOneToOne: false;
-            referencedRelation: 'movie';
-            referencedColumns: ['tmdb_id'];
+            referencedRelation: "movie";
+            referencedColumns: ["tmdb_id"];
           },
           {
-            foreignKeyName: 'movie_reviews_profile_id_fkey';
-            columns: ['profile_id'];
+            foreignKeyName: "movie_reviews_profile_id_fkey";
+            columns: ["profile_id"];
             isOneToOne: false;
-            referencedRelation: 'profiles';
-            referencedColumns: ['id'];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "movie_reviews_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "puzzle_leaderboard";
+            referencedColumns: ["id"];
           }
         ];
+      };
+      puzzle_leaderboard: {
+        Row: {
+          avatar_url: string;
+          id: string;
+          total_score: number;
+          username: string;
+        };
+        Relationships: [];
       };
     };
     Functions: {
@@ -540,7 +629,8 @@ export type Database = {
   };
 };
 
-type DefaultSchema = Database[Extract<keyof Database, 'public'>];
+type DefaultSchema = Database[Extract<keyof Database, "public">];
+
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
@@ -549,20 +639,20 @@ export type Tables<
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
   }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R;
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
-      DefaultSchema['Views'])
-  ? (DefaultSchema['Tables'] &
-      DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+      DefaultSchema["Views"])
+  ? (DefaultSchema["Tables"] &
+      DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
       Row: infer R;
     }
     ? R
@@ -576,16 +666,16 @@ export type TablesInsert<
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I;
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-  ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
       Insert: infer I;
     }
     ? I
@@ -599,16 +689,16 @@ export type TablesUpdate<
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof Database;
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never
 > = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U;
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-  ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
       Update: infer U;
     }
     ? U
@@ -622,12 +712,12 @@ export type Enums<
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof Database;
   }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never
 > = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-  ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+  ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
   : never;
 
 export type CompositeTypes<
@@ -637,12 +727,12 @@ export type CompositeTypes<
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database;
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-  ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+  ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
   : never;
 
 export const Constants = {

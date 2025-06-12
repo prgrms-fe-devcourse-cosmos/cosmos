@@ -3,7 +3,7 @@ import { summarizeAndTranslateByAi } from "../api/ai/getSummarizeAndTranslateByA
 
 export const useTranslateAndSummarize = (
   content: string | null,
-  date: string
+  date: string | null
 ) => {
   const [translatedSummary, setTranslatedSummary] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
