@@ -110,7 +110,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
             <img
               src={imagePreview}
               alt="이미지넣기"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
             <input
               type="file"
