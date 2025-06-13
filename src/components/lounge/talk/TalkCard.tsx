@@ -1,9 +1,11 @@
-import { MessageSquare, Heart } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { TalkPost } from "../../../types/talk";
 import profileImage from "../../../assets/images/profile.svg";
 import { NavLink } from "react-router-dom";
+import TalkLikeButton from "./TalkLikeButton";
 
 export default function TalkCard({ post }: { post: TalkPost }) {
+  console.log(post);
   return (
     <NavLink to={`${post.id}`} key={post.id}>
       <div className="px-9 py-8 border-l border-l-[#7A9100] mb-6 bg-[#141414]/80">
@@ -40,8 +42,10 @@ export default function TalkCard({ post }: { post: TalkPost }) {
               </p>
               {/* 좋아요수 */}
               <p className="inline-flex items-center">
-                <Heart size={15} className="text-[#D0F700]" />
-                <span className="ml-2 text-[13px]">{post.like_count}</span>
+                <TalkLikeButton
+                  postId={post.id}
+                  initialCount={post.like_count ?? 0}
+                />
               </p>
             </div>
           </div>
