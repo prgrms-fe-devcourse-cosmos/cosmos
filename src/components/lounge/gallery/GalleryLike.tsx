@@ -11,7 +11,10 @@ interface GalleryLikeProps {
   profileId: string;
   IconLiked: ReactNode;
   IconNotLiked: ReactNode;
+  initialLiked?: boolean | null;
+  initialCount?: number | null;
   disabled?: boolean;
+  onToggle?: (likesCount: number, liked: boolean) => void;
 }
 
 export default function GalleryLike({
@@ -19,13 +22,34 @@ export default function GalleryLike({
   profileId,
   IconLiked,
   IconNotLiked,
+  initialLiked = null,
+  initialCount = null,
+  onToggle,
 }: GalleryLikeProps) {
-  const [liked, setLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(0);
+  // 초기값을 initialLiked와 initialCount로 설정
+  const [liked, setLiked] = useState(initialLiked ?? false);
+  const [likesCount, setLikesCount] = useState(initialCount ?? 0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isToggling, setIsToggling] = useState(false);
 
+  // initialLiked와 initialCount가 변경될 때 상태 업데이트
   useEffect(() => {
+    setLiked(initialLiked ?? false);
+    setLikesCount(initialCount ?? 0);
+  }, [initialLiked, initialCount]);
+
+  useEffect(() => {
+    // 초기값이 제공되었으면 서버 호출을 건너뛰기
+    if (
+      initialLiked !== null &&
+      initialLiked !== undefined &&
+      initialCount !== null &&
+      initialCount !== undefined
+    ) {
+      setIsInitialLoading(false);
+      return;
+    }
+
     let isCancelled = false;
 
     async function loadInitialData() {
@@ -55,7 +79,7 @@ export default function GalleryLike({
     return () => {
       isCancelled = true;
     };
-  }, [postId, profileId]);
+  }, [postId, profileId, initialLiked, initialCount]);
 
   const toggleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -72,9 +96,13 @@ export default function GalleryLike({
     const prevLiked = liked;
     const prevCount = likesCount;
 
+    const newLiked = !prevLiked;
+    const newCount = prevCount + (newLiked ? 1 : -1);
+
     // 낙관적 업데이트
-    setLiked(!prevLiked);
-    setLikesCount(prevCount + (prevLiked ? -1 : 1));
+    setLiked(newLiked);
+    setLikesCount(newCount);
+    if (onToggle) onToggle(newCount, newLiked);
 
     try {
       const success = prevLiked
@@ -85,12 +113,14 @@ export default function GalleryLike({
         // API 실패 시 원상복구
         setLiked(prevLiked);
         setLikesCount(prevCount);
+        if (onToggle) onToggle(prevCount, prevLiked);
       }
     } catch (error) {
       console.error('Failed to toggle like:', error);
       // 에러 발생 시 원상복구
       setLiked(prevLiked);
       setLikesCount(prevCount);
+      if (onToggle) onToggle(prevCount, prevLiked);
     } finally {
       setIsToggling(false);
     }

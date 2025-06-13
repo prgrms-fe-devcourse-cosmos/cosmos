@@ -11,6 +11,7 @@ export async function GalleryPosts(): Promise<GalleryPost[]> {
       content,
       created_at,
       profile_id,
+      like_count,
       gallery_images (
         image_url
       )

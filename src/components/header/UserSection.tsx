@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import profileImage from "../../assets/images/profile.svg";
 import userIcon from "../../assets/images/user.svg";
 import logoutIcon from "../../assets/images/log-out.svg";
+import ThemeToggle from "./ThemeToggle";
 import { useAuthStore } from "../../stores/authStore";
 import supabase from "../../utils/supabase";
-import ThemeToggle from "./ThemeToggle";
 
 export default function UserSection() {
   const navigate = useNavigate();
@@ -33,7 +33,6 @@ export default function UserSection() {
   async function logOutHandler() {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      alert("오류가 발생했습니다.");
       alert("오류가 발생했습니다.");
       console.log(error);
     } else {
