@@ -1,6 +1,6 @@
 import { useLocation, useParams } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import supabase from "../../utils/supabase";
 import EditProfileModal from "../../components/userpage/EditProfileModal";
 import UserHeader from "../../components/userpage/UserHeader";
@@ -8,6 +8,7 @@ import UserBio from "../../components/userpage/UserBio";
 import PostViewTabs from "../../components/userpage/PostViewTabs";
 import UserPostList from "../../components/userpage/UserPostList";
 import FollowerPostList from "../../components/userpage/FollowerPostList";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 export default function UserPage() {
   const code = useParams().code;
@@ -16,6 +17,24 @@ export default function UserPage() {
   const [userData, setUserData] = useState<ProfileType>();
   const [activeTab, setActvieTab] = useState<"posts" | "followers">("posts");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const outsideClickHandler = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setIsEditModalOpen(false);
+      }
+    };
+    if (isEditModalOpen) {
+      document.addEventListener("mousedown", outsideClickHandler);
+    }
+    return () => {
+      document.removeEventListener("mousedown", outsideClickHandler);
+    };
+  }, [isEditModalOpen, setIsEditModalOpen]);
 
   useEffect(() => {
     supabase
@@ -25,7 +44,7 @@ export default function UserPage() {
       .then((data) => setUserData(data.data![0]));
   }, [location]);
 
-  if (!userData) return;
+  if (!userData) return <LoadingSpinner />;
 
   return (
     <div className="w-screen h-[88vh] px-[3vw] md:px-[10vw] py-10 flex">
@@ -57,11 +76,23 @@ export default function UserPage() {
             setActiveTab={setActvieTab}
           />
 
-          {activeTab ? <UserPostList /> : <FollowerPostList />}
+          {activeTab === "posts" ? <UserPostList /> : <FollowerPostList />}
         </div>
       </div>
 
-      {isEditModalOpen && <EditProfileModal />}
+      {isEditModalOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+          onClick={() => setIsEditModalOpen(false)}
+        >
+          <div
+            className="bg-[color:var(--bg-color)] p-10 rounded-3xl shadow-lg text-center flex flex-col items-center justify-between h-auto gap-6 w-[400px]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <EditProfileModal userData={userData} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
