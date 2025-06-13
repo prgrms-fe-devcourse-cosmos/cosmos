@@ -40,6 +40,7 @@ export default function Gallery() {
   useEffect(() => {
     const loadPosts = async () => {
       const fetchedPosts = await GalleryPosts();
+      setOriginalPosts(fetchedPosts);
       const initialSorted = sortPosts(fetchedPosts, sortBy);
       setPosts(initialSorted);
       setIsLoading(false);
