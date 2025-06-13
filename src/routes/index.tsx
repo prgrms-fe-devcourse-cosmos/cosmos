@@ -62,8 +62,9 @@ const router = createBrowserRouter([
             path: "gallery",
             children: [
               { index: true, element: <Gallery /> },
-              { path: ":id", element: <GalleryDetail /> },
-              { path: "add", element: <GalleryAdd /> },
+              { path: ':postid', element: <GalleryDetail /> },
+              { path: 'add', element: <GalleryAdd /> },
+              { path: 'edit/:postId', element: <GalleryAdd mode="edit" /> },
             ],
           },
           {
@@ -96,8 +97,8 @@ const router = createBrowserRouter([
             element: <LabPuzzle />,
             children: [
               { index: true, element: <Navigate to="config" replace /> },
-              { path: "config", element: <PuzzleConfigScreen /> },
-              { path: "play", loader: DailyLoader, element: <PuzzleScreen /> },
+              { path: 'config', element: <PuzzleConfigScreen /> },
+              { path: 'play', loader: DailyLoader, element: <PuzzleScreen /> },
             ],
           },
           { path: "rank", element: <LabRank /> },

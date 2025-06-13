@@ -31,7 +31,7 @@ export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute left-5 top-full w-15 border border-[var(--gray-200)]">
+        <div className="absolute right-4 top-full w-15 border border-[var(--gray-200)]">
           <button
             onClick={() => {
               setIsOpen(false);

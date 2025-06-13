@@ -1,47 +1,42 @@
-import { useEffect, useRef } from 'react';
-import Globe from 'react-globe.gl';
+import { useEffect, useRef, useState } from 'react';
+import Globe, { GlobeMethods } from 'react-globe.gl';
 import * as THREE from 'three';
-import supabase from '../../utils/supabase';
-import { useAuthStore } from '../../stores/authStore';
+import { getCurrentTheme } from '../../types/theme';
 
 export default function Home() {
-  const globeEl = useRef<any>(null);
-  const setUser = useAuthStore((state) => state.setUser);
+  const globeEl = useRef<GlobeMethods | undefined>(undefined);
+  const [theme, setTheme] = useState(getCurrentTheme());
 
   useEffect(() => {
-    if (localStorage.getItem('sb-qwntelixvmmeluarhlrr-auth-token')) {
-      async function setUserInHome() {
-        const localId = JSON.parse(
-          localStorage.getItem('sb-qwntelixvmmeluarhlrr-auth-token')!
-        ).user.id;
-        const localToken = JSON.parse(
-          localStorage.getItem('sb-qwntelixvmmeluarhlrr-auth-token')!
-        ).access_token;
-        const { data } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', localId);
-        setUser(data![0], localToken);
-      }
-      setUserInHome();
-    }
-  }, []);
+    const handleThemeChange = () => {
+      setTheme(getCurrentTheme());
+    };
+    document.addEventListener('themeChanged', handleThemeChange);
 
-  useEffect(() => {
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session && event === 'SIGNED_IN') {
-        const { data: userData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id);
-        userData && setUser(userData[0], session.access_token);
-      }
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'class'
+        ) {
+          setTheme(getCurrentTheme());
+        }
+      });
     });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+    return () => {
+      document.removeEventListener('themeChanged', handleThemeChange);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
     const globe = globeEl.current;
-    if (!globe) return;
+    if (!globe || theme !== 'dark') return;
 
     globe.controls().autoRotate = true;
     globe.controls().autoRotateSpeed = 0.35;
@@ -68,43 +63,25 @@ export default function Home() {
       };
       rotateClouds();
     });
-
-    // const starGeometry = new THREE.BufferGeometry();
-    // const starCount = 10000;
-    // const positions = new Float32Array(starCount * 3);
-
-    // for (let i = 0; i < starCount; i++) {
-    //   positions[i * 3] = Math.random() * 2000 - 1000;
-    //   positions[i * 3 + 1] = Math.random() * 2000 - 1000;
-    //   positions[i * 3 + 2] = Math.random() * 2000 - 1000;
-    // }
-
-    // starGeometry.setAttribute(
-    //   "position",
-    //   new THREE.BufferAttribute(positions, 3)
-    // );
-
-    // const starMaterial = new THREE.PointsMaterial({
-    //   color: 0xffffff,
-    //   size: 0.5,
-    // });
-    // const stars = new THREE.Points(starGeometry, starMaterial);
-
-    // globe.scene().add(stars);
-  }, []);
+  }, [theme]);
 
   return (
     <div className='relative min-h-screen w-full flex justify-center items-center'>
       {/* <h1 className="absolute top-30 left-1/2 -translate-x-1/2 text-[color:var(--primary-300)] text-3xl font-[yapari] z-10">
         WELCOME
       </h1> */}
-      <Globe
-        ref={globeEl}
-        animateIn={false}
-        globeImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg'
-        bumpImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png'
-        backgroundColor='rgba(0,0,0,0)'
-      />
+
+      {theme === 'dark' ? (
+        <Globe
+          ref={globeEl}
+          animateIn={false}
+          globeImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg'
+          bumpImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png'
+          backgroundColor='rgba(0,0,0,0)'
+        />
+      ) : (
+        <div className='planet sun'></div>
+      )}
     </div>
   );
 }
