@@ -27,6 +27,9 @@ import GalleryAdd from "../components/lounge/gallery/GalleryAdd";
 import { DailyLoader } from "../loader/dallyspace.loader";
 import { reviewLoader } from "../loader/review.loader";
 import TalkAdd from "../components/lounge/talk/TalkAdd";
+import User from "./pages/User";
+import QuizConfigScreen from "./pages/lab/quiz/QuizConfigScreen";
+import QuizScreen from "./pages/lab/quiz/QuizScreen";
 
 const router = createBrowserRouter([
   {
@@ -77,7 +80,15 @@ const router = createBrowserRouter([
         path: "/lab",
         element: <Lab />,
         children: [
-          { path: "quiz", element: <LabQuiz /> },
+          {
+            path: "quiz",
+            element: <LabQuiz />,
+            children: [
+              { index: true, element: <Navigate to="config" replace /> },
+              { path: "config", element: <QuizConfigScreen /> },
+              { path: "play", element: <QuizScreen /> },
+            ],
+          },
           {
             path: "puzzle",
             element: <LabPuzzle />,
@@ -90,6 +101,7 @@ const router = createBrowserRouter([
           { path: "rank", element: <LabRank /> },
         ],
       },
+      { path: "/user/:code", element: <User /> },
       { path: "*", element: <NotFound /> },
     ],
   },

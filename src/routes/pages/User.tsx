@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
 import { useEffect, useState } from "react";
 import supabase from "../../utils/supabase";
@@ -13,14 +13,11 @@ export default function User() {
   const [postTab, setPostTab] = useState(true);
 
   useEffect(() => {
-    async function checkUser() {
-      const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("usercode", code!);
-      if (data) setUserData(data[0]);
-    }
-    checkUser();
+    supabase
+      .from("profiles")
+      .select("*")
+      .eq("usercode", code!)
+      .then((data) => setUserData(data.data![0]));
   }, [location]);
 
   return (
