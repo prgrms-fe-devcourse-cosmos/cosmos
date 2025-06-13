@@ -11,7 +11,8 @@ import SearchInput from '../../common/SearchInput';
 export default function Gallery() {
   const isLoggedIn = useAuthStore((state) => !!state.user);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState<string>('like.desc');
+  const savedSort = sessionStorage.getItem('gallery_sortBy') || 'like.desc';
+  const [sortBy, setSortBy] = useState<string>(savedSort);
   const [originalPosts, setOriginalPosts] = useState<GalleryPost[]>([]);
   const [posts, setPosts] = useState<GalleryPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +38,13 @@ export default function Gallery() {
   const sortPosts = (data: GalleryPost[], sort: string) => {
     return [...data].sort((a, b) => {
       if (sort === 'like.desc') {
-        return (b.like_count ?? 0) - (a.like_count ?? 0);
+        const likeDiff = (b.like_count ?? 0) - (a.like_count ?? 0);
+        if (likeDiff !== 0) return likeDiff;
+
+        // 좋아요 수가 같으면 최신순
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
       } else if (sort === 'release_date.desc') {
         return (
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -49,6 +56,7 @@ export default function Gallery() {
 
   const handleSortClick = (sortValue: string) => {
     setSortBy(sortValue);
+    sessionStorage.setItem('gallery_sortBy', sortValue);
   };
 
   const handlePostUpdate = (updatedPost: GalleryPost & { liked: boolean }) => {
