@@ -36,7 +36,7 @@ export default function Login() {
       console.log('Email 로그인 오류:', error);
       switch (error.message) {
         case 'Invalid login credentials':
-          alert('존재하지 않는 유저입니다.');
+          alert('이메일 또는 비밀번호를 잘못 입력하셨습니다.');
           break;
         default:
           alert('로그인에 실패하였습니다.');
