@@ -1,7 +1,7 @@
 import Button from '../../common/Button';
 import backIcon from '../../../assets/icons/back.svg';
 import postimage from '../../../assets/images/post.svg';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGalleryPostStore } from '../../../stores/galleryPostStore';
 
@@ -18,6 +18,7 @@ export default function GalleryAdd() {
     imageFile,
     title,
     content,
+    reset,
   } = useGalleryPostStore();
 
   const isFormValid = imageFile && title && content;
@@ -41,6 +42,11 @@ export default function GalleryAdd() {
       navigate('/lounge/gallery');
     }
   };
+
+  useEffect(() => {
+    reset();
+    setImagePreview(postimage);
+  }, []);
 
   return (
     <div className="w-[768px] h-[824px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
