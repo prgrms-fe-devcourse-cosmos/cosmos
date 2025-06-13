@@ -78,4 +78,29 @@ export const useTalkStore = create<TalkPostState>((set, get) => ({
       set({ loading: false });
     }
   },
+  // 게시글 상세 보기
+  selectedPost: null,
+  setSelectedPost: (post) => set({ selectedPost: post }),
+  fetchPostById: async (id: number) => {
+    set({ loading: true });
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select(`*, profiles(username, avatar_url)`)
+        .eq("id", id)
+        .eq("post_type", "talk")
+        .single();
+
+      if (error || !data) {
+        console.error("게시글 상세 불러오기 실패:", error);
+        set({ selectedPost: null });
+      } else {
+        set({ selectedPost: data });
+      }
+    } catch (err) {
+      console.error("예외 발생:", err);
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));

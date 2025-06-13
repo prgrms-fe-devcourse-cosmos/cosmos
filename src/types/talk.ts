@@ -13,6 +13,7 @@ export type TalkPost = {
   };
 };
 
+// 게시글 등록용
 type UploadPostResult = {
   success: boolean;
   message: string;
@@ -33,6 +34,10 @@ export interface TalkPostState {
   setContent: (content: string) => void;
   reset: () => void;
   uploadPost: () => Promise<UploadPostResult>;
+  // 게시글 상세 보기
+  selectedPost: TalkPost | null;
+  setSelectedPost: (post: TalkPost | null) => void;
+  fetchPostById: (id: number) => Promise<void>;
 }
 
 // talk post insert
