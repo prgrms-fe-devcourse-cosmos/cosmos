@@ -39,11 +39,7 @@ export default function Gallery() {
 
   useEffect(() => {
     const loadPosts = async () => {
-      const timerName = `fetchGalleryPosts-${Date.now()}`;
-      console.time(timerName);
       const fetchedPosts = await GalleryPosts();
-      console.timeEnd('fetchGalleryPosts');
-      console.timeEnd(timerName);
       const initialSorted = sortPosts(fetchedPosts, sortBy);
       setPosts(initialSorted);
       setIsLoading(false);

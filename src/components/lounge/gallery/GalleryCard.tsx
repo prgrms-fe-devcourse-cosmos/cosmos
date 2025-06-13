@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import heartIcon from '../../../assets/icons/heart.svg';
 import heartfilledIcon from '../../../assets/icons/filled_heart.svg';
 import GalleryLike from './GalleryLike';
-import { userStore } from '../../../stores/userStore';
 import { GalleryPost, GalleryPostWithLike } from '../../../types/gallery';
+import { useAuthStore } from '../../../stores/authStore';
 
 interface GalleryCardProps {
   post: GalleryPost;
@@ -12,7 +12,7 @@ interface GalleryCardProps {
 
 export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
   const navigate = useNavigate();
-  const uid = userStore((state) => state.uid);
+  const uid = useAuthStore((state) => state.user?.id) ?? '';
 
   const thumbnail = post.gallery_images?.image_url || '';
   return (
