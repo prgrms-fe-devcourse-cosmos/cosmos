@@ -9,7 +9,7 @@ type Props = {
 
 export default function FollowButton({ followingId }: Props) {
   // 현재 로그인한 사용자 정보 가져오기
-  const currentUser = useAuthStore((state) => state.user);
+  const currentUser = useAuthStore((state) => state.userData);
 
   // 현재 팔로우 중인지 여부
   const [isFollowing, setIsFollowing] = useState(false);

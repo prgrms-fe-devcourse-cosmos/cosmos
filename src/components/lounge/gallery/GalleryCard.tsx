@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import heartIcon from '../../../assets/icons/heart.svg';
-import heartfilledIcon from '../../../assets/icons/filled_heart.svg';
-import GalleryLike from './GalleryLike';
-import { GalleryPost, GalleryPostWithLike } from '../../../types/gallery';
-import { useAuthStore } from '../../../stores/authStore';
+import { useNavigate } from "react-router-dom";
+import heartIcon from "../../../assets/icons/heart.svg";
+import heartfilledIcon from "../../../assets/icons/filled_heart.svg";
+import GalleryLike from "./GalleryLike";
+import { GalleryPost, GalleryPostWithLike } from "../../../types/gallery";
+import { useAuthStore } from "../../../stores/authStore";
 
 interface GalleryCardProps {
   post: GalleryPost;
@@ -12,9 +12,9 @@ interface GalleryCardProps {
 
 export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
   const navigate = useNavigate();
-  const uid = useAuthStore((state) => state.id) ?? '';
+  const uid = useAuthStore((state) => state.userData?.id) ?? "";
 
-  const thumbnail = post.gallery_images?.image_url || '';
+  const thumbnail = post.gallery_images?.image_url || "";
   return (
     <>
       <div
@@ -36,12 +36,12 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
           <p className="text-sm truncate">{post.content}</p>
           <div className="flex justify-between">
             <p className="text-xs text-[#909090]">
-              {new Date(post.created_at).toLocaleDateString('ko-KR')}
+              {new Date(post.created_at).toLocaleDateString("ko-KR")}
             </p>
             <div className="text-[10px] flex gap-2 items-center">
               <GalleryLike
                 postId={post.id}
-                profileId={uid || ''}
+                profileId={uid || ""}
                 initialLiked={post.liked}
                 initialCount={post.like_count}
                 IconLiked={
