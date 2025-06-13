@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         path: '/lounge',
         element: <Lounge />,
         children: [
-          { index: true, element: <Navigate to='films' replace /> },
+          { index: true, element: <Navigate to="films" replace /> },
           {
             path: 'films',
             children: [
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             path: 'gallery',
             children: [
               { index: true, element: <Gallery /> },
-              { path: ':id', element: <GalleryDetail /> },
+              { path: ':postid', element: <GalleryDetail /> },
               { path: 'add', element: <GalleryAdd /> },
             ],
           },
@@ -81,7 +81,7 @@ const router = createBrowserRouter([
             path: 'puzzle',
             element: <LabPuzzle />,
             children: [
-              { index: true, element: <Navigate to='config' replace /> },
+              { index: true, element: <Navigate to="config" replace /> },
               { path: 'config', element: <PuzzleConfigScreen /> },
               { path: 'play', loader: DailyLoader, element: <PuzzleScreen /> },
             ],

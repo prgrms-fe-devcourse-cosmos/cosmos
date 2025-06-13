@@ -123,7 +123,7 @@ export default function Gallery() {
               <GalleryCardSkeleton key={idx} />
             ))
           : posts.map((post) => {
-              if (!post.gallery_images) return null;
+              if (!post || !post.gallery_images) return null;
               return (
                 <GalleryCard
                   key={post.id}
