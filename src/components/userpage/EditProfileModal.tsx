@@ -3,27 +3,38 @@ import React, { useState } from "react";
 import defaultImg from "../../assets/images/profile.svg";
 import LabeledInput from "../common/LabeledInput";
 import Button from "../common/Button";
-import { useNavigate } from "react-router-dom";
+import imageUploaderIcon from "../../assets/images/image-uploader.svg";
 
 export default function EditProfileModal({
   userData,
+  setIsEditModalOpen,
 }: {
   userData: ProfileType;
+  setIsEditModalOpen: () => void;
 }) {
   const [usernameInput, setUsernameInput] = useState(userData?.username);
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [bioInput, setBioInput] = useState(userData?.bio);
-  const navigate = useNavigate();
 
   return (
     <>
-      <div className="w-full flex justify-end">
-        <X />
+      <div className="w-full flex flex-col items-center">
+        <div className="w-full flex justify-end">
+          <X onClick={setIsEditModalOpen} className="cursor-pointer" />
+        </div>
+        <div className="relative w-40 flex justify-center">
+          <img
+            src={userData?.avatar_url || defaultImg}
+            className="rounded-full size-40 object-cover "
+          />
+          <div className="absolute bottom-0 right-0 translate-x-0 translate-y-0">
+            <div className="size-10 relative z-10">
+              <img src={imageUploaderIcon} className="cursor-pointer" />
+            </div>
+          </div>
+        </div>
       </div>
-      <img
-        src={userData?.avatar_url || defaultImg}
-        className="rounded-full size-40"
-      />
+
       <div className="w-full space-y-4">
         <LabeledInput
           label="EMAIL"
@@ -62,13 +73,13 @@ export default function EditProfileModal({
 
       <div className="w-full flex justify-center items-center gap-10 ">
         <div className="group">
-          <Button variant="back" onClick={() => navigate(-1)}>
-            BACK
+          <Button variant="back" onClick={setIsEditModalOpen}>
+            CANCEL
           </Button>
         </div>
 
         <div className="group">
-          <Button variant="hover_fill" onClick={() => navigate(-1)}>
+          <Button variant="hover_fill" onClick={setIsEditModalOpen}>
             SAVE
           </Button>
         </div>

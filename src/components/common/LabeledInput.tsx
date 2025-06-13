@@ -17,15 +17,16 @@ export default function LabeledInput({
   ...rest
 }: LabeledInputProps) {
   const baseInputClass =
-    "transition-all focus:outline-none border border-[color:var(--gray-200)] rounded-md px-3 py-2 text-sm w-full";
+    "transition-all focus:outline-none border border-[color:var(--gray-200)] rounded-md px-3 py-2 text-sm w-full ";
 
   const finalInputClass = twMerge(
     baseInputClass,
     isInvalid
       ? "border-[color:var(--red)] focus:border-[color:var(--red)]"
       : isEmpty
-      ? "border-[#909090] focus:border-[var(--primary-300)]"
+      ? "border-[color:var(--gray-200)] focus:border-[var(--primary-300)]"
       : "border-[var(--primary-300)] focus:border-[var(--primary-300)]",
+    rest.disabled ? "text-[color:var(--gray-200)] cursor-not-allowed " : "",
     className
   );
 

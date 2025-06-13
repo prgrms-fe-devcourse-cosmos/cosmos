@@ -86,10 +86,13 @@ export default function UserPage() {
           onClick={() => setIsEditModalOpen(false)}
         >
           <div
-            className="bg-[color:var(--bg-color)] p-10 rounded-3xl shadow-lg text-center flex flex-col items-center justify-between h-auto gap-6 w-[400px]"
+            className="bg-[color:var(--bg-color)] py-10 px-20 rounded-3xl shadow-lg text-center flex flex-col items-center justify-between h-auto gap-12 w-[600px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <EditProfileModal userData={userData} />
+            <EditProfileModal
+              userData={userData}
+              setIsEditModalOpen={() => setIsEditModalOpen(false)}
+            />
           </div>
         </div>
       )}
