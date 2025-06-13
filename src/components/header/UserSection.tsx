@@ -97,7 +97,7 @@ export default function UserSection() {
             </button>
 
             {menuOpen && (
-              <div className='flex flex-col gap-4 fixed z-1 right-10 xl:right-20 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border'>
+              <div className='flex flex-col fixed z-1 right-10 xl:right-20 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border'>
                 <div className='flex flex-col gap-2.5 items-center'>
                   <Link
                     className='flex gap-2 items-center cursor-pointer'

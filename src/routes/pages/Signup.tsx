@@ -26,8 +26,7 @@ export default function Signup() {
       password: password,
       options: {
         data: {
-          avatar_url:
-            'https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/user-images/default_profile.svg',
+          avatar_url: '',
           name: username,
           full_name: username,
           usercode: Math.random()
