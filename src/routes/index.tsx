@@ -60,6 +60,7 @@ const router = createBrowserRouter([
               { index: true, element: <Gallery /> },
               { path: ':postid', element: <GalleryDetail /> },
               { path: 'add', element: <GalleryAdd /> },
+              { path: 'edit/:postId', element: <GalleryAdd mode="edit" /> },
             ],
           },
           {

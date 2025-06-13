@@ -18,23 +18,6 @@ export default function Gallery() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const loadPosts = async () => {
-      const fetchedPosts = await GalleryPosts();
-      setOriginalPosts(fetchedPosts);
-      const initialSorted = sortPosts(fetchedPosts, sortBy);
-      setPosts(initialSorted);
-      setIsLoading(false);
-    };
-    loadPosts();
-  }, [sortBy]);
-
-  useEffect(() => {
-    if (originalPosts.length === 0) return;
-    const sorted = sortPosts(originalPosts, sortBy);
-    setPosts(sorted);
-  }, [sortBy, originalPosts]);
-
   const sortPosts = (data: GalleryPost[], sort: string) => {
     return [...data].sort((a, b) => {
       if (sort === 'like.desc') {
@@ -53,6 +36,26 @@ export default function Gallery() {
       return 0;
     });
   };
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      const timerName = `fetchGalleryPosts-${Date.now()}`;
+      console.time(timerName);
+      const fetchedPosts = await GalleryPosts();
+      console.timeEnd('fetchGalleryPosts');
+      console.timeEnd(timerName);
+      const initialSorted = sortPosts(fetchedPosts, sortBy);
+      setPosts(initialSorted);
+      setIsLoading(false);
+    };
+    loadPosts();
+  }, []);
+
+  useEffect(() => {
+    if (originalPosts.length === 0) return;
+    const sorted = sortPosts(originalPosts, sortBy);
+    setPosts(sorted);
+  }, [sortBy, originalPosts]);
 
   const handleSortClick = (sortValue: string) => {
     setSortBy(sortValue);

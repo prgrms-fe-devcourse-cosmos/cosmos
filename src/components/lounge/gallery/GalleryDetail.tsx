@@ -55,7 +55,11 @@ export default function GalleryDetail() {
   }
 
   const handleEdit = () => {
-    alert('수정 클릭');
+    if (!postid) {
+      alert('게시글 ID가 없습니다.');
+      return;
+    }
+    navigate(`/lounge/gallery/edit/${postid}`);
   };
 
   const handleDelete = async () => {
