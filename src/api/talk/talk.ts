@@ -5,10 +5,16 @@ import supabase from "../../utils/supabase";
 export async function fetchTalkPosts() {
   const { data, error } = await supabase
     .from("posts")
-    .select("*, profiles(username, avatar_url)")
+    .select("*, profiles(id, username, avatar_url)")
     .eq("post_type", "talk")
     .order("created_at", { ascending: false });
 
   if (error) throw error;
   return data;
 }
+
+// 게시글 삭제
+export const deleteTalkPostById = async (id: number) => {
+  const { error } = await supabase.from("posts").delete().eq("id", id);
+  return { error };
+};

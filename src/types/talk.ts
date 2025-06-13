@@ -8,6 +8,7 @@ export type TalkPost = {
   post_type: string;
   like_count: number | null;
   profiles: {
+    id: string;
     username: string;
     avatar_url: string | null;
   };

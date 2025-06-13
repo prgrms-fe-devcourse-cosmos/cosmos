@@ -86,7 +86,7 @@ export const useTalkStore = create<TalkPostState>((set, get) => ({
     try {
       const { data, error } = await supabase
         .from("posts")
-        .select(`*, profiles(username, avatar_url)`)
+        .select(`*, profiles(id, username, avatar_url)`)
         .eq("id", id)
         .eq("post_type", "talk")
         .single();

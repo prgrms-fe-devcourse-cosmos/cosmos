@@ -4,6 +4,7 @@ import SearchInput from "../../common/SearchInput";
 import { useEffect } from "react";
 import TalkCard from "./TalkCard";
 import { useTalkStore } from "../../../stores/talkStore";
+import TalkCardSkeleton from "./TalkCardSkeleton";
 
 export default function Talk() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export default function Talk() {
       {/* 전체 게시글 */}
       {/* 게시글 리스트 */}
       {loading ? (
-        <p className="text-center mt-10 text-gray-400">로딩 중...</p>
+        Array.from({ length: 3 }).map((_, i) => <TalkCardSkeleton key={i} />)
       ) : talkPosts.length === 0 ? (
         <p className="text-center mt-10 text-gray-400">
           등록된 게시글이 없습니다.

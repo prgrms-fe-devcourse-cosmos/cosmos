@@ -1,10 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../common/Button";
-import LoungeComment from "../LoungeComment";
+import LoungeComment from "../../common/LoungeComment";
 import { ArrowLeft } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import profileImage from "../../../assets/images/profile.svg";
 import { useTalkStore } from "../../../stores/talkStore";
+import FollowButton from "../../common/FollowButton";
+import TalkDetailSkeleton from "./TalkDetailSkeleton";
+import Menu from "../../common/Menu";
+import supabase from "../../../utils/supabase";
+import { deleteTalkPostById } from "../../../api/talk/talk";
 
 export default function TalkDetail() {
   const navigate = useNavigate();
@@ -13,6 +17,20 @@ export default function TalkDetail() {
 
   const { selectedPost, fetchPostById, loading, setSelectedPost } =
     useTalkStore();
+
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setCurrentUserId(user?.id ?? null);
+    };
+
+    fetchUser();
+  }, []);
 
   // 게시글 fetch
   useEffect(() => {
@@ -26,13 +44,9 @@ export default function TalkDetail() {
     };
   }, [id]);
 
-  // 로딩 중
+  // 로딩 중 스켈레톤
   if (loading) {
-    return (
-      <p className="text-center mt-10 text-gray-400">
-        게시글을 불러오는 중입니다...
-      </p>
-    );
+    return <TalkDetailSkeleton />;
   }
 
   // 게시글 못 찾은 경우
@@ -43,6 +57,34 @@ export default function TalkDetail() {
       </p>
     );
   }
+
+  // 게시글 삭제
+  const handleDelete = async () => {
+    // 삭제 여부 확인
+    const confirmed = window.confirm("정말 게시글을 삭제하시겠습니까?");
+
+    // 취소한 경우 종료
+    if (!confirmed) return;
+
+    // 예외처리) postId 없는 경우
+    if (!postId) {
+      alert("삭제할 게시글이 없습니다.");
+      return;
+    }
+
+    // supabase 해당 ID의 게시글 삭제
+    const { error } = await deleteTalkPostById(postId);
+
+    // 삭제 중 오류 발생 하면 콘솔
+    if (error) {
+      console.log("게시글 삭제에 실패했습니다: " + error.message);
+      return;
+    }
+
+    // 삭제 성공 -> 게시글 목록 페이지로 이동
+    alert("게시글이 삭제되었습니다.");
+    navigate("/lounge/talk");
+  };
 
   const { profiles, created_at, title, content, id: postId } = selectedPost;
 
@@ -76,8 +118,19 @@ export default function TalkDetail() {
               </p>
             </div>
           </div>
-          {/* 팔로우버튼/메뉴버튼 */}
-          <Button className="text-[12px] px-4 py-[5px]">+ FOLLOW</Button>
+          {/* 팔로우버튼 or 메뉴버튼 */}
+          {/* 게시글 작성한 사람의 프로필id props 전달 */}
+          {profiles?.id === currentUserId ? (
+            <Menu
+              onEdit={() => {
+                // 수정 모달 열기 또는 페이지 이동 로직
+                console.log("수정 클릭");
+              }}
+              onDelete={handleDelete}
+            />
+          ) : (
+            profiles?.id && <FollowButton followingId={profiles.id} />
+          )}
         </div>
 
         {/* 게시글 */}
