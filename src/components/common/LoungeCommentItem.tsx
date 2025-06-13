@@ -25,6 +25,8 @@ export default function LoungeCommentItem() {
             <button className="cursor-pointer hover:text-white">삭제</button>
           </div>
         </div>
+        {/* 댓글 내용 */}
+        <div className="w-full  px-2 py-4">contents</div>
       </div>
     </div>
   );

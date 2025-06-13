@@ -58,12 +58,59 @@ export type Database = {
         }
         Relationships: []
       }
+      comment: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          post_id: number
+          profile_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: number
+          post_id: number
+          profile_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          post_id?: number
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comment_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comment_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_leaderboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           content: string
           created_at: string
           id: number
           post_id: number
+          post_type: string
           profile_id: string
           updated_at: string | null
         }
@@ -72,6 +119,7 @@ export type Database = {
           created_at?: string
           id?: number
           post_id: number
+          post_type: string
           profile_id: string
           updated_at?: string | null
         }
@@ -80,6 +128,7 @@ export type Database = {
           created_at?: string
           id?: number
           post_id?: number
+          post_type?: string
           profile_id?: string
           updated_at?: string | null
         }
