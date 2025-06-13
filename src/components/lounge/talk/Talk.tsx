@@ -1,31 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../common/Button";
 import SearchInput from "../../common/SearchInput";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import TalkCard from "./TalkCard";
-import { fetchTalkPosts } from "../../../api/talk/talk";
-import { TalkPost } from "../../../types/talk";
+import { useTalkStore } from "../../../stores/talkStore";
 
 export default function Talk() {
   const navigate = useNavigate();
-  // 검색 상태 정의
-  const [searchInput, setSearchInput] = useState("");
 
-  // 게시글
-  const [talkPosts, setTalkPosts] = useState<TalkPost[]>([]);
+  // store
+  const { talkPosts, fetchPosts, loading, searchQuery, setSearchQuery } =
+    useTalkStore();
 
   // 게시글 불러오기
   useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await fetchTalkPosts();
-        setTalkPosts(data);
-      } catch (err) {
-        console.error("게시글 불러오기 실패", err);
-      }
-    };
-
-    loadPosts();
+    fetchPosts();
   }, []);
 
   // 검색 처리 함수
@@ -41,8 +30,8 @@ export default function Talk() {
         {/* 검색 */}
         <SearchInput
           scope="talk"
-          value={searchInput}
-          setValue={setSearchInput}
+          value={searchQuery}
+          setValue={setSearchQuery}
           onSearch={handleSearch}
           placeholder="게시글 검색"
         />
@@ -57,8 +46,10 @@ export default function Talk() {
       </div>
       {/* 전체 게시글 */}
       {/* 게시글 리스트 */}
-      {talkPosts.length === 0 ? (
-        <p className="text-center text-gray-400 mt-10">
+      {loading ? (
+        <p className="text-center mt-10 text-gray-400">로딩 중...</p>
+      ) : talkPosts.length === 0 ? (
+        <p className="text-center mt-10 text-gray-400">
           등록된 게시글이 없습니다.
         </p>
       ) : (

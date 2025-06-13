@@ -1,60 +1,43 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../common/Button";
-import { useEffect, useState } from "react";
-import supabase from "../../../utils/supabase";
-import { addTalkPost } from "../../../api/talk/talk";
+import { useTalkStore } from "../../../stores/talkStore";
 
 export default function TalkAdd() {
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [profileId, setProfileId] = useState<string | null>(null);
 
-  // cancel 버튼 클릭 시 폼에 입력된 내용들 초기화
-  const reset = () => {
-    setTitle("");
-    setContent("");
-  };
-
-  // 로그인한 유저 profile_id 가져오기
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error("사용자 정보를 가져오는 데 실패:", error);
-        return;
-      }
-      setProfileId(data.user?.id ?? null);
-    };
-
-    fetchUser();
-  }, []);
+  // zustand
+  const { title, content, setTitle, setContent, uploadPost, reset } =
+    useTalkStore();
 
   // 게시글 등록
-  const handleSave = async () => {
-    if (!profileId) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
+  const handleSave = async (e: React.FormEvent) => {
+    e?.preventDefault();
 
-    try {
-      await addTalkPost(title, content, profileId);
-      navigate("/lounge/talk"); // 작성 후 게시판으로 이동
-    } catch (err) {
-      console.error("게시글 등록 실패:", err);
-      alert("게시글 등록에 실패했습니다.");
+    const { success, message } = await uploadPost();
+
+    // 나중에 콘솔 지우기
+    console.log("게시글 등록 결과:", message);
+
+    // 입력값 초기화, 게시글 목록으로 이동
+    if (success) {
+      reset();
+      navigate("/lounge/talk");
+    } else {
+      alert(message);
     }
   };
 
+  // 입력 유효성 검사
   const isEmpty = title.trim() !== "" && content.trim() !== "";
 
   return (
     <div className="px-8 py-6 bg-[#141414]/80 rounded-[8px]">
-      <form className="wrapper">
+      <form className="wrapper" onSubmit={handleSave}>
         {/* 뒤로가기 */}
         <div className="mb-8">
           <button
+            type="button"
             className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-[14px]"
             onClick={() => navigate(-1)}
           >
@@ -86,10 +69,11 @@ export default function TalkAdd() {
         </div>
         {/* 취소, 저장버튼 */}
         <div className="flex justify-center gap-6">
-          <Button variant="dark_line" onClick={reset}>
+          <Button variant="dark_line" onClick={reset} type="button">
             CANCEL
           </Button>
           <Button
+            type="submit"
             variant={isEmpty ? "neon_filled" : "disabled"}
             onClick={handleSave}
           >
