@@ -40,7 +40,6 @@ export default function Signup() {
       alert('회원가입에 실패하였습니다.');
     } else if (data) {
       alert('회원가입되었습니다.');
-      // console.log(data.user);
       navigate('/');
     }
   };
@@ -79,12 +78,11 @@ export default function Signup() {
                   value={username}
                   onChange={(e) => {
                     setUsername(e.target.value);
-                    e.target.value.length > 0 && setInvalidUsername(false);
+                    if (e.target.value.length > 0) setInvalidUsername(false);
                   }}
                   onBlur={() => {
-                    username.length < 1
-                      ? setInvalidUsername(true)
-                      : setInvalidUsername(false);
+                    if (username.length < 1) setInvalidUsername(true);
+                    else setInvalidUsername(false);
                   }}
                 />
                 {invalidUsername && (
@@ -102,14 +100,12 @@ export default function Signup() {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    emailCheck.test(e.target.value)
-                      ? setInvalidEmail(false)
-                      : setInvalidEmail(true);
+                    if (emailCheck.test(e.target.value)) setInvalidEmail(false);
+                    else setInvalidEmail(true);
                   }}
                   onBlur={() => {
-                    emailCheck.test(email)
-                      ? setInvalidEmail(false)
-                      : setInvalidEmail(true);
+                    if (emailCheck.test(email)) setInvalidEmail(false);
+                    else setInvalidEmail(true);
                   }}
                 />
                 {invalidEmail && (
@@ -127,14 +123,13 @@ export default function Signup() {
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    passwordCheck.test(e.target.value)
-                      ? setInvalidPassword(false)
-                      : setInvalidPassword(true);
+                    if (passwordCheck.test(e.target.value)) {
+                      setInvalidPassword(false);
+                    } else setInvalidPassword(true);
                   }}
                   onBlur={() => {
-                    passwordCheck.test(password)
-                      ? setInvalidPassword(false)
-                      : setInvalidPassword(true);
+                    if (passwordCheck.test(password)) setInvalidPassword(false);
+                    else setInvalidPassword(true);
                   }}
                 />
                 {invalidPassword && (
@@ -152,15 +147,13 @@ export default function Signup() {
                   value={confirmPassword}
                   onChange={(e) => {
                     setConfirmPassword(e.target.value);
-                    password === e.target.value
-                      ? setInvalidCPW(false)
-                      : setInvalidCPW(true);
+                    if (password === e.target.value) setInvalidCPW(false);
+                    else setInvalidCPW(true);
                   }}
-                  onBlur={() =>
-                    password !== confirmPassword
-                      ? setInvalidCPW(true)
-                      : setInvalidCPW(false)
-                  }
+                  onBlur={() => {
+                    if (password !== confirmPassword) setInvalidCPW(true);
+                    else setInvalidCPW(false);
+                  }}
                 />
                 {invalidCPW && (
                   <div className='text-sm text-[var(--red)]'>
