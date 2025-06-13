@@ -39,14 +39,14 @@ export default function GalleryDetail() {
       }
       setTimeout(() => {
         setIsLoading(false);
-      }, 500);
+      }, 200);
     };
 
     fetchPost();
   }, [postid]);
 
   if (!post) {
-    return <div>존재하지 않는 게시글입니다.</div>;
+    return;
   }
 
   if (isLoading) {
@@ -75,12 +75,12 @@ export default function GalleryDetail() {
   }
 
   return (
-    <div className="w-[768px] h-[1120px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
+    <div className="w-[768px] min-h-[1120px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
       <Button variant="back" onClick={() => window.history.back()}>
         <img src={backIcon} alt="뒤로가기" className="w-4 h-4 mr-2" />
         Back
       </Button>
-      <div className="w-[680px] h-[164px] flex flex-col">
+      <div className="w-[715px] min-h-[164px] flex flex-col">
         <div className="w-full h-[79px]">
           <div className="w-full h-[52px] flex justify-start items-center">
             {/* 프로필 */}
@@ -100,33 +100,37 @@ export default function GalleryDetail() {
             <Menu
               onEdit={handleEdit}
               onDelete={handleDelete}
-              className="ml-auto self-start mt-[-15px]"
+              className="ml-auto self-start mt-[-35px]"
             />
           </div>
         </div>
 
-        <div className="w-full h-[79px] text-[var(--white)] mt-3">
-          {/* 제목 */}
-          <div className="w-[280px] h-[24px] mb-8">
-            <h3 className="text-xl font-medium truncate">{post.title}</h3>
-          </div>
+        <div className="w-[704px]">
+          <div className="w-full min-h-[79px] text-[var(--white)] mt-3">
+            {/* 제목 */}
+            <div className="w-full min-h-[24px] mb-5">
+              <h3 className="text-xl font-medium break-words">{post.title}</h3>
+            </div>
 
-          {/* 내용 */}
-          <div className="w-[202px] h-[19px]">
-            <p className="text-base truncate">{post.content}</p>
+            {/* 내용 */}
+            <div className="w-full min-h-[19px]">
+              <p className="text-base break-words whitespace-pre-wrap">
+                {post.content}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="w-[704px] h-[470px] mb-2">
-        <img
-          src={post.gallery_images?.image_url || textimage}
-          alt={post.title}
-          className="w-full h-full"
-        />
-      </div>
-      <div className="w-[704px] h-[293px] bg-amber-50">
-        <GalleryComment />
+        <div className="w-full h-[470px] my-10">
+          <img
+            src={post.gallery_images?.image_url || textimage}
+            alt={post.title}
+            className="w-full h-full"
+          />
+        </div>
+        <div className="w-full min-h-[293px] bg-black">
+          <GalleryComment />
+        </div>
       </div>
     </div>
   );

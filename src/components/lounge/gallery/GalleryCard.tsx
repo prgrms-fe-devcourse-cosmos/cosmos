@@ -33,7 +33,7 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
         bg-[rgba(255,255,255,0.09)] border-r-[1px] border-b-[1px] border-l-[1px] border-[rgba(255,255,255,0.1)]"
         >
           <h3 className="text-base truncate font-bold">{post.title}</h3>
-          <p className="text-sm">{post.content}</p>
+          <p className="text-sm truncate">{post.content}</p>
           <div className="flex justify-between">
             <p className="text-xs text-[#909090]">
               {new Date(post.created_at).toLocaleDateString('ko-KR')}

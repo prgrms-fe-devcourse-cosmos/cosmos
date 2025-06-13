@@ -5,7 +5,7 @@ export default function GalleryDetailSkeleton() {
         <div className="w-[80px] h-[32px] mb-2" />
       </div>
 
-      <div className="w-[680px] h-[164px] flex flex-col">
+      <div className="w-[715px] h-[164px] flex flex-col">
         <div className="flex items-center gap-3">
           <div className="w-[50px] h-[50px] bg-gray-600 rounded-full" />
           <div className="flex flex-col gap-2">
