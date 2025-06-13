@@ -4,7 +4,7 @@ import textimage from '../../../assets/images/default-logo.svg';
 import profileimage from '../../../assets/images/profile.svg';
 import GalleryComment from './GalleryComment';
 import Menu from '../../common/Menu';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { GalleryPost } from '../../../types/gallery';
 import { GalleryPosts } from '../../../api/gallery/gallerypost';
@@ -13,6 +13,7 @@ import GalleryDetailSkeleton from './GalleryDetailSkeleton';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState<GalleryPost | null>(null);
   const [profile, setProfile] = useState<ProfileType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,8 +58,64 @@ export default function GalleryDetail() {
     alert('수정 클릭');
   };
 
-  const handleDelete = () => {
-    alert('삭제 클릭');
+  const handleDelete = async () => {
+    if (!postid) return;
+
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+
+    try {
+      // 스토리지에서 해당 post_id 폴더의 모든 파일 삭제
+      const { data: fileList, error: listError } = await supabase.storage
+        .from('gallery-images')
+        .list(postid, {
+          limit: 100,
+          offset: 0,
+        });
+
+      if (listError) {
+        console.error('파일 목록 조회 실패:', listError);
+      } else if (fileList && fileList.length > 0) {
+        // 파일이 있으면 삭제
+        const filePaths = fileList.map((file) => `${postid}/${file.name}`);
+        const { error: deleteStorageError } = await supabase.storage
+          .from('gallery-images')
+          .remove(filePaths);
+
+        if (deleteStorageError) {
+          console.error('스토리지 파일 삭제 실패:', deleteStorageError);
+        }
+      }
+
+      // likes 삭제
+      const { error: likesError } = await supabase
+        .from('likes')
+        .delete()
+        .eq('post_id', Number(postid));
+
+      if (likesError) throw likesError;
+
+      // gallery_images 삭제
+      const { error: imagesError } = await supabase
+        .from('gallery_images')
+        .delete()
+        .eq('post_id', Number(postid));
+
+      if (imagesError) throw imagesError;
+
+      // posts 삭제
+      const { error: postError } = await supabase
+        .from('posts')
+        .delete()
+        .eq('id', Number(postid));
+
+      if (postError) throw postError;
+
+      alert('게시글이 삭제되었습니다.');
+      navigate('/lounge/gallery');
+    } catch (error) {
+      console.error('삭제 중 오류 발생:', error);
+      alert('삭제 중 오류가 발생했습니다.');
+    }
   };
 
   function formatDateTime(datetimeString: string) {

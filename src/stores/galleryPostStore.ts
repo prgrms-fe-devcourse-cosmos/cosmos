@@ -13,6 +13,7 @@ interface GalleryPostState {
   setImageFile: (file: File | null) => void;
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
+  reset: () => void;
   uploadPost: () => Promise<boolean>;
 }
 
@@ -23,6 +24,7 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
   setImageFile: (file) => set({ imageFile: file }),
   setTitle: (title) => set({ title }),
   setContent: (content) => set({ content }),
+  reset: () => set({ imageFile: null, title: '', content: '' }),
 
   uploadPost: async () => {
     const { title, content, imageFile } = get();
@@ -43,25 +45,8 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
     }
 
     const profileId = session.user.id;
-    const fileName = `${profileId}/${Date.now()}-${imageFile.name}`;
 
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('gallery-images')
-      .upload(fileName, imageFile, {
-        cacheControl: '3600',
-        upsert: false,
-        contentType: imageFile.type,
-      });
-
-    if (uploadError || !uploadData) {
-      alert('이미지 업로드에 실패했습니다.');
-      return false;
-    }
-
-    const imageUrl = supabase.storage
-      .from('gallery-images')
-      .getPublicUrl(uploadData.path).data.publicUrl;
-
+    // 생성
     const newPost: PostInsert = {
       title,
       content,
@@ -80,6 +65,29 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
       alert('게시글 등록에 실패했습니다.');
       return false;
     }
+
+    // ID로 파일명 생성
+    const fileName = `${postData.id}/${Date.now()}-${imageFile.name}`;
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('gallery-images')
+      .upload(fileName, imageFile, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: imageFile.type,
+      });
+
+    if (uploadError || !uploadData) {
+      console.error(uploadError);
+      // 이미지 업로드 실패 시 생성된 포스트 삭제
+      await supabase.from('posts').delete().eq('id', postData.id);
+      alert('이미지 업로드에 실패했습니다.');
+      return false;
+    }
+
+    const imageUrl = supabase.storage
+      .from('gallery-images')
+      .getPublicUrl(uploadData.path).data.publicUrl;
 
     const newImage: GalleryImageInsert = {
       post_id: postData.id,
