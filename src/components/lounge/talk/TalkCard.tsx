@@ -28,7 +28,7 @@ export default function TalkCard({ post }: { post: TalkPost }) {
           {/* 게시글 내용 + 댓글수 + 좋아요수 */}
           <div className="flex justify-between items-end">
             {/* 게시글 내용 */}
-            <p className="font-light text-sm whitespace-pre-line">
+            <p className="font-light text-sm whitespace-pre-line line-clamp-3">
               {post.content}
             </p>
             {/* 댓글수 + 좋아요수 */}

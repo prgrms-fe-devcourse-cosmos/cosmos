@@ -137,7 +137,7 @@ export default function TalkDetail() {
 
           {/* 내용 */}
           <div className="mb-8">
-            <p className="whitespace-pre-line">{content}</p>
+            <p className="whitespace-pre-line min-h-[120px]">{content}</p>
           </div>
 
           {/* 댓글 */}
