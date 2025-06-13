@@ -1,10 +1,13 @@
+import { UserMetadata } from '@supabase/supabase-js';
 import { create } from 'zustand';
-import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 
 type AuthStore = {
-  user: ProfileType;
-  token: string | null;
-  setUser: (user: ProfileType, token: string) => void;
+  isLoggedIn: boolean;
+  id: string | null;
+  access_token: string | null;
+  userData: UserMetadata | null;
+  setUser: (id: string, token: string, userData: UserMetadata) => void;
   clearUser: () => void;
 };
 
@@ -12,15 +15,26 @@ export const useAuthStore = create(
   devtools(
     persist<AuthStore>(
       (set) => ({
-        user: null,
-        token: null,
-        setUser: (user, token: string) => set({ user, token }),
-        clearUser: () => set({ user: null, token: null }),
+        isLoggedIn: false,
+        id: null,
+        access_token: null,
+        userData: null,
+        setUser: (id, token, data) =>
+          set({
+            isLoggedIn: true,
+            id: id,
+            access_token: token,
+            userData: data,
+          }),
+        clearUser: () =>
+          set({
+            isLoggedIn: false,
+            id: null,
+            access_token: null,
+            userData: null,
+          }),
       }),
-      {
-        name: 'auth-store',
-        storage: createJSONStorage(() => sessionStorage),
-      }
+      { name: 'auth-store' }
     )
   )
 );
