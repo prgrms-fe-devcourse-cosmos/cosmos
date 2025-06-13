@@ -8,9 +8,11 @@ import { updateProfile } from "../../api/user/profile";
 export default function EditProfileModal({
   userData,
   setIsEditModalOpen,
+  setUserData,
 }: {
   userData: ProfileType;
   setIsEditModalOpen: (isEditModalOpen: boolean) => void;
+  setUserData: (data: ProfileType) => void;
 }) {
   const [usernameInput, setUsernameInput] = useState<string>(
     userData?.username || ""
@@ -22,7 +24,15 @@ export default function EditProfileModal({
 
   const updateProfileHandler = async () => {
     try {
-      updateProfile(userData.id, usernameInput, "", bioInput);
+      const updated = await updateProfile(
+        userData.id,
+        usernameInput,
+        "",
+        bioInput
+      );
+      if (updated && updated.length > 0) {
+        setUserData(updated[0]);
+      }
       setIsEditModalOpen(false);
     } catch (e) {
       console.error("업데이트 실패 : ", e);

@@ -9,7 +9,8 @@ export async function updateProfile(
   const { data, error } = await supabase
     .from("profiles")
     .update({ username: username, avatar_url: avatar_url, bio: bio })
-    .eq("id", id);
+    .eq("id", id)
+    .select();
   if (error) {
     console.error("Update Profile : ", error);
   }
