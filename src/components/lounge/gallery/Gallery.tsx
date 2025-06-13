@@ -27,7 +27,7 @@ export default function Gallery() {
       setIsLoading(false);
     };
     loadPosts();
-  }, []);
+  }, [sortBy]);
 
   useEffect(() => {
     if (originalPosts.length === 0) return;

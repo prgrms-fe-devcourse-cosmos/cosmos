@@ -46,7 +46,7 @@ export default function GalleryAdd() {
   useEffect(() => {
     reset();
     setImagePreview(postimage);
-  }, []);
+  }, [reset]);
 
   return (
     <div className="w-[768px] h-[824px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
