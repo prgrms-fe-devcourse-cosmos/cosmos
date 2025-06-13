@@ -1,9 +1,8 @@
 import { X } from "lucide-react";
 import React, { useState } from "react";
-import defaultImg from "../../assets/images/profile.svg";
 import LabeledInput from "../common/LabeledInput";
 import Button from "../common/Button";
-import imageUploaderIcon from "../../assets/images/image-uploader.svg";
+import EditProfileImage from "./EditProfileImage";
 
 export default function EditProfileModal({
   userData,
@@ -22,17 +21,7 @@ export default function EditProfileModal({
         <div className="w-full flex justify-end">
           <X onClick={setIsEditModalOpen} className="cursor-pointer" />
         </div>
-        <div className="relative w-40 flex justify-center">
-          <img
-            src={userData?.avatar_url || defaultImg}
-            className="rounded-full size-40 object-cover "
-          />
-          <div className="absolute bottom-0 right-0 translate-x-0 translate-y-0">
-            <div className="size-10 relative z-10">
-              <img src={imageUploaderIcon} className="cursor-pointer" />
-            </div>
-          </div>
-        </div>
+        <EditProfileImage userData={userData} />
       </div>
 
       <div className="w-full space-y-4">
