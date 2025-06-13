@@ -16,10 +16,15 @@ export default function Comment({
           {/* 유저정보 + 날짜 */}
           <div className="flex gap-4 items-center">
             {/* 유저아이콘 */}
-            <div className="w-[40px] h-[40px] bg-amber-900 rounded-full"></div>
+            <img
+              src={comment.profiles?.avatar_url}
+              className="w-[40px] h-[40px] rounded-full"
+            />
             {/* 유저이름 + 날짜 */}
             <div className="">
-              <h3 className="font-medium text-sm">{comment.profile_id}</h3>
+              <h3 className="font-medium text-sm">
+                {comment.profiles?.username}
+              </h3>
               <p className="text-[#696969] font-light text-[12px]">
                 {comment.created_at}
               </p>

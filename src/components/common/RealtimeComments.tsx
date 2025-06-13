@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import supabase from "../../utils/supabase";
 import Button from "./Button";
-import { Database } from "../../types/supabase";
 import Comment from "./Comment";
+import { Database } from "../../types/supabase";
 
-export type CommentType = Database["public"]["Tables"]["comment"]["Row"];
+export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
+  profiles?: {
+    avatar_url: string;
+    username: string;
+  };
+};
 
 interface RealtimeCommentsProps {
   serverComments: CommentType[] | null;

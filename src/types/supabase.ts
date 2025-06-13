@@ -104,58 +104,6 @@ export type Database = {
           },
         ]
       }
-      comments: {
-        Row: {
-          content: string
-          created_at: string
-          id: number
-          post_id: number
-          post_type: string
-          profile_id: string
-          updated_at: string | null
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          id?: number
-          post_id: number
-          post_type: string
-          profile_id: string
-          updated_at?: string | null
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          id?: number
-          post_id?: number
-          post_type?: string
-          profile_id?: string
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "comments_post_id_fkey"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "posts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "comments_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "comments_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "puzzle_leaderboard"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       follows: {
         Row: {
           created_at: string
