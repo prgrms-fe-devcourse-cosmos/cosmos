@@ -41,10 +41,11 @@ export default function GalleryLike({
   useEffect(() => {
     // 초기값이 제공되었으면 서버 호출을 건너뛰기
     if (
-      initialLiked !== null &&
-      initialLiked !== undefined &&
-      initialCount !== null &&
-      initialCount !== undefined
+      (initialLiked !== null &&
+        initialLiked !== undefined &&
+        initialCount !== null &&
+        initialCount !== undefined) ||
+      !profileId
     ) {
       setIsInitialLoading(false);
       return;

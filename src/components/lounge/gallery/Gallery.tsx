@@ -11,11 +11,31 @@ import SearchInput from "../../common/SearchInput";
 export default function Gallery() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState<string>("like.desc");
+  const savedSort = sessionStorage.getItem("gallery_sortBy") || "like.desc";
+  const [sortBy, setSortBy] = useState<string>(savedSort);
   const [originalPosts, setOriginalPosts] = useState<GalleryPost[]>([]);
   const [posts, setPosts] = useState<GalleryPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  const sortPosts = (data: GalleryPost[], sort: string) => {
+    return [...data].sort((a, b) => {
+      if (sort === "like.desc") {
+        const likeDiff = (b.like_count ?? 0) - (a.like_count ?? 0);
+        if (likeDiff !== 0) return likeDiff;
+
+        // 좋아요 수가 같으면 최신순
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+      } else if (sort === "release_date.desc") {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      }
+      return 0;
+    });
+  };
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -34,21 +54,9 @@ export default function Gallery() {
     setPosts(sorted);
   }, [sortBy, originalPosts]);
 
-  const sortPosts = (data: GalleryPost[], sort: string) => {
-    return [...data].sort((a, b) => {
-      if (sort === "like.desc") {
-        return (b.like_count ?? 0) - (a.like_count ?? 0);
-      } else if (sort === "release_date.desc") {
-        return (
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-      }
-      return 0;
-    });
-  };
-
   const handleSortClick = (sortValue: string) => {
     setSortBy(sortValue);
+    sessionStorage.setItem("gallery_sortBy", sortValue);
   };
 
   const handlePostUpdate = (updatedPost: GalleryPost & { liked: boolean }) => {
@@ -123,7 +131,7 @@ export default function Gallery() {
               <GalleryCardSkeleton key={idx} />
             ))
           : posts.map((post) => {
-              if (!post.gallery_images) return null;
+              if (!post || !post.gallery_images) return null;
               return (
                 <GalleryCard
                   key={post.id}
