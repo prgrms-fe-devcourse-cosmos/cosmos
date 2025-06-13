@@ -3,7 +3,7 @@ import { TalkPostInsert, TalkPostState } from "../types/talk";
 import { fetchTalkPosts } from "../api/talk/talk";
 import supabase from "../utils/supabase";
 
-export const useTalkStore = create<TalkPostState>((set, get) => ({
+export const useTalkStore = create<TalkPostState>((set) => ({
   // 게시글 조회용
   talkPosts: [],
   loading: false,
@@ -26,8 +26,8 @@ export const useTalkStore = create<TalkPostState>((set, get) => ({
   setTitle: (title: string) => set({ title }),
   setContent: (content: string) => set({ content }),
   reset: () => set({ title: "", content: "" }),
-  uploadPost: async () => {
-    const { title, content } = get();
+  uploadPost: async (title: string, content: string) => {
+    // const { title, content } = get();
 
     // 로그인 확인
     const {
@@ -101,6 +101,40 @@ export const useTalkStore = create<TalkPostState>((set, get) => ({
       console.error("예외 발생:", err);
     } finally {
       set({ loading: false });
+    }
+  },
+  // 게시글 수정
+  updatePost: async (id, title, content) => {
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
+
+    if (sessionError || !session) {
+      return { success: false, message: "로그인이 필요합니다." };
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .update({
+          title,
+          content,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", id)
+        .eq("post_type", "talk")
+        .select()
+        .single();
+
+      if (error || !data) {
+        return { success: false, message: "게시글 수정에 실패했습니다." };
+      }
+
+      return { success: true, message: "게시글이 성공적으로 수정되었습니다." };
+    } catch (err) {
+      console.error("수정 실패:", err);
+      return { success: false, message: "예외가 발생했습니다." };
     }
   },
 }));

@@ -34,11 +34,17 @@ export interface TalkPostState {
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
   reset: () => void;
-  uploadPost: () => Promise<UploadPostResult>;
+  uploadPost: (title: string, content: string) => Promise<UploadPostResult>;
   // 게시글 상세 보기
   selectedPost: TalkPost | null;
   setSelectedPost: (post: TalkPost | null) => void;
   fetchPostById: (id: number) => Promise<void>;
+  // 게시글 수정
+  updatePost: (
+    id: number,
+    title: string,
+    content: string
+  ) => Promise<{ success: boolean; message: string }>;
 }
 
 // talk post insert

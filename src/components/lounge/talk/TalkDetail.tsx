@@ -122,10 +122,7 @@ export default function TalkDetail() {
           {/* 게시글 작성한 사람의 프로필id props 전달 */}
           {profiles?.id === currentUserId ? (
             <Menu
-              onEdit={() => {
-                // 수정 모달 열기 또는 페이지 이동 로직
-                console.log("수정 클릭");
-              }}
+              onEdit={() => navigate(`/lounge/talk/${selectedPost?.id}/edit`)}
               onDelete={handleDelete}
             />
           ) : (
@@ -140,7 +137,7 @@ export default function TalkDetail() {
 
           {/* 내용 */}
           <div className="mb-8">
-            <p>{content}</p>
+            <p className="whitespace-pre-line">{content}</p>
           </div>
 
           {/* 댓글 */}

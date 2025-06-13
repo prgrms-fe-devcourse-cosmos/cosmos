@@ -30,6 +30,7 @@ import TalkAdd from "../components/lounge/talk/TalkAdd";
 import User from "./pages/User";
 import QuizConfigScreen from "./pages/lab/quiz/QuizConfigScreen";
 import QuizScreen from "./pages/lab/quiz/QuizScreen";
+import TalkEdit from "../components/lounge/talk/TalkEdit";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,7 @@ const router = createBrowserRouter([
               { index: true, element: <Talk /> },
               { path: ":id", element: <TalkDetail /> },
               { path: "add", element: <TalkAdd /> },
+              { path: ":id/edit", element: <TalkEdit /> },
             ],
           },
         ],
