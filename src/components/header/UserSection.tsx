@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import profileImage from "../../assets/images/profile.svg";
 import userIcon from "../../assets/images/user.svg";
 import logoutIcon from "../../assets/images/log-out.svg";
-import light from "../../assets/images/lightMode.svg";
-import dark from "../../assets/images/darkMode.svg";
+import ThemeToggle from "./ThemeToggle";
 import { useAuthStore } from "../../stores/authStore";
 import supabase from "../../utils/supabase";
 
@@ -48,7 +47,7 @@ export default function UserSection() {
   return (
     <>
       {user && localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token") ? (
-        <div ref={menuRef} className="h-full flex items-center">
+        <div ref={menuRef}>
           <button
             type="button"
             className="cursor-pointer"
@@ -82,13 +81,8 @@ export default function UserSection() {
                   </span>
                 </button>
               </div>
-              <div className="flex gap-3 justify-center">
-                <button className="cursor-pointer">
-                  <img src={light} alt="" className="size-4" />
-                </button>
-                <button className="cursor-pointer">
-                  <img src={dark} alt="" className="size-4" />
-                </button>
+              <div className="flex w-full justify-center mt-4">
+                <ThemeToggle />
               </div>
             </div>
           )}
