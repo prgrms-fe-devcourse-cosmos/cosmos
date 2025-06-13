@@ -1,5 +1,6 @@
 import React from "react";
 import { CommentType } from "./RealtimeComments";
+import defaultAvatar from "/src/assets/images/profile.svg";
 
 export default function Comment({
   comment,
@@ -19,7 +20,7 @@ export default function Comment({
           <div className="flex gap-4 items-center">
             {/* 유저아이콘 */}
             <img
-              src={comment.profiles?.avatar_url}
+              src={comment.profiles?.avatar_url || defaultAvatar}
               className="w-[40px] h-[40px] rounded-full"
             />
             {/* 유저이름 + 날짜 */}

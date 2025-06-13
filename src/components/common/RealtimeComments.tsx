@@ -3,6 +3,8 @@ import supabase from "../../utils/supabase";
 import Button from "./Button";
 import Comment from "./Comment";
 import { Database } from "../../types/supabase";
+import { RealtimeChannel } from "@supabase/supabase-js";
+import { createComment, deleteComment } from "../../api/comments";
 
 export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
   profiles?: {
@@ -25,7 +27,8 @@ export default function RealtimeComments({
   const [comments, setComments] = useState<CommentType[] | null>(
     serverComments
   );
-  const channelRef = useRef<any>(null);
+  const [commentInput, setCommentInput] = useState("");
+  const channelRef = useRef<RealtimeChannel | null>(null);
 
   useEffect(() => {
     setComments(serverComments);
@@ -90,21 +93,28 @@ export default function RealtimeComments({
     };
   }, [params.id, userId]);
 
+  const handleSubmitComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!commentInput.trim() || !userId) return;
+    try {
+      const data = await createComment(Number(params.id), commentInput, userId);
+      if (!data) {
+        console.error("댓글 작성 실패 ");
+      } else {
+        setCommentInput("");
+      }
+    } catch (e) {
+      console.error("submit comment failed : ", e);
+    }
+  };
+
   const handleDeleteComment = async (commentId: number) => {
     try {
-      const { error } = await supabase
-        .from("comment")
-        .delete()
-        .eq("id", commentId)
-        .eq("profile_id", userId);
-      if (error) {
-        console.error("댓글 삭제 실패 : ", error);
-      } else {
-        setComments(
-          (oldComments) =>
-            oldComments?.filter((comment) => comment.id !== commentId) ?? null
-        );
-      }
+      await deleteComment(commentId, userId);
+      setComments(
+        (oldComments) =>
+          oldComments?.filter((comment) => comment.id !== commentId) ?? null
+      );
     } catch (e) {
       console.error("delete comment failed : ", e);
     }
@@ -124,15 +134,19 @@ export default function RealtimeComments({
             ))
           : "No comments yet"}
       </section>
-      <form className="w-full relative">
+      <form onSubmit={handleSubmitComment} className="w-full relative">
         <input
           placeholder="댓글을 입력하세요"
+          onChange={(e) => setCommentInput(e.target.value)}
           type="text"
+          value={commentInput}
           className={`w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
                   border rounded-[8px] focus:outline-none`}
         />
         <Button
-          variant="disabled"
+          type="submit"
+          variant={commentInput.trim() && userId ? "neon_filled" : "disabled"}
+          disabled={!commentInput.trim() || !userId}
           className="h-full border-[#D0F700] absolute right-0 top-0 rounded-tl-none rounded-bl-none"
         >
           ENTER

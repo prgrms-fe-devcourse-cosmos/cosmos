@@ -19,3 +19,55 @@ export const fetchCommentsByPostId = async (
     throw e;
   }
 };
+
+export const createComment = async (
+  post_id: number,
+  content: string,
+  profile_id: string
+): Promise<CommentType | undefined> => {
+  try {
+    const { data, error } = await supabase
+      .from("comment")
+      .insert([
+        {
+          content: content.trim(),
+          post_id: post_id,
+          profile_id: profile_id,
+        },
+      ])
+      .select(
+        `*,
+          profiles:profile_id (
+            id,
+            username,
+            avatar_url
+          )`
+      )
+      .single();
+    if (error) {
+      console.error("댓글 작성 실패: ", error);
+    }
+    return data;
+  } catch (e) {
+    console.error("댓글 작성 실패 : ", e);
+  }
+};
+
+export const deleteComment = async (
+  commentId: number,
+  profileId: string
+): Promise<void> => {
+  try {
+    const { error } = await supabase
+      .from("comment")
+      .delete()
+      .eq("id", commentId)
+      .eq("profile_id", profileId);
+
+    if (error) {
+      console.error("댓글 삭제 실패 : ", error);
+    }
+  } catch (e) {
+    console.error("delete comment failed : ", e);
+  }
+};
