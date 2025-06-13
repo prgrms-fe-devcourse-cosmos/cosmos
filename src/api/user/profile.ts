@@ -16,3 +16,31 @@ export async function updateProfile(
   }
   return data;
 }
+
+export async function updateImage(file: File, userId: string) {
+  const fileName = `${userId}-${Date.now()}`;
+  const { error } = await supabase.storage
+    .from("avatars")
+    .upload(fileName, file);
+
+  if (error) {
+    console.error("이미지 업데이트 에러 : ", error);
+  }
+
+  const { data: urlData } = supabase.storage
+    .from("avatars")
+    .getPublicUrl(fileName);
+
+  return urlData.publicUrl;
+}
+
+export async function resetImage(userId: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({ avatar_url: "" })
+    .eq("id", userId)
+    .select();
+
+  if (error) throw error;
+  return data[0];
+}

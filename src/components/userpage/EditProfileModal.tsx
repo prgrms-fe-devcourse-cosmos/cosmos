@@ -19,6 +19,7 @@ export default function EditProfileModal({
   );
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [bioInput, setBioInput] = useState<string>(userData?.bio || "");
+  const [imageUrl, setImageUrl] = useState<string>(userData?.avatar_url || "");
 
   if (!userData) return;
 
@@ -27,7 +28,7 @@ export default function EditProfileModal({
       const updated = await updateProfile(
         userData.id,
         usernameInput,
-        "",
+        imageUrl,
         bioInput
       );
       if (updated && updated.length > 0) {
@@ -48,7 +49,11 @@ export default function EditProfileModal({
             className="cursor-pointer"
           />
         </div>
-        <EditProfileImage userData={userData} />
+        <EditProfileImage
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          userId={userData.id}
+        />
       </div>
 
       <div className="w-full space-y-4">
@@ -95,7 +100,10 @@ export default function EditProfileModal({
         </div>
 
         <div className="group">
-          <Button variant="hover_fill" onClick={updateProfileHandler}>
+          <Button
+            variant={invalidUsername ? "disabled" : "hover_fill"}
+            onClick={invalidUsername ? undefined : updateProfileHandler}
+          >
             SAVE
           </Button>
         </div>
