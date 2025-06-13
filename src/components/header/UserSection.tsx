@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import supabase from '../../utils/supabase';
 import profileImage from '../../assets/images/profile.svg';
@@ -12,6 +12,16 @@ export default function UserSection() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const { isLoggedIn, userData, setUser, clearUser } = useAuthStore();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  function handleClickOutside(event: MouseEvent) {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target as HTMLElement)
+    ) {
+      setMenuOpen(false);
+    }
+  }
 
   async function loginCheck() {
     const { data, error } = await supabase.auth.getSession();
@@ -62,6 +72,11 @@ export default function UserSection() {
     };
   }, []);
 
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [menuRef]);
+
   const logOutHandler = () => {
     supabase.auth.signOut();
     clearUser();
@@ -73,45 +88,48 @@ export default function UserSection() {
     <>
       {isLoggedIn && (
         <>
-          <button onClick={() => setMenuOpen(!menuOpen)}>
-            <img
-              src={userData?.avatar_url || profileImage}
-              alt=''
-              className='size-8 rounded-full cursor-pointer'
-            />
-          </button>
-          {menuOpen && (
-            <div className='flex flex-col gap-4 fixed z-1 right-10 xl:right-20 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border'>
-              <div className='flex flex-col gap-2.5 items-center'>
-                <Link
-                  className='flex gap-2 items-center cursor-pointer'
-                  to={`/user/${userData?.usercode}`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <img src={userIcon} alt='' />
-                  <span className='font-medium text-sm'>마이페이지</span>
-                </Link>
-                <button
-                  type='button'
-                  className='flex gap-2 items-center cursor-pointer'
-                  onClick={logOutHandler}
-                >
-                  <img src={logoutIcon} alt='' />
-                  <span className='font-medium text-sm mt-1 text-[var(--red)]'>
-                    로그아웃
-                  </span>
-                </button>
+          <div ref={menuRef}>
+            <button onClick={() => setMenuOpen(!menuOpen)}>
+              <img
+                src={userData?.avatar_url || profileImage}
+                alt=''
+                className='size-8 rounded-full cursor-pointer'
+              />
+            </button>
+
+            {menuOpen && (
+              <div className='flex flex-col gap-4 fixed z-1 right-10 xl:right-20 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border'>
+                <div className='flex flex-col gap-2.5 items-center'>
+                  <Link
+                    className='flex gap-2 items-center cursor-pointer'
+                    to={`/user/${userData?.usercode}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <img src={userIcon} alt='' />
+                    <span className='font-medium text-sm'>마이페이지</span>
+                  </Link>
+                  <button
+                    type='button'
+                    className='flex gap-2 items-center cursor-pointer'
+                    onClick={logOutHandler}
+                  >
+                    <img src={logoutIcon} alt='' />
+                    <span className='font-medium text-sm mt-1 text-[var(--red)]'>
+                      로그아웃
+                    </span>
+                  </button>
+                </div>
+                <div className='flex gap-3 justify-center'>
+                  <button className='cursor-pointer'>
+                    <img src={light} alt='' className='size-4' />
+                  </button>
+                  <button className='cursor-pointer'>
+                    <img src={dark} alt='' className='size-4' />
+                  </button>
+                </div>
               </div>
-              <div className='flex gap-3 justify-center'>
-                <button className='cursor-pointer'>
-                  <img src={light} alt='' className='size-4' />
-                </button>
-                <button className='cursor-pointer'>
-                  <img src={dark} alt='' className='size-4' />
-                </button>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </>
       )}
       {!isLoggedIn && (
