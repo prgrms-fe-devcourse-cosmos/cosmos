@@ -90,6 +90,26 @@ export default function RealtimeComments({
     };
   }, [params.id, userId]);
 
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      const { error } = await supabase
+        .from("comment")
+        .delete()
+        .eq("id", commentId)
+        .eq("profile_id", userId);
+      if (error) {
+        console.error("댓글 삭제 실패 : ", error);
+      } else {
+        setComments(
+          (oldComments) =>
+            oldComments?.filter((comment) => comment.id !== commentId) ?? null
+        );
+      }
+    } catch (e) {
+      console.error("delete comment failed : ", e);
+    }
+  };
+
   return (
     <div>
       <section className="flex flex-col gap-2">
@@ -99,11 +119,12 @@ export default function RealtimeComments({
                 isSender={userId === comment.profile_id}
                 comment={comment}
                 key={comment.id}
+                onDelete={() => handleDeleteComment(comment.id)}
               />
             ))
           : "No comments yet"}
       </section>
-      <div className="w-full relative">
+      <form className="w-full relative">
         <input
           placeholder="댓글을 입력하세요"
           type="text"
@@ -116,7 +137,7 @@ export default function RealtimeComments({
         >
           ENTER
         </Button>
-      </div>
+      </form>
     </div>
   );
 }

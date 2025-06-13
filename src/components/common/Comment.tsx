@@ -4,9 +4,11 @@ import { CommentType } from "./RealtimeComments";
 export default function Comment({
   comment,
   isSender,
+  onDelete,
 }: {
   comment: CommentType;
   isSender: boolean;
+  onDelete: () => void;
 }) {
   return (
     <div className="px-2 mb-6">
@@ -37,7 +39,12 @@ export default function Comment({
               <button className="mr-2 md:mr-4 cursor-pointer hover:text-white">
                 수정
               </button>
-              <button className="cursor-pointer hover:text-white">삭제</button>
+              <button
+                className="cursor-pointer hover:text-white"
+                onClick={onDelete}
+              >
+                삭제
+              </button>
             </div>
           ) : (
             <></>
