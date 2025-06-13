@@ -12,7 +12,7 @@ interface GalleryCardProps {
 
 export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
   const navigate = useNavigate();
-  const uid = useAuthStore((state) => state.user?.id) ?? '';
+  const uid = useAuthStore((state) => state.id) ?? '';
 
   const thumbnail = post.gallery_images?.image_url || '';
   return (

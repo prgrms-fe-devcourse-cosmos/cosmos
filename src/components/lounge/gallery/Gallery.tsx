@@ -9,7 +9,7 @@ import { useAuthStore } from '../../../stores/authStore';
 import SearchInput from '../../common/SearchInput';
 
 export default function Gallery() {
-  const isLoggedIn = useAuthStore((state) => !!state.user);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [searchTerm, setSearchTerm] = useState('');
   const savedSort = sessionStorage.getItem('gallery_sortBy') || 'like.desc';
   const [sortBy, setSortBy] = useState<string>(savedSort);
