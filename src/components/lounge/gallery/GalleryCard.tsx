@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import heartIcon from '../../../assets/icons/heart.svg';
 import heartfilledIcon from '../../../assets/icons/filled_heart.svg';
 import GalleryLike from './GalleryLike';
-import { userStore } from '../../../stores/userStore';
 import { GalleryPost, GalleryPostWithLike } from '../../../types/gallery';
+import { useAuthStore } from '../../../stores/authStore';
 
 interface GalleryCardProps {
   post: GalleryPost;
@@ -12,7 +12,7 @@ interface GalleryCardProps {
 
 export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
   const navigate = useNavigate();
-  const uid = userStore((state) => state.uid);
+  const uid = useAuthStore((state) => state.id) ?? '';
 
   const thumbnail = post.gallery_images?.image_url || '';
   return (
@@ -33,7 +33,7 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
         bg-[rgba(255,255,255,0.09)] border-r-[1px] border-b-[1px] border-l-[1px] border-[rgba(255,255,255,0.1)]"
         >
           <h3 className="text-base truncate font-bold">{post.title}</h3>
-          <p className="text-sm">{post.content}</p>
+          <p className="text-sm truncate">{post.content}</p>
           <div className="flex justify-between">
             <p className="text-xs text-[#909090]">
               {new Date(post.created_at).toLocaleDateString('ko-KR')}
