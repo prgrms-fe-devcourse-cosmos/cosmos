@@ -1,14 +1,14 @@
-import { Outlet, useNavigation } from 'react-router-dom';
-import Header from '../../components/header/Header';
-import Footer from '../../components/common/Footer';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import { useEffect } from 'react';
-import { Uid } from '../../api/login';
+import { Outlet, useNavigation } from "react-router-dom";
+import Header from "../../components/header/Header";
+import Footer from "../../components/common/Footer";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import { useEffect } from "react";
+import { Uid } from "../../api/user/login";
 
 export default function RootLayout() {
   // 로딩상태 관리
   const navigation = useNavigation();
-  const isLoading = navigation.state === 'loading';
+  const isLoading = navigation.state === "loading";
 
   useEffect(() => {
     Uid();

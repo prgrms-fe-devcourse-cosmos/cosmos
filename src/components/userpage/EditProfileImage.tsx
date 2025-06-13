@@ -38,9 +38,9 @@ export default function EditProfileImage({
           />
         </div>
         {showImgDropdown && (
-          <ul className="absolute bottom-[-100px] top-10 -right-35 w-[160px] bg-[color:var(--grey-600)] text-[color:var] rounded-[10px] shadow z-20 text-sm">
+          <ul className="absolute  top-2 -right-38  bg-[color:var(--grey-600)] text-[color:var] rounded-[10px] shadow z-20 text-sm border-1 text-left ">
             <li
-              className="px-4 py-2 hover:bg-[#444] cursor-pointer rounded-tl-[10px] rounded-tr-[10px]"
+              className="px-4 py-3 hover:bg-[#444] cursor-pointer rounded-tl-[10px] rounded-tr-[10px]"
               onClick={() => {
                 handleResetProfileImage();
                 setShowImgDropdown(false);
@@ -49,7 +49,7 @@ export default function EditProfileImage({
               기본 이미지로 변경
             </li>
             <li
-              className="px-4 py-2 hover:bg-[#444] cursor-pointer rounded-bl-[10px] rounded-br-[10px]"
+              className="px-4 py-3 hover:bg-[#444] cursor-pointer rounded-bl-[10px] rounded-br-[10px]"
               onClick={() => {
                 fileInputRef.current?.click();
                 setShowImgDropdown(false);

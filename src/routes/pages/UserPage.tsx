@@ -91,7 +91,7 @@ export default function UserPage() {
           >
             <EditProfileModal
               userData={userData}
-              setIsEditModalOpen={() => setIsEditModalOpen(false)}
+              setIsEditModalOpen={setIsEditModalOpen}
             />
           </div>
         </div>

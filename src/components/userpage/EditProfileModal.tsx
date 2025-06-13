@@ -3,23 +3,40 @@ import React, { useState } from "react";
 import LabeledInput from "../common/LabeledInput";
 import Button from "../common/Button";
 import EditProfileImage from "./EditProfileImage";
+import { updateProfile } from "../../api/user/profile";
 
 export default function EditProfileModal({
   userData,
   setIsEditModalOpen,
 }: {
   userData: ProfileType;
-  setIsEditModalOpen: () => void;
+  setIsEditModalOpen: (isEditModalOpen: boolean) => void;
 }) {
-  const [usernameInput, setUsernameInput] = useState(userData?.username);
+  const [usernameInput, setUsernameInput] = useState<string>(
+    userData?.username || ""
+  );
   const [invalidUsername, setInvalidUsername] = useState(false);
-  const [bioInput, setBioInput] = useState(userData?.bio);
+  const [bioInput, setBioInput] = useState<string>(userData?.bio || "");
+
+  if (!userData) return;
+
+  const updateProfileHandler = async () => {
+    try {
+      updateProfile(userData.id, usernameInput, "", bioInput);
+      setIsEditModalOpen(false);
+    } catch (e) {
+      console.error("업데이트 실패 : ", e);
+    }
+  };
 
   return (
     <>
       <div className="w-full flex flex-col items-center">
         <div className="w-full flex justify-end">
-          <X onClick={setIsEditModalOpen} className="cursor-pointer" />
+          <X
+            onClick={() => setIsEditModalOpen(false)}
+            className="cursor-pointer"
+          />
         </div>
         <EditProfileImage userData={userData} />
       </div>
@@ -62,13 +79,13 @@ export default function EditProfileModal({
 
       <div className="w-full flex justify-center items-center gap-10 ">
         <div className="group">
-          <Button variant="back" onClick={setIsEditModalOpen}>
+          <Button variant="back" onClick={() => setIsEditModalOpen(false)}>
             CANCEL
           </Button>
         </div>
 
         <div className="group">
-          <Button variant="hover_fill" onClick={setIsEditModalOpen}>
+          <Button variant="hover_fill" onClick={updateProfileHandler}>
             SAVE
           </Button>
         </div>
