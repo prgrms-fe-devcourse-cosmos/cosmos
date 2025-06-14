@@ -44,6 +44,22 @@ export default function TalkDetail() {
     };
   }, [id]);
 
+  // 날짜 포맷 추가
+  function formatKoreanDate(dateString: string) {
+    const date = new Date(dateString);
+    const day = date.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    const time = date.toLocaleTimeString("ko-KR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    return `${day} ${time}`;
+  }
+
   // 로딩 중 스켈레톤
   if (loading) {
     return <TalkDetailSkeleton />;
@@ -123,7 +139,7 @@ export default function TalkDetail() {
             <div>
               <h3 className="font-semibold">{username}</h3>
               <p className="text-[#696969] font-light text-sm">
-                {new Date(created_at!).toLocaleString()}
+                {formatKoreanDate(created_at!)}
               </p>
             </div>
           </div>
