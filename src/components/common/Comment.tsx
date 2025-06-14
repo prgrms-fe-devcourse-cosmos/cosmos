@@ -26,6 +26,22 @@ export default function Comment({
     setUpdatedContent(comment.content);
     setIsEditMode(false);
   };
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: false,
+    };
+    return new Intl.DateTimeFormat("ko-KR", options).format(date);
+  };
+
   return (
     <div className="px-2 mb-2">
       <div className="wrapper">
@@ -44,7 +60,7 @@ export default function Comment({
                 {comment.profiles?.username}
               </h3>
               <p className="text-[#696969] font-light text-[12px]">
-                {comment.created_at}
+                {formatDate(comment.created_at)}
               </p>
             </div>
           </div>
@@ -90,13 +106,15 @@ export default function Comment({
         </div>
         {/* 댓글 내용 */}
         {isEditMode ? (
-          <input
-            type="text"
-            placeholder="댓글을 입력해주세요."
-            value={updatedContent}
-            onChange={(e) => setUpdatedContent(e.target.value)}
-            className="transition-all focus:outline-none border border-[color:var(--gray-200)] rounded-md px-3 py-2 text-sm w-full"
-          />
+          <div className="w-full px-2 py-4">
+            <input
+              type="text"
+              placeholder="댓글을 입력해주세요."
+              value={updatedContent}
+              onChange={(e) => setUpdatedContent(e.target.value)}
+              className="transition-all focus:outline-none border border-[color:var(--gray-300)] rounded-md px-3 py-2 text-sm w-full"
+            />
+          </div>
         ) : (
           <div className="w-full  px-2 py-4">{comment.content}</div>
         )}

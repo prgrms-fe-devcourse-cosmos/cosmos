@@ -9,6 +9,7 @@ import {
   deleteComment,
   updateComment,
 } from "../../api/comments";
+import { MessageSquareOff } from "lucide-react";
 
 export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
   profiles?: {
@@ -164,19 +165,24 @@ export default function RealtimeComments({
   return (
     <div>
       <section className="flex flex-col gap-2">
-        {comments && comments.length > 0
-          ? comments.map((comment) => (
-              <Comment
-                isSender={userId === comment.profile_id}
-                comment={comment}
-                key={comment.id}
-                onDelete={() => handleDeleteComment(comment.id)}
-                onUpdate={(updatedContent) =>
-                  handleUpdateComment(comment.id, updatedContent)
-                }
-              />
-            ))
-          : "No comments yet"}
+        {comments && comments.length > 0 ? (
+          comments.map((comment) => (
+            <Comment
+              isSender={userId === comment.profile_id}
+              comment={comment}
+              key={comment.id}
+              onDelete={() => handleDeleteComment(comment.id)}
+              onUpdate={(updatedContent) =>
+                handleUpdateComment(comment.id, updatedContent)
+              }
+            />
+          ))
+        ) : (
+          <div className="w-full flex flex-col justify-center items-center mb-6 text-sm gap-4">
+            <MessageSquareOff />
+            <p className="font-medium">No comments yet </p>
+          </div>
+        )}
       </section>
       <form onSubmit={handleSubmitComment} className="w-full relative">
         <input
