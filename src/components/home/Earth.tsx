@@ -12,6 +12,8 @@ export default function Earth() {
     globe.controls().autoRotate = true;
     globe.controls().autoRotateSpeed = 0.35;
 
+    // globe.controls().enableZoom = false;
+
     const CLOUDS_ALT = 0.004;
     const CLOUDS_ROTATION_SPEED = -0.006;
 

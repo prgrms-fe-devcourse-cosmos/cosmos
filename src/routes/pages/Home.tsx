@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCurrentTheme } from "../../types/theme";
 import Earth from "../../components/home/Earth";
 import Moon from "../../components/home/Moon";
+import { TypeAnimation } from "react-type-animation";
 
 export default function Home() {
   const [theme, setTheme] = useState(getCurrentTheme());
@@ -34,10 +35,15 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full flex justify-center items-center">
-      <h1 className="absolute text-center  text-3xl font-[yapari] z-10 leading-15">
-        COSMOS
-      </h1>
+    <div className="relative min-h-screen w-full flex flex-col justify-center items-center font-[yapari] text-[color:var(--primary-300)]">
+      <div className="absolute top-120 left-1/2 -translate-x-1/2 z-20">
+        <TypeAnimation
+          sequence={["WELCOME", 600, "COSMOS", 600]}
+          style={{ fontSize: "3em" }}
+          repeat={Infinity}
+          speed={10}
+        />
+      </div>
 
       {theme === "dark" ? <Earth /> : <Moon />}
     </div>
