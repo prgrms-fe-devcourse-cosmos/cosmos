@@ -163,9 +163,13 @@ export default function GalleryDetail() {
                 </span>
               </div>
             </div>
-            <div className="ml-auto mr-2 self-start">
+            <div className="ml-auto mr-5 mt-3 self-start">
               {isOwner ? (
-                <Menu onEdit={handleEdit} onDelete={handleDelete} />
+                <Menu
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  className="mt-[-10px] mr-[-29px]"
+                />
               ) : (
                 <FollowButton followingId={post.profile_id} />
               )}
