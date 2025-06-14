@@ -1,6 +1,7 @@
-import React from "react";
 import { Player } from "../../../types/player";
 import { Crown } from "lucide-react";
+import { useAuthStore } from "../../../stores/authStore";
+import defaultAvatar from "/src/assets/images/profile.svg";
 
 export default function PodiumItem({
   index,
@@ -9,7 +10,8 @@ export default function PodiumItem({
   index: number;
   player: Player;
 }) {
-  const defaultAvatar = "/src/assets/images/profile.svg";
+  const currentUserId = useAuthStore((state) => state.id);
+
   if (index === 0) {
     return (
       <div className="flex flex-col items-center mb-4 gap-1 relative">
@@ -20,7 +22,15 @@ export default function PodiumItem({
           src={player.avatar_url || defaultAvatar}
           className="w-12 h-12 rounded-full"
         />
-        <p className="font-[helvetica-neue] py-1">{player.username}</p>
+        <p
+          className={`font-[helvetica-neue] py-1 ${
+            currentUserId === player.id
+              ? "text-[color:var(--primary-300)]"
+              : "text-white"
+          }`}
+        >
+          {player.username}
+        </p>
         <p className="text-xs text-white">{player.total_score}</p>
       </div>
     );
@@ -32,7 +42,15 @@ export default function PodiumItem({
         src={player.avatar_url || defaultAvatar}
         className="w-11 h-11 rounded-full"
       />
-      <p className=" font-[helvetica-neue]">{player.username}</p>
+      <p
+        className={`font-[helvetica-neue] ${
+          currentUserId === player.id
+            ? "text-[color:var(--primary-300)]"
+            : "text-white"
+        }`}
+      >
+        {player.username}
+      </p>
       <p className="text-xs text-white">{player.total_score}</p>
     </div>
   );

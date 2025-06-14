@@ -102,6 +102,7 @@ export default function Films() {
           value={searchInput}
           setValue={setSearchInput}
           onSearch={handleSearch}
+          placeholder="영화 검색"
         />
       </div>
       {/* 영화 리스트 */}

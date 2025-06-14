@@ -27,6 +27,11 @@ import PuzzleConfigScreen from "./pages/lab/puzzle/PuzzleConfigScreen";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import GalleryAdd from "../components/lounge/gallery/GalleryAdd";
 import UserPage from "./pages/UserPage";
+import QuizConfigScreen from "./pages/lab/quiz/QuizConfigScreen";
+import QuizScreen from "./pages/lab/quiz/QuizScreen";
+import { requireAuth, requireNoAuth } from "../loader/auth.loader";
+import TalkAdd from "../components/lounge/talk/TalkAdd";
+import TalkEdit from "../components/lounge/talk/TalkEdit";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +40,7 @@ const router = createBrowserRouter([
     errorElement: <div>데이터를 불러오는 데 실패했습니다.</div>,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/login", element: <Login /> },
+      { path: "/login", loader: requireNoAuth, element: <Login /> },
       {
         path: "/daily",
         loader: DailyLoader,
@@ -58,8 +63,9 @@ const router = createBrowserRouter([
             path: "gallery",
             children: [
               { index: true, element: <Gallery /> },
-              { path: ":id", element: <GalleryDetail /> },
+              { path: ":postid", element: <GalleryDetail /> },
               { path: "add", element: <GalleryAdd /> },
+              { path: "edit/:postId", element: <GalleryAdd mode="edit" /> },
             ],
           },
           {
@@ -67,18 +73,34 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <Talk /> },
               { path: ":id", element: <TalkDetail /> },
+              { path: "add", element: <TalkAdd /> },
+              { path: ":id/edit", element: <TalkEdit /> },
             ],
           },
         ],
       },
-      { path: "/signup", element: <Signup /> },
+      { path: "/signup", loader: requireNoAuth, element: <Signup /> },
+
       {
         path: "/lab",
         element: <Lab />,
         children: [
-          { path: "quiz", element: <LabQuiz /> },
+          {
+            path: "quiz",
+            loader: requireAuth,
+            element: <LabQuiz />,
+            children: [
+              { index: true, element: <Navigate to="config" replace /> },
+              {
+                path: "config",
+                element: <QuizConfigScreen />,
+              },
+              { path: "play", element: <QuizScreen /> },
+            ],
+          },
           {
             path: "puzzle",
+            loader: requireAuth,
             element: <LabPuzzle />,
             children: [
               { index: true, element: <Navigate to="config" replace /> },
@@ -89,7 +111,7 @@ const router = createBrowserRouter([
           { path: "rank", element: <LabRank /> },
         ],
       },
-      { path: "/user/:code", element: <UserPage /> },
+      { path: "/user/:code", loader: requireAuth, element: <UserPage /> },
       { path: "*", element: <NotFound /> },
     ],
   },
