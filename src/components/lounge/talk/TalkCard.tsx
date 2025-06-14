@@ -27,7 +27,7 @@ export default function TalkCard({ post }: { post: TalkPost }) {
     <>
       <div
         onClick={() => navigate(`/lounge/talk/${post.id}`)}
-        className="px-9 py-8 border-l border-l-[#7A9100] mb-6 bg-[#141414]/80"
+        className="px-9 py-8 border-l border-l-[#7A9100] mb-6 bg-[#141414]/80 cursor-pointer"
       >
         <div className="wrapper">
           {/* 유저 정보, 게시글 등록 시간 */}

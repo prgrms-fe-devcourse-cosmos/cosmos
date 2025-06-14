@@ -73,11 +73,12 @@ export default function TalkDetail() {
     }
 
     // supabase 해당 ID의 게시글 삭제
-    const { error } = await deleteTalkPostById(postId);
+    const { success, message } = await deleteTalkPostById(postId);
 
     // 삭제 중 오류 발생 하면 콘솔
-    if (error) {
-      console.log("게시글 삭제에 실패했습니다: " + error.message);
+    if (!success) {
+      console.error("게시글 삭제 실패:", message);
+      alert(message);
       return;
     }
 
