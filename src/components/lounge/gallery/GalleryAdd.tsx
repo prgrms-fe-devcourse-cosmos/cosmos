@@ -4,6 +4,7 @@ import postimage from '../../../assets/images/post.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGalleryPostStore } from '../../../stores/galleryPostStore';
+import Textarea from '../../common/Textarea';
 
 type GalleryAddProps = {
   mode?: 'edit' | 'add';
@@ -132,12 +133,10 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
           </div>
           <div className="w-full h-[169px] mb-7 text-base ">
             <h2 className="mb-4">본문</h2>
-            <textarea
-              placeholder="본문을 입력하세요."
-              className="w-full h-[133px] border border-[var(--primary-300)] rounded-[8px] p-5 focus:outline-none resize-none"
-              onChange={(e) => setContent(e.target.value)}
+            <Textarea
               value={content}
-            ></textarea>
+              onChange={(e) => setContent(e.target.value)}
+            />
           </div>
         </div>
         <div className="w-full h-[38px] flex items-center justify-between px-58">
