@@ -1,3 +1,4 @@
+import { useState } from "react";
 import RealtimeComments, { CommentType } from "./RealtimeComments";
 
 export default function LoungeComment({
@@ -9,7 +10,7 @@ export default function LoungeComment({
   userId: string;
   comments: CommentType[] | null;
 }) {
-  const commentCount = comments?.length || 0;
+  const [commentCount, setCommentCount] = useState(comments?.length ?? 0);
   return (
     <div>
       <div className="wrapper">
@@ -22,6 +23,7 @@ export default function LoungeComment({
           params={{ id: postId }}
           userId={userId}
           serverComments={comments}
+          onCommentCountChange={setCommentCount}
         />
       </div>
     </div>

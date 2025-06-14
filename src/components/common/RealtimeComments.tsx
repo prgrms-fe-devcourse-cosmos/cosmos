@@ -17,12 +17,14 @@ interface RealtimeCommentsProps {
   serverComments: CommentType[] | null;
   params: { id: string };
   userId: string;
+  onCommentCountChange?: (count: number) => void;
 }
 
 export default function RealtimeComments({
   serverComments,
   params,
   userId,
+  onCommentCountChange,
 }: RealtimeCommentsProps) {
   const [comments, setComments] = useState<CommentType[] | null>(
     serverComments
@@ -33,6 +35,10 @@ export default function RealtimeComments({
   useEffect(() => {
     setComments(serverComments);
   }, [serverComments]);
+
+  useEffect(() => {
+    onCommentCountChange?.(comments?.length ?? 0);
+  }, [comments, onCommentCountChange]);
 
   useEffect(() => {
     let mounted = true;
@@ -64,15 +70,26 @@ export default function RealtimeComments({
             table: "comment",
             filter: `post_id=eq.${params.id}`,
           },
-          (payload) => {
+          async (payload) => {
             if (!mounted) return;
             const newComment = payload.new as CommentType;
+
+            const { data: profileData } = await supabase
+              .from("profiles")
+              .select("avatar_url, username")
+              .eq("id", newComment.profile_id)
+              .single();
+
+            const commentWithProfile = {
+              ...newComment,
+              profiles: profileData || undefined,
+            };
             setComments((oldComments) => {
               const exists = oldComments?.some(
                 (comment) => comment.id === newComment.id
               );
               if (exists) return oldComments;
-              return [...(oldComments ?? []), newComment];
+              return [...(oldComments ?? []), commentWithProfile];
             });
           }
         )
@@ -101,6 +118,7 @@ export default function RealtimeComments({
       if (!data) {
         console.error("댓글 작성 실패 ");
       } else {
+        setComments((oldComments) => [...(oldComments ?? []), data]);
         setCommentInput("");
       }
     } catch (e) {

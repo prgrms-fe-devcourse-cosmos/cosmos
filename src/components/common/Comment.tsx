@@ -12,7 +12,7 @@ export default function Comment({
   onDelete: () => void;
 }) {
   return (
-    <div className="px-2 mb-6">
+    <div className="px-2 mb-2">
       <div className="wrapper">
         {/* 유저정보 + 댓글 등록 날짜 + 수정 삭제 */}
         <div className="flex justify-between">
@@ -21,7 +21,7 @@ export default function Comment({
             {/* 유저아이콘 */}
             <img
               src={comment.profiles?.avatar_url || defaultAvatar}
-              className="w-[40px] h-[40px] rounded-full"
+              className="w-8 h-8 rounded-full"
             />
             {/* 유저이름 + 날짜 */}
             <div className="">
@@ -36,7 +36,7 @@ export default function Comment({
 
           {/* 수정/삭제 */}
           {isSender ? (
-            <div className="text-[#909090] font-medium text-[12px]">
+            <div className="text-[#909090] text-[12px]">
               <button className="mr-2 md:mr-4 cursor-pointer hover:text-white">
                 수정
               </button>
