@@ -10,12 +10,15 @@ import { GalleryPost } from '../../../types/gallery';
 import { GalleryPosts } from '../../../api/gallery/gallerypost';
 import supabase from '../../../utils/supabase';
 import GalleryDetailSkeleton from './GalleryDetailSkeleton';
+import { useAuthStore } from '../../../stores/authStore';
+import FollowButton from '../../common/FollowButton';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
   const navigate = useNavigate();
+  const userData = useAuthStore((state) => state.userData);
   const [post, setPost] = useState<GalleryPost | null>(null);
-  const [profile, setProfile] = useState<ProfileType | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -135,6 +138,8 @@ export default function GalleryDetail() {
     return `${formattedDate} ${formattedTime}`;
   }
 
+  const isOwner = userData?.id === post.profile_id;
+
   return (
     <div className="w-[768px] min-h-[1120px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
       <Button variant="back" onClick={() => window.history.back()}>
@@ -158,11 +163,13 @@ export default function GalleryDetail() {
                 </span>
               </div>
             </div>
-            <Menu
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              className="ml-auto self-start mt-[-35px]"
-            />
+            <div className="ml-auto mr-2 self-start">
+              {isOwner ? (
+                <Menu onEdit={handleEdit} onDelete={handleDelete} />
+              ) : (
+                <FollowButton followingId={post.profile_id} />
+              )}
+            </div>
           </div>
         </div>
 
