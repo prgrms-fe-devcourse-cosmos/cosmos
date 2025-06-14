@@ -141,66 +141,63 @@ export default function GalleryDetail() {
   const isOwner = userData?.id === post.profile_id;
 
   return (
-    <div className="w-[768px] min-h-[1120px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
+    <div className="w-full min-h-fit bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-4 sm:p-6 md:px-8">
       <Button variant="back" onClick={() => window.history.back()}>
         <img src={backIcon} alt="뒤로가기" className="w-4 h-4 mr-2" />
-        Back
+        <p className="text-[12px] sm:text-base">Back</p>
       </Button>
-      <div className="w-[715px] min-h-[164px] flex flex-col">
-        <div className="w-full h-[79px]">
-          <div className="w-full h-[52px] flex justify-start items-center">
-            {/* 프로필 */}
-            <div className="flex items-center gap-3">
-              <img
-                src={profile?.avatar_url || profileimage}
-                alt="프로필"
-                className="w-[50px] h-[50px] rounded-full"
+
+      <div className="w-full max-w-[715px] mx-auto flex flex-col gap-6">
+        {/* 프로필 영역 */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src={profile?.avatar_url || profileimage}
+              alt="프로필"
+              className="w-[30px] h-[30px] sm:w-[50px] sm:h-[50px] rounded-full"
+            />
+            <div className="flex flex-col justify-center">
+              <span className="font-medium text-sm sm:text-lg">
+                {profile?.username}
+              </span>
+              <span className="text-[12px] sm:text-lg text-[var(--gray-300)]">
+                {formatDateTime(post.created_at)}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-1">
+            {isOwner ? (
+              <Menu
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                className="-mt-2 -mr-4"
               />
-              <div className="flex flex-col justify-center h-full">
-                <span className="font-medium text-lg">{profile?.username}</span>
-                <span className="text-lg text-[#696969]">
-                  {formatDateTime(post.created_at)}
-                </span>
-              </div>
-            </div>
-            <div className="ml-auto mr-5 mt-3 self-start">
-              {isOwner ? (
-                <Menu
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  className="mt-[-10px] mr-[-29px]"
-                />
-              ) : (
-                <FollowButton followingId={post.profile_id} />
-              )}
-            </div>
+            ) : (
+              <FollowButton followingId={post.profile_id} />
+            )}
           </div>
         </div>
 
-        <div className="w-[704px]">
-          <div className="w-full min-h-[79px] text-[var(--white)] mt-3">
-            {/* 제목 */}
-            <div className="w-full min-h-[24px] mb-5">
-              <h3 className="text-xl font-medium break-words">{post.title}</h3>
-            </div>
-
-            {/* 내용 */}
-            <div className="w-full min-h-[19px]">
-              <p className="text-base break-words whitespace-pre-wrap">
-                {post.content}
-              </p>
-            </div>
-          </div>
+        {/* 제목 + 내용 */}
+        <div className="text-[var(--white)]">
+          <h3 className="text-xl font-medium mb-4 break-words">{post.title}</h3>
+          <p className="text-base whitespace-pre-wrap break-words">
+            {post.content}
+          </p>
         </div>
 
-        <div className="w-full h-[470px] my-10">
+        {/* 이미지 */}
+        <div className="w-full aspect-[4/3] sm:aspect-[5/4] md:aspect-[3/2] lg:aspect-[16/9] flex justify-center items-center overflow-hidden">
           <img
             src={post.gallery_images?.image_url || textimage}
             alt={post.title}
-            className="w-full h-full"
+            className="w-full h-full object-fill"
           />
         </div>
-        <div className="w-full min-h-[293px] bg-black">
+
+        {/* 댓글 */}
+        <div className="w-full min-h-[200px] bg-black">
           <GalleryComment />
         </div>
       </div>

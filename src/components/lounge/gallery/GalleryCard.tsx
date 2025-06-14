@@ -19,9 +19,9 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
     <>
       <div
         onClick={() => navigate(`/lounge/gallery/${post.id}`)}
-        className="w-[340px] h-[343px] flex flex-col cursor-pointer"
+        className="w-full h-[343px] lg:w-[340px] flex flex-col cursor-pointer"
       >
-        <div className="w-full h-[227px]">
+        <div className="w-full h-[227px] overflow-hidden">
           <img
             src={thumbnail}
             alt={post.title}
