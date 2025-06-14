@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CommentType } from "./RealtimeComments";
 import defaultAvatar from "/src/assets/images/profile.svg";
 
@@ -6,11 +6,26 @@ export default function Comment({
   comment,
   isSender,
   onDelete,
+  onUpdate,
 }: {
   comment: CommentType;
   isSender: boolean;
   onDelete: () => void;
+  onUpdate: (updatedContent: string) => void;
 }) {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [updatedContent, setUpdatedContent] = useState<string>(comment.content);
+
+  const handleSaveUpdate = () => {
+    if (!updatedContent.trim()) return;
+    onUpdate(updatedContent.trim());
+    setIsEditMode(false);
+  };
+
+  const handleCancelUpdate = () => {
+    setUpdatedContent(comment.content);
+    setIsEditMode(false);
+  };
   return (
     <div className="px-2 mb-2">
       <div className="wrapper">
@@ -37,22 +52,54 @@ export default function Comment({
           {/* 수정/삭제 */}
           {isSender ? (
             <div className="text-[#909090] text-[12px]">
-              <button className="mr-2 md:mr-4 cursor-pointer hover:text-white">
-                수정
-              </button>
-              <button
-                className="cursor-pointer hover:text-white"
-                onClick={onDelete}
-              >
-                삭제
-              </button>
+              {isEditMode ? (
+                <>
+                  <button
+                    className="mr-2 md:mr-4 cursor-pointer hover:text-white "
+                    onClick={handleSaveUpdate}
+                  >
+                    저장
+                  </button>
+                  <button
+                    className="cursor-pointer hover:text-white"
+                    onClick={handleCancelUpdate}
+                  >
+                    취소
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="mr-2 md:mr-4 cursor-pointer hover:text-white "
+                    onClick={() => setIsEditMode(true)}
+                  >
+                    수정
+                  </button>
+                  <button
+                    className="cursor-pointer hover:text-white"
+                    onClick={onDelete}
+                  >
+                    삭제
+                  </button>
+                </>
+              )}
             </div>
           ) : (
             <></>
           )}
         </div>
         {/* 댓글 내용 */}
-        <div className="w-full  px-2 py-4">{comment.content}</div>
+        {isEditMode ? (
+          <input
+            type="text"
+            placeholder="댓글을 입력해주세요."
+            value={updatedContent}
+            onChange={(e) => setUpdatedContent(e.target.value)}
+            className="transition-all focus:outline-none border border-[color:var(--gray-200)] rounded-md px-3 py-2 text-sm w-full"
+          />
+        ) : (
+          <div className="w-full  px-2 py-4">{comment.content}</div>
+        )}
       </div>
     </div>
   );

@@ -4,11 +4,15 @@ import Button from "./Button";
 import Comment from "./Comment";
 import { Database } from "../../types/supabase";
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { createComment, deleteComment } from "../../api/comments";
+import {
+  createComment,
+  deleteComment,
+  updateComment,
+} from "../../api/comments";
 
 export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
   profiles?: {
-    avatar_url: string;
+    avatar_url: string | null;
     username: string;
   };
 };
@@ -138,6 +142,25 @@ export default function RealtimeComments({
     }
   };
 
+  const handleUpdateComment = async (
+    commentId: number,
+    updatedContent: string
+  ) => {
+    try {
+      const updatedComment = await updateComment(commentId, updatedContent);
+      if (updatedComment) {
+        setComments(
+          (oldComments) =>
+            oldComments?.map((comment) =>
+              comment.id === commentId ? updatedComment : comment
+            ) ?? null
+        );
+      }
+    } catch (e) {
+      console.error("update comment failed : ", e);
+    }
+  };
+
   return (
     <div>
       <section className="flex flex-col gap-2">
@@ -148,6 +171,9 @@ export default function RealtimeComments({
                 comment={comment}
                 key={comment.id}
                 onDelete={() => handleDeleteComment(comment.id)}
+                onUpdate={(updatedContent) =>
+                  handleUpdateComment(comment.id, updatedContent)
+                }
               />
             ))
           : "No comments yet"}
