@@ -1,18 +1,3 @@
-// export type TalkPost = {
-//   id: number;
-//   created_at: string;
-//   title: string;
-//   content: string;
-//   profile_id: string;
-//   updated_at: string | null;
-//   post_type: string;
-//   like_count: number | null;
-//   profiles: {
-//     id: string;
-//     username: string;
-//     avatar_url: string | null;
-//   };
-// };
 export type TalkPost = {
   id: number | null;
   created_at: string | null;
