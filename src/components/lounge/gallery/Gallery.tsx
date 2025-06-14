@@ -1,21 +1,41 @@
-import { useEffect, useState } from 'react';
-import Button from '../../common/Button';
-import { useNavigate } from 'react-router-dom';
-import GalleryCard from './GalleryCard';
-import { GalleryPosts } from '../../../api/gallery/gallerypost';
-import { GalleryPost } from '../../../types/gallery';
-import GalleryCardSkeleton from './GalleryCardSkeleton';
-import { useAuthStore } from '../../../stores/authStore';
-import SearchInput from '../../common/SearchInput';
+import { useEffect, useState } from "react";
+import Button from "../../common/Button";
+import { useNavigate } from "react-router-dom";
+import GalleryCard from "./GalleryCard";
+import { GalleryPosts } from "../../../api/gallery/gallerypost";
+import { GalleryPost } from "../../../types/gallery";
+import GalleryCardSkeleton from "./GalleryCardSkeleton";
+import { useAuthStore } from "../../../stores/authStore";
+import SearchInput from "../../common/SearchInput";
 
 export default function Gallery() {
-  const isLoggedIn = useAuthStore((state) => !!state.user);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState<string>('like.desc');
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const [searchTerm, setSearchTerm] = useState("");
+  const savedSort = sessionStorage.getItem("gallery_sortBy") || "like.desc";
+  const [sortBy, setSortBy] = useState<string>(savedSort);
   const [originalPosts, setOriginalPosts] = useState<GalleryPost[]>([]);
   const [posts, setPosts] = useState<GalleryPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  const sortPosts = (data: GalleryPost[], sort: string) => {
+    return [...data].sort((a, b) => {
+      if (sort === "like.desc") {
+        const likeDiff = (b.like_count ?? 0) - (a.like_count ?? 0);
+        if (likeDiff !== 0) return likeDiff;
+
+        // 좋아요 수가 같으면 최신순
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+      } else if (sort === "release_date.desc") {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      }
+      return 0;
+    });
+  };
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -34,21 +54,9 @@ export default function Gallery() {
     setPosts(sorted);
   }, [sortBy, originalPosts]);
 
-  const sortPosts = (data: GalleryPost[], sort: string) => {
-    return [...data].sort((a, b) => {
-      if (sort === 'like.desc') {
-        return (b.like_count ?? 0) - (a.like_count ?? 0);
-      } else if (sort === 'release_date.desc') {
-        return (
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-      }
-      return 0;
-    });
-  };
-
   const handleSortClick = (sortValue: string) => {
     setSortBy(sortValue);
+    sessionStorage.setItem("gallery_sortBy", sortValue);
   };
 
   const handlePostUpdate = (updatedPost: GalleryPost & { liked: boolean }) => {
@@ -81,17 +89,17 @@ export default function Gallery() {
         <ul className="flex ml-2 gap-4 text-[13px] font-medium">
           <li
             className={`cursor-pointer ${
-              sortBy === 'like.desc' ? 'text-[#D0F700]' : ''
+              sortBy === "like.desc" ? "text-[#D0F700]" : ""
             }`}
-            onClick={() => handleSortClick('like.desc')}
+            onClick={() => handleSortClick("like.desc")}
           >
             좋아요순
           </li>
           <li
             className={`cursor-pointer ${
-              sortBy === 'release_date.desc' ? 'text-[#D0F700]' : ''
+              sortBy === "release_date.desc" ? "text-[#D0F700]" : ""
             }`}
-            onClick={() => handleSortClick('release_date.desc')}
+            onClick={() => handleSortClick("release_date.desc")}
           >
             최신순
           </li>
@@ -108,8 +116,8 @@ export default function Gallery() {
             />
           </div>
           <Button
-            variant={isLoggedIn ? 'neon_filled' : 'disabled'}
-            onClick={() => navigate('/lounge/gallery/add')}
+            variant={isLoggedIn ? "neon_filled" : "disabled"}
+            onClick={() => navigate("/lounge/gallery/add")}
             className="font-[yapari] font-medium text-sm ml-2 h-[34px]"
           >
             + Post
@@ -123,7 +131,7 @@ export default function Gallery() {
               <GalleryCardSkeleton key={idx} />
             ))
           : posts.map((post) => {
-              if (!post.gallery_images) return null;
+              if (!post || !post.gallery_images) return null;
               return (
                 <GalleryCard
                   key={post.id}

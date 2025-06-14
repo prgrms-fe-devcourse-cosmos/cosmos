@@ -1,8 +1,6 @@
-import React from "react";
 import profileImage from "../../../assets/images/profile.svg";
-import { ProfileType } from "../../../stores/authStore";
 
-export default function UserProfile({ user }: { user: ProfileType }) {
+export default function UserProfile({ user }: { user: Profile }) {
   return (
     <div className="space-y-4 text-2xl">
       <img

@@ -1,22 +1,11 @@
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
-
-export type ProfileType = {
-  avatar_url: string | null;
-  bio: string | null;
-  created_at: string;
-  email: string;
-  id: string;
-  updated_at: string | null;
-  username: string;
-  usercode: string;
-} | null;
+import { devtools, persist } from "zustand/middleware";
 
 type AuthStore = {
   isLoggedIn: boolean;
-  user: ProfileType;
-  token: string | null;
-  setUser: (user: ProfileType, token: string) => void;
+  access_token: string | null;
+  userData: Profile | null;
+  setUser: (token: string, userData: Profile) => void;
   clearUser: () => void;
 };
 
@@ -25,16 +14,22 @@ export const useAuthStore = create(
     persist<AuthStore>(
       (set) => ({
         isLoggedIn: false,
-        user: null,
-        token: null,
-        setUser: (user, token: string) =>
-          set({ user, token, isLoggedIn: !!user && !!token }),
-        clearUser: () => set({ user: null, token: null, isLoggedIn: false }),
+        access_token: null,
+        userData: null,
+        setUser: (token, data) =>
+          set({
+            isLoggedIn: true,
+            access_token: token,
+            userData: data,
+          }),
+        clearUser: () =>
+          set({
+            isLoggedIn: false,
+            access_token: null,
+            userData: null,
+          }),
       }),
-      {
-        name: "auth-store",
-        storage: createJSONStorage(() => sessionStorage),
-      }
+      { name: "auth-store" }
     )
   )
 );
