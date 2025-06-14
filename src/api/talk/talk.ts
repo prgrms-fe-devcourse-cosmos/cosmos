@@ -19,34 +19,17 @@ export const deleteTalkPostById = async (id: number) => {
   return { error };
 };
 
-// talk 게시글 좋아요 부분
-// 현재 좋아요 가져오기
-export const getTalkPostLike = async (
-  postId: number,
-  profileId: string
-): Promise<boolean> => {
-  const { data } = await supabase
-    .from("likes")
-    .select("*")
-    .eq("post_id", postId)
-    .eq("profile_id", profileId)
-    .single();
+// 게시글 댓글 수 가져오기
+export async function fetchTalkCommentCount(postId: number): Promise<number> {
+  const { count, error } = await supabase
+    .from("comment")
+    .select("*", { count: "exact", head: true })
+    .eq("post_id", postId);
 
-  return !!data;
-};
+  if (error) {
+    console.error("댓글 수 가져오기 실패:", error.message);
+    return 0;
+  }
 
-// 좋아요 추가
-export const addTalkPostLike = async (postId: number, profileId: string) => {
-  return await supabase
-    .from("likes")
-    .insert([{ post_id: postId, profile_id: profileId }]);
-};
-
-// 좋아요 취소
-export const removeTalkPostLike = async (postId: number, profileId: string) => {
-  return await supabase
-    .from("likes")
-    .delete()
-    .eq("post_id", postId)
-    .eq("profile_id", profileId);
-};
+  return count ?? 0;
+}

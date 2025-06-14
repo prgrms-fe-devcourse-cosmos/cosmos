@@ -1,14 +1,9 @@
 import { create } from "zustand";
 import { TalkPostInsert, TalkPostState } from "../types/talk";
-import {
-  addTalkPostLike,
-  fetchTalkPosts,
-  getTalkPostLike,
-  removeTalkPostLike,
-} from "../api/talk/talk";
+import { fetchTalkPosts } from "../api/talk/talk";
 import supabase from "../utils/supabase";
 
-export const useTalkStore = create<TalkPostState>((set, get) => ({
+export const useTalkStore = create<TalkPostState>((set) => ({
   // 게시글 조회용
   talkPosts: [],
   loading: false,
@@ -32,8 +27,6 @@ export const useTalkStore = create<TalkPostState>((set, get) => ({
   setContent: (content: string) => set({ content }),
   reset: () => set({ title: "", content: "" }),
   uploadPost: async (title: string, content: string) => {
-    // const { title, content } = get();
-
     // 로그인 확인
     const {
       data: { session },
@@ -143,57 +136,4 @@ export const useTalkStore = create<TalkPostState>((set, get) => ({
     }
   },
   // 게시글 좋아요
-  likedPostIds: [],
-  likedLoading: false,
-  // 특정 게시물의 좋아요 여부
-  checkLikeStatus: async (postId: number, userId: string) => {
-    set({ likedLoading: true });
-    try {
-      const liked = await getTalkPostLike(postId, userId);
-      if (liked) {
-        set((state) => {
-          // 중복 방지
-          if (state.likedPostIds.includes(postId))
-            return { likedLoading: false };
-          return {
-            likedPostIds: [...state.likedPostIds, postId],
-            likedLoading: false,
-          };
-        });
-      } else {
-        set({ likedLoading: false });
-      }
-    } catch (err) {
-      console.log("좋아요 상태 확인 실패 : ", err);
-      set({ likedLoading: false });
-    }
-  },
-  // 게시글 좋아요 토글
-  toggleLike: async (postId: number, userId: string) => {
-    const { likedPostIds } = get();
-    const isLiked = likedPostIds.includes(postId);
-
-    // 낙관적 업데이트
-    const optimisticLikedPostIds = isLiked
-      ? likedPostIds.filter((id) => id !== postId)
-      : [...likedPostIds, postId];
-
-    set({ likedPostIds: optimisticLikedPostIds });
-
-    try {
-      if (isLiked) {
-        const { error } = await removeTalkPostLike(postId, userId);
-        // 실패하면 롤백
-        if (error) throw error;
-      } else {
-        const { error } = await addTalkPostLike(postId, userId);
-        if (error) throw error;
-      }
-    } catch (err) {
-      console.error("좋아요 토글 실패, 롤백:", err);
-
-      // 서버 요청 실패 시 상태 되돌림
-      set({ likedPostIds });
-    }
-  },
 }));

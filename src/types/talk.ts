@@ -45,11 +45,6 @@ export interface TalkPostState {
     title: string,
     content: string
   ) => Promise<{ success: boolean; message: string }>;
-  // 게시글 좋아요
-  likedPostIds: number[];
-  likedLoading: boolean;
-  checkLikeStatus: (postId: number, userId: string) => Promise<void>;
-  toggleLike: (postId: number, userId: string) => Promise<void>;
 }
 
 // talk post insert
