@@ -20,7 +20,7 @@ export default function Textarea({
   return (
     <textarea
       placeholder={placeholder}
-      className={`border border-[var(--primary-300)] rounded-[8px] p-5 focus:outline-none resize-none ${className}`}
+      className={`border border-[var(--gray-200)] rounded-[8px] p-5 focus:outline-none focus:border-[var(--primary-300)] resize-none ${className}`}
       style={{ width, height }}
       onChange={onChange}
       value={value}

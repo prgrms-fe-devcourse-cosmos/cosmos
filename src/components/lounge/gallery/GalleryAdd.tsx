@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGalleryPostStore } from '../../../stores/galleryPostStore';
 import Textarea from '../../common/Textarea';
+import LoadingSpinner from '../../common/LoadingSpinner';
 
 type GalleryAddProps = {
   mode?: 'edit' | 'add';
@@ -15,6 +16,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
   const isEditMode = Boolean(postId);
 
   const [imagePreview, setImagePreview] = useState(postimage);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -61,25 +63,28 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
   };
 
   useEffect(() => {
-    reset();
-    setImagePreview(postimage);
+    const load = async () => {
+      reset();
+      setImagePreview(postimage);
 
-    if (isEditMode && postId) {
-      // 수정모드면 기존 게시글 데이터 불러와서 세팅
-      loadPostById(postId).then((post) => {
+      if (isEditMode && postId) {
+        setIsLoading(true);
+        const post = await loadPostById(postId);
         if (post) {
           setTitle(post.title);
           setContent(post.content);
           if (post.imageUrl) {
             setImagePreview(post.imageUrl);
-            setImageFile(null); // 이미지 변경 안하면 새 파일이 없음
+            setImageFile(null);
           }
         } else {
-          // 없는 postId면 목록으로 리다이렉트
           navigate('/lounge/gallery');
         }
-      });
-    }
+        setIsLoading(false);
+      }
+    };
+
+    load();
   }, [
     isEditMode,
     postId,
@@ -90,6 +95,10 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
     loadPostById,
     navigate,
   ]);
+
+  if (isEditMode && isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="w-[768px] h-[824px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
@@ -126,7 +135,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
             <input
               type="text"
               placeholder="제목을 입력하세요."
-              className="w-full h-[50px] border border-[var(--primary-300)] rounded-[8px] p-5 focus:outline-none"
+              className="w-full h-[50px] border border-[var(--gray-200)] rounded-[8px] p-5 focus:outline-none focus:border-[var(--primary-300)]"
               onChange={(e) => setTitle(e.target.value)}
               value={title}
             />
@@ -139,7 +148,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
             />
           </div>
         </div>
-        <div className="w-full h-[38px] flex items-center justify-between px-58">
+        <div className="w-full h-[38px] flex items-center justify-between px-58 mt-5">
           <Button
             variant="dark_line"
             className="text-sm w-[119px] h-[33px]"
