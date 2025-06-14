@@ -1,17 +1,30 @@
+// export type TalkPost = {
+//   id: number;
+//   created_at: string;
+//   title: string;
+//   content: string;
+//   profile_id: string;
+//   updated_at: string | null;
+//   post_type: string;
+//   like_count: number | null;
+//   profiles: {
+//     id: string;
+//     username: string;
+//     avatar_url: string | null;
+//   };
+// };
 export type TalkPost = {
-  id: number;
-  created_at: string;
-  title: string;
-  content: string;
-  profile_id: string;
+  id: number | null;
+  created_at: string | null;
+  title: string | null;
+  content: string | null;
+  profile_id: string | null;
   updated_at: string | null;
-  post_type: string;
+  post_type: string | null;
   like_count: number | null;
-  profiles: {
-    id: string;
-    username: string;
-    avatar_url: string | null;
-  };
+  username: string | null;
+  avatar_url: string | null;
+  comment_count: number | null;
 };
 
 // 게시글 등록용

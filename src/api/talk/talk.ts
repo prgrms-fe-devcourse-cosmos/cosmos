@@ -4,9 +4,8 @@ import supabase from "../../utils/supabase";
 // 게시글 리스트 조회
 export async function fetchTalkPosts() {
   const { data, error } = await supabase
-    .from("posts")
-    .select("*, profiles(id, username, avatar_url)")
-    .eq("post_type", "talk")
+    .from("talk_posts_with_counts")
+    .select("*")
     .order("created_at", { ascending: false });
 
   if (error) throw error;

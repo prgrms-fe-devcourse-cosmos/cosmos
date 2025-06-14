@@ -86,7 +86,15 @@ export default function TalkDetail() {
     navigate("/lounge/talk");
   };
 
-  const { profiles, created_at, title, content, id: postId } = selectedPost;
+  const {
+    created_at,
+    title,
+    content,
+    id: postId,
+    username,
+    avatar_url,
+    profile_id,
+  } = selectedPost;
 
   return (
     <div className="px-8 py-6 bg-[#141414]/80">
@@ -106,27 +114,27 @@ export default function TalkDetail() {
           <div className="flex gap-[22px] items-center">
             {/* 유저아이콘 */}
             <img
-              src={profiles?.avatar_url || profileImage}
+              src={avatar_url || profileImage}
               alt="유저프로필"
               className="w-[40px] h-[40px] rounded-full object-cover"
             />
             {/* 유저이름, 게시글 등록 날짜 */}
             <div>
-              <h3 className="font-semibold">{profiles?.username}</h3>
+              <h3 className="font-semibold">{username}</h3>
               <p className="text-[#696969] font-light text-sm">
-                {new Date(created_at).toLocaleString()}
+                {new Date(created_at!).toLocaleString()}
               </p>
             </div>
           </div>
           {/* 팔로우버튼 or 메뉴버튼 */}
           {/* 게시글 작성한 사람의 프로필id props 전달 */}
-          {profiles?.id === currentUserId ? (
+          {profile_id === currentUserId ? (
             <Menu
               onEdit={() => navigate(`/lounge/talk/${selectedPost?.id}/edit`)}
               onDelete={handleDelete}
             />
           ) : (
-            profiles?.id && <FollowButton followingId={profiles.id} />
+            profile_id && <FollowButton followingId={profile_id} />
           )}
         </div>
 
