@@ -67,3 +67,30 @@ export async function fetchTalkCommentCount(postId: number): Promise<number> {
 
   return count ?? 0;
 }
+
+// 게시글 검색
+// 나중에 게시글 무한 스크롤을 할 경우를 대비해서
+// 검색 + 페이지네이션으로 구현
+export async function fetchTalkPostsByQuery(
+  query: string,
+  page: number,
+  limit: number = 10
+) {
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
+  const { data, count, error } = await supabase
+    .from("talk_posts_with_counts")
+    .select("*", { count: "exact" })
+    .eq("post_type", "talk")
+    .ilike("title", `%${query}%`)
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) throw error;
+
+  return {
+    data: data ?? [],
+    hasMore: to + 1 < (count ?? 0),
+  };
+}

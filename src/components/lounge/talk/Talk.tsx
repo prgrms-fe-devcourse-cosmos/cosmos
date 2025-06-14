@@ -10,8 +10,14 @@ export default function Talk() {
   const navigate = useNavigate();
 
   // store
-  const { talkPosts, fetchPosts, loading, searchQuery, setSearchQuery } =
-    useTalkStore();
+  const {
+    talkPosts,
+    fetchPosts,
+    loading,
+    searchQuery,
+    setSearchQuery,
+    resetAndFetchPosts,
+  } = useTalkStore();
 
   // 게시글 불러오기
   useEffect(() => {
@@ -20,8 +26,11 @@ export default function Talk() {
 
   // 검색 처리 함수
   const handleSearch = (query: string) => {
-    console.log("Talk 검색 실행:", query);
-    // 나중에 api 호출이나 zustand 사용
+    // 검색어를 Zustand 상태로 저장
+    setSearchQuery(query);
+
+    // 검색어에 맞춰 게시글 다시 불러오기
+    resetAndFetchPosts();
   };
 
   return (

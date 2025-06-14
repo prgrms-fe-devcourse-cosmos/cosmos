@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { TalkPostInsert, TalkPostState } from "../types/talk";
-import { fetchTalkPosts } from "../api/talk/talk";
+import { fetchTalkPosts, fetchTalkPostsByQuery } from "../api/talk/talk";
 import supabase from "../utils/supabase";
 
-export const useTalkStore = create<TalkPostState>((set) => ({
+export const useTalkStore = create<TalkPostState>((set, get) => ({
   // 게시글 조회용
   talkPosts: [],
   loading: false,
   searchQuery: "",
-  setSearchQuery: (query) => set({ searchQuery: query }),
+  setSearchQuery: (query: string) => set({ searchQuery: query }),
   fetchPosts: async () => {
     set({ loading: true });
     try {
@@ -136,4 +136,43 @@ export const useTalkStore = create<TalkPostState>((set) => ({
     }
   },
   // 게시글 좋아요
+  // 게시글 검색
+  page: 1,
+  hasMore: true,
+  resetAndFetchPosts: async () => {
+    const { searchQuery } = get();
+    set({ loading: true, page: 1, talkPosts: [] });
+
+    try {
+      const res = await fetchTalkPostsByQuery(searchQuery, 1);
+      set({
+        talkPosts: res.data,
+        hasMore: res.hasMore,
+        page: 2,
+      });
+    } catch (err) {
+      console.error("초기 게시글 로드 실패 : ", err);
+    } finally {
+      set({ loading: false });
+    }
+  },
+  loadMorePosts: async () => {
+    const { page, searchQuery, hasMore, talkPosts } = get();
+    if (!hasMore) return;
+
+    set({ loading: true });
+
+    try {
+      const res = await fetchTalkPostsByQuery(searchQuery, page);
+      set({
+        talkPosts: [...talkPosts, ...res.data],
+        hasMore: res.hasMore,
+        page: page + 1,
+      });
+    } catch (err) {
+      console.error("더 불러오기 실패 : ", err);
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));

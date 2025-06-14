@@ -43,6 +43,11 @@ export interface TalkPostState {
     title: string,
     content: string
   ) => Promise<{ success: boolean; message: string }>;
+  // 게시글 검색
+  page: number;
+  hasMore: boolean;
+  loadMorePosts: () => Promise<void>;
+  resetAndFetchPosts: () => Promise<void>;
 }
 
 // talk post insert
