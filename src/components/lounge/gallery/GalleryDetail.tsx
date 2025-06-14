@@ -62,7 +62,7 @@ export default function GalleryDetail() {
       alert('게시글 ID가 없습니다.');
       return;
     }
-    navigate(`/lounge/gallery/edit/${postid}`);
+    navigate(`/lounge/gallery/${postid}/edit`);
   };
 
   const handleDelete = async () => {
