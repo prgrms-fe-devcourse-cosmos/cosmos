@@ -4,15 +4,16 @@ import LabeledInput from "../common/LabeledInput";
 import Button from "../common/Button";
 import EditProfileImage from "./EditProfileImage";
 import { updateProfile } from "../../api/user/profile";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function EditProfileModal({
   userData,
   setIsEditModalOpen,
   setUserData,
 }: {
-  userData: ProfileType;
+  userData: Profile;
   setIsEditModalOpen: (isEditModalOpen: boolean) => void;
-  setUserData: (data: ProfileType) => void;
+  setUserData: (data: Profile) => void;
 }) {
   const [usernameInput, setUsernameInput] = useState<string>(
     userData?.username || ""
@@ -20,6 +21,8 @@ export default function EditProfileModal({
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [bioInput, setBioInput] = useState<string>(userData?.bio || "");
   const [imageUrl, setImageUrl] = useState<string>(userData?.avatar_url || "");
+
+  const { setUser } = useAuthStore();
 
   if (!userData) return;
 
@@ -33,6 +36,7 @@ export default function EditProfileModal({
       );
       if (updated && updated.length > 0) {
         setUserData(updated[0]);
+        setUser("", updated[0]);
       }
       setIsEditModalOpen(false);
     } catch (e) {

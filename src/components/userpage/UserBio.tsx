@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function UserBio({ userData }: { userData: ProfileType }) {
+export default function UserBio({ userData }: { userData: Profile }) {
   return (
     <div className="min-h-15 mt-2">
       <div className=" border-l border-[var(--primary-300)] pl-5">

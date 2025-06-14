@@ -13,10 +13,11 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 export default function UserPage() {
   const code = useParams().code;
   const location = useLocation();
-  const currentUser = useAuthStore((state) => state.user);
-  const [userData, setUserData] = useState<ProfileType>();
+  const { userData: currentUser } = useAuthStore();
   const [activeTab, setActvieTab] = useState<"posts" | "followers">("posts");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [userData, setUserData] = useState<Profile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,19 +38,23 @@ export default function UserPage() {
   }, [isEditModalOpen, setIsEditModalOpen]);
 
   useEffect(() => {
+    setIsLoading(true);
     supabase
       .from("profiles")
       .select("*")
       .eq("usercode", code!)
-      .then((data) => setUserData(data.data![0]));
+      .then((data) => {
+        setUserData(data.data![0]);
+        setIsLoading(false);
+      });
   }, [location]);
 
-  if (!userData) return <LoadingSpinner />;
+  if (isLoading || !userData) return <LoadingSpinner />;
 
   return (
     <div className="w-screen h-[88vh] px-[3vw] md:px-[10vw] py-10 flex">
       <div className="hidden md:flex md:w-[30%] flex-col">
-        {code === currentUser?.usercode ? (
+        {code === userData?.usercode ? (
           <span className="text-2xl font-yapari text-[var(--primary-300)]">
             MY
           </span>

@@ -8,7 +8,7 @@ export default function UserHeader({
   onEditClick,
 }: {
   isOwner: boolean;
-  userData: ProfileType;
+  userData: Profile;
   onEditClick: () => void;
 }) {
   return (
