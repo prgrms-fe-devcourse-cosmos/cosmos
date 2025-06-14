@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useAuthStore } from "../../../stores/authStore";
 import NavigationMenu from "./NavigationMenu";
@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function SideMenu() {
   const [open, setOpen] = useState(false);
   const toggleMenu = () => setOpen((prev) => !prev);
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((state) => state.userData);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const sideRef = useRef<HTMLDivElement>(null);
 
@@ -31,11 +31,7 @@ export default function SideMenu() {
   return (
     <div>
       {!open && (
-        <Menu
-          strokeWidth={1}
-          className="cursor-pointer "
-          onClick={toggleMenu}
-        />
+        <Menu strokeWidth={1} className="cursor-pointer" onClick={toggleMenu} />
       )}
       <AnimatePresence>
         {open && (

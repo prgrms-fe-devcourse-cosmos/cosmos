@@ -19,6 +19,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LabQuiz from "./pages/lab/quiz/LabQuiz";
 import LabPuzzle from "./pages/lab/puzzle/LabPuzzle";
+
 import { DailyLoader } from "../loader/dallyspace.loader";
 import PuzzleScreen from "./pages/lab/puzzle/PuzzleScreen";
 import LabRank from "./pages/lab/rank/LabRank";
@@ -30,6 +31,9 @@ import User from "./pages/User";
 import QuizConfigScreen from "./pages/lab/quiz/QuizConfigScreen";
 import QuizScreen from "./pages/lab/quiz/QuizScreen";
 import { requireAuth, requireNoAuth } from "../loader/auth.loader";
+import TalkAdd from "../components/lounge/talk/TalkAdd";
+import TalkEdit from "../components/lounge/talk/TalkEdit";
+
 
 const router = createBrowserRouter([
   {
@@ -71,11 +75,14 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <Talk /> },
               { path: ":id", element: <TalkDetail /> },
+              { path: "add", element: <TalkAdd /> },
+              { path: ":id/edit", element: <TalkEdit /> },
             ],
           },
         ],
       },
-      { path: "/signup", loader: requireNoAuth, element: <Signup /> },
+     { path: "/signup", loader: requireNoAuth, element: <Signup /> },
+
       {
         path: "/lab",
         element: <Lab />,

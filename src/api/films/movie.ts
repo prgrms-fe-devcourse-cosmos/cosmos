@@ -144,35 +144,45 @@ export const getMovieDetail = async (
   return detail;
 };
 
-// 검색 api
+// 검색
+// TMDB 검색 + 필터
 export const getSearchMovies = async (query: string): Promise<Movie[]> => {
+  // 공백 검색 x
   if (!query.trim()) return [];
 
+  // tmdb api 요청
   const res = await movieFetch<{ results: RawSearchMovie[] }>(
     "/search/movie",
     "get",
     { query }
   );
 
+  // 결과 없으면 빈 배열 반환
   if (!res || !res.results) return [];
 
+  // 결과 영화 필터링
   const filtered = await Promise.all(
     res.results.map(async (raw) => {
+      // 현재 개봉하지 않은 영화 제거
       if (!raw.release_date) return null;
       const releaseDate = new Date(raw.release_date);
       if (isNaN(releaseDate.getTime()) || releaseDate > new Date()) return null;
 
+      // 한국어 줄거리 없으면 영어로라도 줄거리 가져옴
       if (!raw.overview || raw.overview.trim().length === 0) {
         const fallback = await getFallbackOverview(raw.id);
         if (!fallback) return null;
         raw.overview = fallback;
       }
 
+      // SF 장르 필터
       const isSF = raw.genre_ids.includes(878);
       if (!isSF) return null;
 
+      // 감독 정보 가져오기
       const director = await getDirectorName(raw.id);
 
+      // movie 타입 객체로 반환
       return {
         id: raw.id,
         title: raw.title,
@@ -185,5 +195,7 @@ export const getSearchMovies = async (query: string): Promise<Movie[]> => {
     })
   );
 
+  console.log(filtered);
+  // null 인 항목 제거
   return filtered.filter((m): m is Movie => m !== null);
 };

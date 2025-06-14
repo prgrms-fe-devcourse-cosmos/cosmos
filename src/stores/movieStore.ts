@@ -3,7 +3,7 @@ import {
   getMovieDetail,
   getSearchMovies,
   getSpaceMovies,
-} from "../api/lounge/movie";
+} from "../api/films/movie";
 
 export const useMovieStore = create<SpaceMovieState>((set, get) => ({
   //  영화 리스트
