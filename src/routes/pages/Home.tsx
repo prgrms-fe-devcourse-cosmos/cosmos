@@ -3,6 +3,7 @@ import { getCurrentTheme } from "../../types/theme";
 import MVPSection from "../../components/home/MVPSection";
 import GlobeSection from "../../components/home/GlobeSection";
 import IntroSection from "../../components/home/IntroSection";
+import HomeFooter from "../../components/home/HomeFooter";
 
 export default function Home() {
   const [theme, setTheme] = useState(getCurrentTheme());
@@ -37,7 +38,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col text-white">
       <div
         ref={globeSectionRef}
         className="relative min-h-screen w-full flex flex-col justify-center items-center font-[yapari] "
@@ -54,6 +55,10 @@ export default function Home() {
 
       <div className=" min-h-screen w-full flex flex-col justify-center items-center ">
         <IntroSection />
+      </div>
+
+      <div className="w-full flex flex-col justify-center items-center ">
+        <HomeFooter />
       </div>
     </div>
   );
