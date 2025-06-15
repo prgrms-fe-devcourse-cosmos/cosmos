@@ -26,7 +26,7 @@ export default function TalkEdit() {
     if (!selectedPost) return;
 
     const { success, message } = await updatePost(
-      selectedPost.id,
+      selectedPost.id!,
       title,
       content
     );
@@ -49,8 +49,8 @@ export default function TalkEdit() {
   return (
     <TalkForm
       mode="edit"
-      initialTitle={selectedPost.title}
-      initialContent={selectedPost.content}
+      initialTitle={selectedPost.title!}
+      initialContent={selectedPost.content!}
       onSubmit={handleEdit}
     />
   );

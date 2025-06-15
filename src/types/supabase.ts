@@ -58,14 +58,13 @@ export type Database = {
         }
         Relationships: []
       }
-      comments: {
+      comment: {
         Row: {
           content: string
           created_at: string
           id: number
           post_id: number
           profile_id: string
-          updated_at: string | null
         }
         Insert: {
           content: string
@@ -73,7 +72,6 @@ export type Database = {
           id?: number
           post_id: number
           profile_id: string
-          updated_at?: string | null
         }
         Update: {
           content?: string
@@ -81,25 +79,32 @@ export type Database = {
           id?: number
           post_id?: number
           profile_id?: string
-          updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "comments_post_id_fkey"
+            foreignKeyName: "comment_post_id_fkey"
             columns: ["post_id"]
             isOneToOne: false
             referencedRelation: "posts"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "comments_profile_id_fkey"
+            foreignKeyName: "comment_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "talk_posts_with_counts"
+            referencedColumns: ["id"]
+          },
+          {
+
+            foreignKeyName: "comment_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "comments_profile_id_fkey"
+            foreignKeyName: "comment_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "puzzle_leaderboard"
@@ -175,6 +180,13 @@ export type Database = {
             referencedRelation: "posts"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "gallery_images_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: true
+            referencedRelation: "talk_posts_with_counts"
+            referencedColumns: ["id"]
+          },
         ]
       }
       likes: {
@@ -202,6 +214,13 @@ export type Database = {
             columns: ["post_id"]
             isOneToOne: false
             referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "talk_posts_with_counts"
             referencedColumns: ["id"]
           },
           {
@@ -615,6 +634,37 @@ export type Database = {
           username: string | null
         }
         Relationships: []
+      }
+      talk_posts_with_counts: {
+        Row: {
+          avatar_url: string | null
+          comment_count: number | null
+          content: string | null
+          created_at: string | null
+          id: number | null
+          like_count: number | null
+          post_type: string | null
+          profile_id: string | null
+          title: string | null
+          updated_at: string | null
+          username: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_leaderboard"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {

@@ -1,8 +1,5 @@
-import Button from '../../common/Button';
-import backIcon from '../../../assets/icons/back.svg';
 import textimage from '../../../assets/images/default-logo.svg';
 import profileimage from '../../../assets/images/profile.svg';
-import GalleryComment from './GalleryComment';
 import Menu from '../../common/Menu';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -10,13 +7,49 @@ import { GalleryPost } from '../../../types/gallery';
 import { GalleryPosts } from '../../../api/gallery/gallerypost';
 import supabase from '../../../utils/supabase';
 import GalleryDetailSkeleton from './GalleryDetailSkeleton';
+import LoungeComment from '../../common/LoungeComment';
+import { CommentType } from '../../common/RealtimeComments';
+import { fetchCommentsByPostId } from '../../../api/comments';
+import { useAuthStore } from '../../../stores/authStore';
+import { ArrowLeft } from 'lucide-react';
+import FollowButton from '../../common/FollowButton';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
   const navigate = useNavigate();
+  const userData = useAuthStore((state) => state.userData);
   const [post, setPost] = useState<GalleryPost | null>(null);
-  const [profile, setProfile] = useState<ProfileType | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [comments, setComments] = useState<CommentType[] | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setCurrentUserId(user?.id ?? null);
+    };
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (!postid) return;
+
+    const getComments = async () => {
+      try {
+        const comments = await fetchCommentsByPostId(parseInt(postid));
+        setComments(comments);
+      } catch (e) {
+        console.error('gallery get Comments failed: ', e);
+        setComments(null);
+      }
+    };
+    getComments();
+  }, [postid]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -59,7 +92,7 @@ export default function GalleryDetail() {
       alert('게시글 ID가 없습니다.');
       return;
     }
-    navigate(`/lounge/gallery/edit/${postid}`);
+    navigate(`/lounge/gallery/${postid}/edit`);
   };
 
   const handleDelete = async () => {
@@ -135,63 +168,74 @@ export default function GalleryDetail() {
     return `${formattedDate} ${formattedTime}`;
   }
 
+  const isOwner = userData?.id === post.profile_id;
+
   return (
-    <div className="w-[768px] min-h-[1120px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
-      <Button variant="back" onClick={() => window.history.back()}>
-        <img src={backIcon} alt="뒤로가기" className="w-4 h-4 mr-2" />
-        Back
-      </Button>
-      <div className="w-[715px] min-h-[164px] flex flex-col">
-        <div className="w-full h-[79px]">
-          <div className="w-full h-[52px] flex justify-start items-center">
-            {/* 프로필 */}
-            <div className="flex items-center gap-3">
-              <img
-                src={profile?.avatar_url || profileimage}
-                alt="프로필"
-                className="w-[50px] h-[50px] rounded-full"
-              />
-              <div className="flex flex-col justify-center h-full">
-                <span className="font-medium text-lg">{profile?.username}</span>
-                <span className="text-lg text-[#696969]">
-                  {formatDateTime(post.created_at)}
-                </span>
-              </div>
-            </div>
-            <Menu
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              className="ml-auto self-start mt-[-35px]"
+    <div className="w-full min-h-fit bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-4 sm:p-6 md:px-8">
+      {/* 뒤로가기버튼 */}
+      <div className="mb-1 sm:mb-3">
+        <button
+          type="button"
+          className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-xs sm:text-sm"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="w-4 h-4 text-[#D0F700] cursor-pointer" /> BACK
+        </button>
+      </div>
+
+      <div className="w-full max-w-[715px] mx-auto flex flex-col gap-6">
+        {/* 프로필 영역 */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src={profile?.avatar_url || profileimage}
+              alt="프로필"
+              className="w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] lg:w-[50px] lg:h-[50px] rounded-full"
             />
+            <div className="flex flex-col justify-center">
+              <span className="font-medium text-sm sm:text-base lg:text-lg">
+                {profile?.username}
+              </span>
+              <span className="text-xs sm:text-sm lg:text-lg text-[var(--gray-300)]">
+                {formatDateTime(post.created_at)}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-1">
+            {isOwner ? (
+              <Menu
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                className="-mt-2 -mr-4"
+              />
+            ) : (
+              <FollowButton followingId={post.profile_id} />
+            )}
           </div>
         </div>
 
-        <div className="w-[704px]">
-          <div className="w-full min-h-[79px] text-[var(--white)] mt-3">
-            {/* 제목 */}
-            <div className="w-full min-h-[24px] mb-5">
-              <h3 className="text-xl font-medium break-words">{post.title}</h3>
-            </div>
-
-            {/* 내용 */}
-            <div className="w-full min-h-[19px]">
-              <p className="text-base break-words whitespace-pre-wrap">
-                {post.content}
-              </p>
-            </div>
-          </div>
+        {/* 제목 + 내용 */}
+        <div className="text-[var(--white)]">
+          <h3 className="text-xl font-medium mb-4 break-words">{post.title}</h3>
+          <p className="text-base whitespace-pre-wrap break-words">
+            {post.content}
+          </p>
         </div>
 
-        <div className="w-full h-[470px] my-10">
+        {/* 이미지 */}
+        <div className="w-full aspect-[4/3] sm:aspect-[5/4] md:aspect-[3/2] lg:aspect-[16/9] flex justify-center items-center overflow-hidden">
           <img
             src={post.gallery_images?.image_url || textimage}
             alt={post.title}
-            className="w-full h-full"
+            className="w-full h-full object-fill"
           />
         </div>
-        <div className="w-full min-h-[293px] bg-black">
-          <GalleryComment />
-        </div>
+        <LoungeComment
+          postId={postid!}
+          userId={currentUserId!}
+          comments={comments}
+        />
       </div>
     </div>
   );
