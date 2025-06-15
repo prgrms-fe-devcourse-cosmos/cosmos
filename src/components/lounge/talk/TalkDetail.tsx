@@ -11,6 +11,7 @@ import supabase from "../../../utils/supabase";
 import { deleteTalkPostById } from "../../../api/talk/talk";
 import { fetchCommentsByPostId } from "../../../api/comments";
 import { CommentType } from "../../common/RealtimeComments";
+import TalkLikeButton from "./TalkLikeButton";
 
 export default function TalkDetail() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function TalkDetail() {
     const postId = selectedPost.id;
     const getComments = async () => {
       try {
-        const comments = await fetchCommentsByPostId(postId);
+        const comments = await fetchCommentsByPostId(postId!);
         setComments(comments);
       } catch (error) {
         console.error("getComments 실패 : ", error);
@@ -189,6 +190,12 @@ export default function TalkDetail() {
             postId={String(selectedPost.id)}
             userId={currentUserId!}
             comments={comments}
+            likeButton={
+              <TalkLikeButton
+                postId={selectedPost.id!}
+                initialCount={selectedPost.like_count}
+              />
+            }
           />
         </section>
       </div>

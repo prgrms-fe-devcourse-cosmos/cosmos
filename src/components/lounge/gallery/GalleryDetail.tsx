@@ -12,6 +12,7 @@ import GalleryDetailSkeleton from "./GalleryDetailSkeleton";
 import LoungeComment from "../../common/LoungeComment";
 import { CommentType } from "../../common/RealtimeComments";
 import { fetchCommentsByPostId } from "../../../api/comments";
+import TalkLikeButton from "../talk/TalkLikeButton";
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -224,6 +225,9 @@ export default function GalleryDetail() {
           postId={postid!}
           userId={currentUserId!}
           comments={comments}
+          likeButton={
+            <TalkLikeButton postId={post.id!} initialCount={post.like_count} />
+          }
         />
       </div>
     </div>
