@@ -27,7 +27,7 @@ const mvps = [
 
 export default function MVPSection() {
   return (
-    <div className="flex gap-20">
+    <div className="flex w-[1080px] justify-between">
       {mvps.map((mvp, i) => (
         <MVPCard
           key={i}
