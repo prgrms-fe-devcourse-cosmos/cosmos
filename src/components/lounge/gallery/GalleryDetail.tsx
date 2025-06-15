@@ -10,10 +10,10 @@ import GalleryDetailSkeleton from "./GalleryDetailSkeleton";
 import LoungeComment from "../../common/LoungeComment";
 import { CommentType } from "../../common/RealtimeComments";
 import { fetchCommentsByPostId } from "../../../api/comments";
-import TalkLikeButton from "../talk/TalkLikeButton";
 import FollowButton from "../../common/FollowButton";
 import { useAuthStore } from "../../../stores/authStore";
 import { ArrowLeft } from "lucide-react";
+import PostLikeButton from "../../common/PostLikeButton";
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -237,7 +237,7 @@ export default function GalleryDetail() {
           userId={currentUserId!}
           comments={comments}
           likeButton={
-            <TalkLikeButton postId={post.id!} initialCount={post.like_count} />
+            <PostLikeButton postId={post.id!} initialCount={post.like_count} />
           }
         />
       </div>

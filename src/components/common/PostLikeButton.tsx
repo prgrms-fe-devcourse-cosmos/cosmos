@@ -1,22 +1,18 @@
-import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useAuthStore } from "../../../stores/authStore";
+import { useAuthStore } from "../../stores/authStore";
 import {
-  checkUserLike,
   addLike,
-  removeLike,
+  checkUserLike,
   getLikesCount,
-} from "../../../api/gallery/gallerylike";
+  removeLike,
+} from "../../api/gallery/gallerylike";
+import { Heart } from "lucide-react";
 
-interface TalkLikeButtonProps {
+interface Props {
   postId: number;
   initialCount?: number | null;
 }
-
-export default function TalkLikeButton({
-  postId,
-  initialCount = null,
-}: TalkLikeButtonProps) {
+export default function PostLikeButton({ postId, initialCount = null }: Props) {
   // 로그인한 사용자 정보
   const user = useAuthStore((state) => state.userData);
 
@@ -123,16 +119,14 @@ export default function TalkLikeButton({
   return (
     <button
       onClick={handleToggle}
-      className="flex gap-1 md:gap-2 items-center cursor-pointer"
+      className="flex gap-2 items-center cursor-pointer"
       disabled={isLoading || isToggling}
     >
       <Heart
-        className="text-[#D0F700] w-3 h-3 md:w-4 md:h-4"
+        className="text-[#D0F700] w-4 h-4"
         fill={liked ? "#D0F700" : "none"}
       />
-      <span className="text-[10px] md:text-[13px] leading-none">
-        {likeCount}
-      </span>
+      <span className="text-[13px] leading-none">{likeCount}</span>
     </button>
   );
 }

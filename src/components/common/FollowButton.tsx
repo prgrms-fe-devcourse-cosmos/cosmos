@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import Button from './Button';
-import { useAuthStore } from '../../stores/authStore';
-import { followUser, getFollowStatus, unfollowUser } from '../../api/follow';
+import { useEffect, useState } from "react";
+import Button from "./Button";
+import { useAuthStore } from "../../stores/authStore";
+import { followUser, getFollowStatus, unfollowUser } from "../../api/follow";
 
 type Props = {
   followingId: string; // 내가 팔로우할 사람의 ID
@@ -31,7 +31,7 @@ export default function FollowButton({ followingId }: Props) {
         const status = await getFollowStatus(currentUser.id, followingId);
         setIsFollowing(status);
       } catch (err) {
-        console.error('팔로우 상태 불러오기 실패:', err);
+        console.error("팔로우 상태 불러오기 실패:", err);
       }
     };
 
@@ -42,7 +42,7 @@ export default function FollowButton({ followingId }: Props) {
   const toggleFollow = async () => {
     // 로그인하지 않은 경우 경고창
     if (!currentUser?.id) {
-      alert('로그인이 필요합니다.');
+      alert("로그인이 필요합니다.");
       return;
     }
 
@@ -62,7 +62,7 @@ export default function FollowButton({ followingId }: Props) {
         setIsFollowing(true);
       }
     } catch (err) {
-      console.error('팔로우 토글 실패:', err);
+      console.error("팔로우 토글 실패:", err);
     } finally {
       setLoading(false);
     }
@@ -73,11 +73,11 @@ export default function FollowButton({ followingId }: Props) {
 
   return (
     <Button
-      className="text-[8px] sm:text-[10px] lg:text-xs w-25 h-8 sm:w-29 lg:w-33 px-4 py-[5px]"
+      className="text-[8px] md:text-xs h-8 px-2.5 md:px-4 py-[5px]"
       onClick={toggleFollow}
       disabled={loading}
     >
-      {isFollowing ? '- UNFOLLOW' : '+ FOLLOW'}
+      {isFollowing ? "- UNFOLLOW" : "+ FOLLOW"}
     </Button>
   );
 }

@@ -11,7 +11,7 @@ import supabase from "../../../utils/supabase";
 import { deleteTalkPostById } from "../../../api/talk/talk";
 import { fetchCommentsByPostId } from "../../../api/comments";
 import { CommentType } from "../../common/RealtimeComments";
-import TalkLikeButton from "./TalkLikeButton";
+import PostLikeButton from "../../common/PostLikeButton";
 
 export default function TalkDetail() {
   const navigate = useNavigate();
@@ -137,7 +137,7 @@ export default function TalkDetail() {
     <div className="px-8 py-6 bg-[#141414]/80">
       <div className="wrapper">
         {/* 뒤로가기버튼 */}
-        <div className="mb-8">
+        <div className="mb-5 md:mb-8">
           <button
             type="button"
             className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-[14px]"
@@ -148,17 +148,19 @@ export default function TalkDetail() {
         </div>
         {/* 유저정보 + 게시글 등록 날짜 + 팔로우버튼/메뉴버튼 */}
         <div className="flex justify-between items-start">
-          <div className="flex gap-[22px] items-center">
+          <div className="flex gap-3 lg:gap-[22px] items-center">
             {/* 유저아이콘 */}
             <img
               src={avatar_url || profileImage}
               alt="유저프로필"
-              className="w-[40px] h-[40px] rounded-full object-cover"
+              className="w-9 md:w-10 h-9 md:h-10 rounded-full object-cover"
             />
             {/* 유저이름, 게시글 등록 날짜 */}
             <div>
-              <h3 className="font-semibold">{username}</h3>
-              <p className="text-[#696969] font-light text-sm">
+              <h3 className="font-semibold text-sm md:text-[16px]">
+                {username}
+              </h3>
+              <p className="text-[#696969] font-light text-xs md:text-sm">
                 {formatKoreanDate(created_at!)}
               </p>
             </div>
@@ -178,11 +180,15 @@ export default function TalkDetail() {
         {/* 게시글 */}
         <section>
           {/* 제목 */}
-          <h3 className="mt-7 mb-8 font-medium text-[20px]">{title}</h3>
+          <h3 className="mt-6 md:mt-7 mb-7 md:mb-8 font-medium text-[16px] md:text-[20px]">
+            {title}
+          </h3>
 
           {/* 내용 */}
-          <div className="mb-8">
-            <p className="whitespace-pre-line min-h-[120px]">{content}</p>
+          <div className="mb-6 md:mb-8">
+            <p className="whitespace-pre-line min-h-[120px] text-sm md:text-[16px]">
+              {content}
+            </p>
           </div>
 
           {/* 댓글 */}
@@ -191,7 +197,7 @@ export default function TalkDetail() {
             userId={currentUserId!}
             comments={comments}
             likeButton={
-              <TalkLikeButton
+              <PostLikeButton
                 postId={selectedPost.id!}
                 initialCount={selectedPost.like_count}
               />
