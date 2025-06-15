@@ -1,5 +1,3 @@
-import Button from '../../common/Button';
-import backIcon from '../../../assets/icons/back.svg';
 import textimage from '../../../assets/images/default-logo.svg';
 import profileimage from '../../../assets/images/profile.svg';
 import GalleryComment from './GalleryComment';
@@ -12,6 +10,7 @@ import supabase from '../../../utils/supabase';
 import GalleryDetailSkeleton from './GalleryDetailSkeleton';
 import { useAuthStore } from '../../../stores/authStore';
 import FollowButton from '../../common/FollowButton';
+import { ArrowLeft } from 'lucide-react';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -142,10 +141,16 @@ export default function GalleryDetail() {
 
   return (
     <div className="w-full min-h-fit bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-4 sm:p-6 md:px-8">
-      <Button variant="back" onClick={() => window.history.back()}>
-        <img src={backIcon} alt="뒤로가기" className="w-4 h-4 mr-2" />
-        <p className="text-[12px] sm:text-base">Back</p>
-      </Button>
+      {/* 뒤로가기버튼 */}
+      <div className="mb-3">
+        <button
+          type="button"
+          className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-[14px]"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="w-4 h-4 text-[#D0F700] cursor-pointer" /> BACK
+        </button>
+      </div>
 
       <div className="w-full max-w-[715px] mx-auto flex flex-col gap-6">
         {/* 프로필 영역 */}
