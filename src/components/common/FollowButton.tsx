@@ -73,7 +73,7 @@ export default function FollowButton({ followingId }: Props) {
 
   return (
     <Button
-      className="text-[8px] sm:text-[10px] lg:text-xs w-25 h-8 sm:w-29 lg:w-33 px-4 py-[5px]"
+      className="text-[8px] sm:text-[10px] lg:text-xs w-29 h-8 lg:w-33 px-4 py-[5px]"
       onClick={toggleFollow}
       disabled={loading}
     >
