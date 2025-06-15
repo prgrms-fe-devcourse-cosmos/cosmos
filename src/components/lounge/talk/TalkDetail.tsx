@@ -9,16 +9,35 @@ import TalkDetailSkeleton from "./TalkDetailSkeleton";
 import Menu from "../../common/Menu";
 import supabase from "../../../utils/supabase";
 import { deleteTalkPostById } from "../../../api/talk/talk";
+import { fetchCommentsByPostId } from "../../../api/comments";
+import { CommentType } from "../../common/RealtimeComments";
 
 export default function TalkDetail() {
   const navigate = useNavigate();
   // useParams ID 받기
   const { id } = useParams();
+  const [comments, setComments] = useState<CommentType[] | null>(null);
 
   const { selectedPost, fetchPostById, loading, setSelectedPost } =
     useTalkStore();
 
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedPost) return;
+
+    const postId = selectedPost.id;
+    const getComments = async () => {
+      try {
+        const comments = await fetchCommentsByPostId(postId);
+        setComments(comments);
+      } catch (error) {
+        console.error("getComments 실패 : ", error);
+        setComments(null);
+      }
+    };
+    getComments();
+  }, [selectedPost]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -166,7 +185,11 @@ export default function TalkDetail() {
           </div>
 
           {/* 댓글 */}
-          <LoungeComment />
+          <LoungeComment
+            postId={String(selectedPost.id)}
+            userId={currentUserId!}
+            comments={comments}
+          />
         </section>
       </div>
     </div>

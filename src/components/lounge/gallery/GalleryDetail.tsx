@@ -1,6 +1,5 @@
 import textimage from '../../../assets/images/default-logo.svg';
 import profileimage from '../../../assets/images/profile.svg';
-import GalleryComment from './GalleryComment';
 import Menu from '../../common/Menu';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -8,9 +7,12 @@ import { GalleryPost } from '../../../types/gallery';
 import { GalleryPosts } from '../../../api/gallery/gallerypost';
 import supabase from '../../../utils/supabase';
 import GalleryDetailSkeleton from './GalleryDetailSkeleton';
+import LoungeComment from '../../common/LoungeComment';
+import { CommentType } from '../../common/RealtimeComments';
+import { fetchCommentsByPostId } from '../../../api/comments';
 import { useAuthStore } from '../../../stores/authStore';
-import FollowButton from '../../common/FollowButton';
 import { ArrowLeft } from 'lucide-react';
+import FollowButton from '../../common/FollowButton';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -19,6 +21,35 @@ export default function GalleryDetail() {
   const [post, setPost] = useState<GalleryPost | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [comments, setComments] = useState<CommentType[] | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setCurrentUserId(user?.id ?? null);
+    };
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (!postid) return;
+
+    const getComments = async () => {
+      try {
+        const comments = await fetchCommentsByPostId(parseInt(postid));
+        setComments(comments);
+      } catch (e) {
+        console.error('gallery get Comments failed: ', e);
+        setComments(null);
+      }
+    };
+    getComments();
+  }, [postid]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -200,11 +231,11 @@ export default function GalleryDetail() {
             className="w-full h-full object-fill"
           />
         </div>
-
-        {/* 댓글 */}
-        <div className="w-full min-h-[200px] bg-black">
-          <GalleryComment />
-        </div>
+        <LoungeComment
+          postId={postid!}
+          userId={currentUserId!}
+          comments={comments}
+        />
       </div>
     </div>
   );
