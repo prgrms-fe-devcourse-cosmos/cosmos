@@ -142,10 +142,10 @@ export default function GalleryDetail() {
   return (
     <div className="w-full min-h-fit bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-4 sm:p-6 md:px-8">
       {/* 뒤로가기버튼 */}
-      <div className="mb-3">
+      <div className="mb-1 sm:mb-3">
         <button
           type="button"
-          className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-[14px]"
+          className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-xs sm:text-sm"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft className="w-4 h-4 text-[#D0F700] cursor-pointer" /> BACK
@@ -159,13 +159,13 @@ export default function GalleryDetail() {
             <img
               src={profile?.avatar_url || profileimage}
               alt="프로필"
-              className="w-[30px] h-[30px] sm:w-[50px] sm:h-[50px] rounded-full"
+              className="w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] lg:w-[50px] lg:h-[50px] rounded-full"
             />
             <div className="flex flex-col justify-center">
-              <span className="font-medium text-sm sm:text-lg">
+              <span className="font-medium text-sm sm:text-base lg:text-lg">
                 {profile?.username}
               </span>
-              <span className="text-[12px] sm:text-lg text-[var(--gray-300)]">
+              <span className="text-xs sm:text-sm lg:text-lg text-[var(--gray-300)]">
                 {formatDateTime(post.created_at)}
               </span>
             </div>

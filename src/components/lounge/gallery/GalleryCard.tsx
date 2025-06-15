@@ -2,8 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import heartIcon from '../../../assets/icons/heart.svg';
 import heartfilledIcon from '../../../assets/icons/filled_heart.svg';
 import GalleryLike from './GalleryLike';
+import supabase from '../../../utils/supabase';
 import { GalleryPost, GalleryPostWithLike } from '../../../types/gallery';
 import { useAuthStore } from '../../../stores/authStore';
+import { useEffect, useState } from 'react';
 
 interface GalleryCardProps {
   post: GalleryPost;
@@ -13,8 +15,30 @@ interface GalleryCardProps {
 export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
   const navigate = useNavigate();
   const uid = useAuthStore((state) => state.userData?.id) ?? '';
-
   const thumbnail = post.gallery_images?.image_url || '';
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (!post.profile_id) return;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', post.profile_id)
+        .single();
+
+      if (error) {
+        console.error('유저 이름 불러오기 오류:', error);
+        return;
+      }
+
+      setUsername(data?.username ?? '');
+    };
+
+    fetchUsername();
+  }, [post.profile_id]);
+
   return (
     <>
       <div
@@ -33,7 +57,7 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
         bg-[rgba(255,255,255,0.09)] border-r-[1px] border-b-[1px] border-l-[1px] border-[rgba(255,255,255,0.1)]"
         >
           <h3 className="text-base truncate font-bold">{post.title}</h3>
-          <p className="text-sm truncate">{post.content}</p>
+          <p className="text-sm truncate">Photo by. {username}</p>
           <div className="flex justify-between">
             <p className="text-xs text-[#909090]">
               {new Date(post.created_at).toLocaleDateString('ko-KR')}
@@ -48,11 +72,15 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
                   <img
                     src={heartfilledIcon}
                     alt="좋아요됨"
-                    className="w-5 h-5"
+                    className="w-3 h-3 lg:w-5 lg:h-5"
                   />
                 }
                 IconNotLiked={
-                  <img src={heartIcon} alt="좋아요안됨" className="w-5 h-5" />
+                  <img
+                    src={heartIcon}
+                    alt="좋아요안됨"
+                    className="w-3 h-3 lg:w-5 lg:h-5"
+                  />
                 }
                 onToggle={(updatedLikeCount, liked) => {
                   onLikeToggle({

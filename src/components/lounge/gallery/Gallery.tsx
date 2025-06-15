@@ -113,12 +113,13 @@ export default function Gallery() {
               setValue={setSearchTerm}
               onSearch={handleSearch}
               placeholder="게시글 검색"
+              className="w-[200px] lg:w-[280px]"
             />
           </div>
           <Button
             variant={isLoggedIn ? 'neon_filled' : 'disabled'}
             onClick={() => navigate('/lounge/gallery/add')}
-            className="font-[yapari] font-medium text-sm ml-2 h-[35px]"
+            className="font-[yapari] font-medium text-xs lg:text-sm ml-2 h-[35px] whitespace-nowrap"
           >
             + Post
           </Button>
