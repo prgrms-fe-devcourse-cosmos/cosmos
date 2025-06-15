@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import Button from "../../common/Button";
-import { useNavigate } from "react-router-dom";
-import GalleryCard from "./GalleryCard";
-import { GalleryPosts } from "../../../api/gallery/gallerypost";
-import { GalleryPost } from "../../../types/gallery";
-import GalleryCardSkeleton from "./GalleryCardSkeleton";
-import { useAuthStore } from "../../../stores/authStore";
-import SearchInput from "../../common/SearchInput";
+import { useEffect, useState } from 'react';
+import Button from '../../common/Button';
+import { useNavigate } from 'react-router-dom';
+import GalleryCard from './GalleryCard';
+import { GalleryPosts } from '../../../api/gallery/gallerypost';
+import { GalleryPost } from '../../../types/gallery';
+import GalleryCardSkeleton from './GalleryCardSkeleton';
+import { useAuthStore } from '../../../stores/authStore';
+import SearchInput from '../../common/SearchInput';
 
 export default function Gallery() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const [searchTerm, setSearchTerm] = useState("");
-  const savedSort = sessionStorage.getItem("gallery_sortBy") || "like.desc";
+  const [searchTerm, setSearchTerm] = useState('');
+  const savedSort = sessionStorage.getItem('gallery_sortBy') || 'like.desc';
   const [sortBy, setSortBy] = useState<string>(savedSort);
   const [originalPosts, setOriginalPosts] = useState<GalleryPost[]>([]);
   const [posts, setPosts] = useState<GalleryPost[]>([]);
@@ -20,7 +20,7 @@ export default function Gallery() {
 
   const sortPosts = (data: GalleryPost[], sort: string) => {
     return [...data].sort((a, b) => {
-      if (sort === "like.desc") {
+      if (sort === 'like.desc') {
         const likeDiff = (b.like_count ?? 0) - (a.like_count ?? 0);
         if (likeDiff !== 0) return likeDiff;
 
@@ -28,7 +28,7 @@ export default function Gallery() {
         return (
           new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
         );
-      } else if (sort === "release_date.desc") {
+      } else if (sort === 'release_date.desc') {
         return (
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
@@ -56,7 +56,7 @@ export default function Gallery() {
 
   const handleSortClick = (sortValue: string) => {
     setSortBy(sortValue);
-    sessionStorage.setItem("gallery_sortBy", sortValue);
+    sessionStorage.setItem('gallery_sortBy', sortValue);
   };
 
   const handlePostUpdate = (updatedPost: GalleryPost & { liked: boolean }) => {
@@ -85,47 +85,51 @@ export default function Gallery() {
 
   return (
     <>
-      <div className="flex justify-between mb-[24px] items-center">
-        <ul className="flex ml-2 gap-4 text-[13px] font-medium">
+      <div className="flex flex-col-reverse sm:flex-row justify-between items-start md:items-center mb-[24px] gap-4">
+        <ul className="flex ml-2 gap-4 text-[13px] font-medium sm:ml-2">
           <li
             className={`cursor-pointer ${
-              sortBy === "like.desc" ? "text-[#D0F700]" : ""
+              sortBy === 'like.desc' ? 'text-[#D0F700]' : ''
             }`}
-            onClick={() => handleSortClick("like.desc")}
+            onClick={() => handleSortClick('like.desc')}
           >
             좋아요순
           </li>
           <li
             className={`cursor-pointer ${
-              sortBy === "release_date.desc" ? "text-[#D0F700]" : ""
+              sortBy === 'release_date.desc' ? 'text-[#D0F700]' : ''
             }`}
-            onClick={() => handleSortClick("release_date.desc")}
+            onClick={() => handleSortClick('release_date.desc')}
           >
             최신순
           </li>
         </ul>
 
-        <div className="flex items-center">
-          <div className="w-[280px] relative">
+        <div className="flex w-full sm:w-auto justify-between sm:justify-end items-center gap-2">
+          <div className="relative">
             <SearchInput
               scope="gallery"
               value={searchTerm}
               setValue={setSearchTerm}
               onSearch={handleSearch}
               placeholder="게시글 검색"
+              className="w-[200px] lg:w-[280px]"
             />
           </div>
           <Button
-            variant={isLoggedIn ? "neon_filled" : "disabled"}
-            onClick={() => navigate("/lounge/gallery/add")}
-            className="font-[yapari] font-medium text-sm ml-2 h-[34px]"
+            variant={isLoggedIn ? 'neon_filled' : 'disabled'}
+            onClick={() => navigate('/lounge/gallery/add')}
+            className="font-[yapari] font-medium text-xs lg:text-sm ml-2 h-[35px] whitespace-nowrap"
           >
             + Post
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-[54px] gap-y-[88px] mb-[50px]">
+      <div
+        className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-6 md:gap-x-10 lg:gap-x-14 xl:gap-x-20 
+                  gap-y-20 mb-[50px]"
+      >
         {isLoading
           ? Array.from({ length: 2 }).map((_, idx) => (
               <GalleryCardSkeleton key={idx} />

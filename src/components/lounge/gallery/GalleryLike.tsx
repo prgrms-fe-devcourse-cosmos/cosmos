@@ -86,7 +86,7 @@ export default function GalleryLike({
     e.stopPropagation();
 
     if (!profileId) {
-      alert('비로그인은 좋아요버튼을 누를수없습니다.');
+      alert('로그인이 필요합니다.');
       return;
     }
 
