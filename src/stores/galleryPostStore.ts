@@ -75,7 +75,18 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
       return false;
     }
 
-    const fileName = `${postData.id}/${Date.now()}-${imageFile.name}`;
+    // 파일이름 안전하게 생성
+    const getSafeFileName = (file: File) => {
+      const extension = file.name.split('.').pop();
+      const baseName = file.name
+        .split('.')
+        .slice(0, -1)
+        .join('.')
+        .replace(/[^\w\d_-]/g, ''); // 한글, 특수문자 제거
+      return `${Date.now()}-${baseName}.${extension}`;
+    };
+
+    const fileName = `${postData.id}/${getSafeFileName(imageFile)}`;
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('gallery-images')
@@ -95,6 +106,12 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
     const imageUrl = supabase.storage
       .from('gallery-images')
       .getPublicUrl(uploadData.path).data.publicUrl;
+
+    try {
+      await fetch(imageUrl);
+    } catch (e) {
+      console.warn('CDN warm-up 실패:', e);
+    }
 
     const newImage: GalleryImageInsert = {
       post_id: postData.id,

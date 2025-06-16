@@ -49,6 +49,13 @@ export default function Gallery() {
   }, []);
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      setSortBy('like.desc');
+      sessionStorage.removeItem('gallery_sortBy');
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     if (originalPosts.length === 0) return;
     const sorted = sortPosts(originalPosts, sortBy);
     setPosts(sorted);

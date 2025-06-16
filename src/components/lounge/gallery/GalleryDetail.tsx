@@ -228,7 +228,7 @@ export default function GalleryDetail() {
           <img
             src={post.gallery_images?.image_url || textimage}
             alt={post.title}
-            className="w-full h-full object-fill"
+            className="w-full h-full object-cover"
           />
         </div>
         <LoungeComment
