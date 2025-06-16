@@ -26,7 +26,11 @@ export default function DailySpaceimage() {
       >
         {/* 오른쪽 이미지 */}
         <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] flex justify-start items-center">
-          {nasa.media_type === 'image' ? (
+          {isLoading ? (
+            <div className="h-full w-full animate-pulse">
+              <div className="h-full bg-gray-500 rounded w-full"></div>
+            </div>
+          ) : nasa.media_type === 'image' ? (
             <a
               href="https://apod.nasa.gov/apod/astropix.html"
               target="_blank"
