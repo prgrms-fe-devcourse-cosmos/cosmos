@@ -32,6 +32,7 @@ import QuizScreen from "./pages/lab/quiz/QuizScreen";
 import { requireAuth, requireNoAuth } from "../loader/auth.loader";
 import TalkAdd from "../components/lounge/talk/TalkAdd";
 import TalkEdit from "../components/lounge/talk/TalkEdit";
+import Contact from "./pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
     errorElement: <div>데이터를 불러오는 데 실패했습니다.</div>,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/contact", element: <Contact /> },
       { path: "/login", loader: requireNoAuth, element: <Login /> },
       {
         path: "/daily",
