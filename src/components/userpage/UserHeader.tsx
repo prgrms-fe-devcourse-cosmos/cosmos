@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import defaultImg from "../../assets/images/profile.svg";
-import Button from "../common/Button";
-import supabase from "../../utils/supabase";
-import { LucideX } from "lucide-react";
-import FollowButton from "../common/FollowButton";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import defaultImg from '../../assets/images/profile.svg';
+import Button from '../common/Button';
+import supabase from '../../utils/supabase';
+import { LucideX } from 'lucide-react';
+import FollowButton from '../common/FollowButton';
+import { Link } from 'react-router-dom';
 
 export default function UserHeader({
   isOwner,
@@ -30,9 +30,9 @@ export default function UserHeader({
     if (userFollowing) {
       for (let i = 0; i < userFollowing.length; i++) {
         supabase
-          .from("profiles")
+          .from('profiles')
           .select()
-          .eq("id", userFollowing[i].following_id)
+          .eq('id', userFollowing[i].following_id)
           .then((data) => setFollowingList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -42,9 +42,9 @@ export default function UserHeader({
     if (userFollower) {
       for (let i = 0; i < userFollower.length; i++) {
         supabase
-          .from("profiles")
+          .from('profiles')
           .select()
-          .eq("id", userFollower[i].follower_id)
+          .eq('id', userFollower[i].follower_id)
           .then((data) => setFollowerList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -81,7 +81,7 @@ export default function UserHeader({
               <div className="text-[var(--gray-200)]">Following</div>
             </button>
             {followingModal && (
-              <div className="flex flex-col gap-4 absolute my-13 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-67 h-55 bg-[var(--bg-color)] overflow-scroll">
+              <div className="flex flex-col gap-4 absolute my-[52px] border border-[var(--gray-300)] z-10 rounded-lg px-5 py-4 w-[268px] h-[220px] bg-[var(--bg-color)] overflow-y-auto">
                 <div className="flex justify-between items-center">
                   <div className="font-yapari text-sm text-[var(--primary-300)]">
                     Following
@@ -113,7 +113,7 @@ export default function UserHeader({
                             <img
                               src={
                                 item.avatar_url ||
-                                "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
+                                'https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg'
                               }
                               alt=""
                               className="size-6 rounded-full"
@@ -155,7 +155,7 @@ export default function UserHeader({
               <div className="text-[var(--gray-200)]">Followers</div>
             </button>
             {followerModal && (
-              <div className="flex flex-col gap-4 absolute mx-20 my-13 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-67 h-55 bg-[var(--bg-color)] overflow-scroll">
+              <div className="flex flex-col gap-4 absolute mx-[80px] my-[52px] border border-[var(--gray-300)] z-10 rounded-lg px-5 py-4 w-[268px] h-[220px] bg-[var(--bg-color)] overflow-y-auto">
                 <div className="flex justify-between items-center">
                   <div className="font-yapari text-sm text-[var(--primary-300)]">
                     Follower
@@ -187,7 +187,7 @@ export default function UserHeader({
                             <img
                               src={
                                 item.avatar_url ||
-                                "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
+                                'https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg'
                               }
                               alt=""
                               className="size-6 rounded-full"
