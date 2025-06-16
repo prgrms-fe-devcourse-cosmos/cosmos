@@ -13,6 +13,7 @@ export default function UserPostList({ posts }: { posts: Post[] | null }) {
   return (
     <div className="flex flex-col gap-2">
       {posts &&
+        posts.length > 0 &&
         posts
           .filter((item, index) => {
             return (
@@ -61,7 +62,11 @@ export default function UserPostList({ posts }: { posts: Post[] | null }) {
               </div>
             );
           })}
-      {!posts && <div>작성글이 없습니다.</div>}
+      {(!posts || posts.length === 0) && (
+        <div className="text-center text-[var(--gray-200)] my-5">
+          작성글이 없습니다.
+        </div>
+      )}
     </div>
   );
 }

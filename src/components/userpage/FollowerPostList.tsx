@@ -62,6 +62,11 @@ export default function FollowerPostList({ posts }: { posts: Post[] | null }) {
               </div>
             );
           })}
+      {(!posts || posts.length === 0) && (
+        <div className="text-center text-[var(--gray-200)] my-5">
+          팔로우 중인 유저의 작성글이 없습니다.
+        </div>
+      )}
     </div>
   );
 }

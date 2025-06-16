@@ -79,6 +79,7 @@ export default function UserSection() {
   }, [menuRef]);
 
   const logOutHandler = () => {
+    setMenuOpen(false);
     supabase.auth.signOut();
     clearUser();
     alert("로그아웃되었습니다.");
@@ -94,7 +95,7 @@ export default function UserSection() {
               <img
                 src={userData?.avatar_url || profileImage}
                 alt=""
-                className="size-8 rounded-full aspect-square object-cover object-center cursor-pointer"
+                className="cursor-pointer size-8 rounded-full aspect-square object-cover object-center"
               />
             </button>
 
