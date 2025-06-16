@@ -118,12 +118,14 @@ export default function UserHeader({
                               alt=""
                               className="size-6 rounded-full"
                             />
-                            <Link
-                              to={`/user/${item.usercode}`}
-                              className="text-xs text-white"
-                            >
-                              {item.username}
-                            </Link>
+                            <div className="w-24 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                              <Link
+                                to={`/user/${item.usercode}`}
+                                className="text-sm text-white"
+                              >
+                                {item.username}
+                              </Link>
+                            </div>
                           </div>
                           <FollowButton
                             followingId={item.id}
@@ -190,12 +192,14 @@ export default function UserHeader({
                               alt=""
                               className="size-6 rounded-full"
                             />
-                            <Link
-                              to={`/user/${item.usercode}`}
-                              className="text-xs text-white"
-                            >
-                              {item.username}
-                            </Link>
+                            <div className="w-24 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                              <Link
+                                to={`/user/${item.usercode}`}
+                                className="text-sm text-white"
+                              >
+                                {item.username}
+                              </Link>
+                            </div>
                           </div>
                           <FollowButton
                             followingId={item.id}

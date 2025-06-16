@@ -20,6 +20,7 @@ export default function UserPage() {
   const [userPostList, setUserPostList] = useState<Post[] | null>(null);
   const [userFollower, setUserFollower] = useState<Follow[] | null>(null);
   const [userFollowing, setUserFollowing] = useState<Follow[] | null>(null);
+  const [followerPosts, setFollowerPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +76,18 @@ export default function UserPage() {
     }
   }, [userData]);
 
+  useEffect(() => {
+    if (userFollowing) {
+      userFollowing.forEach((element) => {
+        supabase
+          .from("posts")
+          .select()
+          .eq("profile_id", element.following_id)
+          .then((data) => setFollowerPosts((prev) => [...prev, ...data.data!]));
+      });
+    }
+  }, [userFollowing]);
+
   if (isLoading || !userData) return <LoadingSpinner />;
 
   return (
@@ -113,7 +126,7 @@ export default function UserPage() {
           {activeTab === "posts" ? (
             <UserPostList posts={userPostList} />
           ) : (
-            <FollowerPostList />
+            <FollowerPostList posts={followerPosts} />
           )}
         </div>
       </div>
