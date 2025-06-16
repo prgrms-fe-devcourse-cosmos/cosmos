@@ -26,7 +26,7 @@ export default function IntroSection() {
           if (!currentUserData) return navigate("/login");
           return navigate("/daily");
         }}
-        className="bg-[color:var(--primary-300)] text-[color:var(--bg-color)] px-4 py-2 rounded-full font-medium cursor-pointer"
+        className="bg-[color:var(--primary-300)] text-[color:var(--bg-color)] px-6 py-3 rounded-full font-medium cursor-pointer"
       >
         Explore now
       </button>
