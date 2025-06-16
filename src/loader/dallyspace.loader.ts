@@ -86,11 +86,12 @@ export async function DailyLoader() {
     } catch {
       nasaData = {};
     }
-
     const [news, stevents] = await Promise.all([
-      newsAPI('/'),
+      newsAPI('/', { params: { date: dateUS } }),
       getAstroEvents(y, m),
     ]);
+
+    console.log('Calendar API 요청 날짜:', y, m);
 
     const { todayEvents, upcomingEvents } = filterEvents(stevents, today);
 
