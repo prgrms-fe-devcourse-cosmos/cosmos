@@ -2,8 +2,8 @@ export const getGeminiPrompt = (content: string): string => {
   if (!content || content.length === 0) {
     throw new Error("내용 없음");
   }
-  return `You are a professional Korean translator. Translate the following English text into Korean, preserving its tone, context, and meaning. Make the Korean sound natural and culturally appropriate.
+  return `아래 영어 문장을 한국어로 자연스럽고 정확하게 번역해 주세요. 서두나 설명 없이 번역된 한국어 문장만 출력해 주세요.
 
-Text:
+영어 원문:
 ${content}`;
 };
