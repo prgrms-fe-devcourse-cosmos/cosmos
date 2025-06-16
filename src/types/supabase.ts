@@ -34,30 +34,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      apod_translations: {
-        Row: {
-          created_at: string
-          date: string
-          original: string
-          translated: string | null
-          translated_summary: string | null
-        }
-        Insert: {
-          created_at?: string
-          date: string
-          original: string
-          translated?: string | null
-          translated_summary?: string | null
-        }
-        Update: {
-          created_at?: string
-          date?: string
-          original?: string
-          translated?: string | null
-          translated_summary?: string | null
-        }
-        Relationships: []
-      }
       comment: {
         Row: {
           content: string
@@ -96,7 +72,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-
             foreignKeyName: "comment_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
@@ -587,6 +562,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      translations: {
+        Row: {
+          created_at: string
+          date: string
+          original: string
+          translated: string | null
+          translated_summary: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          original: string
+          translated?: string | null
+          translated_summary?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          original?: string
+          translated?: string | null
+          translated_summary?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {
