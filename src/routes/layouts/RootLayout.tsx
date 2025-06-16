@@ -1,9 +1,12 @@
-import { Outlet } from "react-router-dom";
-import Header from "../../components/header/Header";
-import Footer from "../../components/common/Footer";
+import { Outlet, useNavigation } from 'react-router-dom';
+import Header from '../../components/header/Header';
+import Footer from '../../components/common/Footer';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 export default function RootLayout() {
   // 로딩상태 관리
+  const navigation = useNavigation();
+  const isLoading = navigation.state === 'loading';
 
   return (
     <>
@@ -11,7 +14,7 @@ export default function RootLayout() {
         <Header />
 
         <main className="flex-grow w-full flex justify-center items-center">
-          <Outlet />
+          {isLoading ? <LoadingSpinner /> : <Outlet />}
         </main>
         <Footer />
       </div>
