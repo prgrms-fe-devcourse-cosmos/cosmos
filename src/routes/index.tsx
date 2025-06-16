@@ -63,9 +63,17 @@ const router = createBrowserRouter([
             path: 'gallery',
             children: [
               { index: true, element: <Gallery /> },
-              { path: ':postid', element: <GalleryDetail /> },
-              { path: 'add', element: <GalleryAdd /> },
-              { path: ':postId/edit', element: <GalleryAdd mode="edit" /> },
+              {
+                path: ':postid',
+                loader: requireAuth,
+                element: <GalleryDetail />,
+              },
+              { path: 'add', loader: requireAuth, element: <GalleryAdd /> },
+              {
+                path: ':postId/edit',
+                loader: requireAuth,
+                element: <GalleryAdd mode="edit" />,
+              },
             ],
           },
           {

@@ -123,15 +123,16 @@ export default function TalkLikeButton({
   return (
     <button
       onClick={handleToggle}
-      className="inline-flex items-center cursor-pointer"
+      className="flex gap-1 md:gap-2 items-center cursor-pointer"
       disabled={isLoading || isToggling}
     >
       <Heart
-        size={15}
-        className="text-[#D0F700]"
+        className="text-[#D0F700] w-3 h-3 md:w-4 md:h-4"
         fill={liked ? "#D0F700" : "none"}
       />
-      <span className="ml-2 text-[13px]">{likeCount}</span>
+      <span className="text-[10px] md:text-[13px] leading-none">
+        {likeCount}
+      </span>
     </button>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 type Props = {
   value: string;
@@ -12,16 +12,15 @@ type Props = {
 export default function Textarea({
   value,
   onChange,
-  placeholder = '본문을 입력하세요.',
-  width = '100%',
-  height = '133px',
-  className = '',
+  placeholder = "본문을 입력하세요.",
+  width = "100%",
+  className = "",
 }: Props) {
   return (
     <textarea
       placeholder={placeholder}
-      className={`border border-[var(--gray-200)] rounded-[8px] p-5 focus:outline-none focus:border-[var(--primary-300)] resize-none ${className}`}
-      style={{ width, height }}
+      className={`h-[133px] border border-[var(--gray-200)] rounded-[8px] p-5 focus:outline-none focus:border-[var(--primary-300)] resize-none ${className}`}
+      style={{ width }}
       onChange={onChange}
       value={value}
     />

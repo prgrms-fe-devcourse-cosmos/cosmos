@@ -43,13 +43,15 @@ export default function Talk() {
           value={searchQuery}
           setValue={setSearchQuery}
           onSearch={handleSearch}
+          className="w-[200px] lg:w-[280px]"
           placeholder="게시글 검색"
         />
         {/* 게시글 등록 버튼 */}
         <Button
           variant="neon_filled"
           onClick={() => navigate("/lounge/talk/add")}
-          className="font-medium text-sm ml-2 h-[35px]"
+          className="text-xs font-bold lg:font-medium 
+          md:text-sm ml-2 h-[35px] px-4 md:px-6 "
         >
           + POST
         </Button>

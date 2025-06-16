@@ -1,23 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
-import Globe, { GlobeMethods } from 'react-globe.gl';
-import * as THREE from 'three';
-import { getCurrentTheme } from '../../types/theme';
+import { useEffect, useRef, useState } from "react";
+import { getCurrentTheme } from "../../types/theme";
+import MVPSection from "../../components/home/MVPSection";
+import GlobeSection from "../../components/home/GlobeSection";
+import IntroSection from "../../components/home/IntroSection";
+import HomeFooter from "../../components/home/HomeFooter";
 
 export default function Home() {
-  const globeEl = useRef<GlobeMethods | undefined>(undefined);
   const [theme, setTheme] = useState(getCurrentTheme());
+  const globeSectionRef = useRef<HTMLDivElement>(null);
+  const nextSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleThemeChange = () => {
       setTheme(getCurrentTheme());
     };
-    document.addEventListener('themeChanged', handleThemeChange);
+    document.addEventListener("themeChanged", handleThemeChange);
 
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (
-          mutation.type === 'attributes' &&
-          mutation.attributeName === 'class'
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
         ) {
           setTheme(getCurrentTheme());
         }
@@ -26,62 +29,37 @@ export default function Home() {
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class'],
+      attributeFilter: ["class"],
     });
     return () => {
-      document.removeEventListener('themeChanged', handleThemeChange);
+      document.removeEventListener("themeChanged", handleThemeChange);
       observer.disconnect();
     };
   }, []);
 
-  useEffect(() => {
-    const globe = globeEl.current;
-    if (!globe || theme !== 'dark') return;
-
-    globe.controls().autoRotate = true;
-    globe.controls().autoRotateSpeed = 0.35;
-
-    const CLOUDS_IMG_URL = '/images/earth/clouds.png';
-    const CLOUDS_ALT = 0.004;
-    const CLOUDS_ROTATION_SPEED = -0.006;
-
-    new THREE.TextureLoader().load(CLOUDS_IMG_URL, (cloudsTexture) => {
-      const clouds = new THREE.Mesh(
-        new THREE.SphereGeometry(
-          globe.getGlobeRadius() * (1 + CLOUDS_ALT),
-          75,
-          75
-        ),
-        new THREE.MeshPhongMaterial({ map: cloudsTexture, transparent: true })
-      );
-
-      globe.scene().add(clouds);
-
-      const rotateClouds = () => {
-        clouds.rotation.y += (CLOUDS_ROTATION_SPEED * Math.PI) / 180;
-        requestAnimationFrame(rotateClouds);
-      };
-      rotateClouds();
-    });
-  }, [theme]);
-
   return (
-    <div className='relative min-h-screen w-full flex justify-center items-center'>
-      {/* <h1 className="absolute top-30 left-1/2 -translate-x-1/2 text-[color:var(--primary-300)] text-3xl font-[yapari] z-10">
-        WELCOME
-      </h1> */}
+    <div className="flex flex-col text-white">
+      <div
+        ref={globeSectionRef}
+        className="relative min-h-screen w-full flex flex-col justify-center items-center font-[yapari] "
+      >
+        <GlobeSection theme={theme} />
+      </div>
 
-      {theme === 'dark' ? (
-        <Globe
-          ref={globeEl}
-          animateIn={false}
-          globeImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg'
-          bumpImageUrl='//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png'
-          backgroundColor='rgba(0,0,0,0)'
-        />
-      ) : (
-        <div className='planet sun'></div>
-      )}
+      <div
+        ref={nextSectionRef}
+        className=" min-h-screen w-full flex flex-col justify-center items-center "
+      >
+        <MVPSection />
+      </div>
+
+      <div className=" min-h-screen w-full flex flex-col justify-center items-center ">
+        <IntroSection />
+      </div>
+
+      <div className="w-full flex flex-col justify-center items-center ">
+        <HomeFooter />
+      </div>
     </div>
   );
 }
