@@ -159,7 +159,7 @@ export const getSearchMovies = async (query: string): Promise<Movie[]> => {
   // 공백 검색 x
   if (!query.trim()) return [];
 
-  const maxPages = 5;
+  const maxPages = 3;
   const allResults: Movie[] = [];
 
   for (let page = 1; page <= maxPages; page++) {
@@ -167,10 +167,13 @@ export const getSearchMovies = async (query: string): Promise<Movie[]> => {
       query,
       page,
     });
+
     if (!res?.results || res.results.length === 0) break;
 
-    const filtered = await Promise.all(
+    // 선 필터링 (줄거리 + SF장르 + 키워드 포함)
+    const candidates = await Promise.all(
       res.results.map(async (raw) => {
+        // 개봉일 유효성 검사
         if (!raw.release_date) return null;
         const releaseDate = new Date(raw.release_date);
         if (isNaN(releaseDate.getTime()) || releaseDate > new Date())
@@ -183,28 +186,36 @@ export const getSearchMovies = async (query: string): Promise<Movie[]> => {
           raw.overview = fallback;
         }
 
-        // SF 필터
+        // SF 장르 & 우주 키워드 필터
         const isSF = raw.genre_ids.includes(878);
-        if (!isSF) return null;
+        const isSpace = spaceFilter(raw, query);
+        if (!isSF || !isSpace) return null;
 
-        // 우주 키워드 필터
-        if (!spaceFilter(raw, query)) return null;
+        return raw;
+      })
+    );
 
-        const director = await getDirectorName(raw.id);
+    const validMovies = candidates.filter(
+      (m): m is RawSearchMovie => m !== null
+    );
 
+    // 통과한 영화만 감독 정보 요청
+    const withDirector = await Promise.all(
+      validMovies.map(async (movie) => {
+        const director = await getDirectorName(movie.id);
         return {
-          id: raw.id,
-          title: raw.title,
-          overview: raw.overview,
-          poster_path: raw.poster_path,
-          release_date: raw.release_date,
-          vote_average: raw.vote_average,
+          id: movie.id,
+          title: movie.title,
+          overview: movie.overview,
+          poster_path: movie.poster_path,
+          release_date: movie.release_date,
+          vote_average: movie.vote_average,
           director,
         } as Movie;
       })
     );
-    // null 제거 후 누적
-    allResults.push(...filtered.filter((m): m is Movie => m !== null));
+
+    allResults.push(...withDirector);
   }
 
   return allResults;
