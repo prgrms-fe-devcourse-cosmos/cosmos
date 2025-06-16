@@ -1,11 +1,11 @@
 import Button from '../../common/Button';
-import backIcon from '../../../assets/icons/back.svg';
 import postimage from '../../../assets/images/post.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGalleryPostStore } from '../../../stores/galleryPostStore';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import Textarea from '../../common/TextArea';
+import { ArrowLeft } from 'lucide-react';
 
 type GalleryAddProps = {
   mode?: 'edit' | 'add';
@@ -103,7 +103,12 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
   return (
     <div className="w-full h-[824px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
       <Button variant="back" onClick={() => window.history.back()}>
-        <img src={backIcon} alt="뒤로가기" className="w-4 h-4 mr-2" />
+        <div>
+          <ArrowLeft
+            className="w-4 h-4 mr-2 text-[color:var(--primary-300)]" // red로 강제
+            aria-label="뒤로가기"
+          />
+        </div>
         Back
       </Button>
 

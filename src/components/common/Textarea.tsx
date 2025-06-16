@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
   value: string;
@@ -9,12 +9,12 @@ type Props = {
   className?: string;
 };
 
-export default function Textarea({
+export default function TextArea({
   value,
   onChange,
-  placeholder = "본문을 입력하세요.",
-  width = "100%",
-  className = "",
+  placeholder = '본문을 입력하세요.',
+  width = '100%',
+  className = '',
 }: Props) {
   return (
     <textarea

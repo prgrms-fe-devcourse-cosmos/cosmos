@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import heartIcon from '../../../assets/icons/heart.svg';
 import heartfilledIcon from '../../../assets/icons/filled_heart.svg';
 import GalleryLike from './GalleryLike';
 import supabase from '../../../utils/supabase';
 import { GalleryPost, GalleryPostWithLike } from '../../../types/gallery';
 import { useAuthStore } from '../../../stores/authStore';
 import { useEffect, useState } from 'react';
+import { Heart } from 'lucide-react';
 
 interface GalleryCardProps {
   post: GalleryPost;
@@ -76,11 +76,9 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
                   />
                 }
                 IconNotLiked={
-                  <img
-                    src={heartIcon}
-                    alt="좋아요안됨"
-                    className="w-3 h-3 lg:w-5 lg:h-5"
-                  />
+                  <div>
+                    <Heart className="w-3 h-3 lg:w-5 lg:h-5 text-[color:var(--primary-300)]" />
+                  </div>
                 }
                 onToggle={(updatedLikeCount, liked) => {
                   onLikeToggle({
