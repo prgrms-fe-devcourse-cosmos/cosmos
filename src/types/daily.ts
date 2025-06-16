@@ -16,6 +16,7 @@ export interface Article {
   image_url: string;
   published_at: string;
   summary: string;
+  translatedSummary?: string | null;
 }
 
 // 천문 이벤트

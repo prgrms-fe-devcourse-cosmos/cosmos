@@ -190,3 +190,71 @@ body::-webkit-scrollbar {
 .picker div[style*="height: 1px"][style*="background"] {
   display: none !important;
 }
+
+.imgBox {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+.imgBox::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #d0f700;
+  left: 0;
+  top: 0;
+  transition: all 0.8s;
+  transition-delay: 0.4s;
+  z-index: 2;
+}
+.imgBox::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #141414;
+  left: 0;
+  top: 0;
+  transition: all 0.8s;
+  z-index: 3;
+}
+
+.imgBox.active::after {
+  height: 0;
+}
+.imgBox.active::before {
+  height: 0;
+}
+.textBox span {
+  margin: 50px 0;
+  transition: all 0.8s;
+  opacity: 0;
+}
+
+.textBox p {
+  margin: 50px 0;
+  transition: all 0.8s;
+  opacity: 0;
+}
+
+.textBox button {
+  margin: 50px 0;
+  transition: all 0.8s;
+  opacity: 0;
+}
+
+.textBox.active span {
+  margin: 0;
+  opacity: 1;
+}
+
+.textBox.active p {
+  margin: 10px;
+  opacity: 1;
+}
+
+.textBox.active button {
+  margin: 0;
+  opacity: 1;
+}

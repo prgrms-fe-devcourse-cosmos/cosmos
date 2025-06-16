@@ -4,6 +4,7 @@ import MVPSection from "../../components/home/MVPSection";
 import GlobeSection from "../../components/home/GlobeSection";
 import IntroSection from "../../components/home/IntroSection";
 import HomeFooter from "../../components/home/HomeFooter";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function Home() {
   const [theme, setTheme] = useState(getCurrentTheme());
@@ -55,6 +56,15 @@ export default function Home() {
 
       <div className=" min-h-screen w-full flex flex-col justify-center items-center ">
         <IntroSection />
+      </div>
+
+      <div className=" w-full flex flex-col justify-center items-center mb-50">
+        <DotLottieReact
+          src="https://lottie.host/916767ed-a8fa-4b95-a4bc-386022de9fc8/4WjxTEFhzM.lottie"
+          loop
+          autoplay
+          style={{ width: "600px", height: "300px" }}
+        />
       </div>
 
       <div className="w-full flex flex-col justify-center items-center ">

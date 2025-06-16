@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "react-router";
+import { LoaderFunctionArgs } from "react-router-dom";
 import supabase from "../utils/supabase";
 import { requireAuth } from "./auth.loader";
 

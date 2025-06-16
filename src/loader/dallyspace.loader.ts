@@ -1,7 +1,8 @@
+import { summarizeAndTranslateByAi } from '../api/ai/getSummarizeAndTranslateByAI';
 import { getAstroEvents } from '../api/daily/calendar';
 import nasaAPI from '../api/daily/nasa';
 import newsAPI from '../api/daily/news';
-import { AstroEventItem } from '../types/daily';
+import { Article, AstroEventItem } from '../types/daily';
 
 export async function DailyLoader() {
   // 미국 동부시간 기준 날짜 구하기
@@ -40,7 +41,9 @@ export async function DailyLoader() {
 
   // 이벤트 필터링 함수
   const filterEvents = (events: AstroEventItem[], today: number) => {
-    const filtered = events.slice(1); // 첫번째 필요없는 이벤트 제외
+    // 필터링을 해준다. 첫번째 배열은 이상한게있어서 그것을 제외하고한다.
+    const filtered = events.slice(1);
+    // 두자리수로 해주고 만약 6이란숫자가 들어가면 06 이런식으로 변경해준다.
     const todayStr = String(today).padStart(2, '0');
 
     const todayEvents = filtered.filter(
@@ -91,11 +94,26 @@ export async function DailyLoader() {
       getAstroEvents(y, m),
     ]);
 
+    const translatedNews = await Promise.all(
+      news.data.results.map(async (article: Article) => {
+        try {
+          const { summary } = await summarizeAndTranslateByAi(
+            article.summary,
+            article.id.toString()
+          );
+          return { ...article, translatedSummary: summary };
+        } catch {
+          return { ...article, translatedSummary: null };
+        }
+      })
+    );
+    console.log('translated news', translatedNews);
+
     const { todayEvents, upcomingEvents } = filterEvents(stevents, today);
 
     return {
       nasa: nasaData,
-      news: news.data.results,
+      news: translatedNews,
       todayEvents,
       upcomingEvents,
     };

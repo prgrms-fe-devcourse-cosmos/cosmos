@@ -63,7 +63,7 @@ export default function Lab() {
             </div>
           </div>
         )}
-        <div className="w-full h-full flex justify-center items-center">
+        <div className="flex-1 flex justify-center items-center relative">
           <Outlet />
         </div>
       </div>
