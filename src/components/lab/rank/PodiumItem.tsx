@@ -10,7 +10,7 @@ export default function PodiumItem({
   index: number;
   player: Player;
 }) {
-  const currentUserId = useAuthStore((state) => state.id);
+  const currentUser = useAuthStore((state) => state.userData);
 
   if (index === 0) {
     return (
@@ -24,7 +24,7 @@ export default function PodiumItem({
         />
         <p
           className={`font-[helvetica-neue] py-1 ${
-            currentUserId === player.id
+            currentUser?.id === player.id
               ? "text-[color:var(--primary-300)]"
               : "text-white"
           }`}
@@ -44,7 +44,7 @@ export default function PodiumItem({
       />
       <p
         className={`font-[helvetica-neue] ${
-          currentUserId === player.id
+          currentUser?.id === player.id
             ? "text-[color:var(--primary-300)]"
             : "text-white"
         }`}
