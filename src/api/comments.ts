@@ -7,7 +7,7 @@ export const fetchCommentsByPostId = async (
   try {
     const { data, error } = await supabase
       .from("comment")
-      .select(`*, profiles:profile_id (id, username, avatar_url)`)
+      .select(`*, profiles:profile_id (id, username, avatar_url, usercode)`)
       .eq("post_id", postId)
       .order("created_at", { ascending: true });
     if (error) {
@@ -40,7 +40,8 @@ export const createComment = async (
           profiles:profile_id (
             id,
             username,
-            avatar_url
+            avatar_url,
+            usercode
           )`
       )
       .single();
@@ -85,7 +86,8 @@ export const updateComment = async (
           profiles:profile_id (
             id,
             username,
-            avatar_url
+            avatar_url,
+            usercode
           )`
       )
       .single();

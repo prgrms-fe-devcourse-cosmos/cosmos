@@ -1,7 +1,12 @@
 import { LoaderFunctionArgs } from "react-router";
 import supabase from "../utils/supabase";
+import { requireAuth } from "./auth.loader";
 
 export const reviewLoader = async ({ params }: LoaderFunctionArgs) => {
+  // 로그인 안 한 사용자는 로그인 페이지로 이동하게끔 하는 코드 추가
+  const authResult = await requireAuth();
+  if (authResult) return authResult;
+
   const movieId = params.id;
 
   if (!movieId) {
