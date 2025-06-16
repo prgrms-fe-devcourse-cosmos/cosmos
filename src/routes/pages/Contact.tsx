@@ -13,6 +13,7 @@ export default function Contact() {
         style={{ width: "400px", height: "200px" }}
       />
       <a
+        target="_blank"
         href="https://github.com/prgrms-fe-devcourse-cosmos/cosmos.git"
         className="group font-[yapari] text-[color:var(--primary-300)] my-7  cursor-pointer"
       >
@@ -20,11 +21,21 @@ export default function Contact() {
       </a>
       <div className="group"></div>
       <div className="mt-4 text-lg flex gap-10 font-[watermelonSalad]">
-        <a href="https://github.com/jieun22222">FE 송지은</a>
-        <a href="https://github.com/keemeunji">FE 김은지</a>
-        <a href="https://github.com/TYss00">FE 김태연</a>
-        <a href="https://github.com/won431236">FE 최원일</a>
-        <a href="https://github.com/hxezu">FE 현혜주</a>
+        <a target="_blank" href="https://github.com/jieun22222">
+          FE 송지은
+        </a>
+        <a target="_blank" href="https://github.com/keemeunji">
+          FE 김은지
+        </a>
+        <a target="_blank" href="https://github.com/TYss00">
+          FE 김태연
+        </a>
+        <a target="_blank" href="https://github.com/won431236">
+          FE 최원일
+        </a>
+        <a target="_blank" href="https://github.com/hxezu">
+          FE 현혜주
+        </a>
       </div>
     </div>
   );
