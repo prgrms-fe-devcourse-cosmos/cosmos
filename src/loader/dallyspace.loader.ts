@@ -91,8 +91,6 @@ export async function DailyLoader() {
       getAstroEvents(y, m),
     ]);
 
-    console.log('Calendar API 요청 날짜:', y, m);
-
     const { todayEvents, upcomingEvents } = filterEvents(stevents, today);
 
     return {
