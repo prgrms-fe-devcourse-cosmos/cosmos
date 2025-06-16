@@ -1,20 +1,20 @@
-import { useLocation, useParams } from "react-router-dom";
-import { useAuthStore } from "../../stores/authStore";
-import { useEffect, useRef, useState } from "react";
-import supabase from "../../utils/supabase";
-import EditProfileModal from "../../components/userpage/EditProfileModal";
-import UserHeader from "../../components/userpage/UserHeader";
-import UserBio from "../../components/userpage/UserBio";
-import PostViewTabs from "../../components/userpage/PostViewTabs";
-import UserPostList from "../../components/userpage/UserPostList";
-import FollowerPostList from "../../components/userpage/FollowerPostList";
-import LoadingSpinner from "../../components/common/LoadingSpinner";
+import { useLocation, useParams } from 'react-router-dom';
+import { useAuthStore } from '../../stores/authStore';
+import { useEffect, useRef, useState } from 'react';
+import supabase from '../../utils/supabase';
+import EditProfileModal from '../../components/userpage/EditProfileModal';
+import UserHeader from '../../components/userpage/UserHeader';
+import UserBio from '../../components/userpage/UserBio';
+import PostViewTabs from '../../components/userpage/PostViewTabs';
+import UserPostList from '../../components/userpage/UserPostList';
+import FollowerPostList from '../../components/userpage/FollowerPostList';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 export default function UserPage() {
   const code = useParams().code;
   const location = useLocation();
   const { userData: currentUser } = useAuthStore();
-  const [activeTab, setActvieTab] = useState<"posts" | "followers">("posts");
+  const [activeTab, setActvieTab] = useState<'posts' | 'followers'>('posts');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userData, setUserData] = useState<Profile | null>(null);
   const [userPostList, setUserPostList] = useState<Post[] | null>(null);
@@ -22,6 +22,7 @@ export default function UserPage() {
   const [userFollowing, setUserFollowing] = useState<Follow[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef<HTMLDivElement>(null);
+  const isOwner = code === currentUser?.usercode;
 
   useEffect(() => {
     const outsideClickHandler = (event: MouseEvent) => {
@@ -33,19 +34,19 @@ export default function UserPage() {
       }
     };
     if (isEditModalOpen) {
-      document.addEventListener("mousedown", outsideClickHandler);
+      document.addEventListener('mousedown', outsideClickHandler);
     }
     return () => {
-      document.removeEventListener("mousedown", outsideClickHandler);
+      document.removeEventListener('mousedown', outsideClickHandler);
     };
   }, [isEditModalOpen, setIsEditModalOpen]);
 
   useEffect(() => {
     setIsLoading(true);
     supabase
-      .from("profiles")
-      .select("*")
-      .eq("usercode", code!)
+      .from('profiles')
+      .select('*')
+      .eq('usercode', code!)
       .then((data) => {
         setUserData(data.data![0]);
         setIsLoading(false);
@@ -56,21 +57,21 @@ export default function UserPage() {
     if (userData) {
       // Posts
       supabase
-        .from("posts")
-        .select("*")
-        .eq("profile_id", userData.id)
+        .from('posts')
+        .select('*')
+        .eq('profile_id', userData.id)
         .then((data) => setUserPostList(data.data));
       // Following
       supabase
-        .from("follows")
-        .select("*")
-        .eq("follower_id", userData.id)
+        .from('follows')
+        .select('*')
+        .eq('follower_id', userData.id)
         .then((data) => setUserFollowing(data.data));
       // Follower
       supabase
-        .from("follows")
-        .select("*")
-        .eq("following_id", userData.id)
+        .from('follows')
+        .select('*')
+        .eq('following_id', userData.id)
         .then((data) => setUserFollower(data.data));
     }
   }, [userData]);
@@ -80,7 +81,7 @@ export default function UserPage() {
   return (
     <div className="w-screen h-[88vh] px-[3vw] md:px-[10vw] py-10 flex">
       <div className="hidden md:flex md:w-[30%] flex-col">
-        {code === userData?.usercode ? (
+        {isOwner ? (
           <span className="text-2xl font-yapari text-[var(--primary-300)]">
             MY
           </span>
@@ -93,7 +94,7 @@ export default function UserPage() {
       </div>
       <div className="flex flex-col gap-8 w-full md:w-[70%]">
         <UserHeader
-          isOwner={code === currentUser?.usercode}
+          isOwner={isOwner}
           userData={userData}
           followingCount={userFollowing ? userFollowing.length : 0}
           followerCount={userFollower ? userFollower.length : 0}
@@ -110,7 +111,7 @@ export default function UserPage() {
             setActiveTab={setActvieTab}
           />
 
-          {activeTab === "posts" ? (
+          {activeTab === 'posts' ? (
             <UserPostList posts={userPostList} />
           ) : (
             <FollowerPostList />
