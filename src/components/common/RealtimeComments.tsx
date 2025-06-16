@@ -15,6 +15,7 @@ export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
   profiles?: {
     avatar_url: string | null;
     username: string;
+    usercode: string | null;
   };
 };
 
@@ -81,7 +82,7 @@ export default function RealtimeComments({
 
             const { data: profileData } = await supabase
               .from("profiles")
-              .select("avatar_url, username")
+              .select("avatar_url, username, usercode")
               .eq("id", newComment.profile_id)
               .single();
 
@@ -191,13 +192,14 @@ export default function RealtimeComments({
           type="text"
           value={commentInput}
           className={`w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
-                  border rounded-[8px] focus:outline-none`}
+                  border rounded-[8px] focus:outline-none text-sm md:text-[16px]`}
         />
         <Button
           type="submit"
           variant={commentInput.trim() && userId ? "neon_filled" : "disabled"}
           disabled={!commentInput.trim() || !userId}
-          className="h-full border-[#D0F700] absolute right-0 top-0 rounded-tl-none rounded-bl-none"
+          className="h-full border-[#D0F700] w-[90px] sm:w-[126px] lg:w-[136px]
+          absolute right-0 top-0 rounded-tl-none rounded-bl-none text-[12px] md:text-[14px]"
         >
           ENTER
         </Button>

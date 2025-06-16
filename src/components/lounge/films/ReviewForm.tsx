@@ -119,24 +119,19 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
           placeholder="리뷰를 입력하세요"
           type="text"
           className={`w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
-          border rounded-[8px] focus:outline-none
+          border rounded-[8px] focus:outline-none text-sm md:text-[16px]
           ${error || loginNotice ? "border-[#E24413]" : "border-white"}`}
         />
         <Button
           onClick={handleSubmit}
           variant={content.trim() && rating > 0 ? "neon_filled" : "disabled"}
-          className="border-[#D0F700] w-[106px] sm:w-[126px] md:w-[136px] h-[49px] md:h-[51px] 
+          className="border-[#D0F700] w-[90px] sm:w-[126px] lg:w-[136px] h-full 
                       absolute right-0 top-0 rounded-tl-none rounded-bl-none text-[12px] md:text-[14px]"
         >
           ENTER
         </Button>
         {error && (
           <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>
-        )}
-        {loginNotice && !isLogin && !error && (
-          <p className="text-[#E24413] text-[12px] mt-1 pl-2">
-            로그인 후 리뷰를 작성할 수 있습니다.
-          </p>
         )}
       </div>
     </div>
