@@ -10,7 +10,7 @@ export default function FilmDetailSkeleton() {
         </div>
       </div>
       <div className="flex gap-6">
-        <div className="w-[300px] h-[430px] bg-gray-800 rounded" />
+        <div className="w-[300px] h-[430px] bg-gray-800" />
         <div className="flex flex-col justify-between h-[430px] flex-1">
           <div className="h-[36px] w-3/4 bg-gray-700 rounded mb-4" />
           <div className="h-[120px] w-full bg-gray-700 rounded mb-4" />
