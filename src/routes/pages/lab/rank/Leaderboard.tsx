@@ -15,7 +15,7 @@ export default function Leaderboard({ allPlayers }: LeaderboardProps) {
       {/* 1~3등 */}
       <TopThreeLeaderboard players={top3} />
       {/* 나머지 */}
-      <div className="flex-1 overflow-y-auto min-h-0 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto min-h-0 max-h-55 scrollbar-hide">
         <LeaderboardList players={others} />
       </div>
     </div>
