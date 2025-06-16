@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CommentType } from "./RealtimeComments";
 import defaultAvatar from "/src/assets/images/profile.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Comment({
   comment,
@@ -15,6 +16,8 @@ export default function Comment({
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatedContent, setUpdatedContent] = useState<string>(comment.content);
+
+  const navigate = useNavigate();
 
   const handleSaveUpdate = () => {
     if (!updatedContent.trim()) return;
@@ -52,11 +55,16 @@ export default function Comment({
             {/* 유저아이콘 */}
             <img
               src={comment.profiles?.avatar_url || defaultAvatar}
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full cursor-pointer"
+              onClick={() => {
+                if (comment.profiles?.usercode) {
+                  navigate(`/user/${comment.profiles.usercode}`);
+                }
+              }}
             />
             {/* 유저이름 + 날짜 */}
-            <div className="">
-              <h3 className="font-medium text-sm">
+            <div>
+              <h3 className="font-medium text-[13px] lg:text-[15px]">
                 {comment.profiles?.username}
               </h3>
               <p className="text-[#696969] font-light text-[12px]">
@@ -112,11 +120,13 @@ export default function Comment({
               placeholder="댓글을 입력해주세요."
               value={updatedContent}
               onChange={(e) => setUpdatedContent(e.target.value)}
-              className="transition-all focus:outline-none border border-[color:var(--gray-300)] rounded-md px-3 py-2 text-sm w-full"
+              className="transition-all focus:outline-none border border-[color:var(--gray-300)] rounded-md px-3 py-2 text-sm md:text-[16px] w-full"
             />
           </div>
         ) : (
-          <div className="w-full  px-2 py-4">{comment.content}</div>
+          <div className="w-full px-2 py-4 text-xs md:text-sm">
+            {comment.content}
+          </div>
         )}
       </div>
     </div>
