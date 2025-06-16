@@ -95,8 +95,8 @@ export default function UserPage() {
         <UserHeader
           isOwner={code === currentUser?.usercode}
           userData={userData}
-          followingCount={userFollowing ? userFollowing.length : 0}
-          followerCount={userFollower ? userFollower.length : 0}
+          userFollowing={userFollowing || null}
+          userFollower={userFollower || null}
           postCount={userPostList ? userPostList.length : 0}
           onEditClick={() => setIsEditModalOpen(true)}
         />
