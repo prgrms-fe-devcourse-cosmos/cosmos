@@ -1,7 +1,7 @@
 export default function GalleryCardSkeleton() {
   return (
     <>
-      <div className="w-[340px] h-[343px] flex flex-col animate-pulse">
+      <div className="w-full h-[343px] flex flex-col animate-pulse">
         <div className="w-full h-[227px] bg-gray-300 rounded"></div>
         <div
           className="pt-[21px] pb-[21px] px-[16px] flex flex-col justify-between gap-[4px] text-[var(--white)] 
