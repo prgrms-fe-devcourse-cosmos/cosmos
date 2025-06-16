@@ -1,18 +1,19 @@
-import textimage from '../../../assets/images/default-logo.svg';
-import profileimage from '../../../assets/images/profile.svg';
-import Menu from '../../common/Menu';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { GalleryPost } from '../../../types/gallery';
-import { GalleryPosts } from '../../../api/gallery/gallerypost';
-import supabase from '../../../utils/supabase';
-import GalleryDetailSkeleton from './GalleryDetailSkeleton';
-import LoungeComment from '../../common/LoungeComment';
-import { CommentType } from '../../common/RealtimeComments';
-import { fetchCommentsByPostId } from '../../../api/comments';
-import { useAuthStore } from '../../../stores/authStore';
-import { ArrowLeft } from 'lucide-react';
-import FollowButton from '../../common/FollowButton';
+import textimage from "../../../assets/images/default-logo.svg";
+import profileimage from "../../../assets/images/profile.svg";
+import Menu from "../../common/Menu";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { GalleryPost } from "../../../types/gallery";
+import { GalleryPosts } from "../../../api/gallery/gallerypost";
+import supabase from "../../../utils/supabase";
+import GalleryDetailSkeleton from "./GalleryDetailSkeleton";
+import LoungeComment from "../../common/LoungeComment";
+import { CommentType } from "../../common/RealtimeComments";
+import { fetchCommentsByPostId } from "../../../api/comments";
+import FollowButton from "../../common/FollowButton";
+import { useAuthStore } from "../../../stores/authStore";
+import { ArrowLeft } from "lucide-react";
+import PostLikeButton from "../../common/PostLikeButton";
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -44,7 +45,7 @@ export default function GalleryDetail() {
         const comments = await fetchCommentsByPostId(parseInt(postid));
         setComments(comments);
       } catch (e) {
-        console.error('gallery get Comments failed: ', e);
+        console.error("gallery get Comments failed: ", e);
         setComments(null);
       }
     };
@@ -60,13 +61,13 @@ export default function GalleryDetail() {
       // 프로필 정보 가져오기
       if (target) {
         const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', target.profile_id)
+          .from("profiles")
+          .select("*")
+          .eq("id", target.profile_id)
           .single();
 
         if (error) {
-          console.error('프로필 로드 실패:', error.message);
+          console.error("프로필 로드 실패:", error.message);
         } else {
           setProfile(data);
         }
@@ -89,7 +90,7 @@ export default function GalleryDetail() {
 
   const handleEdit = () => {
     if (!postid) {
-      alert('게시글 ID가 없습니다.');
+      alert("게시글 ID가 없습니다.");
       return;
     }
     navigate(`/lounge/gallery/${postid}/edit`);
@@ -98,60 +99,60 @@ export default function GalleryDetail() {
   const handleDelete = async () => {
     if (!postid) return;
 
-    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
 
     try {
       // 스토리지에서 해당 post_id 폴더의 모든 파일 삭제
       const { data: fileList, error: listError } = await supabase.storage
-        .from('gallery-images')
+        .from("gallery-images")
         .list(postid, {
           limit: 100,
           offset: 0,
         });
 
       if (listError) {
-        console.error('파일 목록 조회 실패:', listError);
+        console.error("파일 목록 조회 실패:", listError);
       } else if (fileList && fileList.length > 0) {
         // 파일이 있으면 삭제
         const filePaths = fileList.map((file) => `${postid}/${file.name}`);
         const { error: deleteStorageError } = await supabase.storage
-          .from('gallery-images')
+          .from("gallery-images")
           .remove(filePaths);
 
         if (deleteStorageError) {
-          console.error('스토리지 파일 삭제 실패:', deleteStorageError);
+          console.error("스토리지 파일 삭제 실패:", deleteStorageError);
         }
       }
 
       // likes 삭제
       const { error: likesError } = await supabase
-        .from('likes')
+        .from("likes")
         .delete()
-        .eq('post_id', Number(postid));
+        .eq("post_id", Number(postid));
 
       if (likesError) throw likesError;
 
       // gallery_images 삭제
       const { error: imagesError } = await supabase
-        .from('gallery_images')
+        .from("gallery_images")
         .delete()
-        .eq('post_id', Number(postid));
+        .eq("post_id", Number(postid));
 
       if (imagesError) throw imagesError;
 
       // posts 삭제
       const { error: postError } = await supabase
-        .from('posts')
+        .from("posts")
         .delete()
-        .eq('id', Number(postid));
+        .eq("id", Number(postid));
 
       if (postError) throw postError;
 
-      alert('게시글이 삭제되었습니다.');
-      navigate('/lounge/gallery');
+      alert("게시글이 삭제되었습니다.");
+      navigate("/lounge/gallery");
     } catch (error) {
-      console.error('삭제 중 오류 발생:', error);
-      alert('삭제 중 오류가 발생했습니다.');
+      console.error("삭제 중 오류 발생:", error);
+      alert("삭제 중 오류가 발생했습니다.");
     }
   };
 
@@ -159,11 +160,11 @@ export default function GalleryDetail() {
     const date = new Date(datetimeString);
     const formattedDate = `${date.getFullYear()}년 ${String(
       date.getMonth() + 1
-    ).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
-    const formattedTime = date.toLocaleTimeString('ko-KR', {
+    ).padStart(2, "0")}월 ${String(date.getDate()).padStart(2, "0")}일`;
+    const formattedTime = date.toLocaleTimeString("ko-KR", {
       hour12: false,
-      hour: '2-digit',
-      minute: '2-digit',
+      hour: "2-digit",
+      minute: "2-digit",
     });
     return `${formattedDate} ${formattedTime}`;
   }
@@ -235,6 +236,9 @@ export default function GalleryDetail() {
           postId={postid!}
           userId={currentUserId!}
           comments={comments}
+          likeButton={
+            <PostLikeButton postId={post.id!} initialCount={post.like_count} />
+          }
         />
       </div>
     </div>
