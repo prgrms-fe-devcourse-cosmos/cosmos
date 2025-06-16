@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useNavigation } from 'react-router-dom';
 
 export default function MainNav() {
