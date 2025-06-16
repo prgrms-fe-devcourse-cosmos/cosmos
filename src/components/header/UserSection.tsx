@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import profileImage from "../../assets/images/profile.svg";
+import profileImage from "../../../public/images/alien.svg";
 import userIcon from "../../assets/images/user.svg";
 import logoutIcon from "../../assets/images/log-out.svg";
 import ThemeToggle from "./ThemeToggle";
@@ -90,12 +90,12 @@ export default function UserSection() {
     <>
       {isLoggedIn && (
         <>
-          <div ref={menuRef}>
+          <div ref={menuRef} className="h-full flex items-center">
             <button onClick={() => setMenuOpen(!menuOpen)}>
               <img
                 src={userData?.avatar_url || profileImage}
                 alt=""
-                className="cursor-pointer size-8 rounded-full aspect-square object-cover object-center"
+                className="cursor-pointer size-6 rounded-full aspect-square object-cover object-center"
               />
             </button>
 

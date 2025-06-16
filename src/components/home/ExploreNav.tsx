@@ -13,7 +13,7 @@ export default function ExploreNav() {
       <span className="text-lg font-medium">Explore</span>
       <div className="w-60 flex flex-col items-start text-[color:var(--gray-200)] gap-1">
         {explorePageList.map((page) => (
-          <PageListItem name={page.name} route={page.route} />
+          <PageListItem key={page.name} name={page.name} route={page.route} />
         ))}
       </div>
     </div>
