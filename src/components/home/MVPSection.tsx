@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import mvp1 from "../../assets/images/mvp1.jpg";
 import mvp2 from "../../assets/images/mvp2.png";
 import mvp3 from "../../assets/images/mvp3.png";
 import MVPCard from "./MVPCard";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const mvps = [
   {
@@ -26,8 +30,39 @@ const mvps = [
 ];
 
 export default function MVPSection() {
+  const mvpSectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const imgBoxes = gsap.utils.toArray(".imgBox") as HTMLElement[];
+    const textBoxes = gsap.utils.toArray(".textBox") as HTMLElement[];
+
+    imgBoxes.forEach((imgBox) => {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: imgBox,
+          start: "50% 100%",
+          toggleClass: { targets: imgBox, className: "active" },
+          scrub: 1,
+        },
+      });
+    });
+
+    textBoxes.forEach((textBox) => {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: textBox,
+          start: "50% 80%",
+          toggleClass: { targets: textBox, className: "active" },
+          scrub: 1,
+        },
+      });
+    });
+  }, []);
   return (
-    <div className="flex gap-40 md:gap-0 w-[480px] md:w-[720px] lg:w-[960px] xl:w-[1280px] justify-between flex-col md:flex-row items-center">
+    <div
+      ref={mvpSectionRef}
+      className="flex gap-40 md:gap-0 w-[480px] md:w-[720px] lg:w-[960px] xl:w-[1280px] justify-between flex-col md:flex-row items-center"
+    >
       {mvps.map((mvp, i) => (
         <MVPCard
           key={i}

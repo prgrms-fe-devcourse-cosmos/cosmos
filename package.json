@@ -19,6 +19,7 @@
     "fast-xml-parser": "^5.2.3",
     "framer-motion": "^12.17.0",
     "github-label-sync": "^3.0.0",
+    "gsap": "^3.13.0",
     "lucide-react": "^0.511.0",
     "openai": "^5.2.0",
     "react": "^19.0.0",
