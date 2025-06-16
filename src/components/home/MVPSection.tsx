@@ -1,7 +1,7 @@
 import React from "react";
 import mvp1 from "../../assets/images/mvp1.jpg";
-import mvp2 from "../../assets/images/mvp2.jpg";
-import mvp3 from "../../assets/images/mvp3.jpg";
+import mvp2 from "../../assets/images/mvp2.png";
+import mvp3 from "../../assets/images/mvp3.png";
 import MVPCard from "./MVPCard";
 
 const mvps = [
@@ -27,7 +27,7 @@ const mvps = [
 
 export default function MVPSection() {
   return (
-    <div className="flex w-[1080px] justify-between">
+    <div className="flex gap-40 md:gap-0 w-[480px] md:w-[720px] lg:w-[960px] xl:w-[1280px] justify-between flex-col md:flex-row items-center">
       {mvps.map((mvp, i) => (
         <MVPCard
           key={i}
