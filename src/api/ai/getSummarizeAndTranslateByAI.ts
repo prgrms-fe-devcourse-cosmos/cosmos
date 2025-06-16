@@ -27,7 +27,7 @@ export const summarizeAndTranslateByAi = async (
 
   try {
     const { data } = await supabase
-      .from("apod_translations")
+      .from("translations")
       .select("translated, translated_summary")
       .eq("date", date)
       .maybeSingle();
@@ -57,7 +57,7 @@ export const summarizeAndTranslateByAi = async (
 
     const translated = geminiResponse.text || "";
 
-    await supabase.from("apod_translations").insert([
+    await supabase.from("translations").insert([
       {
         date,
         original: content,
