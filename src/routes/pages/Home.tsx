@@ -1,76 +1,75 @@
-import React, { useEffect, useRef } from "react";
-import Globe from "react-globe.gl";
-import * as THREE from "three";
+import { useEffect, useRef, useState } from "react";
+import { getCurrentTheme } from "../../types/theme";
+import MVPSection from "../../components/home/MVPSection";
+import GlobeSection from "../../components/home/GlobeSection";
+import IntroSection from "../../components/home/IntroSection";
+import HomeFooter from "../../components/home/HomeFooter";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function Home() {
-  const globeEl = useRef<any>(null);
+  const [theme, setTheme] = useState(getCurrentTheme());
+  const globeSectionRef = useRef<HTMLDivElement>(null);
+  const nextSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const globe = globeEl.current;
-    if (!globe) return;
+    const handleThemeChange = () => {
+      setTheme(getCurrentTheme());
+    };
+    document.addEventListener("themeChanged", handleThemeChange);
 
-    globe.controls().autoRotate = true;
-    globe.controls().autoRotateSpeed = 0.35;
-
-    const CLOUDS_IMG_URL = "/images/earth/clouds.png";
-    const CLOUDS_ALT = 0.004;
-    const CLOUDS_ROTATION_SPEED = -0.006;
-
-    new THREE.TextureLoader().load(CLOUDS_IMG_URL, (cloudsTexture) => {
-      const clouds = new THREE.Mesh(
-        new THREE.SphereGeometry(
-          globe.getGlobeRadius() * (1 + CLOUDS_ALT),
-          75,
-          75
-        ),
-        new THREE.MeshPhongMaterial({ map: cloudsTexture, transparent: true })
-      );
-
-      globe.scene().add(clouds);
-
-      const rotateClouds = () => {
-        clouds.rotation.y += (CLOUDS_ROTATION_SPEED * Math.PI) / 180;
-        requestAnimationFrame(rotateClouds);
-      };
-      rotateClouds();
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
+          setTheme(getCurrentTheme());
+        }
+      });
     });
 
-    // const starGeometry = new THREE.BufferGeometry();
-    // const starCount = 10000;
-    // const positions = new Float32Array(starCount * 3);
-
-    // for (let i = 0; i < starCount; i++) {
-    //   positions[i * 3] = Math.random() * 2000 - 1000;
-    //   positions[i * 3 + 1] = Math.random() * 2000 - 1000;
-    //   positions[i * 3 + 2] = Math.random() * 2000 - 1000;
-    // }
-
-    // starGeometry.setAttribute(
-    //   "position",
-    //   new THREE.BufferAttribute(positions, 3)
-    // );
-
-    // const starMaterial = new THREE.PointsMaterial({
-    //   color: 0xffffff,
-    //   size: 0.5,
-    // });
-    // const stars = new THREE.Points(starGeometry, starMaterial);
-
-    // globe.scene().add(stars);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => {
+      document.removeEventListener("themeChanged", handleThemeChange);
+      observer.disconnect();
+    };
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full flex justify-center items-center">
-      {/* <h1 className="absolute top-30 left-1/2 -translate-x-1/2 text-[color:var(--primary-300)] text-3xl font-[yapari] z-10">
-        WELCOME
-      </h1> */}
-      <Globe
-        ref={globeEl}
-        animateIn={false}
-        globeImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg"
-        bumpImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png"
-        backgroundColor="rgba(0,0,0,0)"
-      />
+    <div className="flex flex-col text-white">
+      <div
+        ref={globeSectionRef}
+        className="relative min-h-screen w-full flex flex-col justify-center items-center font-[yapari] "
+      >
+        <GlobeSection theme={theme} />
+      </div>
+
+      <div
+        ref={nextSectionRef}
+        className=" min-h-screen w-full flex flex-col justify-center items-center "
+      >
+        <MVPSection />
+      </div>
+
+      <div className=" min-h-screen w-full flex flex-col justify-center items-center ">
+        <IntroSection />
+      </div>
+
+      <div className=" w-full flex flex-col justify-center items-center mb-50">
+        <DotLottieReact
+          src="https://lottie.host/916767ed-a8fa-4b95-a4bc-386022de9fc8/4WjxTEFhzM.lottie"
+          loop
+          autoplay
+          style={{ width: "600px", height: "300px" }}
+        />
+      </div>
+
+      <div className="w-full flex flex-col justify-center items-center ">
+        <HomeFooter />
+      </div>
     </div>
   );
 }

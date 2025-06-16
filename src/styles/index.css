@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo&display=swap");
 @import "./tailwind.css";
 
 :root {
@@ -135,6 +136,11 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+/* exo폰트추가 */
+.exo-font {
+  font-family: "Exo", sans-serif;
+}
+
 @theme {
   --font-yapari: "yapari", sans-serif;
   --font-watermelon: "watermelonSalad", sans-serif;
@@ -147,6 +153,20 @@ body::-webkit-scrollbar {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* font yapari 전역 클래스 추가 */
+.font-yapari {
+  font-family: "yapari", "watermelonSalad", sans-serif;
+}
+
+/* 줄거리 말줄임 */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 120px;
 }
 
 @layer components {
@@ -162,12 +182,79 @@ body::-webkit-scrollbar {
 }
 
 .jigsaw-puzzle {
-  border: 2px solid #ccc;
+  border: 1px solid var(--primary-200);
   background-color: transparent;
-  width: 400px;
-  height: 600px;
+  width: 360px;
 }
 
 .picker div[style*="height: 1px"][style*="background"] {
   display: none !important;
+}
+
+.imgBox {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+.imgBox::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #d0f700;
+  left: 0;
+  top: 0;
+  transition: all 0.8s;
+  transition-delay: 0.4s;
+  z-index: 2;
+}
+.imgBox::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #141414;
+  left: 0;
+  top: 0;
+  transition: all 0.8s;
+  z-index: 3;
+}
+
+.imgBox.active::after {
+  height: 0;
+}
+.imgBox.active::before {
+  height: 0;
+}
+.textBox span {
+  margin: 50px 0;
+  transition: all 0.8s;
+  opacity: 0;
+}
+
+.textBox p {
+  margin: 50px 0;
+  transition: all 0.8s;
+  opacity: 0;
+}
+
+.textBox button {
+  margin: 50px 0;
+  transition: all 0.8s;
+  opacity: 0;
+}
+
+.textBox.active span {
+  margin: 0;
+  opacity: 1;
+}
+
+.textBox.active p {
+  margin: 10px;
+  opacity: 1;
+}
+
+.textBox.active button {
+  margin: 0;
+  opacity: 1;
 }

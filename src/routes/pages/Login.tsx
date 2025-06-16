@@ -1,46 +1,63 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase";
-// import { useAuthStore } from "../../stores/authStore";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function Login() {
-  const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const navigate = useNavigate();
+  const { setUser } = useAuthStore();
 
-  useEffect(() => {
-    if (localStorage.getItem("sb-qwntelixvmmeluarhlrr-auth-token")) {
-      alert("이미 로그인되어있는 사용자입니다.");
-      navigate("/");
-    }
-  }, []);
-
-  const socialLoginHandler = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    p: "google" | "github"
-  ) => {
-    e.preventDefault();
+  const socialLoginHandler = async (p: "google" | "github") => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: p,
     });
     if (error) {
-      console.log(error);
-      alert("로그인이 정상적으로 완료되지 않았습니다.");
+      console.log("OAuth 로그인 오류:", error);
+      switch (error.message) {
+        case "Invalid login credentials":
+          alert("존재하지 않는 유저입니다.");
+          break;
+        default:
+          alert("로그인에 실패하였습니다.");
+          return;
+      }
     }
   };
 
-  const loginHandler = async (
+  const loginHanlder = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: emailInput,
       password: passwordInput,
     });
     if (error) {
-      console.log(error);
-      alert("로그인이 정상적으로 완료되지 않았습니다.");
-    } else navigate("/");
+      console.log("Email 로그인 오류:", error);
+      switch (error.message) {
+        case "Invalid login credentials":
+          alert("이메일 또는 비밀번호를 잘못 입력하셨습니다.");
+          break;
+        default:
+          alert("로그인에 실패하였습니다.");
+          return;
+      }
+    } else if (data) {
+      alert("로그인되었습니다.");
+      const { data: loginData, error } = await supabase.auth.getSession();
+      if (loginData.session) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", loginData.session.user.id);
+        if (profile) {
+          setUser(data.session.access_token, profile[0]);
+        }
+      } else if (error) console.log("getSession() 오류:", error);
+      navigate("/");
+    }
   };
 
   return (
@@ -73,8 +90,8 @@ export default function Login() {
               </div>
               <button
                 className="login-btn font-yapari mt-4"
-                disabled={emailInput.length === 0 || passwordInput.length === 0}
-                onClick={loginHandler}
+                disabled={emailInput.length < 1 || passwordInput.length < 1}
+                onClick={loginHanlder}
               >
                 LOGIN
               </button>
@@ -86,8 +103,9 @@ export default function Login() {
             </div>
             <div className="w-full flex flex-col gap-2.5">
               <button
+                type="button"
                 className="social-login-btn"
-                onClick={(e) => socialLoginHandler(e, "google")}
+                onClick={() => socialLoginHandler("google")}
               >
                 <img
                   src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
@@ -97,8 +115,9 @@ export default function Login() {
                 Sign in with Google
               </button>
               <button
+                type="button"
                 className="social-login-btn"
-                onClick={(e) => socialLoginHandler(e, "github")}
+                onClick={() => socialLoginHandler("github")}
               >
                 <img
                   src="https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg"
