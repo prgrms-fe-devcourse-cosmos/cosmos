@@ -15,6 +15,7 @@ export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
   profiles?: {
     avatar_url: string | null;
     username: string;
+    usercode: string | null;
   };
 };
 
@@ -81,7 +82,7 @@ export default function RealtimeComments({
 
             const { data: profileData } = await supabase
               .from("profiles")
-              .select("avatar_url, username")
+              .select("avatar_url, username, usercode")
               .eq("id", newComment.profile_id)
               .single();
 

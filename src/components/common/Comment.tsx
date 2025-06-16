@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CommentType } from "./RealtimeComments";
 import defaultAvatar from "/src/assets/images/profile.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Comment({
   comment,
@@ -15,6 +16,8 @@ export default function Comment({
 }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatedContent, setUpdatedContent] = useState<string>(comment.content);
+
+  const navigate = useNavigate();
 
   const handleSaveUpdate = () => {
     if (!updatedContent.trim()) return;
@@ -52,10 +55,15 @@ export default function Comment({
             {/* 유저아이콘 */}
             <img
               src={comment.profiles?.avatar_url || defaultAvatar}
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full cursor-pointer"
+              onClick={() => {
+                if (comment.profiles?.usercode) {
+                  navigate(`/user/${comment.profiles.usercode}`);
+                }
+              }}
             />
             {/* 유저이름 + 날짜 */}
-            <div className="">
+            <div>
               <h3 className="font-medium text-[13px] lg:text-[15px]">
                 {comment.profiles?.username}
               </h3>
