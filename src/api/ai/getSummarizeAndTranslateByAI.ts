@@ -13,14 +13,17 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-let isRequesting = false;
+const activeRequests = new Set<string>(null);
 
 export const summarizeAndTranslateByAi = async (
   content: string,
   date: string
 ): Promise<{ summary: string; translated: string }> => {
-  if (isRequesting) throw new Error("이미 요청 진행 중");
-  isRequesting = true;
+  if (activeRequests.has(date)) {
+    console.error(`${date} 요청 진행 중`);
+  }
+
+  activeRequests.add(date);
 
   try {
     const { data } = await supabase
@@ -68,6 +71,6 @@ export const summarizeAndTranslateByAi = async (
     console.error("번역 및 요약 실패 :", e);
     throw e;
   } finally {
-    isRequesting = false;
+    activeRequests.delete(date);
   }
 };
