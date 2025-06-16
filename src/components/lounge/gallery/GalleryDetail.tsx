@@ -14,13 +14,15 @@ import FollowButton from '../../common/FollowButton';
 import { useAuthStore } from '../../../stores/authStore';
 import { ArrowLeft } from 'lucide-react';
 import PostLikeButton from '../../common/PostLikeButton';
+import { usercodeStore } from '../../../stores/usercodeStore';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
   const navigate = useNavigate();
   const userData = useAuthStore((state) => state.userData);
   const [post, setPost] = useState<GalleryPost | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const profile = usercodeStore((state) => state.profile);
+  const fetchProfile = usercodeStore((state) => state.fetchProfile);
   const [isLoading, setIsLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [comments, setComments] = useState<CommentType[] | null>(null);
@@ -58,19 +60,8 @@ export default function GalleryDetail() {
       const target = posts.find((p) => p.id === Number(postid));
       setPost(target ?? null);
 
-      // 프로필 정보 가져오기
       if (target) {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', target.profile_id)
-          .single();
-
-        if (error) {
-          console.error('프로필 로드 실패:', error.message);
-        } else {
-          setProfile(data);
-        }
+        await fetchProfile(target.profile_id);
       }
       setTimeout(() => {
         setIsLoading(false);
@@ -78,7 +69,7 @@ export default function GalleryDetail() {
     };
 
     fetchPost();
-  }, [postid]);
+  }, [postid, fetchProfile]);
 
   if (!post) {
     return;
