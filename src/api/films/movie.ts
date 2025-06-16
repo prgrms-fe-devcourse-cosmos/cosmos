@@ -152,6 +152,30 @@ export const getMovieDetail = async (
   return detail;
 };
 
+// 통합 fetch 줄거리 + 감독 정보 한번에 가져오기
+const getMovieDetailLite = async (id: number): Promise<Movie | null> => {
+  const detail = await movieFetch<MovieDetail>(`/movie/${id}`, "get", {
+    language: "en-US",
+    append_to_response: "credits",
+  });
+
+  if (!detail || !detail.overview || !detail.credits) return null;
+
+  const director = detail.credits.crew?.find((c) => c.job === "Director")?.name;
+
+  if (!director) return null;
+
+  return {
+    id: detail.id,
+    title: detail.title,
+    overview: detail.overview,
+    poster_path: detail.poster_path,
+    release_date: detail.release_date,
+    vote_average: detail.vote_average,
+    director,
+  };
+};
+
 // 검색
 // TMDB 검색 + 필터
 // 5페이지 정도까지 누적 검색
@@ -159,7 +183,7 @@ export const getSearchMovies = async (query: string): Promise<Movie[]> => {
   // 공백 검색 x
   if (!query.trim()) return [];
 
-  const maxPages = 3;
+  const maxPages = 5;
   const allResults: Movie[] = [];
 
   for (let page = 1; page <= maxPages; page++) {
@@ -170,52 +194,30 @@ export const getSearchMovies = async (query: string): Promise<Movie[]> => {
 
     if (!res?.results || res.results.length === 0) break;
 
-    // 선 필터링 (줄거리 + SF장르 + 키워드 포함)
-    const candidates = await Promise.all(
-      res.results.map(async (raw) => {
-        // 개봉일 유효성 검사
-        if (!raw.release_date) return null;
-        const releaseDate = new Date(raw.release_date);
-        if (isNaN(releaseDate.getTime()) || releaseDate > new Date())
-          return null;
+    // 개봉일 + SF 장르 필터링
+    const validMovies = res.results.filter((raw) => {
+      if (!raw.release_date) return false;
+      const releaseDate = new Date(raw.release_date);
+      if (isNaN(releaseDate.getTime()) || releaseDate > new Date())
+        return false;
+      if (!raw.genre_ids.includes(878)) return false;
+      return true;
+    });
 
-        // 줄거리 보완
-        if (!raw.overview || raw.overview.trim().length === 0) {
-          const fallback = await getFallbackOverview(raw.id);
-          if (!fallback) return null;
-          raw.overview = fallback;
-        }
-
-        // SF 장르 & 우주 키워드 필터
-        const isSF = raw.genre_ids.includes(878);
-        const isSpace = spaceFilter(raw, query);
-        if (!isSF || !isSpace) return null;
-
-        return raw;
-      })
-    );
-
-    const validMovies = candidates.filter(
-      (m): m is RawSearchMovie => m !== null
-    );
-
-    // 통과한 영화만 감독 정보 요청
-    const withDirector = await Promise.all(
+    // 줄거리 + 감독 정보 통합 fetch
+    const detailed = await Promise.all(
       validMovies.map(async (movie) => {
-        const director = await getDirectorName(movie.id);
-        return {
-          id: movie.id,
-          title: movie.title,
-          overview: movie.overview,
-          poster_path: movie.poster_path,
-          release_date: movie.release_date,
-          vote_average: movie.vote_average,
-          director,
-        } as Movie;
+        const detail = await getMovieDetailLite(movie.id);
+        if (!detail) return null;
+
+        // space 필터는 detail에서 실행
+        if (!spaceFilter(detail, query)) return null;
+
+        return detail;
       })
     );
 
-    allResults.push(...withDirector);
+    allResults.push(...detailed.filter((m): m is Movie => m !== null));
   }
 
   return allResults;

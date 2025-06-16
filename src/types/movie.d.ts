@@ -35,6 +35,7 @@ interface MovieDetail {
   overview: string;
   runtime: number;
   release_date: string;
+  vote_average: number;
   genres: { id: number; name: string }[];
   production_companies: { id: number; name: string }[];
   credits: {
