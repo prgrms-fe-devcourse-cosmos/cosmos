@@ -14,9 +14,9 @@ export const difficultyMap: Record<Difficulty, { rows: number; cols: number }> =
   };
 
 export const difficultyTimeLimit: Record<Difficulty, number> = {
-  easy: 2 * 60 * 1000,
-  medium: 3 * 60 * 1000,
-  hard: 4 * 60 * 1000,
+  easy: 1 * 60 * 1000,
+  medium: 2 * 60 * 1000,
+  hard: 3 * 60 * 1000,
 };
 export const difficultyMultiplier: Record<Difficulty, number> = {
   easy: 1,
