@@ -107,7 +107,6 @@ export async function DailyLoader() {
         }
       })
     );
-    console.log('translated news', translatedNews);
 
     const { todayEvents, upcomingEvents } = filterEvents(stevents, today);
 
