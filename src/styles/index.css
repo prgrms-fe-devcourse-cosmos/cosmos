@@ -232,6 +232,12 @@ body::-webkit-scrollbar {
   opacity: 0;
 }
 
+.textBox p {
+  margin: 50px 0;
+  transition: all 0.8s;
+  opacity: 0;
+}
+
 .textBox button {
   margin: 50px 0;
   transition: all 0.8s;
@@ -240,6 +246,11 @@ body::-webkit-scrollbar {
 
 .textBox.active span {
   margin: 0;
+  opacity: 1;
+}
+
+.textBox.active p {
+  margin: 10px;
   opacity: 1;
 }
 
