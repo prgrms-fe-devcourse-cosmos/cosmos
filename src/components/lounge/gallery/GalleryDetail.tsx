@@ -1,5 +1,5 @@
 import textimage from "../../../assets/images/default-logo.svg";
-import profileimage from "../../../../public/images/alien.svg";
+import profileimage from "../../../../public/images/cosmos/alien.svg";
 import Menu from "../../common/Menu";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import defaultImg from "../../../public/images/alien.svg";
+import defaultImg from "../../../public/images/cosmos/alien.svg";
 import Button from "../common/Button";
 import supabase from "../../utils/supabase";
 import { LucideX } from "lucide-react";

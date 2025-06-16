@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import LoungeComment from "../../common/LoungeComment";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import profileImage from "../../../../public/images/alien.svg";
+import profileImage from "../../../../public/images/cosmos/alien.svg";
 import { useTalkStore } from "../../../stores/talkStore";
 import FollowButton from "../../common/FollowButton";
 import TalkDetailSkeleton from "./TalkDetailSkeleton";

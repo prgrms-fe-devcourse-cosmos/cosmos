@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import profileImage from "../../../public/images/alien.svg";
+import profileImage from "../../../public/images/cosmos/alien.svg";
 import userIcon from "../../assets/images/user.svg";
 import logoutIcon from "../../assets/images/log-out.svg";
 import ThemeToggle from "./ThemeToggle";

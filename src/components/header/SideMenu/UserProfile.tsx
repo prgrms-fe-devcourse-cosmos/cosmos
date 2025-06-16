@@ -1,4 +1,4 @@
-import profileImage from "../../../../public/images/alien.svg";
+import profileImage from "../../../../public/images/cosmos/alien.svg";
 export default function UserProfile({ user }: { user: Profile }) {
   return (
     <div className="space-y-4 text-2xl">

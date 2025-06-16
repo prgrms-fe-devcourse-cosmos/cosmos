@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CommentType } from "./RealtimeComments";
-import defaultAvatar from "../../../public/images/alien.svg";
+import defaultAvatar from "../../../public/images/cosmos/alien.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function Comment({

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import defaultImg from "../../../public/images/alien.svg";
+import defaultImg from "../../../public/images/cosmos/alien.svg";
 import imageUploaderIcon from "../../assets/images/image-uploader.svg";
 import { resetImage, updateImage } from "../../api/user/profile";
 
