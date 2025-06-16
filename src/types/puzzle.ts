@@ -8,15 +8,15 @@ export type PuzzleConfig = {
 
 export const difficultyMap: Record<Difficulty, { rows: number; cols: number }> =
   {
-    easy: { rows: 3, cols: 4 },
-    medium: { rows: 4, cols: 5 },
-    hard: { rows: 5, cols: 6 },
+    easy: { rows: 3, cols: 3 },
+    medium: { rows: 4, cols: 4 },
+    hard: { rows: 5, cols: 5 },
   };
 
 export const difficultyTimeLimit: Record<Difficulty, number> = {
-  easy: 1 * 60 * 1000,
-  medium: 3 * 60 * 1000,
-  hard: 4 * 60 * 1000,
+  easy: 2 * 60 * 1000,
+  medium: 4 * 60 * 1000,
+  hard: 5 * 60 * 1000,
 };
 export const difficultyMultiplier: Record<Difficulty, number> = {
   easy: 1,
