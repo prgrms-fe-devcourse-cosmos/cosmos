@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../common/Button";
+import Textarea from "../../common/TextArea";
 
 type TalkFormProps = {
   mode: "add" | "edit";
@@ -59,12 +60,11 @@ export default function TalkForm({
         {/* 내용 입력창 */}
         <div className="mb-5 md:mb-8">
           <p className="mb-2 text-sm md:text-[16px]">본문</p>
-          <textarea
+          <Textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="내용을 작성해주세요"
-            className="w-full h-[300px] md:h-[390px] resize-none border border-[#909090] 
-            px-5 md:px-6 py-[12px] rounded-[8px] text-sm md:text-[16px] focus:outline-none focus:border-[#D0F700]"
+            className="h-[300px] md:h-[390px] text-sm md:text-[16px]"
           />
         </div>
 
