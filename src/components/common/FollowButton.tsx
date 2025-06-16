@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import { useAuthStore } from "../../stores/authStore";
 import { followUser, getFollowStatus, unfollowUser } from "../../api/follow";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   followingId: string; // 내가 팔로우할 사람의 ID
+  className?: string; // tailwind CSS 스타일
 };
 
-export default function FollowButton({ followingId }: Props) {
+export default function FollowButton({ followingId, className }: Props) {
   // 현재 로그인한 사용자 정보 가져오기
   const currentUser = useAuthStore((state) => state.userData);
 
@@ -73,11 +75,14 @@ export default function FollowButton({ followingId }: Props) {
 
   return (
     <Button
-      className="text-[8px] md:text-xs h-8 px-2.5 md:px-4 py-[5px]"
+      className={twMerge(
+        "text-[8px] md:text-xs h-8 px-2.5 md:px-4 py-[5px]",
+        className
+      )}
       onClick={toggleFollow}
       disabled={loading}
     >
-      {isFollowing ? "- UNFOLLOW" : "+ FOLLOW"}
+      {isFollowing ? "UNFOLLOW" : "FOLLOW"}
     </Button>
   );
 }
