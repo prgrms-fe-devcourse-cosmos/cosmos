@@ -17,6 +17,9 @@ export default function UserPage() {
   const [activeTab, setActvieTab] = useState<"posts" | "followers">("posts");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userData, setUserData] = useState<Profile | null>(null);
+  const [userPostList, setUserPostList] = useState<Post[] | null>(null);
+  const [userFollower, setUserFollower] = useState<Follow[] | null>(null);
+  const [userFollowing, setUserFollowing] = useState<Follow[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +52,29 @@ export default function UserPage() {
       });
   }, [location]);
 
+  useEffect(() => {
+    if (userData) {
+      // Posts
+      supabase
+        .from("posts")
+        .select("*")
+        .eq("profile_id", userData.id)
+        .then((data) => setUserPostList(data.data));
+      // Following
+      supabase
+        .from("follows")
+        .select("*")
+        .eq("follower_id", userData.id)
+        .then((data) => setUserFollowing(data.data));
+      // Follower
+      supabase
+        .from("follows")
+        .select("*")
+        .eq("following_id", userData.id)
+        .then((data) => setUserFollower(data.data));
+    }
+  }, [userData]);
+
   if (isLoading || !userData) return <LoadingSpinner />;
 
   return (
@@ -69,6 +95,9 @@ export default function UserPage() {
         <UserHeader
           isOwner={code === currentUser?.usercode}
           userData={userData}
+          followingCount={userFollowing ? userFollowing.length : 0}
+          followerCount={userFollower ? userFollower.length : 0}
+          postCount={userPostList ? userPostList.length : 0}
           onEditClick={() => setIsEditModalOpen(true)}
         />
 
@@ -81,7 +110,11 @@ export default function UserPage() {
             setActiveTab={setActvieTab}
           />
 
-          {activeTab === "posts" ? <UserPostList /> : <FollowerPostList />}
+          {activeTab === "posts" ? (
+            <UserPostList posts={userPostList} />
+          ) : (
+            <FollowerPostList />
+          )}
         </div>
       </div>
 

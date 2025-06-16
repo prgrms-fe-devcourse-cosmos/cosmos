@@ -1,14 +1,19 @@
-import React from "react";
 import defaultImg from "../../assets/images/profile.svg";
 import Button from "../common/Button";
 
 export default function UserHeader({
   isOwner,
   userData,
+  followingCount,
+  followerCount,
+  postCount,
   onEditClick,
 }: {
   isOwner: boolean;
   userData: Profile;
+  followingCount: number;
+  followerCount: number;
+  postCount: number;
   onEditClick: () => void;
 }) {
   return (
@@ -20,7 +25,7 @@ export default function UserHeader({
             : defaultImg
         }
         alt="profileImage"
-        className="rounded-full size-22"
+        className="rounded-full size-22 object-cover object-center"
       />
       <div className="flex justify-between w-full">
         <div className="flex flex-col gap-3 ml-3">
@@ -29,15 +34,15 @@ export default function UserHeader({
           </div>
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
-              <div className="text-white font-medium">88</div>
+              <div className="text-white font-medium">{followingCount}</div>
               <div className="text-[var(--gray-200)]">Following</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-white font-medium">111</div>
+              <div className="text-white font-medium">{followerCount}</div>
               <div className="text-[var(--gray-200)]">Followers</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-white font-medium">9</div>
+              <div className="text-white font-medium">{postCount}</div>
               <div className="text-[var(--gray-200)]">Posts</div>
             </div>
           </div>
