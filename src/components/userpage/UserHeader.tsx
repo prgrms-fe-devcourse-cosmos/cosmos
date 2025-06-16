@@ -114,7 +114,7 @@ export default function UserHeader({
                 <div className="text-[var(--gray-200)]">Following</div>
               </button>
               {followingModal && (
-                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll">
+                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll scrollbar-hide">
                   <div className="flex justify-between items-center">
                     <div className="font-yapari text-sm text-[var(--primary-300)]">
                       Following
@@ -190,7 +190,7 @@ export default function UserHeader({
                 <div className="text-[var(--gray-200)]">Followers</div>
               </button>
               {followerModal && (
-                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll">
+                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll scrollbar-hide">
                   <div className="flex justify-between items-center">
                     <div className="font-yapari text-sm text-[var(--primary-300)]">
                       Follower
