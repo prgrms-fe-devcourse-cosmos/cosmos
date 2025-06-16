@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/default-logo.svg";
 import greenLogo from "../../assets/images/green-logo.svg";
