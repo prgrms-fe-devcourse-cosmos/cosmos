@@ -3,6 +3,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import type { PuzzleConfig } from "../../../../types/puzzle";
 import Picker from "react-mobile-picker";
 import Button from "../../../../components/common/Button";
+import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 
 const selections: Record<keyof PuzzleConfig, string[]> = {
   category: ["space", "film"],
@@ -19,6 +20,15 @@ export default function PuzzleConfigScreen() {
     category: "space",
     difficulty: "easy",
   });
+  const [isLaunching, setIsLaunching] = useState(false);
+
+  const handleLaunch = () => {
+    setIsLaunching(true);
+    // 살짝의 지연을 주어 Spinner가 보일 수 있게 함
+    setTimeout(() => {
+      onStart(pickerValue);
+    }, 300); // 최소 300ms 이상은 되어야 스피너 표시됨
+  };
 
   return (
     <div className="relative w-[768px] h-[560px] overflow-hidden text-[color:var(--primary-300)]">
@@ -66,18 +76,27 @@ export default function PuzzleConfigScreen() {
 
         <div className="w-full flex justify-center items-center gap-10 ">
           <div className="group">
-            <Button variant="back" onClick={() => navigate(-1)}>
+            <Button
+              variant="back"
+              onClick={() => navigate(-1)}
+              disabled={isLaunching}
+            >
               BACK
             </Button>
           </div>
 
           <div className="group">
-            <Button variant="hover_fill" onClick={() => onStart(pickerValue)}>
+            <Button
+              variant="hover_fill"
+              onClick={handleLaunch}
+              disabled={isLaunching}
+            >
               LAUNCH
             </Button>
           </div>
         </div>
       </div>
+      {isLaunching && <LoadingSpinner />}
     </div>
   );
 }

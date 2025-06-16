@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Picker from "react-mobile-picker";
 import Button from "../../../components/common/Button";
+import ScrollToTop from "../../../components/common/ScrollToTop";
 
 const selections = ["quiz", "puzzle", "rank"];
 export default function Lab() {
@@ -64,6 +65,7 @@ export default function Lab() {
           </div>
         )}
         <div className="flex-1 flex justify-center items-center relative">
+          <ScrollToTop />
           <Outlet />
         </div>
       </div>

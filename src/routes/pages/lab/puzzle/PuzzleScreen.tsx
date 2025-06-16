@@ -52,7 +52,9 @@ export default function PuzzleScreen() {
   }, [timeLimit]);
 
   useEffect(() => {
-    if (timeLeft !== null && timeLeft <= 0) solve();
+    if (timeLeft !== null && timeLeft <= 0) {
+      solve();
+    }
   }, [timeLeft]);
 
   const closeHandler = () => {
@@ -65,11 +67,7 @@ export default function PuzzleScreen() {
   };
 
   if (!config || !imageUrl || !imageLoaded || isLoading) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
   return (
     <>
