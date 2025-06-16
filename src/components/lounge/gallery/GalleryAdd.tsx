@@ -152,6 +152,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
             <Textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              className="scrollbar-hide"
             />
           </div>
         </div>
