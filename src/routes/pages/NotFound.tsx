@@ -20,11 +20,11 @@ export default function NotFound() {
           </Button>
         </div>
         <Button
-          className="w-[130px] h-[43px] text-[var(--bg-color)]"
+          className=" text-[var(--bg-color)] text-sm font-medium"
           variant="neon_filled"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/contact")}
         >
-          HOME
+          CONTACT US
         </Button>
       </div>
     </div>
