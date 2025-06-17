@@ -43,7 +43,8 @@ export default function DailyNews() {
             0: { slidesPerView: 1 },
             640: { spaceBetween: 20, slidesPerView: 2 },
             768: { spaceBetween: 40, slidesPerView: 2 },
-            1024: { spaceBetween: 80, slidesPerView: 3 },
+            1024: { spaceBetween: 40, slidesPerView: 3 },
+            1440: { spaceBetween: 80, slidesPerView: 3 },
           }}
         >
           {news.map((article) => (
@@ -53,7 +54,7 @@ export default function DailyNews() {
           ))}
         </Swiper>
       </div>
-      <div className="w-full mt-3">
+      <div className="w-full mt-6 sm:mt-3">
         <QuizProgressBar total={100} variant="news" percentage={percentage} />
       </div>
     </div>

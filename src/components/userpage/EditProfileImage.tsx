@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
-import defaultImg from "../../../public/images/cosmos/alien.svg";
-import imageUploaderIcon from "../../assets/images/image-uploader.svg";
-import { resetImage, updateImage } from "../../api/user/profile";
+import React, { useRef, useState } from 'react';
+import imageUploaderIcon from '../../assets/images/image-uploader.svg';
+import { resetImage, updateImage } from '../../api/user/profile';
 
 export default function EditProfileImage({
   imageUrl,
@@ -14,13 +13,14 @@ export default function EditProfileImage({
 }) {
   const [showImgDropdown, setShowImgDropdown] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const defaultImg = '/images/cosmos/alien.svg';
 
   const handleResetProfileImage = async () => {
     try {
       const updated = await resetImage(userId);
-      setImageUrl(updated.avatar_url || "");
+      setImageUrl(updated.avatar_url || '');
     } catch (e) {
-      console.error("기본 이미지 변경 실패 : ", e);
+      console.error('기본 이미지 변경 실패 : ', e);
     }
   };
 
@@ -32,7 +32,7 @@ export default function EditProfileImage({
       const url = await updateImage(file, userId);
       setImageUrl(url);
     } catch (e) {
-      console.error("이미지 업로드 실패 : ", e);
+      console.error('이미지 업로드 실패 : ', e);
     }
   };
 

@@ -1,21 +1,21 @@
-import { useNavigate, useParams } from "react-router-dom";
-import LoungeComment from "../../common/LoungeComment";
-import { ArrowLeft } from "lucide-react";
-import { useEffect, useState } from "react";
-import profileImage from "../../../../public/images/cosmos/alien.svg";
-import { useTalkStore } from "../../../stores/talkStore";
-import FollowButton from "../../common/FollowButton";
-import TalkDetailSkeleton from "./TalkDetailSkeleton";
-import Menu from "../../common/Menu";
-import supabase from "../../../utils/supabase";
-import { deleteTalkPostById } from "../../../api/talk/talk";
-import { fetchCommentsByPostId } from "../../../api/comments";
-import { CommentType } from "../../common/RealtimeComments";
-import PostLikeButton from "../../common/PostLikeButton";
-import { usercodeStore } from "../../../stores/usercodeStore";
+import { useNavigate, useParams } from 'react-router-dom';
+import LoungeComment from '../../common/LoungeComment';
+import { ArrowLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useTalkStore } from '../../../stores/talkStore';
+import FollowButton from '../../common/FollowButton';
+import TalkDetailSkeleton from './TalkDetailSkeleton';
+import Menu from '../../common/Menu';
+import supabase from '../../../utils/supabase';
+import { deleteTalkPostById } from '../../../api/talk/talk';
+import { fetchCommentsByPostId } from '../../../api/comments';
+import { CommentType } from '../../common/RealtimeComments';
+import PostLikeButton from '../../common/PostLikeButton';
+import { usercodeStore } from '../../../stores/usercodeStore';
 
 export default function TalkDetail() {
   const navigate = useNavigate();
+  const profileImage = '/images/cosmos/alien.svg';
   // useParams ID 받기
   const { id } = useParams();
   const [comments, setComments] = useState<CommentType[] | null>(null);
@@ -43,7 +43,7 @@ export default function TalkDetail() {
         const comments = await fetchCommentsByPostId(postId!);
         setComments(comments);
       } catch (error) {
-        console.error("getComments 실패 : ", error);
+        console.error('getComments 실패 : ', error);
         setComments(null);
       }
     };
@@ -77,14 +77,14 @@ export default function TalkDetail() {
   // 날짜 포맷 추가
   function formatKoreanDate(dateString: string) {
     const date = new Date(dateString);
-    const day = date.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    const day = date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
-    const time = date.toLocaleTimeString("ko-KR", {
-      hour: "2-digit",
-      minute: "2-digit",
+    const time = date.toLocaleTimeString('ko-KR', {
+      hour: '2-digit',
+      minute: '2-digit',
       hour12: false,
     });
     return `${day} ${time}`;
@@ -107,14 +107,14 @@ export default function TalkDetail() {
   // 게시글 삭제
   const handleDelete = async () => {
     // 삭제 여부 확인
-    const confirmed = window.confirm("정말 게시글을 삭제하시겠습니까?");
+    const confirmed = window.confirm('정말 게시글을 삭제하시겠습니까?');
 
     // 취소한 경우 종료
     if (!confirmed) return;
 
     // 예외처리) postId 없는 경우
     if (!postId) {
-      alert("삭제할 게시글이 없습니다.");
+      alert('삭제할 게시글이 없습니다.');
       return;
     }
 
@@ -123,14 +123,14 @@ export default function TalkDetail() {
 
     // 삭제 중 오류 발생 하면 콘솔
     if (!success) {
-      console.error("게시글 삭제 실패:", message);
+      console.error('게시글 삭제 실패:', message);
       alert(message);
       return;
     }
 
     // 삭제 성공 -> 게시글 목록 페이지로 이동
-    alert("게시글이 삭제되었습니다.");
-    navigate("/lounge/talk");
+    alert('게시글이 삭제되었습니다.');
+    navigate('/lounge/talk');
   };
 
   const {

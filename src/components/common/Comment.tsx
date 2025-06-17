@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { CommentType } from "./RealtimeComments";
-import defaultAvatar from "../../../public/images/cosmos/alien.svg";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { CommentType } from './RealtimeComments';
+import { useNavigate } from 'react-router-dom';
 
 export default function Comment({
   comment,
@@ -18,6 +17,7 @@ export default function Comment({
   const [updatedContent, setUpdatedContent] = useState<string>(comment.content);
 
   const navigate = useNavigate();
+  const defaultAvatar = '/images/cosmos/alien.svg';
 
   const handleSaveUpdate = () => {
     if (!updatedContent.trim()) return;
@@ -34,15 +34,15 @@ export default function Comment({
     const date = new Date(dateString);
 
     const options: Intl.DateTimeFormatOptions = {
-      timeZone: "Asia/Seoul",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
+      timeZone: 'Asia/Seoul',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
       hour12: false,
     };
-    return new Intl.DateTimeFormat("ko-KR", options).format(date);
+    return new Intl.DateTimeFormat('ko-KR', options).format(date);
   };
 
   return (
