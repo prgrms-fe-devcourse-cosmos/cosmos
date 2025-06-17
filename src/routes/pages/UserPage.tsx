@@ -89,6 +89,19 @@ export default function UserPage() {
     }
   }, [userFollowing]);
 
+  // 프로필 수정 모달 열리면 바깥 스크롤 잠구기
+  useEffect(() => {
+    if (isEditModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isEditModalOpen]);
+
   if (isLoading || !userData) return <LoadingSpinner />;
 
   return (
@@ -141,15 +154,17 @@ export default function UserPage() {
           className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
           onClick={() => setIsEditModalOpen(false)}
         >
-          <div
-            className="bg-[color:var(--bg-color)] py-10 px-20 rounded-3xl shadow-lg text-center flex flex-col items-center justify-between h-auto gap-12 w-[600px]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <EditProfileModal
-              userData={userData}
-              setIsEditModalOpen={setIsEditModalOpen}
-              setUserData={setUserData}
-            />
+          <div className="flex items-center bg-[color:var(--bg-color)] py-10 px-10 md:px-20 rounded-0 md:rounded-3xl shadow-lg h-full md:h-auto w-full md:w-[600px]">
+            <div
+              className="w-full text-center flex flex-col items-center justify-between gap-15 md:gap-12"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <EditProfileModal
+                userData={userData}
+                setIsEditModalOpen={setIsEditModalOpen}
+                setUserData={setUserData}
+              />
+            </div>
           </div>
         </div>
       )}
