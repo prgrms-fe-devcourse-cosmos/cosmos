@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { QuizQuestion } from "../types/quiz";
 import supabase from "../utils/supabase";
 
@@ -11,34 +11,35 @@ export function useQuiz(difficulty: string) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<(string | null)[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const hasFetchedRef = useRef(false);
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      const { data, error } = await supabase
-        .from("quiz_questions")
-        .select("*")
-        .eq("difficulty", difficulty);
+  const fetchQuestions = useCallback(async () => {
+    if (!difficulty || hasFetchedRef.current) return;
+    hasFetchedRef.current = true;
 
-      if (!error && data) {
-        const selected = getRandomQuestions(data as QuizQuestion[], 10);
-        setQuestions(selected);
-      }
-    };
+    const { data, error } = await supabase
+      .from("quiz_questions")
+      .select("*")
+      .eq("difficulty", difficulty);
 
-    fetchQuestions();
+    if (!error && data) {
+      const randomQuestions = getRandomQuestions(data as QuizQuestion[], 10);
+      setQuestions(randomQuestions);
+      setSelectedOptions(Array(randomQuestions.length).fill(null));
+      setCurrentIndex(0);
+      setIsSubmitted(false);
+    }
   }, [difficulty]);
 
   useEffect(() => {
-    setSelectedOptions(Array(questions.length).fill(null));
-    setCurrentIndex(0);
-    setIsSubmitted(false);
-  }, [questions]);
+    fetchQuestions();
+  }, [fetchQuestions]);
 
   const handleOptionClick = (option: string) => {
     if (isSubmitted) return;
-    const newSelections = [...selectedOptions];
-    newSelections[currentIndex] = option;
-    setSelectedOptions(newSelections);
+    const updated = [...selectedOptions];
+    updated[currentIndex] = option;
+    setSelectedOptions(updated);
   };
 
   const handleNext = () => {
@@ -55,14 +56,15 @@ export function useQuiz(difficulty: string) {
   };
 
   const handleRetry = () => {
-    const reloaded = getRandomQuestions(questions, 10);
-    setQuestions(reloaded);
+    hasFetchedRef.current = false;
+    fetchQuestions();
   };
 
-  const score = selectedOptions.reduce((acc, selected, idx) => {
-    if (questions[idx] && selected === questions[idx].correct_answer) return acc + 1;
-    return acc;
-  }, 0);
+  const score = selectedOptions.reduce(
+    (acc, selected, idx) =>
+      questions[idx]?.correct_answer === selected ? acc + 1 : acc,
+    0
+  );
 
   return {
     questions,
@@ -70,7 +72,7 @@ export function useQuiz(difficulty: string) {
     selectedOptions,
     isSubmitted,
     score,
-    currentQuestion: questions[currentIndex],
+    currentQuestion: questions.length > 0 ? questions[currentIndex] : null,
     handleOptionClick,
     handleNext,
     handlePrev,
