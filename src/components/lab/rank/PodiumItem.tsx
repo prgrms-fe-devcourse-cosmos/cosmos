@@ -1,7 +1,7 @@
 import { Player } from "../../../types/player";
 import { Crown } from "lucide-react";
 import { useAuthStore } from "../../../stores/authStore";
-import defaultAvatar from "/src/assets/images/profile.svg";
+import defaultAvatar from "../../../../public/images/cosmos/alien.svg";
 
 export default function PodiumItem({
   index,

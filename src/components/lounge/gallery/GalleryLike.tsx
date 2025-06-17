@@ -1,10 +1,10 @@
-import { useEffect, useState, ReactNode } from 'react';
+import { useEffect, useState, ReactNode } from "react";
 import {
   checkUserLike,
   addLike,
   removeLike,
   getLikesCount,
-} from '../../../api/gallery/gallerylike';
+} from "../../../api/gallery/gallerylike";
 
 interface GalleryLikeProps {
   postId: number;
@@ -67,7 +67,7 @@ export default function GalleryLike({
           setLikesCount(count);
         }
       } catch (error) {
-        console.error('Failed to load like data:', error);
+        console.error("Failed to load like data:", error);
       } finally {
         if (!isCancelled) {
           setIsInitialLoading(false);
@@ -86,7 +86,7 @@ export default function GalleryLike({
     e.stopPropagation();
 
     if (!profileId) {
-      alert('로그인이 필요합니다.');
+      alert("로그인이 필요합니다.");
       return;
     }
 
@@ -117,7 +117,7 @@ export default function GalleryLike({
         if (onToggle) onToggle(prevCount, prevLiked);
       }
     } catch (error) {
-      console.error('Failed to toggle like:', error);
+      console.error("Failed to toggle like:", error);
       // 에러 발생 시 원상복구
       setLiked(prevLiked);
       setLikesCount(prevCount);
@@ -131,12 +131,12 @@ export default function GalleryLike({
     <button
       onClick={toggleLike}
       className={`flex items-center gap-2 transition-opacity ${
-        isToggling || !profileId ? 'opacity-100' : 'opacity-100 cursor-pointer'
+        isToggling || !profileId ? "opacity-100" : "opacity-100 cursor-pointer"
       }`}
       disabled={isToggling}
     >
       {liked ? IconLiked : IconNotLiked}
-      <span>{likesCount}</span>
+      <span className="pt-[2px]">{likesCount}</span>
     </button>
   );
 }

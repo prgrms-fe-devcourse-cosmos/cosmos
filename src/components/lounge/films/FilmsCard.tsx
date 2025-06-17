@@ -6,7 +6,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
     <NavLink
       to={`${movie.id}`}
       key={movie.id}
-      className="w-full lg:max-w-[220px] flex flex-col overflow-hidden"
+      className="w-full md:max-w-[260px] lg:max-w-[220px] flex flex-col overflow-hidden transform transition duration-300 hover:shadow-lg hover:scale-[1.02]"
     >
       <div className="w-full aspect-[2/3]">
         <img
@@ -24,7 +24,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
         }}
         className="pt-[21px] pb-[21px] px-[16px] flex flex-col justify-between gap-[6px]"
       >
-        <h3 className="text-[13px] sm:text-[16px] truncate whitespace-nowrap overflow-hidden font-medium">
+        <h3 className="text-white text-[13px] sm:text-[16px] truncate whitespace-nowrap overflow-hidden font-medium">
           {movie.title}
         </h3>
         <p className="text-[11px] sm:text-[14px] truncate whitespace-nowrap overflow-hidden">
@@ -40,7 +40,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
               // fill="#D0F700"
               strokeWidth={2}
             />
-            <span className="text-[8px] sm:text-[10px] leading-none">
+            <span className="text-[8px] sm:text-[10px] h-3 flex items-center leading-none pt-[2px]">
               {movie.vote_average ? movie.vote_average.toFixed(1) : "?"}
             </span>
           </p>
