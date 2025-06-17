@@ -46,11 +46,11 @@ export default function EditProfileModal({
 
   return (
     <>
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center relative">
         <div className="w-full flex justify-end">
           <X
             onClick={() => setIsEditModalOpen(false)}
-            className="cursor-pointer"
+            className="absolute top-[-70px] right-0 md:static cursor-pointer"
           />
         </div>
         <EditProfileImage
