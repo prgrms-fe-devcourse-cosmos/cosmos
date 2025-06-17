@@ -14,9 +14,9 @@ export function getOptionStyle({
   const isAnswer = option === correctAnswer;
   const isSelected = option === userSelected;
 
-  let borderClass = "border border-[color:var(--white)]/30";
-  let bgClass = "bg-[color:var(--white)]/15";
-  let textClass = "text-[color:var(--white)]";
+  let borderClass = "border border-white/40";
+  let bgClass = isSubmitted ? "bg-none" : "bg-white/15"
+  let textClass = "text-white/80";
 
   if (isSubmitted) {
     if (isAnswer) {
@@ -31,9 +31,7 @@ export function getOptionStyle({
     if (isSelected) {
       borderClass = "border-2 border-[color:var(--primary-300)]";
       textClass = "text-[color:var(--primary-300)] font-semibold";
-    } else {
-      bgClass = "hover:bg-[color:var(--white)]/15";
-    }
+    } 
   }
 
   return { borderClass, bgClass, textClass };
