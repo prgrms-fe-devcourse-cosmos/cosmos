@@ -14,8 +14,12 @@ export default function MVPCard({
       </div>
 
       <div className="textBox flex flex-col gap-2">
-        <span className="text-2xl font-medium ">{title}</span>
-        <span className="text-[color:var(--gray-200)]">{content}</span>
+        <span className="text-lg md:text-xl lg:text-2xl font-medium ">
+          {title}
+        </span>
+        <span className="text-sm md:text-base text-[color:var(--gray-200)]">
+          {content}
+        </span>
       </div>
     </div>
   );

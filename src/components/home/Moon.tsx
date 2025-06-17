@@ -1,13 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
 import bumpmap from "/images/home/lunar_bumpmap.jpg";
 import surface from "/images/home/lunar_surface.jpg";
 
 export default function Moon() {
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
     const globe = globeEl.current;
     if (!globe) return;
+
+    setTimeout(() => setIsVisible(true), 10);
 
     globe.controls().autoRotate = true;
     globe.controls().autoRotateSpeed = 0.35;
@@ -35,13 +39,19 @@ export default function Moon() {
   });
 
   return (
-    <Globe
-      ref={globeEl}
-      globeImageUrl={surface}
-      bumpImageUrl={bumpmap}
-      showGraticules={false}
-      backgroundColor="rgba(0,0,0,0)"
-      atmosphereColor="rgba(0,0,0,0)"
-    />
+    <div
+      className={`transition-opacity duration-1000 ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <Globe
+        ref={globeEl}
+        globeImageUrl={surface}
+        bumpImageUrl={bumpmap}
+        showGraticules={false}
+        backgroundColor="rgba(0,0,0,0)"
+        atmosphereColor="rgba(0,0,0,0)"
+      />
+    </div>
   );
 }

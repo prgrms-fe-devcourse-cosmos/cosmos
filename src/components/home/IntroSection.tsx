@@ -43,18 +43,18 @@ export default function IntroSection() {
   return (
     <div
       ref={sectionRef}
-      className="flex flex-col justify-center items-center gap-10"
+      className="flex flex-col justify-center items-center gap-10 text-2xl md:text-4xl xl:text-6xl"
     >
       {typingStarted && (
         <TypeAnimation
           sequence={["Start your cosmic journey"]}
-          style={{ fontSize: "3em", fontWeight: 400 }}
+          style={{ fontWeight: 400 }}
           repeat={0}
           speed={60}
         />
       )}
 
-      <div className="textBox w-full text-center text-xl text-[color:var(--gray-200)]">
+      <div className="textBox w-full text-center text-base lg:text-xl text-[color:var(--gray-200)]">
         <p className="block">오늘의 우주를 탐험하고,</p>
         <p className="block">새로운 발견을 만나보아요.</p>
         <p className="block">다른 탐험가들과 소통하며</p>
@@ -65,7 +65,7 @@ export default function IntroSection() {
           if (!currentUserData) return navigate("/login");
           return navigate("/daily");
         }}
-        className="textBox bg-[color:var(--primary-300)] text-[color:var(--bg-color)] px-6 py-3 rounded-full font-medium cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg "
+        className="textBox bg-[color:var(--primary-300)] text-[color:var(--bg-color)] px-6 py-3 rounded-full font-medium cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg text-sm"
       >
         Explore now
       </button>
