@@ -3,8 +3,8 @@ import ScrollToTop from "../../components/common/ScrollToTop";
 
 export default function Lounge() {
   const activeLoungeTab = (isActive: boolean) =>
-    `block flex-1 md:w-[240px] pb-2 sm:pb-4 leading-[24px] sm:leading-[40px]  
-  ${isActive ? "text-[#D0F700] border-b border-[#D0F700]" : "text-white"}`;
+    `block flex-1 md:w-[240px] pb-2 sm:pb-4 leading-[24px] sm:leading-[40px] nav-underline 
+  ${isActive ? "active text-[#D0F700]" : "text-white"}`;
 
   return (
     <>
