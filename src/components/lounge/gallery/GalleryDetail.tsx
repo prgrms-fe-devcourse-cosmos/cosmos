@@ -189,23 +189,21 @@ export default function GalleryDetail() {
               <span className="font-medium text-sm sm:text-base lg:text-lg">
                 {profile?.username}
               </span>
-              <span className="text-xs sm:text-sm lg:text-lg text-[var(--gray-300)]">
+              <span className="text-xs sm:text-sm lg:text-base text-[var(--gray-300)]">
                 {formatDateTime(post.created_at)}
               </span>
             </div>
           </div>
 
-          <div className="mt-1">
-            {isOwner ? (
-              <Menu
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                className="-mt-2 -mr-4"
-              />
-            ) : (
-              <FollowButton followingId={post.profile_id} />
-            )}
-          </div>
+          {isOwner ? (
+            <Menu
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              className="-mt-8"
+            />
+          ) : (
+            <FollowButton followingId={post.profile_id} />
+          )}
         </div>
 
         {/* 제목 + 내용 */}
