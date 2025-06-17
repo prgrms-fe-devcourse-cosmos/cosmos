@@ -81,6 +81,7 @@ export default function FollowButton({ followingId, className }: Props) {
       )}
       onClick={toggleFollow}
       disabled={loading}
+      variant={isFollowing ? "neon_outline" : "neon_filled"}
     >
       {isFollowing ? "UNFOLLOW" : "FOLLOW"}
     </Button>

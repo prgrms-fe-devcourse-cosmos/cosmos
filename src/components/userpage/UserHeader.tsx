@@ -83,36 +83,62 @@ export default function UserHeader({
   }, [userFollower]);
 
   return (
-    <div className="flex gap-2 md:gap-6 items-center">
-      <img
-        src={
-          userData?.avatar_url && userData?.avatar_url.length > 0
-            ? userData?.avatar_url
-            : defaultImg
-        }
-        alt="profileImage"
-        className="size-22 rounded-full aspect-square object-cover object-center"
-      />
-      <div className="flex justify-between w-full">
-        <div className="flex flex-col gap-3 ml-3">
-          <div className="text-white text-[28px] font-bold">
-            {userData?.username}
+    <div className="px-0 lg:px-4 flex justify-between">
+      <div className="w-full flex items-center">
+        {/* 유저 아이콘 */}
+        <img
+          src={
+            userData?.avatar_url && userData?.avatar_url.length > 0
+              ? userData?.avatar_url
+              : defaultImg
+          }
+          alt="profileImage"
+          className="size-[80px] md:size-[90px] lg:size-[120px] rounded-full aspect-square object-cover object-center"
+        />
+        <div className="w-full ml-2 lg:ml-4">
+          <div className="flex justify-between items-center mb-2 md:mb-2 lg:mb-4">
+            {/* 유저이름 */}
+            <div className="pl-2.5 md:pl-3 lg:pl-5 text-white text-[18px] md:text-[20px] font-bold">
+              {userData?.username}
+            </div>
+            {/* 본인o editprofile / 본인x follow */}
+            <div>
+              {isOwner ? (
+                <Button
+                  className="py-1.5 md:py-2 w-[130px] md:w-[180px] lg:w-[200px] text-[10px] md:text-xs"
+                  onClick={onEditClick}
+                >
+                  Edit<span className="hidden md:block"> Profile</span>
+                </Button>
+              ) : (
+                // 팔로우버튼
+                <FollowButton
+                  followingId={userData.id}
+                  className="py-1.5 md:py-2 w-[130px] md:w-[180px] lg:w-[200px] text-[10px] md:text-xs "
+                />
+              )}
+            </div>
           </div>
-          <div className="flex gap-4">
+
+          <div className="flex">
+            {/* 팔로잉리스트 */}
             <div ref={followingRef}>
               <button
                 type="button"
-                className="flex flex-col items-center cursor-pointer"
+                className="flex flex-col items-center cursor-pointer w-[70px] md:w-[86px] lg:w-[100px]"
                 onClick={() => {
                   setFollowingModal(true);
                   setFollowerModal(false);
                 }}
               >
-                <div className="text-white font-medium">
+                <div className="text-white font-medium text-[16px] md:text-[18px]">
                   {userFollowing ? userFollowing.length : 0}
                 </div>
-                <div className="text-[var(--gray-200)]">Following</div>
+                <div className="text-[var(--gray-200)] text-[12px] md:text-[14px]">
+                  Following
+                </div>
               </button>
+              {/* 팔로잉모달 */}
               {followingModal && (
                 <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll">
                   <div className="flex justify-between items-center">
@@ -175,20 +201,24 @@ export default function UserHeader({
                 </div>
               )}
             </div>
+            {/* 팔로워리스트 */}
             <div ref={followerRef}>
               <button
                 type="button"
-                className="flex flex-col items-center cursor-pointer"
+                className="flex flex-col items-center cursor-pointer w-[70px] md:w-[86px] lg:w-[100px]"
                 onClick={() => {
                   setFollowerModal(true);
                   setFollowingModal(false);
                 }}
               >
-                <div className="text-white font-medium">
+                <div className="text-white font-medium text-[16px] md:text-[18px]">
                   {userFollower ? userFollower.length : 0}
                 </div>
-                <div className="text-[var(--gray-200)]">Followers</div>
+                <div className="text-[var(--gray-200)] text-[12px] md:text-[14px]">
+                  Followers
+                </div>
               </button>
+              {/* 팔로우모달 */}
               {followerModal && (
                 <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll">
                   <div className="flex justify-between items-center">
@@ -251,22 +281,16 @@ export default function UserHeader({
                 </div>
               )}
             </div>
-            <div className="flex flex-col items-center">
-              <div className="text-white font-medium">{postCount}</div>
-              <div className="text-[var(--gray-200)]">Posts</div>
+            {/* 게시글카운트 */}
+            <div className="flex flex-col items-center w-[70px] md:w-[86px] lg:w-[100px]">
+              <div className="text-white font-medium text-[16px] md:text-[18px]">
+                {postCount}
+              </div>
+              <div className="text-[var(--gray-200)] text-[12px] md:text-[14px]">
+                Posts
+              </div>
             </div>
           </div>
-        </div>
-        <div>
-          {isOwner ? (
-            <Button variant="hover_fill" onClick={onEditClick}>
-              Edit Profile
-            </Button>
-          ) : (
-            <button className="absolute right-[3vw] md:right-[10vw] rounded-lg w-40 py-1 text-sm hover:font-medium text-[var(--primary-300)] hover:text-black hover:bg-[var(--primary-300)] font-yapari border border-[var(--primary-300)] cursor-pointer">
-              + Follow
-            </button>
-          )}
         </div>
       </div>
     </div>
