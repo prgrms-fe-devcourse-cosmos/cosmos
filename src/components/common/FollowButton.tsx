@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
-import Button from "./Button";
-import { useAuthStore } from "../../stores/authStore";
-import { followUser, getFollowStatus, unfollowUser } from "../../api/follow";
-import { twMerge } from "tailwind-merge";
+import { useEffect, useState } from 'react';
+import Button from './Button';
+import { useAuthStore } from '../../stores/authStore';
+import { followUser, getFollowStatus, unfollowUser } from '../../api/follow';
+import { twMerge } from 'tailwind-merge';
+import { useNavigate } from 'react-router-dom';
+import Modal from './Modal';
+import { CircleAlert } from 'lucide-react';
 
 type Props = {
   followingId: string; // 내가 팔로우할 사람의 ID
@@ -22,6 +25,9 @@ export default function FollowButton({ followingId, className }: Props) {
   // 자신인지 확인 (자기 자신은 팔로우x)
   const isMyself = currentUser?.id === followingId;
 
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
+
   // 컴포넌트 마운트 시, 팔로우 상태 확인
   useEffect(() => {
     const fetchFollow = async () => {
@@ -33,7 +39,7 @@ export default function FollowButton({ followingId, className }: Props) {
         const status = await getFollowStatus(currentUser.id, followingId);
         setIsFollowing(status);
       } catch (err) {
-        console.error("팔로우 상태 불러오기 실패:", err);
+        console.error('팔로우 상태 불러오기 실패:', err);
       }
     };
 
@@ -44,7 +50,7 @@ export default function FollowButton({ followingId, className }: Props) {
   const toggleFollow = async () => {
     // 로그인하지 않은 경우 경고창
     if (!currentUser?.id) {
-      alert("로그인이 필요합니다.");
+      setShowLoginModal(true);
       return;
     }
 
@@ -64,7 +70,7 @@ export default function FollowButton({ followingId, className }: Props) {
         setIsFollowing(true);
       }
     } catch (err) {
-      console.error("팔로우 토글 실패:", err);
+      console.error('팔로우 토글 실패:', err);
     } finally {
       setLoading(false);
     }
@@ -74,13 +80,34 @@ export default function FollowButton({ followingId, className }: Props) {
   if (isMyself) return null;
 
   return (
-    <Button
-      className={twMerge("text-[8px] px-2.5 md:px-4 py-2 min-w-21", className)}
-      onClick={toggleFollow}
-      disabled={loading}
-      variant={isFollowing ? "neon_outline" : "neon_filled"}
-    >
-      {isFollowing ? "UNFOLLOW" : "FOLLOW"}
-    </Button>
+    <>
+      <Button
+        className={twMerge(
+          'text-[8px] px-2.5 md:px-4 py-2 min-w-21',
+          className
+        )}
+        onClick={toggleFollow}
+        disabled={loading}
+        variant={isFollowing ? 'neon_outline' : 'neon_filled'}
+      >
+        {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+      </Button>
+      {showLoginModal && (
+        <Modal
+          icon={<CircleAlert size={40} color="#EF4444" />}
+          title="로그인이 필요한 서비스입니다."
+          description="로그인 후 이용해주세요."
+          cancelButtonText="뒤로가기"
+          confirmButtonText="로그인"
+          onCancel={() => {
+            setShowLoginModal(false);
+          }}
+          onConfirm={() => {
+            setShowLoginModal(false);
+            navigate('/login');
+          }}
+        />
+      )}
+    </>
   );
 }
