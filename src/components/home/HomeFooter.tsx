@@ -1,4 +1,3 @@
-import React from "react";
 import ExploreNav from "./ExploreNav";
 import CommunityNav from "./CommunityNav";
 import GamesNav from "./GamesNav";

@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import supabase from '../../utils/supabase';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import supabase from "../../utils/supabase";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const TextLogo = '/images/cosmos/main-text-logo.svg';
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const TextLogo = "/images/cosmos/main-text-logo.svg";
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [agree, setAgree] = useState(false);
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidEmail, setInvalidEmail] = useState(false);
@@ -27,36 +27,42 @@ export default function Signup() {
       password: password,
       options: {
         data: {
-          avatar_url: '',
+          avatar_url: "",
           name: username,
           full_name: username,
           usercode: Math.random()
             .toString(16)
-            .replace('0.', email.substring(0, 3)),
+            .replace("0.", email.substring(0, 3)),
         },
       },
     });
     if (error) {
-      console.log('회원가입 오류:', error);
-      alert('회원가입에 실패하였습니다.');
+      console.log("회원가입 오류:", error);
+      alert("회원가입에 실패하였습니다.");
     } else if (data) {
-      alert('회원가입되었습니다.');
-      navigate('/');
+      alert("회원가입되었습니다.");
+      navigate("/");
     }
   };
 
-  const socialLoginHandler = async (p: 'google' | 'github') => {
+  const socialLoginHandler = async (p: "google" | "github") => {
+    const redirectTo = import.meta.env.PROD
+      ? "https://zippy-cendol-8bc235.netlify.app"
+      : "http://localhost:5173";
     const { error } = await supabase.auth.signInWithOAuth({
       provider: p,
+      options: {
+        redirectTo,
+      },
     });
     if (error) {
-      console.log('OAuth 로그인 오류:', error);
+      console.log("OAuth 로그인 오류:", error);
       switch (error.message) {
-        case 'Invalid login credentials':
-          alert('존재하지 않는 유저입니다.');
+        case "Invalid login credentials":
+          alert("존재하지 않는 유저입니다.");
           break;
         default:
-          alert('로그인에 실패하였습니다.');
+          alert("로그인에 실패하였습니다.");
           return;
       }
     }
@@ -68,7 +74,7 @@ export default function Signup() {
         <img
           src={TextLogo}
           className="cursor-pointer"
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
         />
       </div>
       <div className="w-full md:w-1/2 md:flex justify-center">
@@ -210,7 +216,7 @@ export default function Signup() {
                 <button
                   type="button"
                   className="cursor-pointer"
-                  onClick={() => socialLoginHandler('google')}
+                  onClick={() => socialLoginHandler("google")}
                 >
                   <img
                     src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
@@ -221,7 +227,7 @@ export default function Signup() {
                 <button
                   type="button"
                   className="cursor-pointer"
-                  onClick={() => socialLoginHandler('github')}
+                  onClick={() => socialLoginHandler("github")}
                 >
                   <img
                     src="https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg"

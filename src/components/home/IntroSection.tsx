@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import { useAuthStore } from "../../stores/authStore";

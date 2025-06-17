@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import cloud from "/images/home/clouds.png";

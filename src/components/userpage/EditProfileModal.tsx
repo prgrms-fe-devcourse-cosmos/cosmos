@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import LabeledInput from "../common/LabeledInput";
 import Button from "../common/Button";
 import EditProfileImage from "./EditProfileImage";

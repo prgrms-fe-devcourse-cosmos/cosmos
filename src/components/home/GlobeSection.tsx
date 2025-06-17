@@ -1,4 +1,3 @@
-import React from "react";
 import Earth from "../../components/home/Earth";
 import Moon from "../../components/home/Moon";
 

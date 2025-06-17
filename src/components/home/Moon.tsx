@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
 import bumpmap from "/images/home/lunar_bumpmap.jpg";
 import surface from "/images/home/lunar_surface.jpg";

@@ -1,4 +1,3 @@
-import React from "react";
 import { Player } from "../../../../types/player";
 import LeaderboardList from "../../../../components/lab/rank/LeaderboardList";
 import TopThreeLeaderboard from "../../../../components/lab/rank/TopThreeLeaderboard";
