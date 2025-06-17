@@ -1,32 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 import defaultImg from "../../../public/images/cosmos/alien.svg";
 import Button from "../common/Button";
-import supabase from "../../utils/supabase";
 import { LucideX } from "lucide-react";
 import FollowButton from "../common/FollowButton";
 import { Link } from "react-router-dom";
+import { useFollowingStore } from "../../stores/followStore";
 
 export default function UserHeader({
   isOwner,
   userData,
-  userFollowing,
-  userFollower,
+  followingUserList,
+  followerUserList,
   postCount,
   onEditClick,
 }: {
   isOwner: boolean;
   userData: Profile;
-  userFollowing: Follow[] | null;
-  userFollower: Follow[] | null;
+  followingUserList: Profile[] | null;
+  followerUserList: Profile[] | null;
   postCount: number;
   onEditClick: () => void;
 }) {
   const [followingModal, setFollowingModal] = useState(false);
   const [followerModal, setFollowerModal] = useState(false);
-  const [followingList, setFollowingList] = useState<Profile[]>([]);
-  const [followerList, setFollowerList] = useState<Profile[]>([]);
   const followingRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
+  const { FollowList, setFollowList, setUserList } = useFollowingStore();
+
+  const followingHandler = () => {
+    setFollowList(userData.id);
+    if (FollowList) setUserList(FollowList!);
+  };
 
   function followingHandleClickOutside(event: MouseEvent) {
     if (
@@ -57,30 +61,6 @@ export default function UserHeader({
     return () =>
       document.removeEventListener("click", followerHandleClickOutside);
   }, [followerRef]);
-
-  useEffect(() => {
-    if (userFollowing) {
-      for (let i = 0; i < userFollowing.length; i++) {
-        supabase
-          .from("profiles")
-          .select()
-          .eq("id", userFollowing[i].following_id)
-          .then((data) => setFollowingList((prev) => [...prev, data.data![0]]));
-      }
-    }
-  }, [userFollowing]);
-
-  useEffect(() => {
-    if (userFollower) {
-      for (let i = 0; i < userFollower.length; i++) {
-        supabase
-          .from("profiles")
-          .select()
-          .eq("id", userFollower[i].follower_id)
-          .then((data) => setFollowerList((prev) => [...prev, data.data![0]]));
-      }
-    }
-  }, [userFollower]);
 
   return (
     <div className="px-0 lg:px-4 flex justify-between">
@@ -132,7 +112,7 @@ export default function UserHeader({
                 }}
               >
                 <div className="text-white font-medium text-[16px] md:text-[18px]">
-                  {userFollowing ? userFollowing.length : 0}
+                  {followingUserList ? followingUserList.length : 0}
                 </div>
                 <div className="text-[var(--gray-200)] text-[12px] md:text-[14px]">
                   Following
@@ -154,45 +134,37 @@ export default function UserHeader({
                     </button>
                   </div>
                   <div className="flex flex-col gap-3">
-                    {followingList.length > 0 &&
-                      followingList
-                        .filter((item, index) => {
-                          return (
-                            followingList.findIndex((e) => {
-                              return item.id === e.id;
-                            }) === index
-                          );
-                        })
-                        .map((item) => (
-                          <div
-                            className="flex justify-between items-center"
-                            key={item.id}
-                          >
-                            <div className="flex gap-2 items-center">
-                              <img
-                                src={
-                                  item.avatar_url ||
-                                  "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
-                                }
-                                alt=""
-                                className="size-6 rounded-full"
-                              />
-                              <div className="w-24 whitespace-nowrap overflow-hidden overflow-ellipsis">
-                                <Link
-                                  to={`/user/${item.usercode}`}
-                                  className="text-sm text-white"
-                                >
-                                  {item.username}
-                                </Link>
-                              </div>
+                    {followingUserList &&
+                      followingUserList.length > 0 &&
+                      followingUserList.map((item) => (
+                        <div
+                          className="flex justify-between items-center"
+                          key={item.id}
+                        >
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={item.avatar_url || defaultImg}
+                              alt=""
+                              className="size-6 rounded-full"
+                            />
+                            <div className="w-24 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                              <Link
+                                to={`/user/${item.usercode}`}
+                                className="text-sm text-white"
+                              >
+                                {item.username}
+                              </Link>
                             </div>
+                          </div>
+                          <div onClick={followingHandler}>
                             <FollowButton
                               followingId={item.id}
                               className="text-[6px] sm:text-[6px] lg:text-[6px] w-24 sm:w-24 lg:w-24 h-7 p-0"
                             />
                           </div>
-                        ))}
-                    {(followingList.length === 0 || !followingList) && (
+                        </div>
+                      ))}
+                    {!(followingUserList && followingUserList.length > 0) && (
                       <div className="text-center text-sm text-[var(--gray-200)]">
                         팔로잉 중인 유저가 없습니다.
                       </div>
@@ -212,7 +184,7 @@ export default function UserHeader({
                 }}
               >
                 <div className="text-white font-medium text-[16px] md:text-[18px]">
-                  {userFollower ? userFollower.length : 0}
+                  {followerUserList ? followerUserList.length : 0}
                 </div>
                 <div className="text-[var(--gray-200)] text-[12px] md:text-[14px]">
                   Followers
@@ -234,45 +206,37 @@ export default function UserHeader({
                     </button>
                   </div>
                   <div className="flex flex-col gap-2">
-                    {followerList.length > 0 &&
-                      followerList
-                        .filter((item, index) => {
-                          return (
-                            followerList.findIndex((e) => {
-                              return item.id === e.id;
-                            }) === index
-                          );
-                        })
-                        .map((item) => (
-                          <div
-                            className="flex justify-between items-center"
-                            key={item.id}
-                          >
-                            <div className="flex gap-2 items-center">
-                              <img
-                                src={
-                                  item.avatar_url ||
-                                  "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
-                                }
-                                alt=""
-                                className="size-6 rounded-full"
-                              />
-                              <div className="w-24 whitespace-nowrap overflow-hidden overflow-ellipsis">
-                                <Link
-                                  to={`/user/${item.usercode}`}
-                                  className="text-sm text-white"
-                                >
-                                  {item.username}
-                                </Link>
-                              </div>
+                    {followerUserList &&
+                      followerUserList.length > 0 &&
+                      followerUserList.map((item) => (
+                        <div
+                          className="flex justify-between items-center"
+                          key={item.id}
+                        >
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={item.avatar_url || defaultImg}
+                              alt=""
+                              className="size-6 rounded-full"
+                            />
+                            <div className="w-24 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                              <Link
+                                to={`/user/${item.usercode}`}
+                                className="text-sm text-white"
+                              >
+                                {item.username}
+                              </Link>
                             </div>
+                          </div>
+                          <div onClick={followingHandler}>
                             <FollowButton
                               followingId={item.id}
                               className="text-[6px] sm:text-[6px] lg:text-[6px] w-24 sm:w-24 lg:w-24 h-7 p-0"
                             />
                           </div>
-                        ))}
-                    {(followerList.length === 0 || !followerList) && (
+                        </div>
+                      ))}
+                    {!(followerUserList && followerUserList.length > 0) && (
                       <div className="text-center text-sm text-[var(--gray-200)]">
                         팔로워가 없습니다.
                       </div>

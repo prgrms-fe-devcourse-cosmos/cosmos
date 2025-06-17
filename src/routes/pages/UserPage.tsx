@@ -9,6 +9,7 @@ import PostViewTabs from "../../components/userpage/PostViewTabs";
 import UserPostList from "../../components/userpage/UserPostList";
 import FollowerPostList from "../../components/userpage/FollowerPostList";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
+import { useFollowerStore, useFollowingStore } from "../../stores/followStore";
 
 export default function UserPage() {
   const code = useParams().code;
@@ -18,12 +19,23 @@ export default function UserPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userData, setUserData] = useState<Profile | null>(null);
   const [userPostList, setUserPostList] = useState<Post[] | null>(null);
-  const [userFollower, setUserFollower] = useState<Follow[] | null>(null);
-  const [userFollowing, setUserFollowing] = useState<Follow[] | null>(null);
   const [followerPosts, setFollowerPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef<HTMLDivElement>(null);
   const isOwner = code === currentUser?.usercode;
+  const {
+    FollowList: followingList,
+    UserList: followingUserList,
+    setFollowList: setFollowing,
+    setUserList: setFollowingUser,
+  } = useFollowingStore();
+
+  const {
+    FollowList: followerList,
+    UserList: followerUserList,
+    setFollowList: setFollower,
+    setUserList: setFollowerUser,
+  } = useFollowerStore();
 
   useEffect(() => {
     const outsideClickHandler = (event: MouseEvent) => {
@@ -42,52 +54,55 @@ export default function UserPage() {
     };
   }, [isEditModalOpen, setIsEditModalOpen]);
 
-  useEffect(() => {
+  async function initialFunction() {
     setIsLoading(true);
-    supabase
+    const { data } = await supabase
       .from("profiles")
       .select("*")
-      .eq("usercode", code!)
-      .then((data) => {
-        setUserData(data.data![0]);
-        setIsLoading(false);
-      });
+      .match({ usercode: code });
+    if (data) {
+      setUserData(data[0]);
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    initialFunction();
   }, [location]);
 
   useEffect(() => {
     if (userData) {
+      // Following & Follower
+      setFollowing(userData.id);
+      if (followingList) setFollowingUser(followingList);
+      setFollower(userData.id);
+      if (followerList) setFollowerUser(followerList);
+
       // Posts
       supabase
         .from("posts")
         .select("*")
         .eq("profile_id", userData.id)
         .then((data) => setUserPostList(data.data));
-      // Following
-      supabase
-        .from("follows")
-        .select("*")
-        .eq("follower_id", userData.id)
-        .then((data) => setUserFollowing(data.data));
-      // Follower
-      supabase
-        .from("follows")
-        .select("*")
-        .eq("following_id", userData.id)
-        .then((data) => setUserFollower(data.data));
     }
   }, [userData]);
 
   useEffect(() => {
-    if (userFollowing) {
-      userFollowing.forEach((element) => {
+    if (followingList) setFollowingUser(followingList);
+    if (followerList) setFollowerUser(followerList);
+  }, [followingList, followerList]);
+
+  useEffect(() => {
+    if (followingUserList) {
+      followingUserList.forEach((element) => {
         supabase
           .from("posts")
           .select()
-          .eq("profile_id", element.following_id)
+          .eq("profile_id", element.id)
           .then((data) => setFollowerPosts((prev) => [...prev, ...data.data!]));
       });
     }
-  }, [userFollowing]);
+  }, [followingUserList]);
 
   // 프로필 수정 모달 열리면 바깥 스크롤 잠구기
   useEffect(() => {
@@ -123,8 +138,8 @@ export default function UserPage() {
         <UserHeader
           isOwner={isOwner}
           userData={userData}
-          userFollowing={userFollowing || null}
-          userFollower={userFollower || null}
+          followingUserList={followingUserList}
+          followerUserList={followerUserList}
           postCount={userPostList ? userPostList.length : 0}
           onEditClick={() => setIsEditModalOpen(true)}
         />
