@@ -6,7 +6,7 @@ import UserSection from "./UserSection";
 export default function Header() {
   return (
     <>
-      <nav className="hidden md:block font-[yapari] text-white sticky top-0 z-50 ">
+      <nav className="hidden md:block font-[yapari] text-white sticky top-0 z-50 backdrop-blur-xs bg-black/10">
         <div className="flex items-center justify-between h-16 w-full px-10 xl:px-20">
           <Logo />
           <MainNav />
@@ -14,7 +14,7 @@ export default function Header() {
         </div>
       </nav>
 
-      <nav className="md:hidden font-[yapari] text-white sticky top-0 z-50 border-b border-[#30363d]">
+      <nav className="md:hidden font-[yapari] text-white sticky top-0 z-50 backdrop-blur-xs bg-black/10">
         <div className="flex items-center justify-between h-16 w-full px-10">
           <Logo />
           <SideMenu />
