@@ -39,7 +39,7 @@ export default function Talk() {
     <div>
       {/* 검색 + 게시글 등록 버튼 */}
       <div className="flex w-full justify-end mb-6  ">
-        <div className="flex gap-2 w-full md:w-[50%] pr-1 md:pr-2 lg:pr-0 xl:pr-1 ml-2 md:pl-9 items-center">
+        <div className="flex gap-2 w-full md:w-[50%] pr-1 md:pr-2 lg:pr-0 xl:pr-1 ml-2 md:pl-9 lg:pl-11 items-center">
           <SearchInput
             scope="talk"
             value={searchQuery}

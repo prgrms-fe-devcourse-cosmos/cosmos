@@ -163,7 +163,7 @@ export default function GalleryDetail() {
   const isOwner = userData?.id === post.profile_id;
 
   return (
-    <div className="w-full min-h-fit bg-[rgba(20,20,20,0.8)] flex flex-col  p-4 sm:p-6 md:px-8 gap-2">
+    <div className="w-full min-h-fit bg-[#141414]/80 flex flex-col  p-4 sm:p-6 md:px-8 gap-2">
       {/* 뒤로가기버튼 */}
       <div className="group">
         <Button

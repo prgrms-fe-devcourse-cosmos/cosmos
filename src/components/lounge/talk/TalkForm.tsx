@@ -1,4 +1,3 @@
-import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../common/Button";
@@ -28,17 +27,17 @@ export default function TalkForm({
   };
 
   return (
-    <div className="px-8 py-6 bg-[#141414]/80 rounded-[8px]">
+    <div className="px-8 py-6 bg-[#141414]/80 rounded-[8px] text-white">
       <form className="wrapper" onSubmit={handleSubmit}>
         {/* 뒤로가기 */}
-        <div className="mb-5 md:mb-8">
-          <button
-            type="button"
+        <div className="mb-5 md:mb-8 group">
+          <Button
+            variant="back"
+            className="text-xs lg:text-base"
             onClick={() => navigate(-1)}
-            className="font-yapari text-[#D0F700] py-4 flex items-center gap-2 text-[14px]"
           >
-            <ArrowLeft className="w-4 h-4" /> BACK
-          </button>
+            BACK
+          </Button>
         </div>
         {/* 게시물 작성 or 수정 */}
         <h2 className="font-bold text-[18px] md:text-[20px] text-center mb-7 md:mb-8">
@@ -69,14 +68,15 @@ export default function TalkForm({
         </div>
 
         <div className="flex justify-center gap-4 md:gap-6">
-          <Button
-            type="button"
-            variant="dark_line"
-            onClick={() => navigate(-1)}
-            className="text-sm md:text-[16px] px-5 md:px-6 "
-          >
-            CANCEL
-          </Button>
+          <div className="group px-6">
+            <Button
+              variant="back"
+              className="text-xs lg:text-base"
+              onClick={() => navigate(-1)}
+            >
+              CANCEL
+            </Button>
+          </div>
           <Button
             type="submit"
             variant={isEmpty ? "neon_filled" : "disabled"}

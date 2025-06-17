@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { Ellipsis } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 type MenuProps = {
   onEdit: () => void;
@@ -6,7 +7,7 @@ type MenuProps = {
   className?: string;
 };
 
-export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
+export default function Menu({ onEdit, onDelete, className = "" }: MenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -16,18 +17,18 @@ export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
         setIsOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <div className={`relative ${className}`} ref={menuRef}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-2xl font-bold w-15 px-1 py-1"
+        className="text-2xl font-bold w-15 px-1 py-1 cursor-pointer"
         aria-label="메뉴 열기"
       >
-        ...
+        <Ellipsis />
       </button>
 
       {isOpen && (
