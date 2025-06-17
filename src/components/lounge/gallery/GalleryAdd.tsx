@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGalleryPostStore } from '../../../stores/galleryPostStore';
 import LoadingSpinner from '../../common/LoadingSpinner';
-import Textarea from '../../common/TextArea';
 import { ArrowLeft } from 'lucide-react';
+import TextArea from '../../common/TextArea';
 
 type GalleryAddProps = {
   mode?: 'edit' | 'add';
@@ -149,7 +149,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
 
           <div className="w-full h-[169px] mb-7 text-base">
             <h2 className="mb-4">본문</h2>
-            <Textarea
+            <TextArea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="scrollbar-hide"
