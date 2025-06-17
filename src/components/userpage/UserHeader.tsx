@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import Button from '../common/Button';
-import supabase from '../../utils/supabase';
-import { LucideX } from 'lucide-react';
-import FollowButton from '../common/FollowButton';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import Button from "../common/Button";
+import supabase from "../../utils/supabase";
+import { LucideX } from "lucide-react";
+import FollowButton from "../common/FollowButton";
+import { Link } from "react-router-dom";
 
 export default function UserHeader({
   isOwner,
@@ -26,7 +26,7 @@ export default function UserHeader({
   const [followerList, setFollowerList] = useState<Profile[]>([]);
   const followingRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
-  const defaultImg = '/images/cosmos/alien.svg';
+  const defaultImg = "/images/cosmos/alien.svg";
 
   function followingHandleClickOutside(event: MouseEvent) {
     if (
@@ -47,24 +47,24 @@ export default function UserHeader({
   }
 
   useEffect(() => {
-    document.addEventListener('click', followingHandleClickOutside);
+    document.addEventListener("click", followingHandleClickOutside);
     return () =>
-      document.removeEventListener('click', followingHandleClickOutside);
+      document.removeEventListener("click", followingHandleClickOutside);
   }, [followingRef]);
 
   useEffect(() => {
-    document.addEventListener('click', followerHandleClickOutside);
+    document.addEventListener("click", followerHandleClickOutside);
     return () =>
-      document.removeEventListener('click', followerHandleClickOutside);
+      document.removeEventListener("click", followerHandleClickOutside);
   }, [followerRef]);
 
   useEffect(() => {
     if (userFollowing) {
       for (let i = 0; i < userFollowing.length; i++) {
         supabase
-          .from('profiles')
+          .from("profiles")
           .select()
-          .eq('id', userFollowing[i].following_id)
+          .eq("id", userFollowing[i].following_id)
           .then((data) => setFollowingList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -74,9 +74,9 @@ export default function UserHeader({
     if (userFollower) {
       for (let i = 0; i < userFollower.length; i++) {
         supabase
-          .from('profiles')
+          .from("profiles")
           .select()
-          .eq('id', userFollower[i].follower_id)
+          .eq("id", userFollower[i].follower_id)
           .then((data) => setFollowerList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -93,28 +93,29 @@ export default function UserHeader({
               : defaultImg
           }
           alt="profileImage"
-          className="size-[80px] md:size-[90px] lg:size-[120px] rounded-full aspect-square object-cover object-center"
+          className="size-18 md:size-20 lg:size-25 rounded-full aspect-square object-cover object-center"
         />
         <div className="w-full ml-2 lg:ml-4">
           <div className="flex justify-between items-center mb-2 md:mb-2 lg:mb-4">
             {/* 유저이름 */}
-            <div className="pl-2.5 md:pl-3 lg:pl-5 text-white text-[18px] md:text-[20px] font-bold">
+            <div className="pl-2.5 md:pl-3 lg:pl-5 text-white text-lg md:text-xl font-bold">
               {userData?.username}
             </div>
             {/* 본인o editprofile / 본인x follow */}
-            <div>
+            <div className="group">
               {isOwner ? (
                 <Button
-                  className="py-1.5 md:py-2 w-[130px] md:w-[180px] lg:w-[200px] text-[10px] md:text-xs"
+                  variant="hover_fill"
+                  className="py-1.5 md:py-2 text-[10px] md:text-xs"
                   onClick={onEditClick}
                 >
-                  Edit<span className="hidden md:block"> Profile</span>
+                  Edit Profile
                 </Button>
               ) : (
                 // 팔로우버튼
                 <FollowButton
                   followingId={userData.id}
-                  className="py-1.5 md:py-2 w-[130px] md:w-[180px] lg:w-[200px] text-[10px] md:text-xs "
+                  className="py-1.5 md:py-2  text-[10px] md:text-xs "
                 />
               )}
             </div>
@@ -185,12 +186,12 @@ export default function UserHeader({
                             </div>
                             <FollowButton
                               followingId={item.id}
-                              className="text-[6px] sm:text-[6px] lg:text-[6px] w-24 sm:w-24 lg:w-24 h-7 p-0"
+                              className="text-[6px] sm:text-[6px] lg:text-[6px] "
                             />
                           </div>
                         ))}
                     {(followingList.length === 0 || !followingList) && (
-                      <div className="text-center text-sm text-[var(--gray-200)]">
+                      <div className="text-center text-xs md:text-sm text-[var(--gray-200)]">
                         팔로잉 중인 유저가 없습니다.
                       </div>
                     )}
@@ -220,7 +221,7 @@ export default function UserHeader({
                 <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll scrollbar-hide">
                   <div className="flex justify-between items-center">
                     <div className="font-yapari text-sm text-[var(--primary-300)]">
-                      Follower
+                      Followers
                     </div>
                     <button
                       type="button"
