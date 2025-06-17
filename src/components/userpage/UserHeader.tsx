@@ -1,3 +1,12 @@
+<<<<<<< style/responsive-header
+import { useEffect, useRef, useState } from "react";
+import defaultImg from "../../../public/images/cosmos/alien.svg";
+import Button from "../common/Button";
+import supabase from "../../utils/supabase";
+import { LucideX } from "lucide-react";
+import FollowButton from "../common/FollowButton";
+import { Link } from "react-router-dom";
+=======
 import { useEffect, useRef, useState } from 'react';
 import defaultImg from '../../assets/images/profile.svg';
 import Button from '../common/Button';
@@ -5,6 +14,7 @@ import supabase from '../../utils/supabase';
 import { LucideX } from 'lucide-react';
 import FollowButton from '../common/FollowButton';
 import { Link } from 'react-router-dom';
+>>>>>>> main
 
 export default function UserHeader({
   isOwner,
