@@ -1,17 +1,16 @@
-import Button from '../../common/Button';
-import postimage from '../../../assets/images/post.svg';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useGalleryPostStore } from '../../../stores/galleryPostStore';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import Textarea from '../../common/TextArea';
-import { ArrowLeft } from 'lucide-react';
+import Button from "../../common/Button";
+import postimage from "../../../assets/images/post.svg";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGalleryPostStore } from "../../../stores/galleryPostStore";
+import LoadingSpinner from "../../common/LoadingSpinner";
+import TextArea from "../../common/TextArea";
 
 type GalleryAddProps = {
-  mode?: 'edit' | 'add';
+  mode?: "edit" | "add";
 };
 
-export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
+export default function GalleryAdd({ mode = "add" }: GalleryAddProps) {
   const { postId } = useParams<{ postId?: string }>();
   const isEditMode = Boolean(postId);
 
@@ -58,7 +57,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
       success = await uploadPost();
     }
     if (success) {
-      navigate('/lounge/gallery');
+      navigate("/lounge/gallery");
     }
   };
 
@@ -78,7 +77,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
             setImageFile(null);
           }
         } else {
-          navigate('/lounge/gallery');
+          navigate("/lounge/gallery");
         }
         setIsLoading(false);
       }
@@ -102,19 +101,19 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
 
   return (
     <div className="w-full h-[824px] bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-6 pl-8">
-      <Button variant="back" onClick={() => window.history.back()}>
-        <div>
-          <ArrowLeft
-            className="w-4 h-4 mr-2 text-[color:var(--primary-300)]" // red로 강제
-            aria-label="뒤로가기"
-          />
-        </div>
-        Back
-      </Button>
+      <div className="group mb-2">
+        <Button
+          variant="back"
+          className="text-xs lg:text-base"
+          onClick={() => navigate(-1)}
+        >
+          BACK
+        </Button>
+      </div>
 
       <div className="text-[var(--white)] w-full max-w-[704px]">
         <h1 className="w-full font-bold text-xl mb-10 text-center">
-          게시글 {mode === 'edit' ? '수정' : '작성'}
+          게시글 {mode === "edit" ? "수정" : "작성"}
         </h1>
 
         <div className="w-full flex flex-col">
@@ -149,7 +148,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
 
           <div className="w-full h-[169px] mb-7 text-base">
             <h2 className="mb-4">본문</h2>
-            <Textarea
+            <TextArea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="scrollbar-hide"
@@ -157,17 +156,19 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
           </div>
         </div>
 
-        <div className="w-full flex justify-center gap-4 mt-5">
+        <div className="flex justify-center gap-4 md:gap-6">
+          <div className="group px-6">
+            <Button
+              variant="back"
+              className="text-xs lg:text-base"
+              onClick={() => navigate(-1)}
+            >
+              CANCEL
+            </Button>
+          </div>
           <Button
-            variant="dark_line"
-            className="text-sm w-[119px] h-[33px]"
-            onClick={() => window.history.back()}
-          >
-            CANCEL
-          </Button>
-          <Button
-            variant={isFormValid ? 'neon_filled' : 'disabled'}
-            className="text-xs w-[90px] h-[38px]"
+            variant={isFormValid ? "neon_filled" : "disabled"}
+            className="text-sm md:text-[16px] px-5 md:px-6"
             onClick={handleSubmit}
             disabled={!isFormValid}
           >

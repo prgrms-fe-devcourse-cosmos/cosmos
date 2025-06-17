@@ -92,11 +92,11 @@ export default function Gallery() {
 
   return (
     <>
-      <div className="flex flex-col-reverse sm:flex-row justify-between items-start md:items-center mb-[24px] gap-4">
-        <ul className="flex ml-2 gap-4 text-[13px] font-medium sm:ml-2">
+      <div className="flex sm:flex-row justify-between items-center mb-[24px] gap-4">
+        <ul className="flex sm:flex-1/2 gap-4 text-[13px]  ">
           <li
             className={`cursor-pointer ${
-              sortBy === "like.desc" ? "text-[#D0F700]" : ""
+              sortBy === "like.desc" ? "font-medium text-[#D0F700]" : ""
             }`}
             onClick={() => handleSortClick("like.desc")}
           >
@@ -104,7 +104,7 @@ export default function Gallery() {
           </li>
           <li
             className={`cursor-pointer ${
-              sortBy === "release_date.desc" ? "text-[#D0F700]" : ""
+              sortBy === "release_date.desc" ? "font-medium text-[#D0F700]" : ""
             }`}
             onClick={() => handleSortClick("release_date.desc")}
           >
@@ -112,24 +112,25 @@ export default function Gallery() {
           </li>
         </ul>
 
-        <div className="flex w-full sm:w-auto justify-between sm:justify-end items-center gap-2">
-          <div className="relative">
+        <div className="flex flex-1/2 sm:w-auto sm:justify-end items-center gap-2 pr-1 md:pr-2 lg:pr-0 xl:pr-1 ml-2 md:pl-6 xl:pl-8">
+          <div className="relative flex-1 items-center">
             <SearchInput
               scope="gallery"
               value={searchTerm}
               setValue={setSearchTerm}
               onSearch={handleSearch}
               placeholder="게시글 검색"
-              className="w-[200px] lg:w-[280px]"
             />
           </div>
-          <Button
-            variant={isLoggedIn ? "neon_filled" : "disabled"}
-            onClick={() => navigate("/lounge/gallery/add")}
-            className="font-[yapari] font-medium text-xs lg:text-sm ml-2 h-[35px] whitespace-nowrap"
-          >
-            + Post
-          </Button>
+          <div className="group">
+            <Button
+              variant={isLoggedIn ? "hover_fill" : "disabled"}
+              onClick={() => navigate("/lounge/gallery/add")}
+              className="font-[yapari]  text-xs lg:text-xs  whitespace-nowrap"
+            >
+              + Post
+            </Button>
+          </div>
         </div>
       </div>
 

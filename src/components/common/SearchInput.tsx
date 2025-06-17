@@ -58,9 +58,7 @@ export default function SearchInput({
   return (
     <div
       ref={searchRef}
-      className={`bg-[#141414] relative ${
-        className ?? "w-[170px] sm:w-[220px]"
-      }`}
+      className={`bg-[#141414] relative ${className ?? "w-full"}`}
     >
       <div className="relative">
         {/* 검색 입력창 */}
