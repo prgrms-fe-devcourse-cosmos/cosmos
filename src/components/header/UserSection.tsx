@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import profileImage from "../../assets/images/profile.svg";
-import userIcon from "../../assets/images/user.svg";
-import logoutIcon from "../../assets/images/log-out.svg";
 import ThemeToggle from "./ThemeToggle";
 import { useAuthStore } from "../../stores/authStore";
 import supabase from "../../utils/supabase";
+import Dropdown, { DropdownItem } from "../common/Dropdown";
+import { LogOut, User } from 'lucide-react';
 
 export default function UserSection() {
   const navigate = useNavigate();
@@ -86,6 +86,30 @@ export default function UserSection() {
     navigate("/");
   };
 
+  const items: DropdownItem[] = [
+    {
+      icon: <User size={16} />,
+      label: '마이페이지',
+      onClick: () => {
+        navigate(`/user/${userData?.usercode}`);
+        setMenuOpen(false);
+      },
+    },
+    {
+      icon: <LogOut size={16} />,
+      label: '로그아웃',
+      onClick: logOutHandler,
+      danger: true,
+    },
+    {
+      customElement: (
+        <div className="w-full flex justify-center">
+          <ThemeToggle />
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       {isLoggedIn && (
@@ -100,30 +124,8 @@ export default function UserSection() {
             </button>
 
             {menuOpen && (
-              <div className="flex flex-col fixed z-1 right-10 xl:right-20 top-14 rounded-lg px-6 py-4 bg-[var(--bg-color)] border-[var(--gray-200)] border">
-                <div className="flex flex-col gap-2.5 items-center">
-                  <Link
-                    className="flex gap-2 items-center cursor-pointer"
-                    to={`/user/${userData?.usercode}`}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <img src={userIcon} alt="" />
-                    <span className="font-medium text-sm">마이페이지</span>
-                  </Link>
-                  <button
-                    type="button"
-                    className="flex gap-2 items-center cursor-pointer"
-                    onClick={logOutHandler}
-                  >
-                    <img src={logoutIcon} alt="" />
-                    <span className="font-medium text-sm mt-1 text-[var(--red)]">
-                      로그아웃
-                    </span>
-                  </button>
-                </div>
-                <div className="flex w-full justify-center mt-4">
-                  <ThemeToggle />
-                </div>
+              <div className="fixed z-10 right-10 xl:right-20 top-14">
+                <Dropdown items={items} size="mypage" />
               </div>
             )}
           </div>
