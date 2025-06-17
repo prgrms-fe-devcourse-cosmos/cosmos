@@ -83,7 +83,7 @@ export default function FollowButton({ followingId, className }: Props) {
     <>
       <Button
         className={twMerge(
-          'text-[8px] md:text-xs h-7 px-2.5 md:px-4 py-[3px]',
+          'text-[8px] px-2.5 md:px-4 py-2 min-w-21',
           className
         )}
         onClick={toggleFollow}

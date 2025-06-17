@@ -1,6 +1,6 @@
 export interface Player {
-  id: string;
-  username: string;
-  avatar_url: string;
-  total_score: number;
+  id: string | null;
+  username: string | null;
+  avatar_url: string | null;
+  total_score: number | null;
 }

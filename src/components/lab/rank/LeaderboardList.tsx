@@ -1,4 +1,3 @@
-import React from "react";
 import { Player } from "../../../types/player";
 import LeaderboardItem from "./LeaderboardItem";
 

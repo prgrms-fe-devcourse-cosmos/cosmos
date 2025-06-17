@@ -107,15 +107,15 @@ export default function UserPage() {
   return (
     <div className="w-full max-w-[1080px] m-auto px-[30px] sm:px-[40px] lg:px-0 py-10 flex">
       {/* 사이드바 */}
-      <div className="hidden md:flex md:w-[30%] flex-col">
+      <div className="hidden md:flex md:w-[30%] flex-col gap-2">
         {isOwner ? (
-          <span className="text-[32px] font-yapari text-[var(--primary-300)]">
+          <span className="text-4xl font-yapari text-[var(--primary-300)]">
             MY
           </span>
         ) : (
-          <span className="text-[32px] font-yapari">{userData?.username}</span>
+          <span className="text-3xl font-yapari">{userData?.username}님의</span>
         )}
-        <span className="text-[32px] font-yapari text-[var(--primary-300)]">
+        <span className="text-4xl font-yapari text-[var(--primary-300)]">
           SPACE
         </span>
       </div>

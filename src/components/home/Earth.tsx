@@ -1,12 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import cloud from "/images/home/clouds.png";
 
 export default function Earth() {
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    setTimeout(() => setIsVisible(true), 10);
     const globe = globeEl.current;
     if (!globe) return;
 
@@ -57,13 +59,19 @@ export default function Earth() {
   }, []);
 
   return (
-    <Globe
-      ref={globeEl}
-      animateIn={false}
-      globeImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg"
-      bumpImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png"
-      backgroundColor="rgba(0,0,0,0)"
-      atmosphereColor="rgba(0,0,0,0)"
-    />
+    <div
+      className={`transition-opacity duration-1000 ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <Globe
+        ref={globeEl}
+        animateIn={false}
+        globeImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg"
+        bumpImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png"
+        backgroundColor="rgba(0,0,0,0)"
+        atmosphereColor="rgba(0,0,0,0)"
+      />
+    </div>
   );
 }
