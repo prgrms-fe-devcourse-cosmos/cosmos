@@ -32,6 +32,7 @@ export default function TalkForm({
         {/* 뒤로가기 */}
         <div className="mb-5 md:mb-8 group">
           <Button
+            type="button"
             variant="back"
             className="text-xs lg:text-base"
             onClick={() => navigate(-1)}
@@ -70,6 +71,7 @@ export default function TalkForm({
         <div className="flex justify-center gap-4 md:gap-6">
           <div className="group px-6">
             <Button
+              type="button"
               variant="back"
               className="text-xs lg:text-base"
               onClick={() => navigate(-1)}
