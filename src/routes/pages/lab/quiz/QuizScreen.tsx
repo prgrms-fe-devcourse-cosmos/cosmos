@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useQuiz } from "../../../../hooks/useQuiz";
 import { ArrowLeft } from "lucide-react";
@@ -6,25 +7,41 @@ import QuizProgressBar from "../../../../components/lab/quiz/QuizProgressBar";
 import QuestionBlock from "../../../../components/lab/quiz/QuestionBlock";
 import OptionButtons from "../../../../components/lab/quiz/OptionButtons";
 import NavigationButtons from "../../../../components/lab/quiz/NavigationButtons";
+import { useAuthStore } from "../../../../stores/authStore";
 
 export default function QuizScreen() {
   const navigate = useNavigate();
-  const { config } = useOutletContext<{ config: { difficulty: string } }>();
+  const { config } = useOutletContext<{ config: { difficulty: string } }>() ?? {};
+  const difficulty = config?.difficulty ?? "";
+
+  const userData = useAuthStore((state) => state.userData);
+  const profileId = userData?.id;
+
   const {
     questions,
     currentIndex,
     selectedOptions,
     isSubmitted,
     score,
+    maxPossibleScore,
     currentQuestion,
     handleOptionClick,
     handleNext,
     handlePrev,
     handleSubmit,
     handleRetry,
-  } = useQuiz(config?.difficulty || "1");
+  } = useQuiz(difficulty, profileId!);
 
-  if (questions.length === 0) return <LoadingSpinner />;
+  const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowLoader(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (questions.length === 0) {
+    return showLoader ? <LoadingSpinner /> : null;
+  }
 
   return (
     <div className="relative w-[480px] h-[525px] text-[color:var(--white)] font-[yapari] flex flex-col">
@@ -40,7 +57,7 @@ export default function QuizScreen() {
         </button>
       )}
 
-      <div className="z-10">
+      <div className="z-10 flex flex-col flex-grow">
         {!isSubmitted && (
           <QuizProgressBar currentIndex={currentIndex} total={questions.length} />
         )}
@@ -48,22 +65,28 @@ export default function QuizScreen() {
         {isSubmitted && (
           <div className="text-center text-[color:var(--primary-300)] mt-[-70px] mb-10">
             <p className="text-4xl mb-3">MY SCORE</p>
-            <p className="text-2xl">{score} / {questions.length}</p>
+            <p className="text-2xl">
+              {score} / {maxPossibleScore}
+            </p>
           </div>
         )}
 
-        <QuestionBlock
-          currentIndex={currentIndex}
-          currentQuestion={questions[currentIndex]}
-          isSubmitted={isSubmitted}
-        />
+        {currentQuestion && (
+          <QuestionBlock
+            currentIndex={currentIndex}
+            currentQuestion={currentQuestion}
+            isSubmitted={isSubmitted}
+          />
+        )}
 
-        <OptionButtons
-          currentQuestion={currentQuestion}
-          userSelected={selectedOptions[currentIndex]}
-          isSubmitted={isSubmitted}
-          onSelect={handleOptionClick}
-        />
+        {currentQuestion && (
+          <OptionButtons
+            currentQuestion={currentQuestion}
+            userSelected={selectedOptions[currentIndex]}
+            isSubmitted={isSubmitted}
+            onSelect={handleOptionClick}
+          />
+        )}
 
         <NavigationButtons
           currentIndex={currentIndex}
