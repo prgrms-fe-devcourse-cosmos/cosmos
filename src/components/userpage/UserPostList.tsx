@@ -51,37 +51,36 @@ export default function UserPostList({ posts }: { posts: Post[] | null }) {
     <div className="flex flex-col gap-1 lg:gap-2 px-0 lg:px-[10px] py-4 lg:py-6">
       {filteredAndSortedPosts.length > 0 ? (
         filteredAndSortedPosts.map((post) => (
-          <div className="flex justify-between px-1.5 py-1.5" key={post.id}>
-            <div className="flex gap-3">
-              {/* 게시글 제목 */}
-              <span className="font-medium text-sm lg:text-[16px] max-w-[130px] md:max-w-[180px] lg:max-w-[280px] truncate">
-                <Link
-                  to={`/lounge/${post.post_type}/${post.id}`}
-                  className="block overflow-hidden whitespace-nowrap text-ellipsis"
-                >
-                  {post.title}
-                </Link>
-              </span>
-              {/* 댓글 갯수 */}
-              <span className="flex gap-1 items-center text-xs text-[var(--gray-200)]">
-                <LucideMessageSquare size={12} color="var(--gray-200)" />
-                {commentCounts[post.id] ?? 0}
-              </span>
-            </div>
+          <Link to={`/lounge/${post.post_type}/${post.id}`} key={post.id}>
+            <div className="flex justify-between px-1.5 py-1.5 hover:bg-[color:var(--gray-400)] rounded-md">
+              <div className="flex gap-3">
+                {/* 게시글 제목 */}
+                <span className="font-medium text-sm lg:text-[16px] max-w-[130px] md:max-w-[180px] lg:max-w-[280px] truncate">
+                  <div className="block overflow-hidden whitespace-nowrap text-ellipsis">
+                    {post.title}
+                  </div>
+                </span>
+                {/* 댓글 갯수 */}
+                <span className="flex gap-1 items-center text-xs text-[var(--gray-200)]">
+                  <LucideMessageSquare size={12} color="var(--gray-200)" />
+                  {commentCounts[post.id] ?? 0}
+                </span>
+              </div>
 
-            <div className="flex items-center justify-between w-[45%] max-w-80">
-              <div className="hidden md:flex text-sm justify-baseline items-center w-[15%] gap-1.5">
-                <LucideHeart size={12} />
-                <span>{post.like_count}</span>
-              </div>
-              <div className="text-xs md:text-sm text-center w-[45%]">
-                {post.post_type === "talk" ? "Talk" : "Gallery"}
-              </div>
-              <div className="text-xs md:text-sm text-[var(--gray-200)] text-end">
-                {formatDate(post.created_at)}
+              <div className="flex items-center justify-between w-[45%] max-w-80">
+                <div className="hidden md:flex text-sm justify-baseline items-center w-[15%] gap-1.5">
+                  <LucideHeart size={12} className=" mb-[2px]" />
+                  <span>{post.like_count}</span>
+                </div>
+                <div className="text-xs md:text-sm text-center w-[45%]">
+                  {post.post_type === "talk" ? "Talk" : "Gallery"}
+                </div>
+                <div className="text-xs md:text-sm text-[var(--gray-200)] text-end">
+                  {formatDate(post.created_at)}
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))
       ) : (
         <div className="text-center text-[var(--gray-200)] my-5">
