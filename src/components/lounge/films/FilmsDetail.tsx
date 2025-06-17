@@ -99,7 +99,7 @@ export default function FilmsDetail() {
             {detail.genres.slice(0, maxGenres).map((genre) => (
               <span
                 key={genre.id}
-                className="font-yapari border border-[#D0F700] text-[#D0F700] text-[9px] sm:text-[10px] md:text-[12px] px-4 py-2 rounded-[8px]"
+                className="font-yapari border border-[#D0F700] text-[#D0F700] text-[8px] sm:text-[10px] md:text-xs px-2 py-1 rounded-sm"
               >
                 {/* 장르 배열 중에 Science Fiction은 SF로 표현되게 */}
                 {genre.name === "Science Fiction" ? "SF" : genre.name}
@@ -110,7 +110,7 @@ export default function FilmsDetail() {
         {/* 포스터 + 영화 정보 */}
         <div className="mt-1 flex flex-col sm:flex-row gap-4">
           {/* 포스터 */}
-          <div className="w-full max-w-[320px] mx-auto h-auto aspect-[2/3] sm:max-w-[250px] md:max-w-[300px] flex-shrink-0">
+          <div className="w-full max-w-[320px] mx-auto h-auto aspect-[2/3] sm:max-w-[250px] md:max-w-[280px] flex-shrink-0">
             {detail.poster_path && (
               <img
                 src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
@@ -122,12 +122,12 @@ export default function FilmsDetail() {
           {/* 영화 정보 */}
           <div className="flex flex-col gap-[14px]">
             {/* 제목 */}
-            <h2 className="text-[24px] lg:text-[36px] font-bold text-white">
+            <h2 className="text-[24px] lg:text-3xl font-semibold text-white">
               {detail.title}
             </h2>
             {/* 줄거리 영역 */}
             <div>
-              <p className="text-[14px] lg:text-[16px] truncate-multiline leading-[24px] md:leading-[30px]">
+              <p className="text-[14px] lg:text-sm truncate-multiline leading-[24px] md:leading-[30px]">
                 {detail.overview}
               </p>
             </div>
