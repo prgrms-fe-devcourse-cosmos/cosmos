@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import defaultImg from "../../../public/images/cosmos/alien.svg";
-import Button from "../common/Button";
-import supabase from "../../utils/supabase";
-import { LucideX } from "lucide-react";
-import FollowButton from "../common/FollowButton";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from 'react';
+import Button from '../common/Button';
+import supabase from '../../utils/supabase';
+import { LucideX } from 'lucide-react';
+import FollowButton from '../common/FollowButton';
+import { Link } from 'react-router-dom';
 
 export default function UserHeader({
   isOwner,
@@ -27,6 +26,7 @@ export default function UserHeader({
   const [followerList, setFollowerList] = useState<Profile[]>([]);
   const followingRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
+  const defaultImg = '/images/cosmos/alien.svg';
 
   function followingHandleClickOutside(event: MouseEvent) {
     if (
@@ -47,24 +47,24 @@ export default function UserHeader({
   }
 
   useEffect(() => {
-    document.addEventListener("click", followingHandleClickOutside);
+    document.addEventListener('click', followingHandleClickOutside);
     return () =>
-      document.removeEventListener("click", followingHandleClickOutside);
+      document.removeEventListener('click', followingHandleClickOutside);
   }, [followingRef]);
 
   useEffect(() => {
-    document.addEventListener("click", followerHandleClickOutside);
+    document.addEventListener('click', followerHandleClickOutside);
     return () =>
-      document.removeEventListener("click", followerHandleClickOutside);
+      document.removeEventListener('click', followerHandleClickOutside);
   }, [followerRef]);
 
   useEffect(() => {
     if (userFollowing) {
       for (let i = 0; i < userFollowing.length; i++) {
         supabase
-          .from("profiles")
+          .from('profiles')
           .select()
-          .eq("id", userFollowing[i].following_id)
+          .eq('id', userFollowing[i].following_id)
           .then((data) => setFollowingList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -74,9 +74,9 @@ export default function UserHeader({
     if (userFollower) {
       for (let i = 0; i < userFollower.length; i++) {
         supabase
-          .from("profiles")
+          .from('profiles')
           .select()
-          .eq("id", userFollower[i].follower_id)
+          .eq('id', userFollower[i].follower_id)
           .then((data) => setFollowerList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -170,10 +170,7 @@ export default function UserHeader({
                           >
                             <div className="flex gap-2 items-center">
                               <img
-                                src={
-                                  item.avatar_url ||
-                                  "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
-                                }
+                                src={item.avatar_url || defaultImg}
                                 alt=""
                                 className="size-6 rounded-full"
                               />
@@ -250,10 +247,7 @@ export default function UserHeader({
                           >
                             <div className="flex gap-2 items-center">
                               <img
-                                src={
-                                  item.avatar_url ||
-                                  "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
-                                }
+                                src={item.avatar_url || defaultImg}
                                 alt=""
                                 className="size-6 rounded-full"
                               />

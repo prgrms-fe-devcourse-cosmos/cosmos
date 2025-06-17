@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
-import defaultImg from "../../../public/images/cosmos/alien.svg";
-import imageUploaderIcon from "../../assets/images/image-uploader.svg";
-import { resetImage, updateImage } from "../../api/user/profile";
-import Dropdown, { DropdownItem } from "../common/Dropdown";
-import { Image, User } from "lucide-react";
+import React, { useRef, useState } from 'react';
+import imageUploaderIcon from '../../assets/images/image-uploader.svg';
+import { resetImage, updateImage } from '../../api/user/profile';
+import Dropdown, { DropdownItem } from '../common/Dropdown';
+import { Image, User } from 'lucide-react';
 
 export default function EditProfileImage({
   imageUrl,
@@ -16,13 +15,14 @@ export default function EditProfileImage({
 }) {
   const [showImgDropdown, setShowImgDropdown] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const defaultImg = '/images/cosmos/alien.svg';
 
   const handleResetProfileImage = async () => {
     try {
       const updated = await resetImage(userId);
-      setImageUrl(updated.avatar_url || "");
+      setImageUrl(updated.avatar_url || '');
     } catch (e) {
-      console.error("기본 이미지 변경 실패 : ", e);
+      console.error('기본 이미지 변경 실패 : ', e);
     }
   };
 
@@ -34,22 +34,22 @@ export default function EditProfileImage({
       const url = await updateImage(file, userId);
       setImageUrl(url);
     } catch (e) {
-      console.error("이미지 업로드 실패 : ", e);
+      console.error('이미지 업로드 실패 : ', e);
     }
   };
 
   const items: DropdownItem[] = [
     {
       icon: <Image size={16} />,
-      label: "이미지 업로드",
+      label: '이미지 업로드',
       onClick: () => {
         fileInputRef.current?.click();
         setShowImgDropdown(false);
       },
     },
-        {
+    {
       icon: <User size={16} />,
-      label: "기본 이미지로 변경",
+      label: '기본 이미지로 변경',
       onClick: () => {
         handleResetProfileImage();
         setShowImgDropdown(false);

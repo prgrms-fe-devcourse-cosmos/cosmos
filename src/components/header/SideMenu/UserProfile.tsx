@@ -1,5 +1,5 @@
-import profileImage from "../../../../public/images/cosmos/alien.svg";
 export default function UserProfile({ user }: { user: Profile }) {
+  const profileImage = '/images/cosmos/alien.svg';
   return (
     <div className="space-y-4 text-2xl">
       <img

@@ -1,23 +1,23 @@
-import { MessageSquare } from "lucide-react";
-import { TalkPost } from "../../../types/talk";
-import profileImage from "../../../../public/images/cosmos/alien.svg";
-import { useNavigate } from "react-router-dom";
-import TalkLikeButton from "./TalkLikeButton";
+import { MessageSquare } from 'lucide-react';
+import { TalkPost } from '../../../types/talk';
+import { useNavigate } from 'react-router-dom';
+import TalkLikeButton from './TalkLikeButton';
 
 export default function TalkCard({ post }: { post: TalkPost }) {
   const navigate = useNavigate();
+  const profileImage = '/images/cosmos/alien.svg';
 
   // 날짜 포맷 추가
   function formatKoreanDate(dateString: string) {
     const date = new Date(dateString);
-    const day = date.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    const day = date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
-    const time = date.toLocaleTimeString("ko-KR", {
-      hour: "2-digit",
-      minute: "2-digit",
+    const time = date.toLocaleTimeString('ko-KR', {
+      hour: '2-digit',
+      minute: '2-digit',
       hour12: false,
     });
     return `${day} ${time}`;
