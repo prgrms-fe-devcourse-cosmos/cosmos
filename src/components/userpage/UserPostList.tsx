@@ -54,7 +54,7 @@ export default function UserPostList({ posts }: { posts: Post[] | null }) {
           <div className="flex justify-between px-1.5 py-1.5" key={post.id}>
             <div className="flex gap-3">
               {/* 게시글 제목 */}
-              <span className="font-medium text-sm lg:text-[16px] max-w-[130px] md:max-w-full truncate">
+              <span className="font-medium text-sm lg:text-[16px] max-w-[130px] md:max-w-[180px] lg:max-w-[280px] truncate">
                 <Link
                   to={`/lounge/${post.post_type}/${post.id}`}
                   className="block overflow-hidden whitespace-nowrap text-ellipsis"
