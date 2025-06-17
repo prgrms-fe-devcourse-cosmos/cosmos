@@ -112,8 +112,8 @@ export default function Gallery() {
           </li>
         </ul>
 
-        <div className="flex flex-1/2 sm:w-auto sm:justify-end items-center gap-2 pr-1 md:pr-2 lg:pr- xl:pr-1 ml-2 md:pl-6 xl:pl-8">
-          <div className="relative flex-1">
+        <div className="flex flex-1/2 sm:w-auto sm:justify-end items-center gap-2 pr-1 md:pr-2 lg:pr-0 xl:pr-1 ml-2 md:pl-6 xl:pl-8">
+          <div className="relative flex-1 items-center">
             <SearchInput
               scope="gallery"
               value={searchTerm}
