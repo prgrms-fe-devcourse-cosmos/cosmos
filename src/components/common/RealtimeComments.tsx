@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import supabase from "../../utils/supabase";
-import Button from "./Button";
 import Comment from "./Comment";
 import { Database } from "../../types/supabase";
 import { RealtimeChannel } from "@supabase/supabase-js";
@@ -10,6 +9,7 @@ import {
   updateComment,
 } from "../../api/comments";
 import { MessageSquareOff } from "lucide-react";
+import CommentInput from "./CommentInput";
 
 export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
   profiles?: {
@@ -179,30 +179,17 @@ export default function RealtimeComments({
             />
           ))
         ) : (
-          <div className="w-full flex flex-col justify-center items-center mb-6 text-sm gap-4">
+          <div className="w-full flex flex-col justify-center items-center mb-6 text-sm gap-4 text-[color:var(--gray-200)]">
             <MessageSquareOff />
             <p className="font-medium">No comments yet </p>
           </div>
         )}
       </section>
       <form onSubmit={handleSubmitComment} className="w-full relative">
-        <input
-          placeholder="댓글을 입력하세요"
-          onChange={(e) => setCommentInput(e.target.value)}
-          type="text"
-          value={commentInput}
-          className={`w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
-                  border rounded-[8px] focus:outline-none text-sm md:text-[16px]`}
+        <CommentInput
+          commentInput={commentInput}
+          setCommentInput={(value) => setCommentInput(value)}
         />
-        <Button
-          type="submit"
-          variant={commentInput.trim() && userId ? "neon_filled" : "disabled"}
-          disabled={!commentInput.trim() || !userId}
-          className="h-full border-[#D0F700] w-[90px] sm:w-[126px] lg:w-[136px]
-          absolute right-0 top-0 rounded-tl-none rounded-bl-none text-[12px] md:text-[14px]"
-        >
-          ENTER
-        </Button>
       </form>
     </div>
   );

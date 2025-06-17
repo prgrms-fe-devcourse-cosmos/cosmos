@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Button from "../../common/Button";
 import { useParams } from "react-router-dom";
 import { Star } from "lucide-react";
 import { createReview, ensureMovieExists } from "../../../api/films/review";
@@ -17,6 +16,7 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
   const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [loginNotice, setLoginNotice] = useState(false);
+  const isInputActive = content.trim() && rating > 0;
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -91,7 +91,7 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
         <Star
           key={i}
           size={20}
-          className="cursor-pointer text-[#D0F700] transition-all pr-1"
+          className="cursor-pointer text-[#D0F700] transition-all pr-1 w-4 h-4 md:w-5 md:h-5"
           fill={isFilled ? "currentColor" : "none"}
           onClick={() => setRating(starValue)}
           onMouseEnter={() => setHoverRating(starValue)}
@@ -104,7 +104,7 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="mt-[16px] flex">{renderStars()}</div>
-      <div className="w-full relative">
+      <div className="w-full flex">
         <input
           value={content}
           onFocus={() => {
@@ -118,18 +118,21 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
           }}
           placeholder="리뷰를 입력하세요"
           type="text"
-          className={`w-full pl-4 sm:pl-[24px] h-[49px] md:h-[51px] 
-          border rounded-[8px] focus:outline-none text-sm md:text-[16px]
+          className={` w-[80%] pl-4 pr-2 py-2 md:py-3 
+                  border-r-0 border-1 rounded-bl-[8px] rounded-tl-[8px] focus:outline-none text-xs md:text-sm
           ${error || loginNotice ? "border-[#E24413]" : "border-white"}`}
         />
-        <Button
+        <button
           onClick={handleSubmit}
-          variant={content.trim() && rating > 0 ? "neon_filled" : "disabled"}
-          className="border-[#D0F700] w-[90px] sm:w-[126px] lg:w-[136px] h-full 
-                      absolute right-0 top-0 rounded-tl-none rounded-bl-none text-[12px] md:text-[14px]"
+          disabled={!isInputActive}
+          className={`w-[20%] py-2 md:py-3 border-1 rounded-br-lg rounded-tr-lg cursor-pointer border-[color:var(--primary-300)] font-[yapari]  text-[10px] md:text-sm  ${
+            isInputActive
+              ? "bg-[color:var(--primary-300)] text-black font-medium"
+              : "text-[color:var(--gray-200)] cursor-not-allowed"
+          }`}
         >
           ENTER
-        </Button>
+        </button>
         {error && (
           <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>
         )}

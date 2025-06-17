@@ -94,7 +94,7 @@ export default function Gallery() {
   return (
     <>
       <div className="flex sm:flex-row justify-between items-center mb-[24px] gap-4">
-        <ul className="flex sm:flex-1/2 gap-4 text-[13px]  ">
+        <ul className="flex sm:flex-1/2 gap-4 text-[10px] md:text-xs lg:text-sm">
           <li
             className={`cursor-pointer ${
               sortBy === 'release_date.desc' ? 'font-medium text-[#D0F700]' : ''
