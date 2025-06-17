@@ -4,7 +4,7 @@ import ScrollToTop from "../../components/common/ScrollToTop";
 export default function Lounge() {
   const activeLoungeTab = (isActive: boolean) =>
     `block flex-1 md:w-[240px] pb-2 sm:pb-4 leading-[24px] sm:leading-[40px] nav-underline 
-  ${isActive ? "active text-[#D0F700]" : "text-white"}`;
+  ${isActive ? "active text-[#D0F700]" : ""}`;
 
   return (
     <>
@@ -16,7 +16,7 @@ export default function Lounge() {
         <div className="lg:h-[355px]">
           <nav
             className="font-yapari flex gap-4 sm:gap-8
-            lg:flex-col flex-row text-[12px] sm:text-[20px]"
+            lg:flex-col flex-row text-sm sm:text-lg md:text-xl"
           >
             <NavLink
               to="/lounge/films"

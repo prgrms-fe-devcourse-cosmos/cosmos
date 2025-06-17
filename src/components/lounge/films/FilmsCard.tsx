@@ -24,7 +24,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
         }}
         className="pt-[21px] pb-[21px] px-[16px] flex flex-col justify-between gap-[6px]"
       >
-        <h3 className="text-[13px] sm:text-[16px] truncate whitespace-nowrap overflow-hidden font-medium">
+        <h3 className="text-white text-[13px] sm:text-[16px] truncate whitespace-nowrap overflow-hidden font-medium">
           {movie.title}
         </h3>
         <p className="text-[11px] sm:text-[14px] truncate whitespace-nowrap overflow-hidden">
