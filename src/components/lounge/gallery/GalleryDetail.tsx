@@ -195,17 +195,15 @@ export default function GalleryDetail() {
             </div>
           </div>
 
-          <div className="mt-1">
-            {isOwner ? (
-              <Menu
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                className="-mt-2 -mr-4"
-              />
-            ) : (
-              <FollowButton followingId={post.profile_id} />
-            )}
-          </div>
+          {isOwner ? (
+            <Menu
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              className="-mt-8"
+            />
+          ) : (
+            <FollowButton followingId={post.profile_id} />
+          )}
         </div>
 
         {/* 제목 + 내용 */}

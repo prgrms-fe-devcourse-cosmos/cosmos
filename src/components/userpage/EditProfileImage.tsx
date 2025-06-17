@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import defaultImg from "../../../public/images/cosmos/alien.svg";
 import imageUploaderIcon from "../../assets/images/image-uploader.svg";
 import { resetImage, updateImage } from "../../api/user/profile";
+import Dropdown, { DropdownItem } from "../common/Dropdown";
+import { Image, User } from "lucide-react";
 
 export default function EditProfileImage({
   imageUrl,
@@ -36,6 +38,25 @@ export default function EditProfileImage({
     }
   };
 
+  const items: DropdownItem[] = [
+    {
+      icon: <Image size={16} />,
+      label: "이미지 업로드",
+      onClick: () => {
+        fileInputRef.current?.click();
+        setShowImgDropdown(false);
+      },
+    },
+        {
+      icon: <User size={16} />,
+      label: "기본 이미지로 변경",
+      onClick: () => {
+        handleResetProfileImage();
+        setShowImgDropdown(false);
+      },
+    },
+  ];
+
   return (
     <div className="relative w-40 flex justify-center">
       <input
@@ -58,26 +79,9 @@ export default function EditProfileImage({
           />
         </div>
         {showImgDropdown && (
-          <ul className="absolute  top-2 -right-38  bg-[color:var(--grey-600)] text-[color:var] rounded-[10px] shadow z-20 text-sm border-1 text-left ">
-            <li
-              className="px-4 py-3 hover:bg-[#444] cursor-pointer rounded-tl-[10px] rounded-tr-[10px]"
-              onClick={() => {
-                handleResetProfileImage();
-                setShowImgDropdown(false);
-              }}
-            >
-              기본 이미지로 변경
-            </li>
-            <li
-              className="px-4 py-3 hover:bg-[#444] cursor-pointer rounded-bl-[10px] rounded-br-[10px]"
-              onClick={() => {
-                fileInputRef.current?.click();
-                setShowImgDropdown(false);
-              }}
-            >
-              사진 업로드
-            </li>
-          </ul>
+          <div className="absolute top-2 -right-42 z-20">
+            <Dropdown items={items} size="image" />
+          </div>
         )}
       </div>
     </div>

@@ -126,6 +126,13 @@
     format("opentype");
 }
 
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+  font-style: normal;
+}
+
 body {
   font-weight: 300;
   font-family: "helvetica-neue";
@@ -158,6 +165,11 @@ body::-webkit-scrollbar {
 /* font yapari 전역 클래스 추가 */
 .font-yapari {
   font-family: "yapari", "watermelonSalad", sans-serif;
+}
+
+/* font pretendard 전역 클래스 추가 */
+.font-pretendard {
+  font-family: 'Pretendard', 'helvetica-neue', sans-serif;
 }
 
 /* 줄거리 말줄임 */
