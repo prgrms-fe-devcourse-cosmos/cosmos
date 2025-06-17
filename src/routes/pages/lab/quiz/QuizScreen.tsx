@@ -10,8 +10,8 @@ import NavigationButtons from "../../../../components/lab/quiz/NavigationButtons
 
 export default function QuizScreen() {
   const navigate = useNavigate();
-  const { config } = useOutletContext<{ config: { difficulty: string } }>();
-  const difficulty = config.difficulty;
+  const { config } = useOutletContext<{ config: { difficulty: string } }>() ?? {};
+  const difficulty = config?.difficulty ?? "";
 
   const {
     questions,
