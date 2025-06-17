@@ -126,7 +126,7 @@ export default function PostLikeButton({ postId, initialCount = null }: Props) {
         className="text-[#D0F700] w-4 h-4"
         fill={liked ? "#D0F700" : "none"}
       />
-      <span className="text-[13px] leading-none">{likeCount}</span>
+      <span className="pt-1 text-sm leading-none">{likeCount}</span>
     </button>
   );
 }
