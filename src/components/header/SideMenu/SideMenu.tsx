@@ -41,17 +41,19 @@ export default function SideMenu() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed top-0 right-0 h-full w-[320px] bg-[color:var(--bg-color)] shadow-lg z-50"
+            className="fixed top-0 right-0 min-h-screen w-[320px] bg-[color:var(--bg-color)] shadow-lg z-50"
           >
-            <div className="relative h-full">
+            <div className="relative min-h-screen bg-[color:var(--bg-color)]">
               <X
                 onClick={toggleMenu}
                 strokeWidth={1}
                 className="cursor-pointer absolute top-5 right-10 "
               />
-              <div className="py-20 px-10 flex flex-col gap-10 h-full w-full">
+              <div className="py-20 px-10 flex flex-col flex-1 gap-10 min-h-screen w-full ">
                 {user ? <UserProfile user={user} /> : <WelcomeSection />}
-                <NavigationMenu toggleMenu={toggleMenu} />
+                <div className="flex-1">
+                  <NavigationMenu toggleMenu={toggleMenu} />
+                </div>
                 <AuthButtons isLoggedIn={isLoggedIn} toggleMenu={toggleMenu} />
               </div>
             </div>

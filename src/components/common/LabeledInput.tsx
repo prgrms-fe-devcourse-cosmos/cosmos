@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 type LabeledInputProps = ComponentPropsWithoutRef<"input"> & {

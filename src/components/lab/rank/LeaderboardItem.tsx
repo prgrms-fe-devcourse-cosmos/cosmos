@@ -1,4 +1,3 @@
-import React from "react";
 import { Player } from "../../../types/player";
 import { useAuthStore } from "../../../stores/authStore";
 
@@ -9,7 +8,7 @@ export default function LeaderboardItem({
   rank: number;
   player: Player;
 }) {
-  const currentUserId = useAuthStore((state) => state.id);
+  const currentUserId = useAuthStore((state) => state.userData?.id);
   return (
     <div className="flex items-center justify-between bg-[color:var(--bg-color-80)] rounded-lg px-4 py-2 text-sm">
       <div className="flex gap-4">

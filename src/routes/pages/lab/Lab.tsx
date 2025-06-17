@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Picker from "react-mobile-picker";
 import Button from "../../../components/common/Button";

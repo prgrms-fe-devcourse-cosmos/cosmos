@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import mvp1 from "../../assets/images/mvp1.jpg";
 import mvp2 from "../../assets/images/mvp2.png";
 import mvp3 from "../../assets/images/mvp3.png";

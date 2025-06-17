@@ -1,4 +1,3 @@
-import React from "react";
 import { Article } from "../../types/daily";
 
 export default function NewsCard({ article }: { article: Article }) {

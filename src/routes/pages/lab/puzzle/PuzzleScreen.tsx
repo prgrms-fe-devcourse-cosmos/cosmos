@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "react-jigsaw-puzzle/lib/jigsaw-puzzle.css";
 import { JigsawPuzzle } from "react-jigsaw-puzzle";
 import { useLoaderData, useNavigate } from "react-router-dom";

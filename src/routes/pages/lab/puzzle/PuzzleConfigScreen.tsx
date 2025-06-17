@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import type { PuzzleConfig } from "../../../../types/puzzle";
 import Picker from "react-mobile-picker";
