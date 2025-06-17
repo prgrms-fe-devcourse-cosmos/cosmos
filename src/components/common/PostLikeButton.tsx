@@ -121,10 +121,10 @@ export default function PostLikeButton({ postId, initialCount = null }: Props) {
       disabled={isLoading || isToggling}
     >
       <Heart
-        className="text-[#D0F700] w-4 h-4"
+        className="text-[#D0F700] w-3 h-3  md:w-4 md:h-4"
         fill={liked ? '#D0F700' : 'none'}
       />
-      <span className="text-[13px] leading-none">{likeCount}</span>
+      <span className="pt-1 text-xs md:text-sm leading-none">{likeCount}</span>
     </button>
   );
 }

@@ -78,7 +78,7 @@ export default function Films() {
     <div>
       <div className="flex justify-between mb-[24px] items-center h-[35px]">
         {/* 정렬 필터 */}
-        <ul className="flex ml-2 gap-4 text-[13px] flex-1/2">
+        <ul className="flex ml-2 gap-4 text-[10px] md:text-xs lg:text-sm flex-1/2">
           <li
             className={`cursor-pointer ${
               sortBy === "vote_average.desc" ? "text-[#D0F700] font-medium" : ""

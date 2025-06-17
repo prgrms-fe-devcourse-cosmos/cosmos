@@ -78,11 +78,10 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
       className="flex items-center gap-[12px] cursor-pointer"
     >
       <Heart
-        size={16}
-        className="transition-all text-[#D0F700]"
+        className="transition-all text-[#D0F700] w-3 h-3 md:w-4 md:h-4"
         fill={liked ? "currentColor" : "none"}
       />
-      <span className="text-[12px] md:text-sm">{likeCount}</span>
+      <span className="text-[10px] md:text-xs pt-[2px]">{likeCount}</span>
     </button>
   );
 }

@@ -64,10 +64,10 @@ export default function Comment({
             />
             {/* 유저이름 + 날짜 */}
             <div>
-              <h3 className="font-medium text-[13px] lg:text-[15px]">
+              <h3 className="font-medium text-xs md:text-sm lg:text-base ">
                 {comment.profiles?.username}
               </h3>
-              <p className="text-[#696969] font-light text-[12px]">
+              <p className="text-[#696969] font-light text-[10px] md:text-xs lg:text-sm]">
                 {formatDate(comment.created_at)}
               </p>
             </div>
@@ -75,7 +75,7 @@ export default function Comment({
 
           {/* 수정/삭제 */}
           {isSender ? (
-            <div className="text-[#909090] text-[12px]">
+            <div className="text-[#909090] text-[10px] md:text-xs lg:text-sm">
               {isEditMode ? (
                 <>
                   <button
