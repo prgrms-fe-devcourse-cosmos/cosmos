@@ -109,17 +109,17 @@ export default function ReviewList({
           ${review.profile_id === currentUserId ? "bg-white/5" : ""}`}
         >
           {/* 유저 정보 + 작성일 + 별점 + 수정/삭제/저장/취소 */}
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <div className="flex gap-4">
-              <h3 className="text-[13px] lg:text-[15px] font-bold">
+              <h3 className=" text-xs md:text-sm lg:text-base font-bold text-white pt-[1px]">
                 {review.profiles.username}
               </h3>
-              <p className="text-[12px] lg:text-[14px]">
+              <p className="text-[10px] md:text-xs lg:text-sm text-[color:var(--gray-300)] pt-[2px] md:pt-[4px]">
                 {formatKoreanDateTime(review.created_at)}
               </p>
               {/* 별점 */}
               {editingReviewId === review.id ? (
-                <div className="flex gap-1 items-center">
+                <div className="flex gap-1 items-center ">
                   {[1, 2, 3, 4, 5].map((i) => {
                     const value = i * 2;
                     const isFilled = hoverRating
@@ -129,7 +129,7 @@ export default function ReviewList({
                       <Star
                         key={i}
                         size={16}
-                        className="cursor-pointer text-[#D0F700]"
+                        className="cursor-pointer text-[color:var(--primary-300)]"
                         fill={isFilled ? "currentColor" : "none"}
                         onClick={() => setEditedRating(value)}
                         onMouseEnter={() => setHoverRating(value)}
@@ -145,8 +145,7 @@ export default function ReviewList({
                     return (
                       <Star
                         key={i}
-                        size={16}
-                        className="text-[#D0F700]"
+                        className={`text-[color:var(--primary-300)] w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 `}
                         fill={isFilled ? "currentColor" : "none"}
                       />
                     );
@@ -201,7 +200,7 @@ export default function ReviewList({
               focus:outline-none"
             />
           ) : (
-            <p className="text-sm md:text-[16px]">{review.content}</p>
+            <p className="text-xs md:text-sm lg:text-base">{review.content}</p>
           )}
 
           <div

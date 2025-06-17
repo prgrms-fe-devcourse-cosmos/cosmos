@@ -43,7 +43,7 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
     <>
       <div
         onClick={() => navigate(`/lounge/gallery/${post.id}`)}
-        className="w-full h-full lg:w-[356px] flex flex-col cursor-pointer  transform transition duration-300 hover:shadow-lg hover:scale-[1.02]"
+        className="w-full h-full lg:w-[346px] flex flex-col cursor-pointer  transform transition duration-300 hover:shadow-lg hover:scale-[1.02]"
       >
         <div className="w-full h-[227px] overflow-hidden">
           <img

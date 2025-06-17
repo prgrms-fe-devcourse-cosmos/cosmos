@@ -40,7 +40,7 @@ export default function FilmCard({ movie }: { movie: Movie }) {
               // fill="#D0F700"
               strokeWidth={2}
             />
-            <span className="text-[8px] sm:text-[10px] h-3 flex items-center leading-none pt-[2px]">
+            <span className="text-[8px] sm:text-[10px] h-3 flex items-center leading-none md:pt-[2px]">
               {movie.vote_average ? movie.vote_average.toFixed(1) : "?"}
             </span>
           </p>

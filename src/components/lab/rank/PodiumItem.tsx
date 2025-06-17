@@ -1,7 +1,6 @@
-import { Player } from "../../../types/player";
-import { Crown } from "lucide-react";
-import { useAuthStore } from "../../../stores/authStore";
-import defaultAvatar from "../../../../public/images/cosmos/alien.svg";
+import { Player } from '../../../types/player';
+import { Crown } from 'lucide-react';
+import { useAuthStore } from '../../../stores/authStore';
 
 export default function PodiumItem({
   index,
@@ -11,7 +10,7 @@ export default function PodiumItem({
   player: Player;
 }) {
   const currentUser = useAuthStore((state) => state.userData);
-
+  const defaultAvatar = '/images/cosmos/alien.svg';
   if (index === 0) {
     return (
       <div className="flex flex-col items-center mb-4 gap-1 relative">
@@ -25,8 +24,8 @@ export default function PodiumItem({
         <p
           className={`font-[helvetica-neue] py-1 ${
             currentUser?.id === player.id
-              ? "text-[color:var(--primary-300)]"
-              : "text-white"
+              ? 'text-[color:var(--primary-300)]'
+              : 'text-white'
           }`}
         >
           {player.username}
@@ -45,8 +44,8 @@ export default function PodiumItem({
       <p
         className={`font-[helvetica-neue] ${
           currentUser?.id === player.id
-            ? "text-[color:var(--primary-300)]"
-            : "text-white"
+            ? 'text-[color:var(--primary-300)]'
+            : 'text-white'
         }`}
       >
         {player.username}

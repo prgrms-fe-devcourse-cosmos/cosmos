@@ -5,7 +5,9 @@ import Button from "../../components/common/Button";
 export default function Contact() {
   return (
     <div className="w-full flex flex-col justify-center items-center text-white">
-      <p className="text-3xl font-[yapari] uppercase">Our stella crew</p>
+      <p className="text-2xl sm:text-3xl font-[yapari] uppercase">
+        Our stella crew
+      </p>
       <DotLottieReact
         src="https://lottie.host/28721b8c-299c-44bb-86eb-6ff6f595d0c2/yQoOd7yeu3.lottie"
         loop
@@ -20,7 +22,7 @@ export default function Contact() {
         <Button variant="hover_fill">COSMOS REPO</Button>
       </a>
       <div className="group"></div>
-      <div className="mt-4 text-lg flex gap-10 font-[watermelonSalad]">
+      <div className="mt-4 text-sm sm:text-lg flex gap-10 font-[watermelonSalad]">
         <a target="_blank" href="https://github.com/jieun22222">
           FE 송지은
         </a>

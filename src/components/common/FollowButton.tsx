@@ -75,10 +75,7 @@ export default function FollowButton({ followingId, className }: Props) {
 
   return (
     <Button
-      className={twMerge(
-        "text-[8px] md:text-xs h-8 px-2.5 md:px-4 py-[5px]",
-        className
-      )}
+      className={twMerge("text-[8px] px-2.5 md:px-4 py-2 min-w-21", className)}
       onClick={toggleFollow}
       disabled={loading}
       variant={isFollowing ? "neon_outline" : "neon_filled"}

@@ -7,6 +7,7 @@
   --primary-200: #7a9100;
   --bg-color: #141414;
   --bg-color-80: #14141480;
+  --gray-400: #202020;
   --gray-300: #696969;
   --gray-200: #909090;
   --gray-100: #c7c7c7;
@@ -127,16 +128,17 @@
 }
 
 @font-face {
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-weight: 500;
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff")
+    format("woff");
   font-style: normal;
 }
 
 body {
   font-weight: 300;
   font-family: "helvetica-neue";
-  background-color: var(--bg-color);
+  background-color: black;
   color: var(--white);
 }
 body::-webkit-scrollbar {
@@ -169,7 +171,7 @@ body::-webkit-scrollbar {
 
 /* font pretendard 전역 클래스 추가 */
 .font-pretendard {
-  font-family: 'Pretendard', 'helvetica-neue', sans-serif;
+  font-family: "Pretendard", "helvetica-neue", sans-serif;
 }
 
 /* 줄거리 말줄임 */
@@ -283,7 +285,7 @@ body::-webkit-scrollbar {
   bottom: 0;
   height: 1px;
   width: 100%;
-  background-color: var(--white-80);
+  background-color: var(--bg-color-80);
   z-index: 0;
 }
 

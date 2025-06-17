@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react';
 import Dropdown, { DropdownItem } from './Dropdown';
 import { PencilLine, Trash2, Ellipsis } from 'lucide-react';
@@ -8,7 +9,7 @@ type MenuProps = {
   className?: string;
 };
 
-export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
+export default function Menu({ onEdit, onDelete, className = "" }: MenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -18,8 +19,8 @@ export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
         setIsOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const items: DropdownItem[] = [
