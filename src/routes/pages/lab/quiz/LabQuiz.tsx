@@ -9,8 +9,9 @@ export default function LabQuiz() {
     setConfig(config);
     navigate("play");
   };
+
   return (
-    <div className=" w-full flex flex-col items-center pt-10">
+    <div className="w-full flex flex-col items-center pt-10">
       <Outlet context={{ onStart: handleStart, config }} />
     </div>
   );
