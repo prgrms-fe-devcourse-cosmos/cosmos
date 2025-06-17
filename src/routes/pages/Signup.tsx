@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import supabase from '../../utils/supabase';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import supabase from "../../utils/supabase";
+import { Link, useNavigate } from "react-router-dom";
+import TextLogo from "../../../public/images/cosmos/main-text-logo.svg";
 
 export default function Signup() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [agree, setAgree] = useState(false);
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidEmail, setInvalidEmail] = useState(false);
@@ -26,55 +27,61 @@ export default function Signup() {
       password: password,
       options: {
         data: {
-          avatar_url: '',
+          avatar_url: "",
           name: username,
           full_name: username,
           usercode: Math.random()
             .toString(16)
-            .replace('0.', email.substring(0, 3)),
+            .replace("0.", email.substring(0, 3)),
         },
       },
     });
     if (error) {
-      console.log('회원가입 오류:', error);
-      alert('회원가입에 실패하였습니다.');
+      console.log("회원가입 오류:", error);
+      alert("회원가입에 실패하였습니다.");
     } else if (data) {
-      alert('회원가입되었습니다.');
-      navigate('/');
+      alert("회원가입되었습니다.");
+      navigate("/");
     }
   };
 
-  const socialLoginHandler = async (p: 'google' | 'github') => {
+  const socialLoginHandler = async (p: "google" | "github") => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: p,
     });
     if (error) {
-      console.log('OAuth 로그인 오류:', error);
+      console.log("OAuth 로그인 오류:", error);
       switch (error.message) {
-        case 'Invalid login credentials':
-          alert('존재하지 않는 유저입니다.');
+        case "Invalid login credentials":
+          alert("존재하지 않는 유저입니다.");
           break;
         default:
-          alert('로그인에 실패하였습니다.');
+          alert("로그인에 실패하였습니다.");
           return;
       }
     }
   };
 
   return (
-    <div className='h-[88vh] w-full flex'>
-      <div className='hidden md:w-1/2 md:flex items-center justify-center'></div>
-      <div className='w-full md:w-1/2 md:flex justify-center'>
-        <div className='text-xl bg-white/10 backdrop- w-full h-full flex flex-col justify-center items-center gap-7'>
-          <div className='text-[32px] font-yapari'>SIGN UP</div>
-          <div className='flex flex-col justify-center w-[72.2%] gap-8'>
-            <div className='flex flex-col gap-3'>
-              <div className='flex flex-col gap-1'>
-                <div className='text-[16px]'>Username</div>
+    <div className=" min-h-screen w-full flex">
+      <div className="hidden md:w-1/2 md:flex items-center justify-center">
+        <img
+          src={TextLogo}
+          className="cursor-pointer"
+          onClick={() => navigate("/")}
+        />
+      </div>
+      <div className="w-full md:w-1/2 md:flex justify-center">
+        <div className="text-xl bg-white/10 backdrop- w-full h-full flex flex-col justify-center items-center gap-7">
+          <div className="text-[32px] font-yapari">SIGN UP</div>
+          <div className="flex flex-col justify-center w-[72.2%] gap-8">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                <div className="text-[16px]">Username</div>
                 <input
-                  type='text'
-                  className='login-input'
-                  placeholder='유저네임을 입력해주세요'
+                  type="text"
+                  className="login-input"
+                  placeholder="유저네임을 입력해주세요"
                   value={username}
                   onChange={(e) => {
                     setUsername(e.target.value);
@@ -86,17 +93,17 @@ export default function Signup() {
                   }}
                 />
                 {invalidUsername && (
-                  <div className='text-sm text-[var(--red)]'>
+                  <div className="text-sm text-[var(--red)]">
                     유저네임을 입력해 주세요.
                   </div>
                 )}
               </div>
-              <div className='flex flex-col gap-1'>
-                <div className='text-[16px]'>Email</div>
+              <div className="flex flex-col gap-1">
+                <div className="text-[16px]">Email</div>
                 <input
-                  type='email'
-                  className='login-input'
-                  placeholder='이메일을 입력해주세요'
+                  type="email"
+                  className="login-input"
+                  placeholder="이메일을 입력해주세요"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -109,17 +116,17 @@ export default function Signup() {
                   }}
                 />
                 {invalidEmail && (
-                  <div className='text-sm text-[var(--red)]'>
+                  <div className="text-sm text-[var(--red)]">
                     올바른 이메일 형식이 아닙니다.
                   </div>
                 )}
               </div>
-              <div className='flex flex-col gap-1'>
-                <div className='text-[16px]'>Password</div>
+              <div className="flex flex-col gap-1">
+                <div className="text-[16px]">Password</div>
                 <input
-                  type='password'
-                  className='login-input'
-                  placeholder='8자 이상의 영문/숫자/특수문자로 입력해주세요'
+                  type="password"
+                  className="login-input"
+                  placeholder="8자 이상의 영문/숫자/특수문자로 입력해주세요"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -133,17 +140,17 @@ export default function Signup() {
                   }}
                 />
                 {invalidPassword && (
-                  <div className='text-sm text-[var(--red)]'>
+                  <div className="text-sm text-[var(--red)]">
                     올바른 비밀번호 형식이 아닙니다.
                   </div>
                 )}
               </div>
-              <div className='flex flex-col gap-1'>
-                <div className='text-[16px]'>Confirm Password</div>
+              <div className="flex flex-col gap-1">
+                <div className="text-[16px]">Confirm Password</div>
                 <input
-                  type='password'
-                  className='login-input'
-                  placeholder='비밀번호를 한번 더 입력해주세요'
+                  type="password"
+                  className="login-input"
+                  placeholder="비밀번호를 한번 더 입력해주세요"
                   value={confirmPassword}
                   onChange={(e) => {
                     setConfirmPassword(e.target.value);
@@ -156,25 +163,25 @@ export default function Signup() {
                   }}
                 />
                 {invalidCPW && (
-                  <div className='text-sm text-[var(--red)]'>
+                  <div className="text-sm text-[var(--red)]">
                     입력된 값이 비밀번호와 다릅니다.
                   </div>
                 )}
               </div>
-              <div className='flex items-center gap-2 my-2'>
+              <div className="flex items-center gap-2 my-2">
                 <input
-                  type='checkbox'
-                  id='agree'
-                  className='accent-[var(--primary-300)]'
+                  type="checkbox"
+                  id="agree"
+                  className="accent-[var(--primary-300)]"
                   checked={agree}
                   onChange={(e) => setAgree(e.target.checked)}
                 />
-                <label htmlFor='agree' className='text-sm'>
+                <label htmlFor="agree" className="text-sm">
                   이용약관 및 개인정보처리방침에 동의합니다.
                 </label>
               </div>
               <button
-                className='login-btn font-yapari'
+                className="login-btn font-yapari"
                 disabled={
                   username.length < 1 ||
                   invalidUsername ||
@@ -190,27 +197,36 @@ export default function Signup() {
               >
                 SIGN UP
               </button>
-              <div className='flex justify-center mt-3 gap-5'>
+
+              <div className="flex w-full justify-between">
+                <Link
+                  to="/login"
+                  className="text-sm cursor-pointer hover:text-[var(--primary-300)]"
+                >
+                  Already have an account?
+                </Link>
+              </div>
+              <div className="flex justify-center mt-3 gap-5">
                 <button
-                  type='button'
-                  className='cursor-pointer'
-                  onClick={() => socialLoginHandler('google')}
+                  type="button"
+                  className="cursor-pointer"
+                  onClick={() => socialLoginHandler("google")}
                 >
                   <img
-                    src='https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg'
-                    alt='google'
-                    className='size-5'
+                    src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
+                    alt="google"
+                    className="size-5"
                   />
                 </button>
                 <button
-                  type='button'
-                  className='cursor-pointer'
-                  onClick={() => socialLoginHandler('github')}
+                  type="button"
+                  className="cursor-pointer"
+                  onClick={() => socialLoginHandler("github")}
                 >
                   <img
-                    src='https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg'
-                    alt='github'
-                    className='size-5'
+                    src="https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg"
+                    alt="github"
+                    className="size-5"
                   />
                 </button>
               </div>

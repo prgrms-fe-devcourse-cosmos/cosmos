@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase";
 import { useAuthStore } from "../../stores/authStore";
+import TextLogo from "../../../public/images/cosmos/main-text-logo.svg";
 
 export default function Login() {
   const [emailInput, setEmailInput] = useState("");
@@ -61,10 +62,16 @@ export default function Login() {
   };
 
   return (
-    <div className="h-[88vh] w-full flex">
-      <div className="hidden md:h-full md:w-1/2 md:flex items-center justify-center"></div>
-      <div className="w-full md:w-1/2 md:flex items-center justify-center">
-        <div className="text-xl bg-white/10 backdrop- w-full h-full flex flex-col justify-center items-center gap-7">
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <div className="hidden min-h-screen md:w-1/2 md:flex items-center justify-center ">
+        <img
+          src={TextLogo}
+          className="cursor-pointer"
+          onClick={() => navigate("/")}
+        />
+      </div>
+      <div className="w-full min-h-screen md:w-1/2 md:flex items-center justify-center">
+        <div className="text-xl bg-white/10 w-full min-h-screen flex flex-col justify-center items-center gap-7">
           <div className="text-[32px] font-yapari">WELCOME</div>
           <form className="flex flex-col justify-center w-[72.2%] gap-7">
             <div className="flex flex-col gap-3">
@@ -128,9 +135,6 @@ export default function Login() {
               </button>
             </div>
             <div className="flex w-full justify-between">
-              <button className="text-sm cursor-pointer hover:text-[var(--primary-300)]">
-                Forgot Your Password?
-              </button>
               <Link
                 to="/signup"
                 className="text-sm cursor-pointer hover:text-[var(--primary-300)]"

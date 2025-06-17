@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "/images/main-logo.svg";
+import logo from "/images/cosmos/main-logo.svg";
 
 export default function WelcomeSection() {
   return (

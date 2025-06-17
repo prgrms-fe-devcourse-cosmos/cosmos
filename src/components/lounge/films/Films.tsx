@@ -78,10 +78,10 @@ export default function Films() {
     <div>
       <div className="flex justify-between mb-[24px] items-center h-[35px]">
         {/* 정렬 필터 */}
-        <ul className="flex ml-2 gap-4 text-[13px] font-medium">
+        <ul className="flex ml-2 gap-4 text-[13px] ">
           <li
             className={`cursor-pointer ${
-              sortBy === "vote_average.desc" ? "text-[#D0F700]" : ""
+              sortBy === "vote_average.desc" ? "text-[#D0F700] font-medium" : ""
             }`}
             onClick={() => changeSortBy("vote_average.desc")}
           >
@@ -89,7 +89,7 @@ export default function Films() {
           </li>
           <li
             className={`cursor-pointer ${
-              sortBy === "release_date.desc" ? "text-[#D0F700]" : ""
+              sortBy === "release_date.desc" ? "text-[#D0F700] font-medium" : ""
             }`}
             onClick={() => changeSortBy("release_date.desc")}
           >
@@ -107,7 +107,7 @@ export default function Films() {
       </div>
       {/* 영화 리스트 */}
       <div
-        className="grid grid-cols-2 lg:grid-cols-3 
+        className="grid grid-cols-2 md:grid-cols-3 
               gap-x-[54px] sm:gap-x-[70px] 
               lg:gap-x-[54px] gap-y-[88px] mb-[50px]"
       >

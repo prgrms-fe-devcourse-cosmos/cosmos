@@ -270,3 +270,48 @@ body::-webkit-scrollbar {
   margin: 0;
   opacity: 1;
 }
+
+.nav-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-underline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background-color: var(--white-80);
+  z-index: 0;
+}
+
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background-color: var(--primary-300);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.35s ease-out;
+  z-index: 1;
+}
+
+.nav-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.nav-underline.active::before {
+  background-color: transparent;
+}
+
+.nav-underline.active::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  transition: none;
+}

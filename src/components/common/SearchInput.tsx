@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import {
   addRecentSearch,
   clearRecentSearches,
   getRecentSearches,
   removeRecentSearch,
-} from '../../utils/recentSearch';
-import { X, Search } from 'lucide-react';
+} from "../../utils/recentSearch";
+import { X, Search } from "lucide-react";
 
 type Props = {
   scope: string;
@@ -40,9 +40,9 @@ export default function SearchInput({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -59,7 +59,7 @@ export default function SearchInput({
     <div
       ref={searchRef}
       className={`bg-[#141414] relative ${
-        className ?? 'w-[170px] sm:w-[280px]'
+        className ?? "w-[170px] sm:w-[220px]"
       }`}
     >
       <div className="relative">
@@ -70,18 +70,18 @@ export default function SearchInput({
             const v = e.target.value;
             setValue(v);
             if (!v.trim()) {
-              onSearch(''); // 검색 초기화
+              onSearch(""); // 검색 초기화
             }
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') handleSearch(value);
+            if (e.key === "Enter") handleSearch(value);
           }}
           onFocus={() => setIsFocused(true)}
           placeholder={placeholder}
-          className={`w-full border border-[#909090] pl-[42px] py-[6px] text-[14px] rounded-[8px] outline-none focus:outline-none hover:placeholder-white/80 ${
+          className={`w-full border border-[#909090] pl-[42px] py-[6px] text-xs rounded-[8px] outline-none focus:outline-none hover:placeholder-white/80 ${
             shouldOpenDropdown
-              ? 'border-b-0 rounded-bl-none rounded-br-none'
-              : ''
+              ? "border-b-0 rounded-bl-none rounded-br-none"
+              : ""
           }`}
         />
         {/* 검색 아이콘 */}
@@ -91,11 +91,11 @@ export default function SearchInput({
             e.preventDefault();
             handleSearch(value);
           }}
-          className="absolute top-[10px] left-[16px] cursor-pointer"
+          className="absolute top-2 left-[16px] cursor-pointer"
         >
           <Search
             size={14}
-            className={`${isFocused ? 'text-white' : 'text-[#909090]'}`}
+            className={`${isFocused ? "text-white" : "text-[#909090]"}`}
           />
         </button>
       </div>
