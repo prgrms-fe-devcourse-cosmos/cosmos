@@ -18,7 +18,7 @@ export default function LoungeComment({
       <div className="wrapper">
         {/* 댓글 카운트 + 좋아요 */}
         <div className="flex justify-between items-center my-7">
-          <h3 className="text-[#D0F700] font-medium text-sm">
+          <h3 className="text-[#D0F700] font-medium text-xs md:text-sm lg:text-base">
             COMMENTS ({commentCount})
           </h3>
           {/* 좋아요버튼 */}
