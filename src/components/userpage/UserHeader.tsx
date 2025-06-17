@@ -4,6 +4,7 @@ import supabase from "../../utils/supabase";
 import { LucideX } from "lucide-react";
 import FollowButton from "../common/FollowButton";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../stores/authStore";
 
 export default function UserHeader({
   isOwner,
@@ -27,6 +28,57 @@ export default function UserHeader({
   const followingRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
   const defaultImg = "/images/cosmos/alien.svg";
+
+  // 팔로우 팔로잉 카운트 상태 추가
+  const [followingCount, setFollowingCount] = useState(0);
+  const [followerCount, setFollowerCount] = useState(0);
+
+  const handleFollowChange = (targetId: string, newStatus: boolean) => {
+    if (newStatus) {
+      // 팔로우 추가 - 리스트에 프로필 fetch 후 추가
+      supabase
+        .from("profiles")
+        .select()
+        .eq("id", targetId)
+        .single()
+        .then(({ data }) => {
+          if (data) {
+            setFollowingList((prev) => {
+              // 중복 방지
+              const alreadyInList = prev.some((p) => p.id === data.id);
+              return alreadyInList ? prev : [...prev, data];
+            });
+            setFollowingCount((prev) => prev + 1);
+          }
+        });
+    } else {
+      // 언팔로우 - 리스트에서 제거
+      setFollowingList((prev) => prev.filter((p) => p.id !== targetId));
+      setFollowingCount((prev) => prev - 1);
+    }
+  };
+
+  const currentUser = useAuthStore((state) => state.userData);
+
+  // 상단 팔로우 버튼 전용
+  const handleFollower = async (newStatus: boolean) => {
+    if (!currentUser) return;
+    if (newStatus) {
+      setFollowerList((prev) => {
+        const already = prev.some((p) => p.id === currentUser.id);
+        return already ? prev : [...prev, currentUser];
+      });
+      setFollowerCount((prev) => prev + 1);
+    } else {
+      setFollowerList((prev) => prev.filter((p) => p.id !== currentUser.id));
+      setFollowerCount((prev) => prev - 1);
+    }
+  };
+
+  const handleUnfollowFromFollowerList = (targetId: string) => {
+    setFollowerList((prev) => prev.filter((p) => p.id !== targetId));
+    setFollowerCount((prev) => prev - 1);
+  };
 
   function followingHandleClickOutside(event: MouseEvent) {
     if (
@@ -58,27 +110,34 @@ export default function UserHeader({
       document.removeEventListener("click", followerHandleClickOutside);
   }, [followerRef]);
 
+  // 팔로잉 팔로워 리스트 fetch
   useEffect(() => {
     if (userFollowing) {
-      for (let i = 0; i < userFollowing.length; i++) {
-        supabase
+      setFollowingCount(userFollowing.length);
+      const fetchProfiles = async () => {
+        const ids = userFollowing.map((f) => f.following_id);
+        const { data, error } = await supabase
           .from("profiles")
           .select()
-          .eq("id", userFollowing[i].following_id)
-          .then((data) => setFollowingList((prev) => [...prev, data.data![0]]));
-      }
+          .in("id", ids);
+        if (!error && data) setFollowingList(data);
+      };
+      fetchProfiles();
     }
   }, [userFollowing]);
 
   useEffect(() => {
     if (userFollower) {
-      for (let i = 0; i < userFollower.length; i++) {
-        supabase
+      setFollowerCount(userFollower.length);
+      const fetchProfiles = async () => {
+        const ids = userFollower.map((f) => f.follower_id);
+        const { data, error } = await supabase
           .from("profiles")
           .select()
-          .eq("id", userFollower[i].follower_id)
-          .then((data) => setFollowerList((prev) => [...prev, data.data![0]]));
-      }
+          .in("id", ids);
+        if (!error && data) setFollowerList(data);
+      };
+      fetchProfiles();
     }
   }, [userFollower]);
 
@@ -116,6 +175,7 @@ export default function UserHeader({
                 <FollowButton
                   followingId={userData.id}
                   className="py-1.5 md:py-2  text-[10px] md:text-xs "
+                  onFollowChange={(newStatus) => handleFollower(newStatus)}
                 />
               )}
             </div>
@@ -133,7 +193,7 @@ export default function UserHeader({
                 }}
               >
                 <div className="text-white font-medium text-[16px] md:text-[18px]">
-                  {userFollowing ? userFollowing.length : 0}
+                  {followingCount}
                 </div>
                 <div className="text-[var(--gray-200)] text-[12px] md:text-[14px]">
                   Following
@@ -187,6 +247,12 @@ export default function UserHeader({
                             <FollowButton
                               followingId={item.id}
                               className="text-[6px] sm:text-[6px] lg:text-[6px] "
+                              onFollowChange={
+                                isOwner
+                                  ? (newStatus) =>
+                                      handleFollowChange(item.id, newStatus)
+                                  : undefined
+                              }
                             />
                           </div>
                         ))}
@@ -210,7 +276,7 @@ export default function UserHeader({
                 }}
               >
                 <div className="text-white font-medium text-[16px] md:text-[18px]">
-                  {userFollower ? userFollower.length : 0}
+                  {followerCount}
                 </div>
                 <div className="text-[var(--gray-200)] text-[12px] md:text-[14px]">
                   Followers
@@ -264,6 +330,14 @@ export default function UserHeader({
                             <FollowButton
                               followingId={item.id}
                               className="text-[6px] sm:text-[6px] lg:text-[6px] w-24 sm:w-24 lg:w-24 h-7 p-0"
+                              onFollowChange={
+                                isOwner
+                                  ? (newStatus) => {
+                                      if (!newStatus)
+                                        handleUnfollowFromFollowerList(item.id);
+                                    }
+                                  : undefined
+                              }
                             />
                           </div>
                         ))}
