@@ -50,12 +50,16 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
   };
 
   const handleSubmit = async () => {
+    if (!isFormValid || isLoading) return; // 중복 방지
+
+    setIsLoading(true);
     let success = false;
     if (isEditMode && postId) {
       success = await updatePost(postId);
     } else {
       success = await uploadPost();
     }
+    setIsLoading(false);
     if (success) {
       navigate('/lounge/gallery');
     }

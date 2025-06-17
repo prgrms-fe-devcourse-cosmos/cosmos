@@ -97,7 +97,7 @@ export default function Gallery() {
         <ul className="flex sm:flex-1/2 gap-4 text-[13px]  ">
           <li
             className={`cursor-pointer ${
-              sortBy === 'like.desc' ? 'font-medium text-[#D0F700]' : ''
+              sortBy === 'release_date.desc' ? 'font-medium text-[#D0F700]' : ''
             }`}
             onClick={() => handleSortClick('release_date.desc')}
           >
@@ -105,7 +105,7 @@ export default function Gallery() {
           </li>
           <li
             className={`cursor-pointer ${
-              sortBy === 'release_date.desc' ? 'font-medium text-[#D0F700]' : ''
+              sortBy === 'like.desc' ? 'font-medium text-[#D0F700]' : ''
             }`}
             onClick={() => handleSortClick('like.desc')}
           >
