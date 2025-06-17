@@ -12,9 +12,9 @@ import { CommentType } from "../../common/RealtimeComments";
 import { fetchCommentsByPostId } from "../../../api/comments";
 import FollowButton from "../../common/FollowButton";
 import { useAuthStore } from "../../../stores/authStore";
-import { ArrowLeft } from "lucide-react";
 import PostLikeButton from "../../common/PostLikeButton";
 import { usercodeStore } from "../../../stores/usercodeStore";
+import Button from "../../common/Button";
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -163,33 +163,33 @@ export default function GalleryDetail() {
   const isOwner = userData?.id === post.profile_id;
 
   return (
-    <div className="w-full min-h-fit bg-[rgba(20,20,20,0.8)] flex flex-col gap-6 p-4 sm:p-6 md:px-8">
+    <div className="w-full min-h-fit bg-[rgba(20,20,20,0.8)] flex flex-col  p-4 sm:p-6 md:px-8 gap-2">
       {/* 뒤로가기버튼 */}
-      <div className="mb-1 sm:mb-3">
-        <button
-          type="button"
-          className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-xs sm:text-sm"
+      <div className="group">
+        <Button
+          variant="back"
+          className="text-xs lg:text-base"
           onClick={() => navigate(-1)}
         >
-          <ArrowLeft className="w-4 h-4 text-[#D0F700] cursor-pointer" /> BACK
-        </button>
+          BACK
+        </Button>
       </div>
 
-      <div className="w-full max-w-[715px] mx-auto flex flex-col gap-6">
+      <div className="w-full  mx-auto flex flex-col gap-6 px-4">
         {/* 프로필 영역 */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img
               src={profile?.avatar_url || profileimage}
               alt="프로필"
-              className="w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] lg:w-[50px] lg:h-[50px] rounded-full cursor-pointer"
+              className="size-7 sm:w-[40px] sm:h-[40px] lg:size-10 rounded-full cursor-pointer"
               onClick={() => navigate(`/user/${profile?.usercode}`)}
             />
             <div className="flex flex-col justify-center">
-              <span className="font-medium text-sm sm:text-base lg:text-lg">
+              <span className="font-medium text-xs sm:text-sm lg:text-base">
                 {profile?.username}
               </span>
-              <span className="text-xs sm:text-sm lg:text-lg text-[var(--gray-300)]">
+              <span className="text-[10px] sm:text-xs lg:text-sm text-[var(--gray-300)]">
                 {formatDateTime(post.created_at)}
               </span>
             </div>
@@ -210,18 +210,20 @@ export default function GalleryDetail() {
 
         {/* 제목 + 내용 */}
         <div className="text-[var(--white)]">
-          <h3 className="text-xl font-medium mb-4 break-words">{post.title}</h3>
-          <p className="text-base whitespace-pre-wrap break-words">
+          <h3 className="text-sm md:text-lg font-medium mb-4 break-words">
+            {post.title}
+          </h3>
+          <p className="text-xs md:text-base whitespace-pre-wrap break-words">
             {post.content}
           </p>
         </div>
 
         {/* 이미지 */}
-        <div className="w-full aspect-[4/3] sm:aspect-[5/4] md:aspect-[3/2] lg:aspect-[16/9] flex justify-center items-center overflow-hidden">
+        <div className="w-full h-[300px] aspect-[4/3] sm:aspect-[5/4] md:aspect-[3/2] lg:aspect-[16/9] flex justify-center items-center overflow-hidden">
           <img
             src={post.gallery_images?.image_url || textimage}
             alt={post.title}
-            className="w-full h-full object-cover"
+            className=" h-full object-cover"
           />
         </div>
         <LoungeComment
