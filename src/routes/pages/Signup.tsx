@@ -47,7 +47,7 @@ export default function Signup() {
 
   const socialLoginHandler = async (p: "google" | "github") => {
     const redirectTo = import.meta.env.PROD
-      ? "https://zippy-cendol-8bc235.netlify.app"
+      ? "https://devcourse-cosmos.netlify.app"
       : "http://localhost:5173";
     const { error } = await supabase.auth.signInWithOAuth({
       provider: p,
