@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import profileImage from "../../assets/images/profile.svg";
+import profileImage from "../../../public/images/cosmos/alien.svg";
 import userIcon from "../../assets/images/user.svg";
 import logoutIcon from "../../assets/images/log-out.svg";
 import ThemeToggle from "./ThemeToggle";
@@ -90,12 +90,12 @@ export default function UserSection() {
     <>
       {isLoggedIn && (
         <>
-          <div ref={menuRef}>
+          <div ref={menuRef} className="h-full flex items-center">
             <button onClick={() => setMenuOpen(!menuOpen)}>
               <img
                 src={userData?.avatar_url || profileImage}
                 alt=""
-                className="cursor-pointer size-8 rounded-full aspect-square object-cover object-center"
+                className="cursor-pointer size-6 rounded-full aspect-square object-cover object-center"
               />
             </button>
 
@@ -131,7 +131,7 @@ export default function UserSection() {
       )}
       {!isLoggedIn && (
         <button
-          className="py-2 px-4 border-1 hover:border-[color:var(--primary-300)] hover:text-[color:var(--primary-300)] text-xs rounded-lg cursor-pointer"
+          className="py-1 px-3 border-1 hover:border-[color:var(--primary-300)] hover:text-[color:var(--primary-300)] text-xs rounded-full cursor-pointer"
           onClick={() => navigate("/login")}
         >
           JOIN

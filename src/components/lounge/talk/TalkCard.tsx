@@ -1,6 +1,6 @@
 import { MessageSquare } from "lucide-react";
 import { TalkPost } from "../../../types/talk";
-import profileImage from "../../../assets/images/profile.svg";
+import profileImage from "../../../../public/images/cosmos/alien.svg";
 import { useNavigate } from "react-router-dom";
 import TalkLikeButton from "./TalkLikeButton";
 

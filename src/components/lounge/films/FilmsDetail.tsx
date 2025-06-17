@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import ReviewList from "../../lounge/films/ReviewList";
 import ReviewForm from "../../lounge/films/ReviewForm";
 import FilmDetailSkeleton from "../../lounge/films/FilmDetailSkeleton";
-import { ArrowLeft } from "lucide-react";
+import Button from "../../common/Button";
 
 export default function FilmsDetail() {
   const { id } = useParams();
@@ -47,11 +47,11 @@ export default function FilmsDetail() {
   };
 
   // 장르부분
-  const [maxGenres, setMaxGenres] = useState(3);
+  const [maxGenres, setMaxGenres] = useState(4);
 
   useEffect(() => {
     const handleResize = () => {
-      setMaxGenres(window.innerWidth >= 768 ? 4 : 3); // md: 768px 기준
+      setMaxGenres(window.innerWidth >= 768 ? 4 : 4); // md: 768px 기준
     };
     handleResize(); // 초기 실행
     window.addEventListener("resize", handleResize);
@@ -86,20 +86,22 @@ export default function FilmsDetail() {
         <div className="flex flex-col sm:flex-row justify-between">
           {/* 뒤로가기 */}
           <div>
-            <button
-              className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-[14px]"
-              onClick={() => navigate(-1)}
-            >
-              <ArrowLeft className="w-4 h-4 text-[#D0F700] cursor-pointer" />{" "}
-              BACK
-            </button>
+            <div className="group">
+              <Button
+                variant="back"
+                className="text-xs lg:text-base"
+                onClick={() => navigate(-1)}
+              >
+                BACK
+              </Button>
+            </div>
           </div>
           {/* 장르 배열 */}
-          <div className="flex items-center justify-end flex-wrap gap-x-2 md:gap-x-4 gap-y-2">
+          <div className="flex items-center justify-center sm:justify-end flex-wrap gap-x-2 md:gap-x-4 gap-y-2">
             {detail.genres.slice(0, maxGenres).map((genre) => (
               <span
                 key={genre.id}
-                className="font-yapari border border-[#D0F700] text-[#D0F700] text-[9px] sm:text-[10px] md:text-[12px] px-4 py-2 rounded-[8px]"
+                className="font-yapari border border-[#D0F700] text-[#D0F700] text-[8px] sm:text-[10px] md:text-xs px-2 py-1 rounded-sm"
               >
                 {/* 장르 배열 중에 Science Fiction은 SF로 표현되게 */}
                 {genre.name === "Science Fiction" ? "SF" : genre.name}
@@ -110,7 +112,7 @@ export default function FilmsDetail() {
         {/* 포스터 + 영화 정보 */}
         <div className="mt-1 flex flex-col sm:flex-row gap-4">
           {/* 포스터 */}
-          <div className="w-full max-w-[320px] mx-auto h-auto aspect-[2/3] sm:max-w-[250px] md:max-w-[300px] flex-shrink-0">
+          <div className="w-full max-w-[200px] mx-auto h-auto aspect-[2/3] sm:max-w-[220px] md:max-w-[240px] flex-shrink-0">
             {detail.poster_path && (
               <img
                 src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
@@ -122,17 +124,17 @@ export default function FilmsDetail() {
           {/* 영화 정보 */}
           <div className="flex flex-col gap-[14px]">
             {/* 제목 */}
-            <h2 className="text-[24px] lg:text-[36px] font-bold text-white">
+            <h2 className="text-lg md:text-2xl text-center sm:text-left font-semibold text-white">
               {detail.title}
             </h2>
             {/* 줄거리 영역 */}
             <div>
-              <p className="text-[14px] lg:text-[16px] truncate-multiline leading-[24px] md:leading-[30px]">
+              <p className="text-xs md:text-sm lg:text-sm truncate-multiline leading-[24px] md:leading-[30px]">
                 {detail.overview}
               </p>
             </div>
             {/* 세부 정보 */}
-            <div className="space-y-2 lg:space-y-4 text-[14px]">
+            <div className="space-y-2 lg:space-y-4 text-[10px] sm:text-xs md:text-sm">
               <div className="flex">
                 <p className="w-[100px] md:w-[142px] shrink-0">Release.</p>
                 <p>{formatKoreanDate(detail.release_date)}</p>
