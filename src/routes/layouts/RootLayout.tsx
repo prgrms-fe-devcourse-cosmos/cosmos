@@ -6,7 +6,6 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 export default function RootLayout() {
   // 로딩상태 관리
   const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
   const location = useLocation();
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/signup";
@@ -20,8 +19,8 @@ export default function RootLayout() {
       </div>
     );
   const isLoading =
-    navigation.state === 'loading' &&
-    navigation.location?.pathname === '/daily';
+    navigation.state === "loading" &&
+    navigation.location?.pathname === "/daily";
 
   return (
     <>
