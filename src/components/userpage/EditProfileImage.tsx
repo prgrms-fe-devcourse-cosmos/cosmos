@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import imageUploaderIcon from "../../assets/images/image-uploader.svg";
-import { resetImage, updateImage } from "../../api/user/profile";
+import { updateImage } from "../../api/user/profile";
 import Dropdown, { DropdownItem } from "../common/Dropdown";
 import { Image, User } from "lucide-react";
 
@@ -17,15 +17,6 @@ export default function EditProfileImage({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const defaultImg = "/images/cosmos/alien.svg";
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const handleResetProfileImage = async () => {
-    try {
-      const updated = await resetImage(userId);
-      setImageUrl(updated.avatar_url || "");
-    } catch (e) {
-      console.error("기본 이미지 변경 실패 : ", e);
-    }
-  };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -52,7 +43,7 @@ export default function EditProfileImage({
       icon: <User size={16} />,
       label: "기본 이미지로 변경",
       onClick: () => {
-        handleResetProfileImage();
+        setImageUrl("");
         setShowImgDropdown(false);
       },
     },
