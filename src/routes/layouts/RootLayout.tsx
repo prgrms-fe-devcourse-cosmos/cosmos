@@ -19,6 +19,9 @@ export default function RootLayout() {
         </main>
       </div>
     );
+  const isLoading =
+    navigation.state === 'loading' &&
+    navigation.location?.pathname === '/daily';
 
   return (
     <>

@@ -1,7 +1,7 @@
 export default function FilmCardSkeleton() {
   return (
     <div className="w-full max-w-[220px] flex flex-col animate-pulse">
-      <div className="w-full aspect-[2/3] bg-gray-300 rounded"></div>
+      <div className="w-full aspect-[2/3] bg-gray-300"></div>
       <div
         className="pt-[21px] pb-[21px] px-[16px] flex flex-col justify-between gap-[6px]"
         style={{

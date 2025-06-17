@@ -1,3 +1,4 @@
+<<<<<<< style/responsive-header
 import { useEffect, useRef, useState } from "react";
 import defaultImg from "../../../public/images/cosmos/alien.svg";
 import Button from "../common/Button";
@@ -5,6 +6,15 @@ import supabase from "../../utils/supabase";
 import { LucideX } from "lucide-react";
 import FollowButton from "../common/FollowButton";
 import { Link } from "react-router-dom";
+=======
+import { useEffect, useRef, useState } from 'react';
+import defaultImg from '../../assets/images/profile.svg';
+import Button from '../common/Button';
+import supabase from '../../utils/supabase';
+import { LucideX } from 'lucide-react';
+import FollowButton from '../common/FollowButton';
+import { Link } from 'react-router-dom';
+>>>>>>> main
 
 export default function UserHeader({
   isOwner,
@@ -47,24 +57,24 @@ export default function UserHeader({
   }
 
   useEffect(() => {
-    document.addEventListener("click", followingHandleClickOutside);
+    document.addEventListener('click', followingHandleClickOutside);
     return () =>
-      document.removeEventListener("click", followingHandleClickOutside);
+      document.removeEventListener('click', followingHandleClickOutside);
   }, [followingRef]);
 
   useEffect(() => {
-    document.addEventListener("click", followerHandleClickOutside);
+    document.addEventListener('click', followerHandleClickOutside);
     return () =>
-      document.removeEventListener("click", followerHandleClickOutside);
+      document.removeEventListener('click', followerHandleClickOutside);
   }, [followerRef]);
 
   useEffect(() => {
     if (userFollowing) {
       for (let i = 0; i < userFollowing.length; i++) {
         supabase
-          .from("profiles")
+          .from('profiles')
           .select()
-          .eq("id", userFollowing[i].following_id)
+          .eq('id', userFollowing[i].following_id)
           .then((data) => setFollowingList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -74,9 +84,9 @@ export default function UserHeader({
     if (userFollower) {
       for (let i = 0; i < userFollower.length; i++) {
         supabase
-          .from("profiles")
+          .from('profiles')
           .select()
-          .eq("id", userFollower[i].follower_id)
+          .eq('id', userFollower[i].follower_id)
           .then((data) => setFollowerList((prev) => [...prev, data.data![0]]));
       }
     }
@@ -114,7 +124,7 @@ export default function UserHeader({
                 <div className="text-[var(--gray-200)]">Following</div>
               </button>
               {followingModal && (
-                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll">
+                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll scrollbar-hide">
                   <div className="flex justify-between items-center">
                     <div className="font-yapari text-sm text-[var(--primary-300)]">
                       Following
@@ -146,7 +156,7 @@ export default function UserHeader({
                               <img
                                 src={
                                   item.avatar_url ||
-                                  "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
+                                  'https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg'
                                 }
                                 alt=""
                                 className="size-6 rounded-full"
@@ -190,7 +200,7 @@ export default function UserHeader({
                 <div className="text-[var(--gray-200)]">Followers</div>
               </button>
               {followerModal && (
-                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll">
+                <div className="flex flex-col gap-4 absolute my-1 border border-[var(--gray-300)] z-1 rounded-lg px-5 py-4 w-70 h-55 bg-[var(--bg-color)] overflow-scroll scrollbar-hide">
                   <div className="flex justify-between items-center">
                     <div className="font-yapari text-sm text-[var(--primary-300)]">
                       Follower
@@ -222,7 +232,7 @@ export default function UserHeader({
                               <img
                                 src={
                                   item.avatar_url ||
-                                  "https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg"
+                                  'https://qwntelixvmmeluarhlrr.supabase.co/storage/v1/object/public/avatars//default.svg'
                                 }
                                 alt=""
                                 className="size-6 rounded-full"
