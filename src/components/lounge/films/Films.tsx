@@ -78,7 +78,7 @@ export default function Films() {
     <div>
       <div className="flex justify-between mb-[24px] items-center h-[35px]">
         {/* 정렬 필터 */}
-        <ul className="flex ml-2 gap-4 text-[13px] ">
+        <ul className="flex ml-2 gap-4 text-[13px] flex-1/2">
           <li
             className={`cursor-pointer ${
               sortBy === "vote_average.desc" ? "text-[#D0F700] font-medium" : ""
@@ -97,13 +97,15 @@ export default function Films() {
           </li>
         </ul>
         {/* 검색창 */}
-        <SearchInput
-          scope="films"
-          value={searchInput}
-          setValue={setSearchInput}
-          onSearch={handleSearch}
-          placeholder="영화 검색"
-        />
+        <div className="flex-1/2 max-w-[220px]">
+          <SearchInput
+            scope="films"
+            value={searchInput}
+            setValue={setSearchInput}
+            onSearch={handleSearch}
+            placeholder="영화 검색"
+          />
+        </div>
       </div>
       {/* 영화 리스트 */}
       <div

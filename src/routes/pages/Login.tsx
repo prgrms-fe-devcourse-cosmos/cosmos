@@ -1,27 +1,27 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import supabase from "../../utils/supabase";
-import { useAuthStore } from "../../stores/authStore";
-import TextLogo from "../../../public/images/cosmos/main-text-logo.svg";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import supabase from '../../utils/supabase';
+import { useAuthStore } from '../../stores/authStore';
 
 export default function Login() {
-  const [emailInput, setEmailInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+  const TextLogo = '/images/cosmos/main-text-logo.svg';
   const navigate = useNavigate();
   const { setUser } = useAuthStore();
 
-  const socialLoginHandler = async (p: "google" | "github") => {
+  const socialLoginHandler = async (p: 'google' | 'github') => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: p,
     });
     if (error) {
-      console.log("OAuth 로그인 오류:", error);
+      console.log('OAuth 로그인 오류:', error);
       switch (error.message) {
-        case "Invalid login credentials":
-          alert("존재하지 않는 유저입니다.");
+        case 'Invalid login credentials':
+          alert('존재하지 않는 유저입니다.');
           break;
         default:
-          alert("로그인에 실패하였습니다.");
+          alert('로그인에 실패하였습니다.');
           return;
       }
     }
@@ -36,28 +36,28 @@ export default function Login() {
       password: passwordInput,
     });
     if (error) {
-      console.log("Email 로그인 오류:", error);
+      console.log('Email 로그인 오류:', error);
       switch (error.message) {
-        case "Invalid login credentials":
-          alert("이메일 또는 비밀번호를 잘못 입력하셨습니다.");
+        case 'Invalid login credentials':
+          alert('이메일 또는 비밀번호를 잘못 입력하셨습니다.');
           break;
         default:
-          alert("로그인에 실패하였습니다.");
+          alert('로그인에 실패하였습니다.');
           return;
       }
     } else if (data) {
-      alert("로그인되었습니다.");
+      alert('로그인되었습니다.');
       const { data: loginData, error } = await supabase.auth.getSession();
       if (loginData.session) {
         const { data: profile } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", loginData.session.user.id);
+          .from('profiles')
+          .select('*')
+          .eq('id', loginData.session.user.id);
         if (profile) {
           setUser(data.session.access_token, profile[0]);
         }
-      } else if (error) console.log("getSession() 오류:", error);
-      navigate("/");
+      } else if (error) console.log('getSession() 오류:', error);
+      navigate('/');
     }
   };
 
@@ -67,7 +67,7 @@ export default function Login() {
         <img
           src={TextLogo}
           className="cursor-pointer"
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
         />
       </div>
       <div className="w-full min-h-screen md:w-1/2 md:flex items-center justify-center">
@@ -112,7 +112,7 @@ export default function Login() {
               <button
                 type="button"
                 className="social-login-btn"
-                onClick={() => socialLoginHandler("google")}
+                onClick={() => socialLoginHandler('google')}
               >
                 <img
                   src="https://static.wikia.nocookie.net/logopedia/images/2/2b/Google_icon-Sep15.svg"
@@ -124,7 +124,7 @@ export default function Login() {
               <button
                 type="button"
                 className="social-login-btn"
-                onClick={() => socialLoginHandler("github")}
+                onClick={() => socialLoginHandler('github')}
               >
                 <img
                   src="https://static.wikia.nocookie.net/logopedia/images/0/0e/Github_Icon_White.svg"

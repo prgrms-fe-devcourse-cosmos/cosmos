@@ -1,4 +1,7 @@
+
 import { useEffect, useRef, useState } from 'react';
+import Dropdown, { DropdownItem } from './Dropdown';
+import { PencilLine, Trash2, Ellipsis } from 'lucide-react';
 
 type MenuProps = {
   onEdit: () => void;
@@ -6,7 +9,7 @@ type MenuProps = {
   className?: string;
 };
 
-export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
+export default function Menu({ onEdit, onDelete, className = "" }: MenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -16,40 +19,43 @@ export default function Menu({ onEdit, onDelete, className = '' }: MenuProps) {
         setIsOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const items: DropdownItem[] = [
+    {
+      icon: <PencilLine size={16} />,
+      label: '게시물 수정',
+      onClick: () => {
+        setIsOpen(false);
+        onEdit();
+      },
+    },
+    {
+      icon: <Trash2 size={16} />,
+      label: '게시물 삭제',
+      danger: true,
+      onClick: () => {
+        setIsOpen(false);
+        onDelete();
+      },
+    },
+  ];
 
   return (
     <div className={`relative ${className}`} ref={menuRef}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-2xl font-bold w-15 px-1 py-1"
+        className="font-bold px-1 py-1 cursor-pointer"
         aria-label="메뉴 열기"
       >
-        ...
+        <Ellipsis />
       </button>
 
       {isOpen && (
-        <div className="absolute right-4 top-full w-15 border border-[var(--gray-200)]">
-          <button
-            onClick={() => {
-              setIsOpen(false);
-              onEdit();
-            }}
-            className="block w-full text-left px-3 py-2 cursor-pointer hover:text-white"
-          >
-            수정
-          </button>
-          <button
-            onClick={() => {
-              setIsOpen(false);
-              onDelete();
-            }}
-            className="block w-full text-left px-3 py-2 cursor-pointer hover:text-white"
-          >
-            삭제
-          </button>
+        <div className="absolute right-0 top-full z-10">
+          <Dropdown items={items} size="post"/>
         </div>
       )}
     </div>

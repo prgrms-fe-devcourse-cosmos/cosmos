@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import TalkCard from "./TalkCard";
 import { useTalkStore } from "../../../stores/talkStore";
 import TalkCardSkeleton from "./TalkCardSkeleton";
+import { useAuthStore } from "../../../stores/authStore";
 
 export default function Talk() {
   const navigate = useNavigate();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   // store
   const {
@@ -36,25 +38,27 @@ export default function Talk() {
   return (
     <div>
       {/* 검색 + 게시글 등록 버튼 */}
-      <div className="flex justify-end mb-6">
+      <div className="flex w-full justify-end mb-6  ">
+        <div className="flex gap-2 w-full md:w-[50%] pr-1 md:pr-2 lg:pr-0 xl:pr-1 ml-2 md:pl-9 lg:pl-11 items-center">
+          <SearchInput
+            scope="talk"
+            value={searchQuery}
+            setValue={setSearchQuery}
+            onSearch={handleSearch}
+            placeholder="게시글 검색"
+          />
+          {/* 게시글 등록 버튼 */}
+          <div className="group">
+            <Button
+              variant={isLoggedIn ? "hover_fill" : "disabled"}
+              onClick={() => navigate("/lounge/talk/add")}
+              className="font-[yapari]  text-xs lg:text-xs  whitespace-nowrap"
+            >
+              + Post
+            </Button>
+          </div>
+        </div>
         {/* 검색 */}
-        <SearchInput
-          scope="talk"
-          value={searchQuery}
-          setValue={setSearchQuery}
-          onSearch={handleSearch}
-          className="w-[200px] lg:w-[280px]"
-          placeholder="게시글 검색"
-        />
-        {/* 게시글 등록 버튼 */}
-        <Button
-          variant="neon_filled"
-          onClick={() => navigate("/lounge/talk/add")}
-          className="text-xs font-bold lg:font-medium 
-          md:text-sm ml-2 h-[35px] px-4 md:px-6 "
-        >
-          + POST
-        </Button>
       </div>
       {/* 전체 게시글 */}
       {/* 게시글 리스트 */}
