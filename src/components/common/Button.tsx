@@ -26,9 +26,10 @@ export default function Button({
       "border border-white text-white hover:bg-white hover:text-black";
   } else if (variant === "neon_outline") {
     variantStyle =
-      "border border-[color:var(--primary-300)] text-[color:var(--primary-300)] hover:bg-[color:var(--primary-300)] hover:text-black";
+      "border border-[color:var(--primary-300)] text-[color:var(--primary-300)] hover:bg-[color:var(--primary-300)] hover:text-black hover:font-medium";
   } else if (variant === "neon_filled") {
-    variantStyle = "bg-[color:var(--primary-300)] text-black hover:opacity-90 ";
+    variantStyle =
+      "bg-[color:var(--primary-300)] font-medium text-black hover:opacity-90 ";
   } else if (variant === "dark_line") {
     variantStyle =
       "border-[color:var(--gray-200)] text-[color:var(--gray-200)]";

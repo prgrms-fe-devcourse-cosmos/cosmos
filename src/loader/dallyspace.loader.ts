@@ -1,7 +1,7 @@
 import { summarizeAndTranslateByAi } from '../api/ai/getSummarizeAndTranslateByAI';
 import { getAstroEvents } from '../api/daily/calendar';
-import nasaAPI from '../api/daily/nasa';
-import newsAPI from '../api/daily/news';
+import { nasaAPI } from '../api/daily/nasa';
+import { newsAPI } from '../api/daily/news';
 import { Article, AstroEventItem } from '../types/daily';
 
 export async function DailyLoader() {
@@ -81,13 +81,32 @@ export async function DailyLoader() {
   const [y, m] = dateKR.split('-').map(Number);
   const today = Number(dateKR.split('-')[2]);
 
+  // 나사 데이터 로컬에 저장, 저장한게없으면 api불러오기
   try {
     let nasaData = {};
     try {
-      const nasa = await nasaAPI('/apod', { params: { date: dateUS } });
-      nasaData = nasa.data;
+      const cachedNasa = localStorage.getItem('nasa');
+      if (cachedNasa) {
+        const parsed = JSON.parse(cachedNasa);
+        if (parsed.date === dateUS) {
+          nasaData = parsed.data;
+        } else {
+          throw new Error('cache expired');
+        }
+      } else {
+        throw new Error('no cache');
+      }
     } catch {
-      nasaData = {};
+      try {
+        const nasa = await nasaAPI('/apod', { params: { date: dateUS } });
+        nasaData = nasa.data;
+        localStorage.setItem(
+          'nasa',
+          JSON.stringify({ date: dateUS, data: nasaData })
+        );
+      } catch {
+        nasaData = {};
+      }
     }
     const [news, stevents] = await Promise.all([
       newsAPI('/', { params: { date: dateUS } }),

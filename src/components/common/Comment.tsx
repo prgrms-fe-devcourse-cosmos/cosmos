@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { CommentType } from "./RealtimeComments";
-import defaultAvatar from "../../../public/images/cosmos/alien.svg";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { CommentType } from './RealtimeComments';
+import { useNavigate } from 'react-router-dom';
 
 export default function Comment({
   comment,
@@ -18,6 +17,7 @@ export default function Comment({
   const [updatedContent, setUpdatedContent] = useState<string>(comment.content);
 
   const navigate = useNavigate();
+  const defaultAvatar = '/images/cosmos/alien.svg';
 
   const handleSaveUpdate = () => {
     if (!updatedContent.trim()) return;
@@ -34,15 +34,15 @@ export default function Comment({
     const date = new Date(dateString);
 
     const options: Intl.DateTimeFormatOptions = {
-      timeZone: "Asia/Seoul",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
+      timeZone: 'Asia/Seoul',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
       hour12: false,
     };
-    return new Intl.DateTimeFormat("ko-KR", options).format(date);
+    return new Intl.DateTimeFormat('ko-KR', options).format(date);
   };
 
   return (
@@ -64,10 +64,10 @@ export default function Comment({
             />
             {/* 유저이름 + 날짜 */}
             <div>
-              <h3 className="font-medium text-[13px] lg:text-[15px]">
+              <h3 className="font-medium text-xs md:text-sm lg:text-base ">
                 {comment.profiles?.username}
               </h3>
-              <p className="text-[#696969] font-light text-[12px]">
+              <p className="text-[#696969] font-light text-[10px] md:text-xs lg:text-sm]">
                 {formatDate(comment.created_at)}
               </p>
             </div>
@@ -75,7 +75,7 @@ export default function Comment({
 
           {/* 수정/삭제 */}
           {isSender ? (
-            <div className="text-[#909090] text-[12px]">
+            <div className="text-[#909090] text-[10px] md:text-xs lg:text-sm">
               {isEditMode ? (
                 <>
                   <button

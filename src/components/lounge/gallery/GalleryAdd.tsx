@@ -1,16 +1,16 @@
-import Button from "../../common/Button";
-import postimage from "../../../assets/images/post.svg";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGalleryPostStore } from "../../../stores/galleryPostStore";
-import LoadingSpinner from "../../common/LoadingSpinner";
-import TextArea from "../../common/TextArea";
+import Button from '../../common/Button';
+import postimage from '../../../assets/images/post.svg';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGalleryPostStore } from '../../../stores/galleryPostStore';
+import LoadingSpinner from '../../common/LoadingSpinner';
+import TextArea from '../../common/TextArea';
 
 type GalleryAddProps = {
-  mode?: "edit" | "add";
+  mode?: 'edit' | 'add';
 };
 
-export default function GalleryAdd({ mode = "add" }: GalleryAddProps) {
+export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
   const { postId } = useParams<{ postId?: string }>();
   const isEditMode = Boolean(postId);
 
@@ -50,14 +50,18 @@ export default function GalleryAdd({ mode = "add" }: GalleryAddProps) {
   };
 
   const handleSubmit = async () => {
+    if (!isFormValid || isLoading) return; // 중복 방지
+
+    setIsLoading(true);
     let success = false;
     if (isEditMode && postId) {
       success = await updatePost(postId);
     } else {
       success = await uploadPost();
     }
+    setIsLoading(false);
     if (success) {
-      navigate("/lounge/gallery");
+      navigate('/lounge/gallery');
     }
   };
 
@@ -77,7 +81,7 @@ export default function GalleryAdd({ mode = "add" }: GalleryAddProps) {
             setImageFile(null);
           }
         } else {
-          navigate("/lounge/gallery");
+          navigate('/lounge/gallery');
         }
         setIsLoading(false);
       }
@@ -113,7 +117,7 @@ export default function GalleryAdd({ mode = "add" }: GalleryAddProps) {
 
       <div className="text-[var(--white)] w-full max-w-[704px]">
         <h1 className="w-full font-bold text-xl mb-10 text-center">
-          게시글 {mode === "edit" ? "수정" : "작성"}
+          게시글 {mode === 'edit' ? '수정' : '작성'}
         </h1>
 
         <div className="w-full flex flex-col">
@@ -167,7 +171,7 @@ export default function GalleryAdd({ mode = "add" }: GalleryAddProps) {
             </Button>
           </div>
           <Button
-            variant={isFormValid ? "neon_filled" : "disabled"}
+            variant={isFormValid ? 'neon_filled' : 'disabled'}
             className="text-sm md:text-[16px] px-5 md:px-6"
             onClick={handleSubmit}
             disabled={!isFormValid}

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import LabeledInput from "../common/LabeledInput";
 import Button from "../common/Button";
 import EditProfileImage from "./EditProfileImage";
-import { updateProfile } from "../../api/user/profile";
+import { resetImage, updateProfile } from "../../api/user/profile";
 import { useAuthStore } from "../../stores/authStore";
 
 export default function EditProfileModal({
@@ -28,6 +28,10 @@ export default function EditProfileModal({
 
   const updateProfileHandler = async () => {
     try {
+      if (imageUrl === "") {
+        const updated = await resetImage(userData.id);
+        setImageUrl(updated.avatar_url || "");
+      }
       const updated = await updateProfile(
         userData.id,
         usernameInput,

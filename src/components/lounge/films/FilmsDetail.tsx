@@ -212,25 +212,24 @@ export default function FilmsDetail() {
         {/* review header */}
         <div className="flex justify-between mb-[28px]">
           <div className="flex items-center gap-8">
-            <h3 className="text-[#D0F700] font-medium text-[16px]">
+            <h3 className="text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base">
               REVIEW ({reviews.length})
             </h3>
             {avgRating !== null && (
-              <p className="flex items-center gap-1 text-[color:var(--primary-300)] text-base">
+              <p className="flex items-center gap-1 text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base">
                 <Star
                   fill="currentColor"
-                  className="w-4.5 h-4.5 text-[var(--primary-300)]"
+                  className="w-3 md:w-[12px] lg:w-4 h-3 md:h-[12px] lg:h-4 text-[var(--primary-300)]"
                 />
-                <span className="">{avgRating.toFixed(1)}</span>
+                <span>{avgRating.toFixed(1)}</span>
               </p>
             )}
           </div>
-
           {/* review sort */}
-          <ul className="flex items-center gap-4 text-[13px] font-medium">
+          <ul className="flex items-center gap-4 text-[10px] md:text-xs lg:text-sm">
             <li
               className={`cursor-pointer ${
-                sortBy === "like" ? "text-[#D0F700]" : ""
+                sortBy === "like" ? "text-[#D0F700] font-medium" : ""
               }`}
               onClick={() => setSortBy("like")}
             >
@@ -238,7 +237,7 @@ export default function FilmsDetail() {
             </li>
             <li
               className={`cursor-pointer ${
-                sortBy === "recent" ? "text-[#D0F700]" : ""
+                sortBy === "recent" ? "text-[#D0F700] font-medium" : ""
               }`}
               onClick={() => setSortBy("recent")}
             >
