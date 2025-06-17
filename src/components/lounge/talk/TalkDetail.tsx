@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import LoungeComment from '../../common/LoungeComment';
-import { ArrowLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTalkStore } from '../../../stores/talkStore';
 import FollowButton from '../../common/FollowButton';
@@ -12,6 +11,7 @@ import { fetchCommentsByPostId } from '../../../api/comments';
 import { CommentType } from '../../common/RealtimeComments';
 import PostLikeButton from '../../common/PostLikeButton';
 import { usercodeStore } from '../../../stores/usercodeStore';
+import Button from '../../common/Button';
 
 export default function TalkDetail() {
   const navigate = useNavigate();
@@ -144,77 +144,80 @@ export default function TalkDetail() {
   } = selectedPost;
 
   return (
-    <div className="px-8 py-6 bg-[#141414]/80">
+    <div className="w-full p-4 min-h-fit sm:p-6 md:px-8 bg-[#141414]/80 ">
       <div className="wrapper">
         {/* 뒤로가기버튼 */}
-        <div className="mb-5 md:mb-8">
-          <button
-            type="button"
-            className="font-yapari text-[#D0F700] py-4 cursor-pointer flex items-center gap-2 text-[14px]"
+        <div className="group mb-2">
+          <Button
+            variant="back"
+            className="text-xs lg:text-base"
             onClick={() => navigate(-1)}
           >
-            <ArrowLeft className="w-4 h-4 text-[#D0F700] cursor-pointer" /> BACK
-          </button>
+            BACK
+          </Button>
         </div>
-        {/* 유저정보 + 게시글 등록 날짜 + 팔로우버튼/메뉴버튼 */}
-        <div className="flex justify-between items-start">
-          <div className="flex gap-3 lg:gap-[22px] items-center">
-            {/* 유저아이콘 */}
-            <img
-              src={avatar_url || profileImage}
-              alt="유저프로필"
-              className="w-9 md:w-10 h-9 md:h-10 rounded-full object-cover cursor-pointer"
-              onClick={() => navigate(`/user/${profile?.usercode}`)}
-            />
-            {/* 유저이름, 게시글 등록 날짜 */}
-            <div>
-              <h3 className="font-semibold text-sm md:text-[16px]">
-                {username}
-              </h3>
-              <p className="text-[#696969] font-light text-xs md:text-sm">
-                {formatKoreanDate(created_at!)}
+
+        <div className="w-full  mx-auto flex flex-col gap-6 px-4">
+          {/* 유저정보 + 게시글 등록 날짜 + 팔로우버튼/메뉴버튼 */}
+          <div className="flex justify-between items-start">
+            <div className="flex gap-3  items-center">
+              {/* 유저아이콘 */}
+              <img
+                src={avatar_url || profileImage}
+                alt="유저프로필"
+                className="size-7 sm:w-[40px] sm:h-[40px] lg:size-10 rounded-full object-cover cursor-pointer"
+                onClick={() => navigate(`/user/${profile?.usercode}`)}
+              />
+              {/* 유저이름, 게시글 등록 날짜 */}
+              <div className="flex flex-col justify-center">
+                <h3 className="font-medium text-xs sm:text-sm lg:text-base">
+                  {username}
+                </h3>
+                <p className="text-[10px] sm:text-xs lg:text-sm text-[var(--gray-300)]">
+                  {formatKoreanDate(created_at!)}
+                </p>
+              </div>
+            </div>
+            {/* 팔로우버튼 or 메뉴버튼 */}
+            {/* 게시글 작성한 사람의 프로필id props 전달 */}
+            {profile_id === currentUserId ? (
+              <Menu
+                onEdit={() => navigate(`/lounge/talk/${selectedPost?.id}/edit`)}
+                onDelete={handleDelete}
+              />
+            ) : (
+              profile_id && <FollowButton followingId={profile_id} />
+            )}
+          </div>
+
+          {/* 게시글 */}
+          <section className="text-[var(--white)]">
+            {/* 제목 */}
+            <h3 className="text-sm md:text-lg font-medium mb-4 break-words">
+              {title}
+            </h3>
+
+            {/* 내용 */}
+            <div className="mb-6 md:mb-8">
+              <p className="text-xs md:text-base whitespace-pre-wrap break-words min-h-50">
+                {content}
               </p>
             </div>
-          </div>
-          {/* 팔로우버튼 or 메뉴버튼 */}
-          {/* 게시글 작성한 사람의 프로필id props 전달 */}
-          {profile_id === currentUserId ? (
-            <Menu
-              onEdit={() => navigate(`/lounge/talk/${selectedPost?.id}/edit`)}
-              onDelete={handleDelete}
+
+            {/* 댓글 */}
+            <LoungeComment
+              postId={String(selectedPost.id)}
+              userId={currentUserId!}
+              comments={comments}
+              likeButton={
+                <PostLikeButton
+                  postId={selectedPost.id!}
+                  initialCount={selectedPost.like_count}
+                />
+              }
             />
-          ) : (
-            profile_id && <FollowButton followingId={profile_id} />
-          )}
+          </section>
         </div>
-
-        {/* 게시글 */}
-        <section>
-          {/* 제목 */}
-          <h3 className="mt-6 md:mt-7 mb-7 md:mb-8 font-medium text-[16px] md:text-[20px]">
-            {title}
-          </h3>
-
-          {/* 내용 */}
-          <div className="mb-6 md:mb-8">
-            <p className="whitespace-pre-line min-h-[120px] text-sm md:text-[16px]">
-              {content}
-            </p>
-          </div>
-
-          {/* 댓글 */}
-          <LoungeComment
-            postId={String(selectedPost.id)}
-            userId={currentUserId!}
-            comments={comments}
-            likeButton={
-              <PostLikeButton
-                postId={selectedPost.id!}
-                initialCount={selectedPost.like_count}
-              />
-            }
-          />
-        </section>
       </div>
     </div>
   );
