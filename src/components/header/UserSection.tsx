@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import profileImage from "../../assets/images/profile.svg";
+import profileImage from "../../../public/images/cosmos/alien.svg";
 import ThemeToggle from "./ThemeToggle";
 import { useAuthStore } from "../../stores/authStore";
 import supabase from "../../utils/supabase";
 import Dropdown, { DropdownItem } from "../common/Dropdown";
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User } from "lucide-react";
 
 export default function UserSection() {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ export default function UserSection() {
   const items: DropdownItem[] = [
     {
       icon: <User size={16} />,
-      label: '마이페이지',
+      label: "마이페이지",
       onClick: () => {
         navigate(`/user/${userData?.usercode}`);
         setMenuOpen(false);
@@ -97,7 +97,7 @@ export default function UserSection() {
     },
     {
       icon: <LogOut size={16} />,
-      label: '로그아웃',
+      label: "로그아웃",
       onClick: logOutHandler,
       danger: true,
     },
