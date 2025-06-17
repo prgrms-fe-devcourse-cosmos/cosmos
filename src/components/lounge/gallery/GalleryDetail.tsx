@@ -14,6 +14,8 @@ import { useAuthStore } from '../../../stores/authStore';
 import PostLikeButton from '../../common/PostLikeButton';
 import { usercodeStore } from '../../../stores/usercodeStore';
 import Button from '../../common/Button';
+import Modal from '../../common/Modal';
+import { CircleAlert, CircleCheckBig } from 'lucide-react';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -26,6 +28,8 @@ export default function GalleryDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [comments, setComments] = useState<CommentType[] | null>(null);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [showDeleteCompleteModal, setShowDeleteCompleteModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -81,7 +85,6 @@ export default function GalleryDetail() {
 
   const handleEdit = () => {
     if (!postid) {
-      alert('게시글 ID가 없습니다.');
       return;
     }
     navigate(`/lounge/gallery/${postid}/edit`);
@@ -89,8 +92,6 @@ export default function GalleryDetail() {
 
   const handleDelete = async () => {
     if (!postid) return;
-
-    if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
     try {
       // 스토리지에서 해당 post_id 폴더의 모든 파일 삭제
@@ -139,12 +140,14 @@ export default function GalleryDetail() {
 
       if (postError) throw postError;
 
-      alert('게시글이 삭제되었습니다.');
-      navigate('/lounge/gallery');
+      setShowDeleteCompleteModal(true);
     } catch (error) {
       console.error('삭제 중 오류 발생:', error);
-      alert('삭제 중 오류가 발생했습니다.');
     }
+  };
+
+  const openDeleteModal = () => {
+    setShowConfirmDeleteModal(true);
   };
 
   function formatDateTime(datetimeString: string) {
@@ -163,76 +166,108 @@ export default function GalleryDetail() {
   const isOwner = userData?.id === post.profile_id;
 
   return (
-    <div className="w-full min-h-fit bg-[#141414]/80 flex flex-col  p-4 sm:p-6 md:px-8 gap-2">
-      {/* 뒤로가기버튼 */}
-      <div className="group">
-        <Button
-          variant="back"
-          className="text-xs lg:text-base"
-          onClick={() => navigate(-1)}
-        >
-          BACK
-        </Button>
-      </div>
+    <>
+      <div className="w-full min-h-fit bg-[#141414]/80 flex flex-col  p-4 sm:p-6 md:px-8 gap-2">
+        {/* 뒤로가기버튼 */}
+        <div className="group">
+          <Button
+            variant="back"
+            className="text-xs lg:text-base"
+            onClick={() => navigate(-1)}
+          >
+            BACK
+          </Button>
+        </div>
 
-      <div className="w-full  mx-auto flex flex-col gap-6 px-4">
-        {/* 프로필 영역 */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img
-              src={profile?.avatar_url || profileimage}
-              alt="프로필"
-              className="size-7 sm:w-[40px] sm:h-[40px] lg:size-10 rounded-full cursor-pointer"
-              onClick={() => navigate(`/user/${profile?.usercode}`)}
-            />
-            <div className="flex flex-col justify-center">
-              <span className="font-medium text-xs sm:text-sm lg:text-base">
-                {profile?.username}
-              </span>
-              <span className="text-[10px] sm:text-xs lg:text-sm text-[var(--gray-300)]">
-                {formatDateTime(post.created_at)}
-              </span>
+        <div className="w-full  mx-auto flex flex-col gap-6 px-4">
+          {/* 프로필 영역 */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img
+                src={profile?.avatar_url || profileimage}
+                alt="프로필"
+                className="size-7 sm:w-[40px] sm:h-[40px] lg:size-10 rounded-full cursor-pointer"
+                onClick={() => navigate(`/user/${profile?.usercode}`)}
+              />
+              <div className="flex flex-col justify-center">
+                <span className="font-medium text-xs sm:text-sm lg:text-base">
+                  {profile?.username}
+                </span>
+                <span className="text-[10px] sm:text-xs lg:text-sm text-[var(--gray-300)]">
+                  {formatDateTime(post.created_at)}
+                </span>
+              </div>
             </div>
+
+            {isOwner ? (
+              <Menu
+                onEdit={handleEdit}
+                onDelete={openDeleteModal}
+                className="-mt-8"
+              />
+            ) : (
+              <FollowButton followingId={post.profile_id} />
+            )}
           </div>
 
-          {isOwner ? (
-            <Menu
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              className="-mt-8"
+          {/* 제목 + 내용 */}
+          <div className="text-[var(--white)]">
+            <h3 className="text-sm md:text-lg font-medium mb-4 break-words">
+              {post.title}
+            </h3>
+            <p className="text-xs md:text-base whitespace-pre-wrap break-words">
+              {post.content}
+            </p>
+          </div>
+
+          {/* 이미지 */}
+          <div className="w-full h-[300px] aspect-[4/3] sm:aspect-[5/4] md:aspect-[3/2] lg:aspect-[16/9] flex justify-center items-center overflow-hidden">
+            <img
+              src={post.gallery_images?.image_url || textimage}
+              alt={post.title}
+              className=" h-full object-cover"
             />
-          ) : (
-            <FollowButton followingId={post.profile_id} />
-          )}
-        </div>
-
-        {/* 제목 + 내용 */}
-        <div className="text-[var(--white)]">
-          <h3 className="text-sm md:text-lg font-medium mb-4 break-words">
-            {post.title}
-          </h3>
-          <p className="text-xs md:text-base whitespace-pre-wrap break-words">
-            {post.content}
-          </p>
-        </div>
-
-        {/* 이미지 */}
-        <div className="w-full h-[300px] aspect-[4/3] sm:aspect-[5/4] md:aspect-[3/2] lg:aspect-[16/9] flex justify-center items-center overflow-hidden">
-          <img
-            src={post.gallery_images?.image_url || textimage}
-            alt={post.title}
-            className=" h-full object-cover"
+          </div>
+          <LoungeComment
+            postId={postid!}
+            userId={currentUserId!}
+            comments={comments}
+            likeButton={
+              <PostLikeButton
+                postId={post.id!}
+                initialCount={post.like_count}
+              />
+            }
           />
         </div>
-        <LoungeComment
-          postId={postid!}
-          userId={currentUserId!}
-          comments={comments}
-          likeButton={
-            <PostLikeButton postId={post.id!} initialCount={post.like_count} />
-          }
-        />
       </div>
-    </div>
+      {showConfirmDeleteModal && (
+        <Modal
+          icon={<CircleAlert size={40} color="#EF4444" />}
+          title="정말 삭제하시겠습니까?"
+          description="삭제 후 복구가 불가능합니다."
+          confirmButtonText="DELETE"
+          cancelButtonText="CANCEL"
+          onConfirm={async () => {
+            // 모달을 끔
+            setShowConfirmDeleteModal(false);
+            // 삭제 실행
+            await handleDelete();
+          }}
+          onCancel={() => setShowConfirmDeleteModal(false)}
+        />
+      )}
+      {showDeleteCompleteModal && (
+        <Modal
+          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
+          title="게시글이 삭제되었습니다."
+          confirmButtonText="OK"
+          onConfirm={() => {
+            setShowConfirmDeleteModal(false);
+            navigate('/lounge/gallery');
+          }}
+        />
+      )}
+    </>
   );
 }

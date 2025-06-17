@@ -1,10 +1,13 @@
-import { useEffect, useState, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from 'react';
 import {
   checkUserLike,
   addLike,
   removeLike,
   getLikesCount,
-} from "../../../api/gallery/gallerylike";
+} from '../../../api/gallery/gallerylike';
+import Modal from '../../common/Modal';
+import { useNavigate } from 'react-router-dom';
+import { CircleAlert } from 'lucide-react';
 
 interface GalleryLikeProps {
   postId: number;
@@ -31,6 +34,8 @@ export default function GalleryLike({
   const [likesCount, setLikesCount] = useState(initialCount ?? 0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isToggling, setIsToggling] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   // initialLiked와 initialCount가 변경될 때 상태 업데이트
   useEffect(() => {
@@ -67,7 +72,7 @@ export default function GalleryLike({
           setLikesCount(count);
         }
       } catch (error) {
-        console.error("Failed to load like data:", error);
+        console.error('Failed to load like data:', error);
       } finally {
         if (!isCancelled) {
           setIsInitialLoading(false);
@@ -86,7 +91,7 @@ export default function GalleryLike({
     e.stopPropagation();
 
     if (!profileId) {
-      alert("로그인이 필요합니다.");
+      setShowLoginModal(true);
       return;
     }
 
@@ -117,7 +122,7 @@ export default function GalleryLike({
         if (onToggle) onToggle(prevCount, prevLiked);
       }
     } catch (error) {
-      console.error("Failed to toggle like:", error);
+      console.error('Failed to toggle like:', error);
       // 에러 발생 시 원상복구
       setLiked(prevLiked);
       setLikesCount(prevCount);
@@ -128,15 +133,36 @@ export default function GalleryLike({
   };
 
   return (
-    <button
-      onClick={toggleLike}
-      className={`flex items-center gap-2 transition-opacity ${
-        isToggling || !profileId ? "opacity-100" : "opacity-100 cursor-pointer"
-      }`}
-      disabled={isToggling}
-    >
-      {liked ? IconLiked : IconNotLiked}
-      <span className="pt-[2px]">{likesCount}</span>
-    </button>
+    <>
+      <button
+        onClick={toggleLike}
+        className={`flex items-center gap-2 transition-opacity ${
+          isToggling || !profileId
+            ? 'opacity-100'
+            : 'opacity-100 cursor-pointer'
+        }`}
+        disabled={isToggling}
+      >
+        {liked ? IconLiked : IconNotLiked}
+        <span className="pt-[2px]">{likesCount}</span>
+      </button>
+
+      {showLoginModal && (
+        <Modal
+          icon={<CircleAlert size={40} color="#EF4444" />}
+          title="로그인이 필요한 서비스입니다."
+          description="로그인 후 이용해주세요."
+          cancelButtonText="BACK"
+          confirmButtonText="LOGIN"
+          onCancel={() => {
+            setShowLoginModal(false);
+          }}
+          onConfirm={() => {
+            setShowLoginModal(false);
+            navigate('/login');
+          }}
+        />
+      )}
+    </>
   );
 }
