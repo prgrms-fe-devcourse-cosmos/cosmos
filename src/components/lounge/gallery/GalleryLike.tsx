@@ -152,14 +152,14 @@ export default function GalleryLike({
           icon={<CircleAlert size={40} color="#EF4444" />}
           title="로그인이 필요한 서비스입니다."
           description="로그인 후 이용해주세요."
-          cancelButtonText="BACK"
           confirmButtonText="LOGIN"
-          onCancel={() => {
-            setShowLoginModal(false);
-          }}
+          cancelButtonText="BACK"
           onConfirm={() => {
             setShowLoginModal(false);
             navigate('/login');
+          }}
+          onCancel={() => {
+            setShowLoginModal(false);
           }}
         />
       )}

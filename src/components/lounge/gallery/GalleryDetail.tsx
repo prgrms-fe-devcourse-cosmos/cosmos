@@ -249,9 +249,7 @@ export default function GalleryDetail() {
           confirmButtonText="DELETE"
           cancelButtonText="CANCEL"
           onConfirm={async () => {
-            // 모달을 끔
             setShowConfirmDeleteModal(false);
-            // 삭제 실행
             await handleDelete();
           }}
           onCancel={() => setShowConfirmDeleteModal(false)}
