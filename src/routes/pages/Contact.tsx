@@ -21,7 +21,7 @@ export default function Contact() {
         <Button variant="hover_fill">COSMOS REPO</Button>
       </a>
       <div className="group"></div>
-      <div className="mt-4 text-sm sm:text-lg flex gap-10 font-[watermelonSalad]">
+      <div className="mt-4 text-sm sm:text-lg flex gap-10 font-watermelon">
         <a target="_blank" href="https://github.com/jieun22222">
           FE 송지은
         </a>

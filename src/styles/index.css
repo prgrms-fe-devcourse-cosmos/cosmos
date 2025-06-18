@@ -16,115 +16,30 @@
 
 @font-face {
   font-family: "helvetica-neue";
-  font-weight: 100;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueUltraLight.otf")
-    format("opentype");
-}
-
-@font-face {
-  font-family: "helvetica-neue";
-  font-weight: 200;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueThin.otf")
-    format("opentype");
-}
-
-@font-face {
-  font-family: "helvetica-neue";
   font-weight: 300;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueLight.otf")
-    format("opentype");
+  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueCyr-Light.woff2")
+    format("woff2");
 }
 
 @font-face {
   font-family: "helvetica-neue";
   font-weight: 400;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueRegular.otf")
-    format("opentype");
+  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueCyr-Roman.woff2")
+    format("woff2");
 }
 
 @font-face {
   font-family: "helvetica-neue";
   font-weight: 500;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueMedium.otf")
-    format("opentype");
+  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueCyr-Medium.woff2")
+    format("woff2");
 }
 
 @font-face {
   font-family: "helvetica-neue";
   font-weight: 600;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueBold.otf")
-    format("opentype");
-}
-
-@font-face {
-  font-family: "helvetica-neue";
-  font-weight: 700;
-  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueHeavy.otf")
-    format("opentype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 100;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Thin.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 200;
-  src: url("/src/assets/fonts/yapari/YapariTrial-ExtraLight.ttf")
-    format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 300;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 400;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Regular.ttf")
-    format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 500;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Medium.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 600;
-  src: url("/src/assets/fonts/yapari/YapariTrial-SemiBold.ttf")
-    format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 700;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 800;
-  src: url("/src/assets/fonts/yapari/YapariTrial-ExtraBold.ttf")
-    format("truetype");
-}
-
-@font-face {
-  font-family: "yapari";
-  font-weight: 900;
-  src: url("/src/assets/fonts/yapari/YapariTrial-Ultra.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "watermelonSalad";
-  src: url("/src/assets/fonts/ef_watermelonSalad/EF_watermelonSalad.otf")
-    format("opentype");
+  src: url("/src/assets/fonts/helvetica-neue/HelveticaNeueCyr-Bold.woff2")
+    format("woff2");
 }
 
 @font-face {
@@ -133,6 +48,19 @@
   src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff")
     format("woff");
   font-style: normal;
+}
+
+@font-face {
+  font-family: "EF_watermelonSalad";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_watermelonSalad.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "yapari";
+  src: url("/src/assets/fonts/yapari/Yapari-Light.woff2") format("woff2");
 }
 
 body {
@@ -152,7 +80,7 @@ body::-webkit-scrollbar {
 
 @theme {
   --font-yapari: "yapari", sans-serif;
-  --font-watermelon: "watermelonSalad", sans-serif;
+  --font-watermelon: "EF_watermelonSalad", sans-serif;
 }
 
 .scrollbar-hide {
@@ -166,12 +94,16 @@ body::-webkit-scrollbar {
 
 /* font yapari 전역 클래스 추가 */
 .font-yapari {
-  font-family: "yapari", "watermelonSalad", sans-serif;
+  font-family: "yapari", "yapari", sans-serif;
 }
 
 /* font pretendard 전역 클래스 추가 */
 .font-pretendard {
-  font-family: "Pretendard", "helvetica-neue", sans-serif;
+  font-family: "Pretendard", "Pretendard", sans-serif;
+}
+
+.font-watermelon {
+  font-family: "EF_watermelonSalad", "EF_watermelonSalad", sans-serif;
 }
 
 /* 줄거리 말줄임 */

@@ -113,7 +113,9 @@ export default function UserPage() {
             MY
           </span>
         ) : (
-          <span className="text-3xl font-yapari">{userData?.username}님의</span>
+          <span className="text-3xl font-watermelon">
+            {userData?.username}님의
+          </span>
         )}
         <span className="text-4xl font-yapari text-[var(--primary-300)]">
           SPACE
