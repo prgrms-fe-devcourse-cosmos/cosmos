@@ -34,19 +34,19 @@ export default function Modal({
     >
       <div
         className={`rounded-[20px] border border-[rgba(144,144,144,0.47)] bg-[color:var(--bg-color)] text-center text-[#FBFBFB] w-[360px] ${
-          description ? 'h-[251px]' : 'h-[199px]'
+          description ? 'h-[239px]' : 'h-[199px]'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-center mt-8">{icon}</div>
-        <h2 className="text-lg font-medium mt-6 font-[pretendard]">{title}</h2>
+        <h2 className="text-lg font-medium mt-4 font-[pretendard]">{title}</h2>
         {description && (
-          <p className="text-sm text-[#8B8B8B] mt-6 font-[pretendard]">
+          <p className="text-sm text-[#8B8B8B] mt-4 font-[pretendard]">
             {description}
           </p>
         )}
 
-        <div className="mt-8 flex justify-center gap-[27px]">
+        <div className="mt-7 flex justify-center gap-[27px]">
           {cancelButtonText && onCancel && (
             <button
               className="w-[92px] h-[33px] text-sm text-[color:var(--gray-200)] font-[yapari] cursor-pointer"
@@ -57,7 +57,7 @@ export default function Modal({
           )}
           {onConfirm && (
             <button
-              className="w-[100px] h-[30px] rounded-lg text-xs font-medium text-[color:var(--bg-color)] bg-[color:var(--primary-300)] font-[yapari] cursor-pointer"
+              className="w-[100px] h-[30px] rounded-lg text-xs font-bold text-[color:var(--bg-color)] bg-[color:var(--primary-300)] font-[yapari] cursor-pointer"
               onClick={onConfirm}
             >
               {confirmButtonText}
