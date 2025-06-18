@@ -7,11 +7,15 @@ import QuizProgressBar from "../../../../components/lab/quiz/QuizProgressBar";
 import QuestionBlock from "../../../../components/lab/quiz/QuestionBlock";
 import OptionButtons from "../../../../components/lab/quiz/OptionButtons";
 import NavigationButtons from "../../../../components/lab/quiz/NavigationButtons";
+import { useAuthStore } from "../../../../stores/authStore";
 
 export default function QuizScreen() {
   const navigate = useNavigate();
   const { config } = useOutletContext<{ config: { difficulty: string } }>() ?? {};
   const difficulty = config?.difficulty ?? "";
+
+  const userData = useAuthStore((state) => state.userData);
+  const profileId = userData?.id;
 
   const {
     questions,
@@ -19,13 +23,14 @@ export default function QuizScreen() {
     selectedOptions,
     isSubmitted,
     score,
+    maxPossibleScore,
     currentQuestion,
     handleOptionClick,
     handleNext,
     handlePrev,
     handleSubmit,
     handleRetry,
-  } = useQuiz(difficulty);
+  } = useQuiz(difficulty, profileId!);
 
   const [showLoader, setShowLoader] = useState(false);
 
@@ -61,7 +66,7 @@ export default function QuizScreen() {
           <div className="text-center text-[color:var(--primary-300)] mt-[-70px] mb-10">
             <p className="text-4xl mb-3">MY SCORE</p>
             <p className="text-2xl">
-              {score} / {questions.length}
+              {score} / {maxPossibleScore}
             </p>
           </div>
         )}
