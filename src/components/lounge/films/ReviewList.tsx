@@ -7,6 +7,8 @@ import {
 import { Star } from "lucide-react";
 import supabase from "../../../utils/supabase";
 import ReviewLikeButton from "../../lounge/films/ReviewLikeButton";
+import Modal from '../../common/Modal';
+import { CircleAlert } from 'lucide-react';
 
 type Props = {
   reviews: MovieReviewWithLike[];
@@ -23,12 +25,14 @@ export default function ReviewList({
   onAvgRatingUpdate,
   movieId,
 }: Props) {
-  // 상태 추가
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState("");
   const [editedRating, setEditedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -56,20 +60,24 @@ export default function ReviewList({
   }
 
   // 리뷰 삭제
-  const handleDelete = async (reviewId: number) => {
-    const confirmDelete = window.confirm("리뷰를 삭제하시겠습니까?");
-    if (!confirmDelete || !currentUserId) return;
+  const openDeleteModal = (reviewId: number) => {
+    setSelectedReviewId(reviewId);
+    setShowConfirmDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedReviewId || !currentUserId) return;
 
     try {
-      await deleteReviewById(reviewId, currentUserId);
-      setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+      await deleteReviewById(selectedReviewId, currentUserId);
 
-      // 평균 평점 다시 계산
+      setReviews((prev) => prev.filter((r) => r.id !== selectedReviewId));
+
       const newAvg = await movieAvgRating(movieId);
       onAvgRatingUpdate?.(newAvg!);
-    } catch (e) {
-      alert("삭제 중 오류가 발생했습니다.");
-      console.error(e);
+
+    } catch (error) {
+      console.error("리뷰 삭제 중 오류:", error);
     }
   };
 
@@ -196,7 +204,7 @@ export default function ReviewList({
                       수정
                     </span>
                     <button
-                      onClick={() => handleDelete(review.id)}
+                      onClick={() => openDeleteModal(review.id)}
                       className="cursor-pointer hover:text-white"
                     >
                       삭제
@@ -220,11 +228,10 @@ export default function ReviewList({
           )}
 
           <div
-            className={`transition-opacity ${
-              editingReviewId === review.id
-                ? "opacity-40 pointer-events-none"
-                : ""
-            }`}
+            className={`transition-opacity ${editingReviewId === review.id
+              ? "opacity-40 pointer-events-none"
+              : ""
+              }`}
           >
             <ReviewLikeButton
               reviewId={review.id}
@@ -233,6 +240,21 @@ export default function ReviewList({
           </div>
         </div>
       ))}
+
+      {showConfirmDeleteModal && (
+        <Modal
+          icon={<CircleAlert size={40} color="#EF4444" />}
+          title="정말 삭제하시겠습니까?"
+          description="삭제 후 복구가 불가능합니다."
+          confirmButtonText="DELETE"
+          cancelButtonText="CANCEL"
+          onConfirm={async () => {
+            setShowConfirmDeleteModal(false);
+            await handleDelete();
+          }}
+          onCancel={() => setShowConfirmDeleteModal(false)}
+        />
+      )}
     </div>
   );
 }

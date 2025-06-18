@@ -167,7 +167,7 @@ export default function ReviewForm({
           onConfirm={() => setModalOpen(false)}
         />
       )}
-      {error && <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>}
+      {error && <p className="text-[#E24413] text-xs md:text-sm pl-1 -mt-2">{error}</p>}
     </div>
   );
 }
