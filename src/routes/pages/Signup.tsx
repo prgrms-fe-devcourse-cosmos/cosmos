@@ -37,11 +37,10 @@ export default function Signup() {
       },
     });
     if (error) {
-      console.log("회원가입 오류:", error);
-      alert("회원가입에 실패하였습니다.");
+      console.error("회원가입 오류:", error);
     } else if (data) {
-      alert("회원가입되었습니다.");
-      navigate("/");
+      await supabase.auth.signOut();
+      navigate("/login");
     }
   };
 
@@ -56,15 +55,7 @@ export default function Signup() {
       },
     });
     if (error) {
-      console.log("OAuth 로그인 오류:", error);
-      switch (error.message) {
-        case "Invalid login credentials":
-          alert("존재하지 않는 유저입니다.");
-          break;
-        default:
-          alert("로그인에 실패하였습니다.");
-          return;
-      }
+      console.error("OAuth 로그인 오류:", error);
     }
   };
 
@@ -83,10 +74,10 @@ export default function Signup() {
           <div className="flex flex-col justify-center w-[72.2%] gap-8">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-1">
-                <div className="text-[16px]">Username</div>
+                <div className="text-sm md:text-base">Username</div>
                 <input
                   type="text"
-                  className="login-input"
+                  className="login-input text-sm md:text-base"
                   placeholder="유저네임을 입력해주세요"
                   value={username}
                   onChange={(e) => {
@@ -99,16 +90,16 @@ export default function Signup() {
                   }}
                 />
                 {invalidUsername && (
-                  <div className="text-sm text-[var(--red)]">
+                  <div className="text-xs md:text-sm text-[var(--red)]/80 font-medium">
                     유저네임을 입력해 주세요.
                   </div>
                 )}
               </div>
               <div className="flex flex-col gap-1">
-                <div className="text-[16px]">Email</div>
+                <div className="text-sm md:text-base">Email</div>
                 <input
                   type="email"
-                  className="login-input"
+                  className="login-input text-sm md:text-base"
                   placeholder="이메일을 입력해주세요"
                   value={email}
                   onChange={(e) => {
@@ -122,16 +113,16 @@ export default function Signup() {
                   }}
                 />
                 {invalidEmail && (
-                  <div className="text-sm text-[var(--red)]">
+                  <div className="text-xs md:text-sm text-[var(--red)]/80 font-medium">
                     올바른 이메일 형식이 아닙니다.
                   </div>
                 )}
               </div>
               <div className="flex flex-col gap-1">
-                <div className="text-[16px]">Password</div>
+                <div className="text-sm md:text-base">Password</div>
                 <input
                   type="password"
-                  className="login-input"
+                  className="login-input text-sm md:text-base"
                   placeholder="8자 이상의 영문/숫자/특수문자로 입력해주세요"
                   value={password}
                   onChange={(e) => {
@@ -146,16 +137,16 @@ export default function Signup() {
                   }}
                 />
                 {invalidPassword && (
-                  <div className="text-sm text-[var(--red)]">
+                  <div className="text-xs md:text-sm text-[var(--red)]/80 font-medium">
                     올바른 비밀번호 형식이 아닙니다.
                   </div>
                 )}
               </div>
               <div className="flex flex-col gap-1">
-                <div className="text-[16px]">Confirm Password</div>
+                <div className="text-sm md:text-base">Confirm Password</div>
                 <input
                   type="password"
-                  className="login-input"
+                  className="login-input text-sm md:text-base"
                   placeholder="비밀번호를 한번 더 입력해주세요"
                   value={confirmPassword}
                   onChange={(e) => {
@@ -169,7 +160,7 @@ export default function Signup() {
                   }}
                 />
                 {invalidCPW && (
-                  <div className="text-sm text-[var(--red)]">
+                  <div className="text-xs md:text-sm text-[var(--red)]/80 font-medium">
                     입력된 값이 비밀번호와 다릅니다.
                   </div>
                 )}
@@ -182,7 +173,7 @@ export default function Signup() {
                   checked={agree}
                   onChange={(e) => setAgree(e.target.checked)}
                 />
-                <label htmlFor="agree" className="text-sm">
+                <label htmlFor="agree" className="text-xs md:text-sm">
                   이용약관 및 개인정보처리방침에 동의합니다.
                 </label>
               </div>

@@ -4,8 +4,7 @@ import ThemeToggle from "./ThemeToggle";
 import { useAuthStore } from "../../stores/authStore";
 import supabase from "../../utils/supabase";
 import Dropdown, { DropdownItem } from "../common/Dropdown";
-import { CircleCheckBig, LogOut, User } from "lucide-react";
-import Modal from "../common/Modal";
+import { LogOut, User } from "lucide-react";
 
 export default function UserSection() {
   const navigate = useNavigate();
@@ -13,9 +12,6 @@ export default function UserSection() {
   const { isLoggedIn, userData, setUser, clearUser } = useAuthStore();
   const menuRef = useRef<HTMLDivElement>(null);
   const profileImage = "/images/cosmos/alien.svg";
-
-  // 로그아웃 모달
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   function handleClickOutside(event: MouseEvent) {
     if (
@@ -81,14 +77,12 @@ export default function UserSection() {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [menuRef]);
-
-  const logOutHandler = () => {
+  const logOutHandler = async () => {
     setMenuOpen(false);
-    supabase.auth.signOut();
+    await supabase.auth.signOut();
     clearUser();
-    // alert('로그아웃되었습니다.');
-    // navigate('/');
-    setShowLogoutModal(true);
+
+    window.location.href = '/';
   };
 
   const items: DropdownItem[] = [
@@ -143,19 +137,6 @@ export default function UserSection() {
         >
           JOIN
         </button>
-      )}
-      {/* 모달 추가 */}
-      {showLogoutModal && (
-        <Modal
-          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
-          title="로그아웃 완료"
-          description="다음에 또 만나요"
-          confirmButtonText="홈으로 가기"
-          onConfirm={() => {
-            setShowLogoutModal(false);
-            navigate("/");
-          }}
-        />
       )}
     </>
   );

@@ -2,20 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase";
 import { useAuthStore } from "../../stores/authStore";
-import Modal from "../../components/common/Modal";
-import { CircleCheckBig } from "lucide-react";
 
 export default function Login() {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const TextLogo = "/images/cosmos/main-text-logo.svg";
   const navigate = useNavigate();
   const { setUser } = useAuthStore();
-
-  // 모달 상태 추가
-  const [showModal, setShowModal] = useState(false);
-  const [errorModal, setErrorModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const socialLoginHandler = async (p: "google" | "github") => {
     const redirectTo = import.meta.env.PROD
@@ -29,13 +23,13 @@ export default function Login() {
       },
     });
     if (error) {
-      console.log("OAuth 로그인 오류:", error);
+      console.error("OAuth 로그인 오류:", error);
       switch (error.message) {
         case "Invalid login credentials":
-          console.log("존재하지 않는 유저입니다.");
+          console.error("존재하지 않는 유저입니다.");
           break;
         default:
-          console.log("로그인에 실패하였습니다.");
+          console.error("로그인에 실패하였습니다.");
           return;
       }
     }
@@ -45,24 +39,27 @@ export default function Login() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    setErrorMessage("");
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: emailInput,
       password: passwordInput,
     });
+
     if (error) {
-      console.log("Email 로그인 오류:", error);
+      console.error("Email 로그인 오류:", error);
       switch (error.message) {
         case "Invalid login credentials":
-          setErrorMessage("이메일 또는 비밀번호를 잘못 입력하셨습니다.");
+          setErrorMessage("이메일 또는 비밀번호가 잘못 입력되었습니다. 이메일과 비밀번호를 정확히 입력해 주세요.");
           break;
         default:
           setErrorMessage("로그인에 실패하였습니다.");
-          return;
+          break;
       }
-      setErrorModal(true);
       return;
-    } else if (data) {
-      // alert("로그인이 완료되었습니다.");
+    }
+
+    if (data) {
       const { data: loginData, error } = await supabase.auth.getSession();
       if (loginData.session) {
         const { data: profile } = await supabase
@@ -71,10 +68,11 @@ export default function Login() {
           .eq("id", loginData.session.user.id);
         if (profile) {
           setUser(data.session.access_token, profile[0]);
-          setShowModal(true);
         }
-      } else if (error) console.log("getSession() 오류:", error);
-      // navigate("/");
+      } else if (error) {
+        console.error("getSession() 오류:", error);
+      }
+      navigate("/");
     }
   };
 
@@ -93,25 +91,30 @@ export default function Login() {
           <form className="flex flex-col justify-center w-[72.2%] gap-7">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-1">
-                <div className="text-[16px]">Email</div>
+                <div className="text-sm md:text-base">Email</div>
                 <input
                   type="email"
-                  className="login-input"
+                  className="login-input text-sm md:text-base"
                   placeholder="이메일을 입력해주세요"
                   value={emailInput}
                   onChange={(e) => setEmailInput(e.target.value)}
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <div className="text-[16px]">Password</div>
+                <div className="text-sm md:text-base">Password</div>
                 <input
                   type="password"
-                  className="login-input"
+                  className="login-input text-sm md:text-base"
                   placeholder="비밀번호를 입력해주세요"
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
                 />
               </div>
+              {errorMessage && (
+                <div className="text-xs md:text-sm text-[var(--red)]/80 font-medium">
+                  {errorMessage}
+                </div>
+              )}
               <button
                 className="login-btn font-yapari mt-4"
                 disabled={emailInput.length < 1 || passwordInput.length < 1}
@@ -162,28 +165,6 @@ export default function Login() {
           </form>
         </div>
       </div>
-      {/* 모달 연결 */}
-      {showModal && (
-        <Modal
-          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
-          title="로그인 완료"
-          description="COSMOS 에 오신 것을 환영해요."
-          confirmButtonText="홈으로 가기"
-          onConfirm={() => {
-            setShowModal(false);
-            navigate("/");
-          }}
-        />
-      )}
-      {errorModal && (
-        <Modal
-          icon={<CircleCheckBig size={40} color="var(--red)" />}
-          title="로그인 실패"
-          description={errorMessage}
-          confirmButtonText="확인"
-          onConfirm={() => setErrorModal(false)}
-        />
-      )}
     </div>
   );
 }
