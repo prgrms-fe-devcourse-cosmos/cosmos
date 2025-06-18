@@ -8,10 +8,12 @@ import QuestionBlock from "../../../../components/lab/quiz/QuestionBlock";
 import OptionButtons from "../../../../components/lab/quiz/OptionButtons";
 import NavigationButtons from "../../../../components/lab/quiz/NavigationButtons";
 import { useAuthStore } from "../../../../stores/authStore";
+import Button from "../../../../components/common/Button";
 
 export default function QuizScreen() {
   const navigate = useNavigate();
-  const { config } = useOutletContext<{ config: { difficulty: string } }>() ?? {};
+  const { config } =
+    useOutletContext<{ config: { difficulty: string } }>() ?? {};
   const difficulty = config?.difficulty ?? "";
 
   const userData = useAuthStore((state) => state.userData);
@@ -59,11 +61,14 @@ export default function QuizScreen() {
 
       <div className="z-10 flex flex-col flex-grow">
         {!isSubmitted && (
-          <QuizProgressBar currentIndex={currentIndex} total={questions.length} />
+          <QuizProgressBar
+            currentIndex={currentIndex}
+            total={questions.length}
+          />
         )}
 
         {isSubmitted && (
-          <div className="text-center text-[color:var(--primary-300)] mt-[-70px] mb-10">
+          <div className="text-center text-[color:var(--primary-300)] mt-[-70px] mb-6">
             <p className="text-4xl mb-3">MY SCORE</p>
             <p className="text-2xl">
               {score} / {maxPossibleScore}
@@ -99,19 +104,20 @@ export default function QuizScreen() {
         />
 
         {isSubmitted && (
-          <div className="w-full mt-10 flex justify-center items-center gap-10 text-2xl">
-            <button
-              className="w-[160px] z-20 cursor-pointer py-1 text-[color:var(--gray-300)] hover:text-[color:var(--primary-300)]"
-              onClick={handleRetry}
-            >
-              RETRY
-            </button>
-            <button
-              className="px-10 py-2 cursor-pointer border-1 text-[color:var(--primary-300)] rounded-lg hover:text-[color:var(--bg-color)] hover:bg-[color:var(--primary-300)] transition-all duration-300"
-              onClick={() => navigate("/lab/rank")}
-            >
-              RANK
-            </button>
+          <div className="w-full mt-10 flex justify-center items-center gap-10 ">
+            <div className="group">
+              <Button variant="back" onClick={handleRetry}>
+                RETRY
+              </Button>
+            </div>
+            <div className="group">
+              <Button
+                variant="hover_fill"
+                onClick={() => navigate("/lab/rank")}
+              >
+                RANK
+              </Button>
+            </div>
           </div>
         )}
       </div>
