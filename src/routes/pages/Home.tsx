@@ -13,6 +13,19 @@ export default function Home() {
   const nextSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const originalWarn = console.warn;
+
+    console.warn = function (...args) {
+      const msg = args[0];
+      if (
+        typeof msg === "string" &&
+        msg.includes("THREE.Color: Alpha component")
+      ) {
+        return;
+      }
+      originalWarn.apply(console, args);
+    };
+
     const handleThemeChange = () => {
       setTheme(getCurrentTheme());
     };
