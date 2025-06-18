@@ -157,19 +157,17 @@ export default function ReviewForm({
         >
           ENTER
         </button>
-        {modalOpen && (
-          <Modal
-            icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
-            title={modalContent.title}
-            description={modalContent.description}
-            confirmButtonText={modalContent.confirmText}
-            onConfirm={() => setModalOpen(false)}
-          />
-        )}
-        {error && (
-          <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>
-        )}
       </div>
+      {modalOpen && (
+        <Modal
+          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
+          title={modalContent.title}
+          description={modalContent.description}
+          confirmButtonText={modalContent.confirmText}
+          onConfirm={() => setModalOpen(false)}
+        />
+      )}
+      {error && <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>}
     </div>
   );
 }
