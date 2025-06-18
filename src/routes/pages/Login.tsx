@@ -14,6 +14,8 @@ export default function Login() {
 
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const socialLoginHandler = async (p: "google" | "github") => {
     const redirectTo = import.meta.env.PROD
@@ -51,12 +53,14 @@ export default function Login() {
       console.log("Email 로그인 오류:", error);
       switch (error.message) {
         case "Invalid login credentials":
-          console.log("이메일 또는 비밀번호를 잘못 입력하셨습니다.");
+          setErrorMessage("이메일 또는 비밀번호를 잘못 입력하셨습니다.");
           break;
         default:
-          console.log("로그인에 실패하였습니다.");
+          setErrorMessage("로그인에 실패하였습니다.");
           return;
       }
+      setErrorModal(true);
+      return;
     } else if (data) {
       // alert("로그인이 완료되었습니다.");
       const { data: loginData, error } = await supabase.auth.getSession();
@@ -169,6 +173,15 @@ export default function Login() {
             setShowModal(false);
             navigate("/");
           }}
+        />
+      )}
+      {errorModal && (
+        <Modal
+          icon={<CircleCheckBig size={40} color="var(--red)" />}
+          title="로그인 실패"
+          description={errorMessage}
+          confirmButtonText="확인"
+          onConfirm={() => setErrorModal(false)}
         />
       )}
     </div>
