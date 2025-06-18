@@ -5,22 +5,55 @@ import ReviewList from "../../lounge/films/ReviewList";
 import ReviewForm from "../../lounge/films/ReviewForm";
 import FilmDetailSkeleton from "../../lounge/films/FilmDetailSkeleton";
 import Button from "../../common/Button";
+import FilmsTrailerModal from "./FilmsTrailerModal";
+import { movieAvgRating } from "../../../api/films/review";
+import { Star } from "lucide-react";
 
 export default function FilmsDetail() {
   const { id } = useParams();
   const { detail, fetchDetail, loading } = useMovieDetailStore();
   const navigate = useNavigate();
 
+  // 트레일러 추가
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+
+  const trailer = detail?.videos?.results.find(
+    (v) => v.type === "Trailer" && v.site === "YouTube"
+  );
+  const trailerUrl = trailer
+    ? `https://www.youtube.com/embed/${trailer.key}`
+    : null;
+
   // 리뷰 정보
   const loaderData = useLoaderData() as MovieReviewWithLike[];
   const [reviews, setReviews] = useState<MovieReviewWithLike[]>(loaderData);
 
-  // 리뷰 정렬 상태
+  // 리뷰 정렬 기준
   const [sortBy, setSortBy] = useState<"like" | "recent">("like");
 
+  // 리뷰 - 자체 평점
+  const [avgRating, setAvgRating] = useState<number | null>(null);
+
+  // 영화 상제 정보 fetch
   useEffect(() => {
     if (!id) return;
     fetchDetail(id);
+  }, [id]);
+
+  // loaderData가 바뀔 경우에도 리뷰 동기화
+  useEffect(() => {
+    setReviews(loaderData);
+  }, [loaderData]);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const loadAvgRating = async () => {
+      const rating = await movieAvgRating(Number(id));
+      setAvgRating(rating);
+    };
+
+    loadAvgRating();
   }, [id]);
 
   // 리뷰 정렬
@@ -46,23 +79,15 @@ export default function FilmsDetail() {
     );
   };
 
-  // 장르부분
-  const [maxGenres, setMaxGenres] = useState(4);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setMaxGenres(window.innerWidth >= 768 ? 4 : 4); // md: 768px 기준
-    };
-    handleResize(); // 초기 실행
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // 장르부분 최대 노출 4개
+  const maxGenres = 4;
 
   // 로딩중에는 스켈레톤 보여지도록
   if (loading || !detail) return <FilmDetailSkeleton />;
 
   // 개봉날짜 포맷 함수
   const formatKoreanDate = (date: string) => {
+    if (!date) return "날짜 정보 없음";
     const [y, m, d] = date.split("-");
     return `${y}년 ${m}월 ${d}일`;
   };
@@ -88,6 +113,7 @@ export default function FilmsDetail() {
           <div>
             <div className="group">
               <Button
+                type="button"
                 variant="back"
                 className="text-xs lg:text-base"
                 onClick={() => navigate(-1)}
@@ -117,7 +143,12 @@ export default function FilmsDetail() {
               <img
                 src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
                 alt={detail.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => {
+                  if (trailerUrl) {
+                    setIsTrailerOpen(true);
+                  }
+                }}
               />
             )}
           </div>
@@ -167,13 +198,33 @@ export default function FilmsDetail() {
           </div>
         </div>
       </section>
+
+      {/* 트레일러 모달 */}
+      {isTrailerOpen && trailerUrl && (
+        <FilmsTrailerModal
+          youtubeUrl={trailerUrl}
+          onClose={() => setIsTrailerOpen(false)}
+        />
+      )}
+
       {/* review */}
       <section className="mt-[60px] px-[32px] pb-[24px]">
         {/* review header */}
         <div className="flex justify-between mb-[28px]">
-          <h3 className="text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base">
-            REVIEW ({reviews.length})
-          </h3>
+          <div className="flex items-center gap-8">
+            <h3 className="text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base">
+              REVIEW ({reviews.length})
+            </h3>
+            {avgRating !== null && (
+              <p className="flex items-center gap-1 text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base">
+                <Star
+                  fill="currentColor"
+                  className="w-3 md:w-[12px] lg:w-4 h-3 md:h-[12px] lg:h-4 text-[var(--primary-300)]"
+                />
+                <span>{avgRating.toFixed(1)}</span>
+              </p>
+            )}
+          </div>
           {/* review sort */}
           <ul className="flex items-center gap-4 text-[10px] md:text-xs lg:text-sm">
             <li
