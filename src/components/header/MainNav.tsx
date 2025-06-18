@@ -1,4 +1,5 @@
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { matchRoutes, useNavigate, useNavigation } from 'react-router-dom';
+import { router } from '../../routes';
 
 export default function MainNav() {
   const navigate = useNavigate();
@@ -6,19 +7,24 @@ export default function MainNav() {
 
   const currentPath = navigation.location?.pathname ?? location.pathname;
 
-  const isActive = (path: string) => {
-    return currentPath === path || currentPath.startsWith(path + '/');
+  const navItems = [
+    { name: 'Daily Space', path: '/daily' },
+    { name: 'Lounge', path: '/lounge' },
+    { name: 'Cosmo Lab', path: '/lab' },
+  ];
+
+  const isValidPath = (path: string) => {
+    const matched = matchRoutes(router.routes, currentPath);
+    if (!matched) return false;
+
+    return matched.some((match) => match.pathnameBase.startsWith(path));
   };
 
   return (
     <div className="flex-1 flex justify-center">
       <div className="md:flex space-x-8">
-        {[
-          { name: 'Daily Space', path: '/daily' },
-          { name: 'Lounge', path: '/lounge' },
-          { name: 'Cosmo Lab', path: '/lab' },
-        ].map((item) => {
-          const active = isActive(item.path);
+        {navItems.map((item) => {
+          const active = isValidPath(item.path);
           return (
             <button
               key={item.name}
