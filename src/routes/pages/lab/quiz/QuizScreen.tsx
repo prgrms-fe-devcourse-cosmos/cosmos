@@ -69,8 +69,8 @@ export default function QuizScreen() {
 
         {isSubmitted && (
           <div className="text-center text-[color:var(--primary-300)] mt-[-70px] mb-6">
-            <p className="text-4xl mb-3">MY SCORE</p>
-            <p className="text-2xl">
+            <p className="text-2xl mb-3">MY SCORE</p>
+            <p className="text-xl">
               {score} / {maxPossibleScore}
             </p>
           </div>

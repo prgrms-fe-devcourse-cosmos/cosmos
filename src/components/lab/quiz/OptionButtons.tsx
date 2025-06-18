@@ -32,7 +32,7 @@ export default function OptionButtons({
               key={option}
               disabled={isSubmitted}
               onClick={() => onSelect(option)}
-              className={`w-[460px] h-[264px] flex items-center justify-center text-3xl rounded-lg transition-all duration-300 border 
+              className={`w-[460px] h-[200px] flex items-center justify-center text-3xl rounded-lg transition-all duration-300 border 
                 ${isSubmitted ? "" : "cursor-pointer"} 
                 ${borderClass} ${bgClass} ${textClass}`}
             >
@@ -45,7 +45,7 @@ export default function OptionButtons({
   }
 
   return (
-    <div className="w-[480px] flex flex-col gap-6 mx-auto">
+    <div className="w-[480px] flex flex-col gap-6 mx-auto text-sm">
       {currentQuestion.options.map((option) => {
         const { borderClass, bgClass, textClass } = getOptionStyle({
           option,
@@ -59,7 +59,7 @@ export default function OptionButtons({
             key={option}
             disabled={isSubmitted}
             onClick={() => onSelect(option)}
-            className={`w-[480px] h-[48px] pl-6 rounded-lg text-left transition-all duration-300 border 
+            className={`w-[480px] h-[44px] pl-6 rounded-lg text-left transition-all duration-300 border 
               ${isSubmitted ? "" : "cursor-pointer"} 
               ${borderClass} ${bgClass} ${textClass}`}
           >

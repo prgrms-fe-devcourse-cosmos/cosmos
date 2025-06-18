@@ -7,7 +7,7 @@ import FilmDetailSkeleton from "../../lounge/films/FilmDetailSkeleton";
 import Button from "../../common/Button";
 import FilmsTrailerModal from "./FilmsTrailerModal";
 import { movieAvgRating } from "../../../api/films/review";
-import { Star } from "lucide-react";
+import { Play, Star } from "lucide-react";
 
 export default function FilmsDetail() {
   const { id } = useParams();
@@ -149,19 +149,25 @@ export default function FilmsDetail() {
         {/* 포스터 + 영화 정보 */}
         <div className="mt-1 flex flex-col sm:flex-row gap-4">
           {/* 포스터 */}
-          <div className="w-full max-w-[200px] mx-auto h-auto aspect-[2/3] sm:max-w-[220px] md:max-w-[240px] flex-shrink-0">
+          <div
+            className="relative group w-full max-w-[200px] mx-auto h-auto aspect-[2/3] sm:max-w-[220px] md:max-w-[240px] flex-shrink-0 cursor-pointer "
+            onClick={() => {
+              if (trailerUrl) {
+                setIsTrailerOpen(true);
+              }
+            }}
+          >
             {detail.poster_path && (
               <img
                 src={`https://image.tmdb.org/t/p/w500${detail.poster_path}`}
                 alt={detail.title}
-                className="w-full h-full object-cover cursor-pointer"
-                onClick={() => {
-                  if (trailerUrl) {
-                    setIsTrailerOpen(true);
-                  }
-                }}
+                className="w-full h-full object-cover z-10 "
               />
             )}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-opacity duration-500 z-10" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
+              <Play />
+            </div>
           </div>
           {/* 영화 정보 */}
           <div className="flex flex-col gap-[14px]">
