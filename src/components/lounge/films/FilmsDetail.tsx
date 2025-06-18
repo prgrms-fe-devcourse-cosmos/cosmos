@@ -79,6 +79,17 @@ export default function FilmsDetail() {
     );
   };
 
+  // 추가) 리뷰 배열에 새로 작성된 리뷰를 정렬 기준에 따라 추가하는 함수
+  const handleReviewSubmit = (newReview: MovieReviewWithLike) => {
+    setReviews((prev) => {
+      if (sortBy === "recent") {
+        return [newReview, ...prev];
+      } else {
+        return [...prev, newReview];
+      }
+    });
+  };
+
   // 장르부분 최대 노출 4개
   const maxGenres = 4;
 
@@ -249,11 +260,12 @@ export default function FilmsDetail() {
           reviews={sortedReviews}
           onLikeToggle={handleLikeToggle}
           setReviews={setReviews}
+          onAvgRatingUpdate={setAvgRating}
+          movieId={Number(id)}
         />
         <ReviewForm
-          onReviewSubmit={(newReview) =>
-            setReviews((prev) => [newReview, ...prev])
-          }
+          onReviewSubmit={handleReviewSubmit}
+          onAvgRatingUpdate={setAvgRating}
         />
       </section>
     </div>

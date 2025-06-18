@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Star } from "lucide-react";
-import { createReview, ensureMovieExists } from "../../../api/films/review";
+import {
+  createReview,
+  ensureMovieExists,
+  movieAvgRating,
+} from "../../../api/films/review";
 import supabase from "../../../utils/supabase";
 
 type Props = {
   onReviewSubmit?: (review: MovieReviewWithLike) => void;
+  onAvgRatingUpdate?: (avg: number) => void;
 };
 
-export default function ReviewForm({ onReviewSubmit }: Props) {
+export default function ReviewForm({
+  onReviewSubmit,
+  onAvgRatingUpdate,
+}: Props) {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -54,6 +62,10 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
 
       // 새 리뷰를 상위 컴포넌트로 전달
       onReviewSubmit?.(newReview);
+
+      // 평균 평점 다시 계산 후 상위 컴포넌트로 전달
+      const newAvg = await movieAvgRating(movieId);
+      onAvgRatingUpdate?.(newAvg!);
 
       alert("리뷰 등록 완료");
       setContent("");
