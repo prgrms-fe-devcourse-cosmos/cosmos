@@ -10,9 +10,14 @@ import { CircleAlert } from 'lucide-react';
 type Props = {
   followingId: string; // 내가 팔로우할 사람의 ID
   className?: string; // tailwind CSS 스타일
+  onFollowChange?: ((newStatus: boolean) => void) | undefined;
 };
 
-export default function FollowButton({ followingId, className }: Props) {
+export default function FollowButton({
+  followingId,
+  className,
+  onFollowChange,
+}: Props) {
   // 현재 로그인한 사용자 정보 가져오기
   const currentUser = useAuthStore((state) => state.userData);
 
@@ -64,10 +69,12 @@ export default function FollowButton({ followingId, className }: Props) {
         // 현재 팔로우중이면 언팔
         await unfollowUser(currentUser.id, followingId);
         setIsFollowing(false);
+        onFollowChange?.(false);
       } else {
         // 팔로우 중이 아니면 팔로우 추가
         await followUser(currentUser.id, followingId);
         setIsFollowing(true);
+        onFollowChange?.(true);
       }
     } catch (err) {
       console.error('팔로우 토글 실패:', err);
