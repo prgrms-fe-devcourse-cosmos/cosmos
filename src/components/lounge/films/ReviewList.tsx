@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { deleteReviewById, updateReviewById } from "../../../api/films/review";
+import {
+  deleteReviewById,
+  movieAvgRating,
+  updateReviewById,
+} from "../../../api/films/review";
 import { Star } from "lucide-react";
 import supabase from "../../../utils/supabase";
 import ReviewLikeButton from "../../lounge/films/ReviewLikeButton";
@@ -8,12 +12,16 @@ type Props = {
   reviews: MovieReviewWithLike[];
   onLikeToggle?: (reviewId: number, liked: boolean) => void;
   setReviews: React.Dispatch<React.SetStateAction<MovieReviewWithLike[]>>;
+  onAvgRatingUpdate?: (avg: number) => void;
+  movieId: number;
 };
 
 export default function ReviewList({
   reviews,
   onLikeToggle,
   setReviews,
+  onAvgRatingUpdate,
+  movieId,
 }: Props) {
   // 상태 추가
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
@@ -55,6 +63,10 @@ export default function ReviewList({
     try {
       await deleteReviewById(reviewId, currentUserId);
       setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+
+      // 평균 평점 다시 계산
+      const newAvg = await movieAvgRating(movieId);
+      onAvgRatingUpdate?.(newAvg!);
     } catch (e) {
       alert("삭제 중 오류가 발생했습니다.");
       console.error(e);
@@ -88,6 +100,10 @@ export default function ReviewList({
         )
       );
       setEditingReviewId(null);
+
+      // 평균 평점 다시 계산
+      const newAvg = await movieAvgRating(movieId);
+      onAvgRatingUpdate?.(newAvg!);
     } catch (e) {
       console.error(e);
     }

@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Star } from "lucide-react";
-import { createReview, ensureMovieExists } from "../../../api/films/review";
+import { CircleCheckBig, Star } from "lucide-react";
+import {
+  createReview,
+  ensureMovieExists,
+  movieAvgRating,
+} from "../../../api/films/review";
 import supabase from "../../../utils/supabase";
+import Modal from "../../common/Modal";
 
 type Props = {
   onReviewSubmit?: (review: MovieReviewWithLike) => void;
+  onAvgRatingUpdate?: (avg: number) => void;
 };
 
-export default function ReviewForm({ onReviewSubmit }: Props) {
+export default function ReviewForm({
+  onReviewSubmit,
+  onAvgRatingUpdate,
+}: Props) {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -17,6 +26,18 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
   const [isLogin, setIsLogin] = useState(false);
   const [loginNotice, setLoginNotice] = useState(false);
   const isInputActive = content.trim() && rating > 0;
+
+  // 모달 상태 추가
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<{
+    title: string;
+    description?: string;
+    confirmText?: string;
+  }>({
+    title: "",
+    description: "",
+    confirmText: "확인",
+  });
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -31,11 +52,6 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
   }, []);
 
   const handleSubmit = async () => {
-    if (!id) {
-      alert("영화 ID가 없습니다.");
-      return;
-    }
-
     const movieId = Number(id);
 
     try {
@@ -43,11 +59,7 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (!user) {
-        alert("로그인이 필요합니다.");
-        return;
-      }
-      const profileId = user.id;
+      const profileId = user!.id;
 
       await ensureMovieExists(movieId); // 영화 존재 확인
       const newReview = await createReview(movieId, content, rating, profileId);
@@ -55,7 +67,19 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
       // 새 리뷰를 상위 컴포넌트로 전달
       onReviewSubmit?.(newReview);
 
-      alert("리뷰 등록 완료");
+      // 평균 평점 다시 계산 후 상위 컴포넌트로 전달
+      const newAvg = await movieAvgRating(movieId);
+      onAvgRatingUpdate?.(newAvg!);
+
+      // 리뷰 등록 완료
+      setModalContent({
+        title: "리뷰 등록 완료!",
+        description: "감사합니다. 소중한 의견이 등록되었습니다.",
+        confirmText: "닫기",
+      });
+      setModalOpen(true);
+
+      // 초기화
       setContent("");
       setRating(0);
     } catch (e: unknown) {
@@ -133,6 +157,15 @@ export default function ReviewForm({ onReviewSubmit }: Props) {
         >
           ENTER
         </button>
+        {modalOpen && (
+          <Modal
+            icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
+            title={modalContent.title}
+            description={modalContent.description}
+            confirmButtonText={modalContent.confirmText}
+            onConfirm={() => setModalOpen(false)}
+          />
+        )}
         {error && (
           <p className="text-[#E24413] text-[12px] mt-1 pl-2">{error}</p>
         )}
