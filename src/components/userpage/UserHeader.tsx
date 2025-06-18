@@ -117,6 +117,7 @@ export default function UserHeader({
                 // 팔로우버튼
                 <FollowButton
                   followingId={userData.id}
+                  className="text-xs "
                   onFollowChange={(newStatus) => {
                     if (currentUser && newStatus) {
                       setFollowerList((prev) => {

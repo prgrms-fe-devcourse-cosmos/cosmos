@@ -113,7 +113,7 @@ export default function UserPage() {
             MY
           </span>
         ) : (
-          <span className="text-3xl font-watermelon">
+          <span className="text-3xl font-watermelon max-w-[80%]">
             {userData?.username}님의
           </span>
         )}
