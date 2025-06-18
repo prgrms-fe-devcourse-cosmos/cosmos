@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
-import bumpmap from "/images/home/lunar_bumpmap.jpg";
-import surface from "/images/home/lunar_surface.jpg";
+import bumpmap from "/images/home/lunar_bumpmap.webp";
+import surface from "/images/home/lunar_surface.webp";
 
 export default function Moon() {
   const globeEl = useRef<GlobeMethods | undefined>(undefined);

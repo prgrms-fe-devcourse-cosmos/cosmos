@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
-import cloud from "/images/home/clouds.png";
+import cloud from "/images/home/clouds.webp";
 
 export default function Earth() {
   const globeEl = useRef<GlobeMethods | undefined>(undefined);
