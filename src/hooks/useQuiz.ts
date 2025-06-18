@@ -155,7 +155,7 @@ export function useQuiz(difficulty: string, profileId: string) {
   const score = selectedOptions.reduce((acc, selected, idx) => {
     if (questions[idx] && selected === questions[idx].correct_answer) {
       const level = questions[idx].difficulty;
-      const point = level === "1" ? 1 : level === "2" ? 2 : 3;
+      const point = level === "1" ? 10 : level === "2" ? 20 : 30;
       return acc + point;
     }
     return acc;
@@ -163,7 +163,7 @@ export function useQuiz(difficulty: string, profileId: string) {
 
   const maxPossibleScore = questions.reduce((acc, q) => {
     const level = q.difficulty;
-    const point = level === "1" ? 1 : level === "2" ? 2 : 3;
+    const point = level === "1" ? 10 : level === "2" ? 20 : 30;
     return acc + point;
   }, 0);
 
