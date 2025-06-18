@@ -5,8 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGalleryPostStore } from '../../../stores/galleryPostStore';
 import LoadingSpinner from '../../common/LoadingSpinner';
 import TextArea from '../../common/TextArea';
-import { CircleCheckBig } from 'lucide-react';
-import Modal from '../../common/Modal';
+
 
 type GalleryAddProps = {
   mode?: 'edit' | 'add';
@@ -15,7 +14,7 @@ type GalleryAddProps = {
 export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
   const { postId } = useParams<{ postId?: string }>();
   const isEditMode = Boolean(postId);
-  const [showModal, setShowModal] = useState(false);
+
 
   const [imagePreview, setImagePreview] = useState(postimage);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,20 +50,22 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
-
+  
   const handleSubmit = async () => {
-    if (!isFormValid || isLoading) return; // 중복 방지
+    if (!isFormValid) return;
 
-    setIsLoading(true);
-    let success = false;
-    if (isEditMode && postId) {
-      success = await updatePost(postId);
-    } else {
-      success = await uploadPost();
-    }
-    setIsLoading(false);
+    const success = isEditMode && postId
+      ? await updatePost(postId)
+      : await uploadPost();
+
     if (success) {
-      setShowModal(true);
+      setTimeout(() => {
+        if (mode === 'edit') {
+          navigate(-1);
+        } else {
+          navigate('/lounge/gallery');
+        }
+      }, 0);
     }
   };
 
@@ -132,7 +133,7 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
               <img
                 src={imagePreview}
                 alt="이미지넣기"
-                className="w-full h-full object-cover lg:object-contain"
+                className="w-full h-full object-cover lg:object-contain cursor-pointer"
               />
               <input
                 type="file"
@@ -185,21 +186,6 @@ export default function GalleryAdd({ mode = 'add' }: GalleryAddProps) {
           </div>
         </div>
       </div>
-      {showModal && (
-        <Modal
-          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
-          title="성공적으로 저장되었습니다!"
-          confirmButtonText="OK"
-          onConfirm={() => {
-            setShowModal(false);
-            if (mode === 'edit') {
-              navigate(-1);
-            } else {
-              navigate('/lounge/gallery');
-            }
-          }}
-        />
-      )}
     </>
   );
 }
