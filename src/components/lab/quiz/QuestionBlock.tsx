@@ -12,10 +12,10 @@ export default function QuestionBlock({
   isSubmitted,
 }: QuestionBlockProps) {
   return (
-    <h2 className="text-center mb-10 font-medium px-4">
-      <div className="h-[64px] flex items-center justify-center text-lg leading-snug text-[color:var(--white)] text-center px-2">
-        <span className="inline-block">
-          <span style={{ marginRight: "20px" }}>Q.{currentIndex + 1}</span>
+    <h2 className="text-center mb-10 font-medium ">
+      <div className="h-[64px] flex items-center justify-center text-base leading-snug text-[color:var(--white)] text-center ">
+        <span className="inline-block p-0">
+          <span style={{ marginRight: "8px" }}>Q.{currentIndex + 1}</span>
           <span>{currentQuestion.question}</span>
         </span>
       </div>

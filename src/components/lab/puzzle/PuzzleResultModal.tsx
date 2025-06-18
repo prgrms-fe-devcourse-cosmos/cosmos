@@ -20,10 +20,10 @@ export default function PuzzleResultModal({
       <div className="fixed inset-0 bg-black/50 z-100 flex justify-center items-center ">
         <div className="bg-[color:var(--bg-color)] p-10 rounded-3xl shadow-lg text-center  flex flex-col items-center justify-between h-auto gap-6">
           <div className="flex flex-col gap-2">
-            <p className="text-4xl">
+            <p className="text-2xl">
               {score !== 0 ? "🎉 Puzzle Complete!" : "⏰ Time's Up!"}
             </p>
-            <p className="text-2xl text-white">Score : {score}</p>
+            <p className="text-xl text-white">Score : {score}</p>
           </div>
 
           <div className="flex w-[600px] gap-10">
