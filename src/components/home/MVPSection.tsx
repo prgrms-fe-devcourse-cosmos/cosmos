@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import mvp1 from "../../assets/images/mvp1.jpg";
-import mvp2 from "../../assets/images/mvp2.png";
-import mvp3 from "../../assets/images/mvp3.png";
+import mvp1 from "../../assets/images/mvp1.webp";
+import mvp2 from "../../assets/images/mvp2.webp";
+import mvp3 from "../../assets/images/mvp3.webp";
 import MVPCard from "./MVPCard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
