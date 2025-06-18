@@ -155,3 +155,24 @@ export async function removeReviewLike(reviewId: number, profileId: string) {
     .eq("profile_id", profileId);
   if (error) throw error;
 }
+
+// 영화 리뷰로 자체 평점
+export async function movieAvgRating(movieId: number): Promise<number | null> {
+  const { data, error } = await supabase
+    .from("movie_reviews")
+    .select("rating")
+    .eq("movie_id", movieId);
+
+  if (error) {
+    console.error("평점 불러오기 실패:", error.message);
+    return null;
+  }
+
+  const ratings = data.map((r) => r.rating).filter((r) => r !== null);
+  if (ratings.length === 0) return null;
+
+  const avg = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
+
+  // 소수점 첫째자리까지만
+  return parseFloat(avg.toFixed(1));
+}
