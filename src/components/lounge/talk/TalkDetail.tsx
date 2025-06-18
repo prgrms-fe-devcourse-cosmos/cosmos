@@ -12,6 +12,8 @@ import { CommentType } from '../../common/RealtimeComments';
 import PostLikeButton from '../../common/PostLikeButton';
 import { usercodeStore } from '../../../stores/usercodeStore';
 import Button from '../../common/Button';
+import Modal from '../../common/Modal';
+import { CircleAlert } from 'lucide-react';
 
 export default function TalkDetail() {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ export default function TalkDetail() {
   const { profile, fetchProfile } = usercodeStore();
 
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   useEffect(() => {
     if (selectedPost?.profile_id) {
@@ -106,31 +109,18 @@ export default function TalkDetail() {
 
   // 게시글 삭제
   const handleDelete = async () => {
-    // 삭제 여부 확인
-    const confirmed = window.confirm('정말 게시글을 삭제하시겠습니까?');
+    if (!postId) return;
 
-    // 취소한 경우 종료
-    if (!confirmed) return;
+    try {
+      const { success, message } = await deleteTalkPostById(postId);
 
-    // 예외처리) postId 없는 경우
-    if (!postId) {
-      alert('삭제할 게시글이 없습니다.');
-      return;
+      if (!success) {
+        console.error('게시글 삭제 실패:', message);
+        return;
+      }
+    } catch (error) {
+      console.error('삭제 실패:', error);
     }
-
-    // supabase 해당 ID의 게시글 삭제
-    const { success, message } = await deleteTalkPostById(postId);
-
-    // 삭제 중 오류 발생 하면 콘솔
-    if (!success) {
-      console.error('게시글 삭제 실패:', message);
-      alert(message);
-      return;
-    }
-
-    // 삭제 성공 -> 게시글 목록 페이지로 이동
-    alert('게시글이 삭제되었습니다.');
-    navigate('/lounge/talk');
   };
 
   const {
@@ -183,7 +173,7 @@ export default function TalkDetail() {
             {profile_id === currentUserId ? (
               <Menu
                 onEdit={() => navigate(`/lounge/talk/${selectedPost?.id}/edit`)}
-                onDelete={handleDelete}
+                onDelete={() => setShowConfirmDeleteModal(true)}
               />
             ) : (
               profile_id && <FollowButton followingId={profile_id} />
@@ -216,6 +206,22 @@ export default function TalkDetail() {
                 />
               }
             />
+            
+            {showConfirmDeleteModal && (
+              <Modal
+                icon={<CircleAlert size={32} color="var(--red)" />}
+                title="정말 삭제하시겠습니까?"
+                description="삭제 후 복구가 불가능합니다."
+                confirmButtonText="DELETE"
+                cancelButtonText="CANCEL"
+                onConfirm={async () => {
+                  setShowConfirmDeleteModal(false);
+                  await handleDelete();
+                  navigate('/lounge/talk');
+                }}
+                onCancel={() => setShowConfirmDeleteModal(false)}
+              />
+            )}
           </section>
         </div>
       </div>
