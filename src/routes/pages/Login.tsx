@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase";
 import { useAuthStore } from "../../stores/authStore";
+import Modal from "../../components/common/Modal";
+import { CircleCheckBig } from "lucide-react";
 
 export default function Login() {
   const [emailInput, setEmailInput] = useState("");
@@ -9,6 +11,9 @@ export default function Login() {
   const TextLogo = "/images/cosmos/main-text-logo.svg";
   const navigate = useNavigate();
   const { setUser } = useAuthStore();
+
+  // 모달 상태 추가
+  const [showModal, setShowModal] = useState(false);
 
   const socialLoginHandler = async (p: "google" | "github") => {
     const redirectTo = import.meta.env.PROD
@@ -25,10 +30,10 @@ export default function Login() {
       console.log("OAuth 로그인 오류:", error);
       switch (error.message) {
         case "Invalid login credentials":
-          alert("존재하지 않는 유저입니다.");
+          console.log("존재하지 않는 유저입니다.");
           break;
         default:
-          alert("로그인에 실패하였습니다.");
+          console.log("로그인에 실패하였습니다.");
           return;
       }
     }
@@ -46,14 +51,14 @@ export default function Login() {
       console.log("Email 로그인 오류:", error);
       switch (error.message) {
         case "Invalid login credentials":
-          alert("이메일 또는 비밀번호를 잘못 입력하셨습니다.");
+          console.log("이메일 또는 비밀번호를 잘못 입력하셨습니다.");
           break;
         default:
-          alert("로그인에 실패하였습니다.");
+          console.log("로그인에 실패하였습니다.");
           return;
       }
     } else if (data) {
-      alert("로그인되었습니다.");
+      // alert("로그인이 완료되었습니다.");
       const { data: loginData, error } = await supabase.auth.getSession();
       if (loginData.session) {
         const { data: profile } = await supabase
@@ -62,9 +67,10 @@ export default function Login() {
           .eq("id", loginData.session.user.id);
         if (profile) {
           setUser(data.session.access_token, profile[0]);
+          setShowModal(true);
         }
       } else if (error) console.log("getSession() 오류:", error);
-      navigate("/");
+      // navigate("/");
     }
   };
 
@@ -152,6 +158,19 @@ export default function Login() {
           </form>
         </div>
       </div>
+      {/* 모달 연결 */}
+      {showModal && (
+        <Modal
+          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
+          title="로그인 완료"
+          description="COSMOS 에 오신 것을 환영해요."
+          confirmButtonText="홈으로 가기"
+          onConfirm={() => {
+            setShowModal(false);
+            navigate("/");
+          }}
+        />
+      )}
     </div>
   );
 }
