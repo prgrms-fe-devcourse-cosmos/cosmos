@@ -13,26 +13,31 @@ export function useQuiz(difficulty: string) {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
+    if (!difficulty) return;
+
+    let mounted = true;
+
+    async function fetchQuestions() {
       const { data, error } = await supabase
         .from("quiz_questions")
         .select("*")
         .eq("difficulty", difficulty);
 
-      if (!error && data) {
+      if (mounted && !error && data) {
         const selected = getRandomQuestions(data as QuizQuestion[], 10);
         setQuestions(selected);
+        setSelectedOptions(Array(selected.length).fill(null));
+        setCurrentIndex(0);
+        setIsSubmitted(false);
       }
-    };
-
+    }
+    
     fetchQuestions();
-  }, [difficulty]);
 
-  useEffect(() => {
-    setSelectedOptions(Array(questions.length).fill(null));
-    setCurrentIndex(0);
-    setIsSubmitted(false);
-  }, [questions]);
+    return () => {
+      mounted = false;
+    };
+  }, [difficulty]);
 
   const handleOptionClick = (option: string) => {
     if (isSubmitted) return;
@@ -57,10 +62,15 @@ export function useQuiz(difficulty: string) {
   const handleRetry = () => {
     const reloaded = getRandomQuestions(questions, 10);
     setQuestions(reloaded);
+    setSelectedOptions(Array(reloaded.length).fill(null));
+    setCurrentIndex(0);
+    setIsSubmitted(false);
   };
 
   const score = selectedOptions.reduce((acc, selected, idx) => {
-    if (questions[idx] && selected === questions[idx].correct_answer) return acc + 1;
+    if (questions[idx] && selected === questions[idx].correct_answer) {
+      return acc + 1;
+    }
     return acc;
   }, 0);
 
@@ -70,7 +80,7 @@ export function useQuiz(difficulty: string) {
     selectedOptions,
     isSubmitted,
     score,
-    currentQuestion: questions[currentIndex],
+    currentQuestion: questions.length > 0 ? questions[currentIndex] : null,
     handleOptionClick,
     handleNext,
     handlePrev,
