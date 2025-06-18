@@ -1,5 +1,5 @@
-import { LoaderData } from '../../types/daily';
-import { useLoaderData } from 'react-router-dom';
+import { LoaderData } from "../../types/daily";
+import { useLoaderData } from "react-router-dom";
 
 export default function DailyCalendar() {
   const { todayEvents, upcomingEvents } = useLoaderData() as LoaderData;
@@ -17,7 +17,7 @@ export default function DailyCalendar() {
           </div>
 
           {/* 오늘 이벤트 내용 */}
-          <div className="w-full py-10 bg-[rgba(255,255,255,0.09)] flex justify-center items-center mb-10">
+          <div className="w-full py-6 bg-[rgba(255,255,255,0.09)] flex justify-center items-center mb-10">
             {todayEvents.length === 0 ? (
               <p className="text-[#c7c7c7] text-xs">
                 오늘은 이벤트가 없습니다.
@@ -29,11 +29,13 @@ export default function DailyCalendar() {
                     key={idx}
                     className="flex flex-col items-center text-center gap-y-2"
                   >
-                    <span className="font-[yapari] text-[var(--primary-300)] text-2xl mb-1">
+                    <span className="font-[yapari] text-[var(--primary-300)] text-lg mb-1">
                       {String(event.locdate).slice(-2)}
                     </span>
-                    <span>{event.astroTime}</span>
-                    <span className="text-xl font-bold line-clamp-3">
+                    <span className="text-sm text-[color:var(--gray-100)]">
+                      {event.astroTime}
+                    </span>
+                    <span className="text-base font-medium line-clamp-3">
                       {event.astroEvent}
                     </span>
                   </li>
@@ -68,7 +70,7 @@ export default function DailyCalendar() {
                         {day}
                       </span>
                       <span className="text-sm line-clamp-3">
-                        {events ? events.join(', ') : ''}
+                        {events ? events.join(", ") : ""}
                       </span>
                     </li>
                   ))}
@@ -85,7 +87,7 @@ export default function DailyCalendar() {
                         {day}
                       </span>
                       <span className=" text-xs md:text-sm line-clamp-3">
-                        {events ? events.join(', ') : ''}
+                        {events ? events.join(", ") : ""}
                       </span>
                     </li>
                   ))}
