@@ -50,7 +50,6 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
     } = await supabase.auth.getSession();
 
     if (sessionError || !session) {
-      alert('로그인이 필요합니다.');
       return false;
     }
 
@@ -71,7 +70,6 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
 
     if (postError || !postData) {
       console.error(postError);
-      alert('게시글 등록에 실패했습니다.');
       return false;
     }
 
@@ -99,7 +97,6 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
     if (uploadError || !uploadData) {
       console.error(uploadError);
       await supabase.from('posts').delete().eq('id', postData.id);
-      alert('이미지 업로드에 실패했습니다.');
       return false;
     }
 
@@ -123,11 +120,8 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
       .insert([newImage]);
 
     if (imageError) {
-      alert('이미지 URL 저장 실패');
       return false;
     }
-
-    alert('게시글이 성공적으로 등록되었습니다.');
     return true;
   },
 
@@ -173,7 +167,6 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
     } = await supabase.auth.getSession();
 
     if (sessionError || !session) {
-      alert('로그인이 필요합니다.');
       return false;
     }
 
@@ -190,13 +183,23 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
 
     if (updateError) {
       console.error(updateError);
-      alert('게시글 수정에 실패했습니다.');
       return false;
     }
 
     if (imageFile) {
       // 이미지 변경 시 업로드
-      const fileName = `${postId}/${Date.now()}-${imageFile.name}`;
+      // 파일이름 안전하게 생성
+      const getSafeFileName = (file: File) => {
+        const extension = file.name.split('.').pop();
+        const baseName = file.name
+          .split('.')
+          .slice(0, -1)
+          .join('.')
+          .replace(/[^\w\d_-]/g, ''); // 한글, 특수문자 제거
+        return `${Date.now()}-${baseName}.${extension}`;
+      };
+
+      const fileName = `${postId}/${getSafeFileName(imageFile)}`;
 
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('gallery-images')
@@ -208,7 +211,6 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
 
       if (uploadError || !uploadData) {
         console.error(uploadError);
-        alert('이미지 업로드에 실패했습니다.');
         return false;
       }
 
@@ -221,12 +223,10 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
         .from('gallery_images')
         .select('post_id')
         .eq('post_id', Number(postId))
-        .single();
+        .maybeSingle();
 
       if (existingImageError) {
         console.error(existingImageError);
-        console.log(postId);
-        alert('기존 이미지 조회에 실패했습니다.');
         return false;
       }
 
@@ -238,9 +238,6 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
           .eq('post_id', Number(postId));
 
         if (imageUpdateError) {
-          console.log(postId);
-          console.log(imageUrl);
-          alert('이미지 URL 수정 실패');
           return false;
         }
       } else {
@@ -254,13 +251,10 @@ export const useGalleryPostStore = create<GalleryPostState>((set, get) => ({
           .insert([newImage]);
 
         if (imageInsertError) {
-          alert('이미지 URL 저장 실패');
           return false;
         }
       }
     }
-
-    alert('게시글이 성공적으로 수정되었습니다.');
     return true;
   },
 }));

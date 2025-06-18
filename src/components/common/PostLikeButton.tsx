@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useAuthStore } from "../../stores/authStore";
+import { useEffect, useState } from 'react';
+import { useAuthStore } from '../../stores/authStore';
 import {
   addLike,
   checkUserLike,
   getLikesCount,
   removeLike,
-} from "../../api/gallery/gallerylike";
-import { Heart } from "lucide-react";
+} from '../../api/gallery/gallerylike';
+import { Heart } from 'lucide-react';
 
 interface Props {
   postId: number;
@@ -50,7 +50,7 @@ export default function PostLikeButton({ postId, initialCount = null }: Props) {
           setLikeCount(count);
         }
       } catch (error) {
-        console.error("초기 좋아요 조회 실패:", error);
+        console.error('초기 좋아요 조회 실패:', error);
       } finally {
         if (!isCancelled) {
           // 로딩 종료
@@ -73,7 +73,6 @@ export default function PostLikeButton({ postId, initialCount = null }: Props) {
 
     // 로그인 안 된 사용자는 좋아요 못 누르게
     if (!user) {
-      alert("로그인이 필요합니다.");
       return;
     }
 
@@ -101,13 +100,12 @@ export default function PostLikeButton({ postId, initialCount = null }: Props) {
 
       if (!success) {
         // 실패 시 롤백
-        alert("좋아요 처리 중 오류가 발생했습니다.");
         setLiked(prevLiked);
         setLikeCount(prevCount);
       }
     } catch (error) {
       // 예외 처리
-      console.error("좋아요 토글 실패:", error);
+      console.error('좋아요 토글 실패:', error);
       setLiked(prevLiked);
       setLikeCount(prevCount);
     } finally {
@@ -124,7 +122,7 @@ export default function PostLikeButton({ postId, initialCount = null }: Props) {
     >
       <Heart
         className="text-[#D0F700] w-3 h-3  md:w-4 md:h-4"
-        fill={liked ? "#D0F700" : "none"}
+        fill={liked ? '#D0F700' : 'none'}
       />
       <span className="pt-1 text-xs md:text-sm leading-none">{likeCount}</span>
     </button>

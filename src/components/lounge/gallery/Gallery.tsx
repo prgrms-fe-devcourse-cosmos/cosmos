@@ -51,7 +51,7 @@ export default function Gallery() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      setSortBy('like.desc');
+      setSortBy('release_date.desc');
       sessionStorage.removeItem('gallery_sortBy');
     }
   }, [isLoggedIn]);

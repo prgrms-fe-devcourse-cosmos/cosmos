@@ -42,6 +42,18 @@ interface MovieDetail {
     cast: { id: number; name: string; character: string }[];
     crew: { id: number; name: string; job: string }[];
   };
+  // 트레일러 추가
+  videos: {
+    results: {
+      id: string;
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+      official: boolean;
+      published_at: string;
+    }[];
+  };
 }
 
 interface MovieDetailStore {

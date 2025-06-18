@@ -128,13 +128,13 @@ export const getSpaceMovies = async (
   return filtered.filter((m): m is Movie & { director: string } => m !== null);
 };
 
-// 영화 상세 + 크레딧 (감독, 배우 정보 포함)
+// 영화 상세 + 크레딧 (감독, 배우 정보 포함) + 트레일러
 export const getMovieDetail = async (
   id: number | string
 ): Promise<MovieDetail | undefined> => {
   // en-US 기준 전체 상세 정보 불러오기
   const detail = await movieFetch<MovieDetail>(`/movie/${id}`, "get", {
-    append_to_response: "credits",
+    append_to_response: "credits,videos",
     language: "en-US",
   });
 

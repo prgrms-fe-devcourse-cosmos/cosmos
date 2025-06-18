@@ -79,7 +79,9 @@ export async function DailyLoader() {
   const dateKR = getKoreanDate();
 
   const [y, m] = dateKR.split('-').map(Number);
-  const today = Number(dateKR.split('-')[2]);
+  // 테스트용 19일 고정 기존은 아래로 바꿔야함
+  const today = 19;
+  // const today = Number(dateKR.split('-')[2]);
 
   // 나사 데이터 로컬에 저장, 저장한게없으면 api불러오기
   try {

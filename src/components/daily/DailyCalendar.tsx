@@ -1,5 +1,5 @@
-import { LoaderData } from "../../types/daily";
-import { useLoaderData } from "react-router-dom";
+import { LoaderData } from '../../types/daily';
+import { useLoaderData } from 'react-router-dom';
 
 export default function DailyCalendar() {
   const { todayEvents, upcomingEvents } = useLoaderData() as LoaderData;
@@ -10,14 +10,14 @@ export default function DailyCalendar() {
         COSMIC EVENTS
       </h1>
       <div className="w-[270px] sm:w-[540px] md:w-[640px] lg:w-[880px] xl:w-[1080px] mx-auto text-[var(--white)] mb-5">
-        <div className="w-full h-[162px] mb-4">
+        <div className="w-full h-auto mb-4">
           {/* 오늘 이벤트 제목 */}
           <div className="w-full text-center mb-5">
             <h2 className="text-base md:text-xl font-[yapari]">TODAY</h2>
           </div>
 
           {/* 오늘 이벤트 내용 */}
-          <div className="w-full py-10 bg-[rgba(255,255,255,0.09)] flex justify-center items-center">
+          <div className="w-full py-10 bg-[rgba(255,255,255,0.09)] flex justify-center items-center mb-10">
             {todayEvents.length === 0 ? (
               <p className="text-[#c7c7c7] text-xs">
                 오늘은 이벤트가 없습니다.
@@ -68,7 +68,7 @@ export default function DailyCalendar() {
                         {day}
                       </span>
                       <span className="text-sm line-clamp-3">
-                        {events ? events.join(", ") : ""}
+                        {events ? events.join(', ') : ''}
                       </span>
                     </li>
                   ))}
@@ -85,7 +85,7 @@ export default function DailyCalendar() {
                         {day}
                       </span>
                       <span className=" text-xs md:text-sm line-clamp-3">
-                        {events ? events.join(", ") : ""}
+                        {events ? events.join(', ') : ''}
                       </span>
                     </li>
                   ))}

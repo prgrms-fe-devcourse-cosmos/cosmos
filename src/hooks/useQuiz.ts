@@ -31,7 +31,11 @@ export function useQuiz(difficulty: string, profileId: string) {
         setIsSubmitted(false);
       }
     }
+<<<<<<< feature/quiz-rank
 
+=======
+    
+>>>>>>> main
     fetchQuestions();
 
     return () => {
@@ -154,9 +158,13 @@ export function useQuiz(difficulty: string, profileId: string) {
 
   const score = selectedOptions.reduce((acc, selected, idx) => {
     if (questions[idx] && selected === questions[idx].correct_answer) {
+<<<<<<< feature/quiz-rank
       const level = questions[idx].difficulty;
       const point = level === "1" ? 10 : level === "2" ? 20 : 30;
       return acc + point;
+=======
+      return acc + 1;
+>>>>>>> main
     }
     return acc;
   }, 0);
@@ -173,7 +181,10 @@ export function useQuiz(difficulty: string, profileId: string) {
     selectedOptions,
     isSubmitted,
     score,
+<<<<<<< feature/quiz-rank
     maxPossibleScore,
+=======
+>>>>>>> main
     currentQuestion: questions.length > 0 ? questions[currentIndex] : null,
     handleOptionClick,
     handleNext,

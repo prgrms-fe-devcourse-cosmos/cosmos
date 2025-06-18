@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   icon: React.ReactNode;
@@ -26,16 +27,23 @@ export default function Modal({
     };
   }, []);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[color:var(--bg-color-80)]">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[color:var(--bg-color-80)]"
+      onClick={(e) => e.stopPropagation()}
+    >
       <div
-        className={`rounded-[20px] border border-[rgba(144,144,144,0.47)] bg-[color:var(--bg-color)] text-center text-[#FBFBFB] w-[360px] ${description ? 'h-[251px]' : 'h-[199px]'
-          }`}
+        className={`rounded-[20px] border border-[rgba(144,144,144,0.47)] bg-[color:var(--bg-color)] text-center text-[#FBFBFB] w-[360px] ${
+          description ? 'h-[251px]' : 'h-[199px]'
+        }`}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-center mt-8">{icon}</div>
         <h2 className="text-lg font-medium mt-6 font-[pretendard]">{title}</h2>
         {description && (
-          <p className="text-sm text-[#8B8B8B] mt-6 font-[pretendard]">{description}</p>
+          <p className="text-sm text-[#8B8B8B] mt-6 font-[pretendard]">
+            {description}
+          </p>
         )}
 
         <div className="mt-8 flex justify-center gap-[27px]">
@@ -57,6 +65,7 @@ export default function Modal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

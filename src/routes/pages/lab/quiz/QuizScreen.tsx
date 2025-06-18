@@ -14,9 +14,12 @@ export default function QuizScreen() {
   const { config } = useOutletContext<{ config: { difficulty: string } }>() ?? {};
   const difficulty = config?.difficulty ?? "";
 
+<<<<<<< feature/quiz-rank
   const userData = useAuthStore((state) => state.userData);
   const profileId = userData?.id;
 
+=======
+>>>>>>> main
   const {
     questions,
     currentIndex,
@@ -30,6 +33,7 @@ export default function QuizScreen() {
     handlePrev,
     handleSubmit,
     handleRetry,
+<<<<<<< feature/quiz-rank
   } = useQuiz(difficulty, profileId!);
 
   const [showLoader, setShowLoader] = useState(false);
@@ -39,6 +43,17 @@ export default function QuizScreen() {
     return () => clearTimeout(timer);
   }, []);
 
+=======
+  } = useQuiz(difficulty);
+
+  const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowLoader(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+>>>>>>> main
   if (questions.length === 0) {
     return showLoader ? <LoadingSpinner /> : null;
   }
@@ -66,7 +81,11 @@ export default function QuizScreen() {
           <div className="text-center text-[color:var(--primary-300)] mt-[-70px] mb-10">
             <p className="text-4xl mb-3">MY SCORE</p>
             <p className="text-2xl">
+<<<<<<< feature/quiz-rank
               {score} / {maxPossibleScore}
+=======
+              {score} / {questions.length}
+>>>>>>> main
             </p>
           </div>
         )}

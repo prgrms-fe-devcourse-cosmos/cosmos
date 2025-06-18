@@ -52,10 +52,11 @@ export default function QuizConfigScreen() {
                   >
                     {({ selected }) => (
                       <div
-                        className={` transition-colors ${selected
+                        className={`transition-colors ${
+                          selected
                             ? "text-[color:var(--primary-300)] text-3xl"
                             : "text-[color:var(--primary-200)] text-xl"
-                          }`}
+                        }`}
                       >
                         {option}
                       </div>
@@ -75,7 +76,7 @@ export default function QuizConfigScreen() {
             BACK
           </button>
           <button
-            className="px-10 py-2 cursor-pointer border-1 rounded-lg  hover:text-[color:var(--bg-color)] hover:bg-[color:var(--primary-300)] hover:font-medium z-20 transition-all duration-300"
+            className="px-10 py-2 cursor-pointer border-1 rounded-lg hover:text-[color:var(--bg-color)] hover:bg-[color:var(--primary-300)] hover:font-medium z-20 transition-all duration-300"
             onClick={() =>
               onStart({
                 difficulty: levelMap[pickerValue.difficulty],
