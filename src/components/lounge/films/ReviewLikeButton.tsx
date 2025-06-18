@@ -50,11 +50,11 @@ export default function ReviewLikeButton({ reviewId, onLikeToggle }: Props) {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (!user) {
-        alert("로그인이 필요합니다.");
-        return;
-      }
-      const profileId = user.id;
+      // if (!user) {
+      //   alert("로그인이 필요합니다.");
+      //   return;
+      // }
+      const profileId = user!.id;
 
       if (!liked) {
         await addReviewLike(reviewId, profileId);
