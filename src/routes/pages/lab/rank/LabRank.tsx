@@ -75,11 +75,12 @@ export default function LabRank() {
           />
         </div>
         <div className="flex-1  min-h-0 overflow-y-auto">
-          {(puzzleLoading || quizLoading) ? (
+          {puzzleLoading || quizLoading ? (
             <LoadingSpinner />
           ) : (
             <Leaderboard
               allPlayers={selected === "puzzle" ? puzzlePlayers : quizPlayers}
+              isLoading={selected === "puzzle" ? puzzleLoading : quizLoading}
             />
           )}
         </div>
