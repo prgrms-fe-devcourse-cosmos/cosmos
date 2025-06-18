@@ -474,6 +474,51 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_scores: {
+        Row: {
+          correct_count: number
+          level1_correct: number
+          level2_correct: number
+          level3_correct: number
+          profile_id: string
+          total_score: number
+          updated_at: string
+        }
+        Insert: {
+          correct_count: number
+          level1_correct: number
+          level2_correct: number
+          level3_correct: number
+          profile_id: string
+          total_score: number
+          updated_at?: string
+        }
+        Update: {
+          correct_count?: number
+          level1_correct?: number
+          level2_correct?: number
+          level3_correct?: number
+          profile_id?: string
+          total_score?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_scores_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quiz_scores_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "puzzle_leaderboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       review_likes: {
         Row: {
           created_at: string
@@ -520,45 +565,6 @@ export type Database = {
             columns: ["review_id"]
             isOneToOne: false
             referencedRelation: "movie_reviews_with_likes"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      search_logs: {
-        Row: {
-          category: string | null
-          created_at: string
-          id: number
-          keyword: string
-          profile_id: string
-        }
-        Insert: {
-          category?: string | null
-          created_at?: string
-          id?: number
-          keyword: string
-          profile_id: string
-        }
-        Update: {
-          category?: string | null
-          created_at?: string
-          id?: number
-          keyword?: string
-          profile_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "search_logs_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "search_logs_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "puzzle_leaderboard"
             referencedColumns: ["id"]
           },
         ]

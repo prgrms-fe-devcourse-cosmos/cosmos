@@ -10,14 +10,14 @@ export default function DailyCalendar() {
         COSMIC EVENTS
       </h1>
       <div className="w-[270px] sm:w-[540px] md:w-[640px] lg:w-[880px] xl:w-[1080px] mx-auto text-[var(--white)] mb-5">
-        <div className="w-full h-[162px] mb-4">
+        <div className="w-full h-auto mb-4">
           {/* 오늘 이벤트 제목 */}
           <div className="w-full text-center mb-5">
             <h2 className="text-base md:text-xl font-[yapari]">TODAY</h2>
           </div>
 
           {/* 오늘 이벤트 내용 */}
-          <div className="w-full py-10 bg-[rgba(255,255,255,0.09)] flex justify-center items-center">
+          <div className="w-full py-6 bg-[rgba(255,255,255,0.09)] flex justify-center items-center mb-10">
             {todayEvents.length === 0 ? (
               <p className="text-[#c7c7c7] text-xs">
                 오늘은 이벤트가 없습니다.
@@ -29,11 +29,13 @@ export default function DailyCalendar() {
                     key={idx}
                     className="flex flex-col items-center text-center gap-y-2"
                   >
-                    <span className="font-[yapari] text-[var(--primary-300)] text-2xl mb-1">
+                    <span className="font-[yapari] text-[var(--primary-300)] text-lg mb-1">
                       {String(event.locdate).slice(-2)}
                     </span>
-                    <span>{event.astroTime}</span>
-                    <span className="text-xl font-bold line-clamp-3">
+                    <span className="text-sm text-[color:var(--gray-100)]">
+                      {event.astroTime}
+                    </span>
+                    <span className="text-base font-medium line-clamp-3">
                       {event.astroEvent}
                     </span>
                   </li>

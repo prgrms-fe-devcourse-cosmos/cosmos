@@ -174,7 +174,6 @@ export default function UserHeader({
                 // 팔로우버튼
                 <FollowButton
                   followingId={userData.id}
-                  className="py-1.5 md:py-2  text-[10px] md:text-xs "
                   onFollowChange={(newStatus) => handleFollower(newStatus)}
                 />
               )}
@@ -246,7 +245,6 @@ export default function UserHeader({
                             </div>
                             <FollowButton
                               followingId={item.id}
-                              className="text-[6px] sm:text-[6px] lg:text-[6px] "
                               onFollowChange={
                                 isOwner
                                   ? (newStatus) =>
@@ -329,7 +327,6 @@ export default function UserHeader({
                             </div>
                             <FollowButton
                               followingId={item.id}
-                              className="text-[6px] sm:text-[6px] lg:text-[6px] w-24 sm:w-24 lg:w-24 h-7 p-0"
                               onFollowChange={
                                 isOwner
                                   ? (newStatus) => {

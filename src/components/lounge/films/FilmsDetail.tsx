@@ -222,19 +222,19 @@ export default function FilmsDetail() {
       <section className="mt-[60px] px-[32px] pb-[24px]">
         {/* review header */}
         <div className="flex justify-between mb-[28px]">
-          <div className="flex items-center gap-8">
-            <h3 className="text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base">
-              REVIEW ({reviews.length})
-            </h3>
+          <div className="flex items-center gap-4">
             {avgRating !== null && (
-              <p className="flex items-center gap-1 text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base">
+              <p className="flex items-center gap-1 text-white  text-xs md:text-sm lg:text-base">
                 <Star
                   fill="currentColor"
                   className="w-3 md:w-[12px] lg:w-4 h-3 md:h-[12px] lg:h-4 text-[var(--primary-300)]"
                 />
-                <span>{avgRating.toFixed(1)}</span>
+                <span className="pt-1">{avgRating.toFixed(1)}</span>
               </p>
             )}
+            <h3 className="text-[color:var(--primary-300)] font-medium text-xs md:text-sm lg:text-base pt-1">
+              REVIEW ({reviews.length})
+            </h3>
           </div>
           {/* review sort */}
           <ul className="flex items-center gap-4 text-[10px] md:text-xs lg:text-sm">

@@ -12,7 +12,16 @@ export default function RootLayout() {
 
   if (isAuthPage)
     return (
-      <div className="flex flex-col min-h-screen bg-[url('/images/cosmos/galaxy_bg.png')] bg-cover bg-center bg-no-repeat bg-fixed text-[#c9d1d9] w-full">
+      <div
+        className="flex flex-col min-h-screen  text-[#c9d1d9] w-full"
+        style={{
+          backgroundImage: "url('/images/cosmos/galaxy_bg.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+        }}
+      >
         <main className="flex-grow w-full flex justify-center items-center">
           <Outlet />
         </main>
@@ -24,7 +33,16 @@ export default function RootLayout() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-[url('/images/cosmos/galaxy_bg.png')] bg-cover bg-center bg-no-repeat bg-fixed text-[#c9d1d9] w-full">
+      <div
+        className="flex flex-col min-h-screen text-[#c9d1d9] w-full"
+        style={{
+          backgroundImage: "url('/images/cosmos/galaxy_bg.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+        }}
+      >
         <Header />
 
         <main className="flex-grow w-full flex justify-center items-center">

@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function DailySpaceimage() {
   const { nasa } = useLoaderData() as LoaderData;
   const [showTranslation, setShowTranslation] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const { translation: translation, isLoading } = useTranslate(
     nasa.explanation,
     nasa.date
@@ -13,7 +14,7 @@ export default function DailySpaceimage() {
 
   return (
     <div>
-      <h1 className="text-center font-[yapari] text-[var(--primary-300)] text-lg md:text-2xl mb-8 sm:mb-15">
+      <h1 className="text-center font-[yapari] text-[var(--primary-300)] text-lg md:text-2xl  mb-8 sm:mb-15">
         IMAGE OF THE DAY
       </h1>
       <div
@@ -25,24 +26,32 @@ export default function DailySpaceimage() {
         "
       >
         {/* 오른쪽 이미지 */}
-        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] flex justify-start items-center">
-          {isLoading ? (
-            <div className="h-full w-full animate-pulse">
-              <div className="h-full bg-gray-500 rounded w-full"></div>
-            </div>
-          ) : nasa.media_type === "image" ? (
-            <a
-              href="https://apod.nasa.gov/apod/astropix.html"
-              target="_blank"
-              className="w-full h-full"
-            >
-              <img
-                src={nasa.url}
-                alt={nasa.title}
-                className="w-full h-full object-cover"
-              />
-            </a>
-          ) : (
+        <div className="w-full h-1/2 sm:w-1/2 sm:h-full bg-[rgba(255,255,255,0.09)] flex justify-start items-center relative">
+          {nasa.media_type === "image" && (
+            <>
+              {!imageLoaded && (
+                <div className="absolute inset-0 animate-pulse">
+                  <div className="h-full bg-gray-500 rounded w-full"></div>
+                </div>
+              )}
+              <a
+                href="https://apod.nasa.gov/apod/astropix.html"
+                target="_blank"
+                className="w-full h-full block"
+              >
+                <img
+                  src={nasa.url}
+                  alt={nasa.title || "나사이미지 제목이없습니다."}
+                  onLoad={() => setImageLoaded(true)}
+                  className={`w-full h-full object-cover ${
+                    !imageLoaded ? "invisible" : ""
+                  }`}
+                />
+              </a>
+            </>
+          )}
+
+          {nasa.media_type !== "image" && (
             <div className="w-full flex justify-center items-center">
               <h1 className="text-center">이미지가 없습니다.</h1>
             </div>
@@ -51,7 +60,7 @@ export default function DailySpaceimage() {
         {/* 왼쪽 내용 */}
         <div className="w-full sm:w-1/2 md:h-full bg-[rgba(255,255,255,0.09)] text-[var(--white)] flex flex-col items-start px-6 py-6 md:px-12 md:py-12">
           <div className=" h-full w-full flex flex-col justify-between">
-            <h1 className="md:text-xl text-sm font-medium mb-2 md:mb-5">
+            <h1 className="lg:text-2xl md:text-xl text-sm font-medium mb-2 md:mb-5">
               {nasa.title}
             </h1>
             {showTranslation ? (

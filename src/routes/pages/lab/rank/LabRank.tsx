@@ -4,6 +4,7 @@ import Button from "../../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import Leaderboard from "./Leaderboard";
 import usePuzzleLeaderBoard from "../../../../hooks/usePuzzleLeaderBoard";
+import useQuizLeaderBoard from "../../../../hooks/useQuizLeaderBoard";
 import LoadingSpinner from "../../../../components/common/LoadingSpinner";
 
 const tabs = [
@@ -15,7 +16,8 @@ export default function LabRank() {
   const [selected, setSelected] = useState("puzzle");
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { puzzlePlayers, isLoading } = usePuzzleLeaderBoard();
+  const { puzzlePlayers, isLoading: puzzleLoading } = usePuzzleLeaderBoard();
+  const { quizPlayers, isLoading: quizLoading } = useQuizLeaderBoard();
 
   const [indicatorProps, setIndicatorProps] = useState<{
     left: number;
@@ -73,11 +75,12 @@ export default function LabRank() {
           />
         </div>
         <div className="flex-1  min-h-0 overflow-y-auto">
-          {isLoading ? (
+          {puzzleLoading || quizLoading ? (
             <LoadingSpinner />
           ) : (
             <Leaderboard
-              allPlayers={selected === "puzzle" ? puzzlePlayers : puzzlePlayers}
+              allPlayers={selected === "puzzle" ? puzzlePlayers : quizPlayers}
+              isLoading={selected === "puzzle" ? puzzleLoading : quizLoading}
             />
           )}
         </div>

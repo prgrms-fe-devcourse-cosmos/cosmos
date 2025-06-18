@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import Button from './Button';
-import { useAuthStore } from '../../stores/authStore';
-import { followUser, getFollowStatus, unfollowUser } from '../../api/follow';
-import { twMerge } from 'tailwind-merge';
-import { useNavigate } from 'react-router-dom';
-import Modal from './Modal';
-import { CircleAlert } from 'lucide-react';
+import { useEffect, useState } from "react";
+import Button from "./Button";
+import { useAuthStore } from "../../stores/authStore";
+import { followUser, getFollowStatus, unfollowUser } from "../../api/follow";
+import { twMerge } from "tailwind-merge";
+import { useNavigate } from "react-router-dom";
+import Modal from "./Modal";
+import { CircleAlert } from "lucide-react";
 
 type Props = {
   followingId: string; // 내가 팔로우할 사람의 ID
@@ -44,7 +44,7 @@ export default function FollowButton({
         const status = await getFollowStatus(currentUser.id, followingId);
         setIsFollowing(status);
       } catch (err) {
-        console.error('팔로우 상태 불러오기 실패:', err);
+        console.error("팔로우 상태 불러오기 실패:", err);
       }
     };
 
@@ -77,7 +77,7 @@ export default function FollowButton({
         onFollowChange?.(true);
       }
     } catch (err) {
-      console.error('팔로우 토글 실패:', err);
+      console.error("팔로우 토글 실패:", err);
     } finally {
       setLoading(false);
     }
@@ -90,14 +90,14 @@ export default function FollowButton({
     <>
       <Button
         className={twMerge(
-          'text-[8px] px-2.5 md:px-4 py-2 min-w-21',
+          "text-[7px] rounded-[4px] px-1 md:px-2 py-1 min-w-21",
           className
         )}
         onClick={toggleFollow}
         disabled={loading}
-        variant={isFollowing ? 'neon_outline' : 'neon_filled'}
+        variant={isFollowing ? "neon_outline" : "neon_filled"}
       >
-        {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+        {isFollowing ? "UNFOLLOW" : "FOLLOW"}
       </Button>
       {showLoginModal && (
         <Modal
@@ -111,7 +111,7 @@ export default function FollowButton({
           }}
           onConfirm={() => {
             setShowLoginModal(false);
-            navigate('/login');
+            navigate("/login");
           }}
         />
       )}

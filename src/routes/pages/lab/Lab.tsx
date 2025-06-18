@@ -14,7 +14,7 @@ export default function Lab() {
 
   return (
     <div className="min-h-screen w-[1080px] flex pt-10 justify-between flex-col font-[yapari] text-[color:var(--primary-300)]">
-      <div className="w-[1080px] h-[720px] relative inset-0 bg-[url('/images/puzzle/cosmolab_bg.png')] bg-cover p-10 flex flex-col justify-between">
+      <div className="w-[1080px] h-[720px] relative inset-0 bg-[url('/images/puzzle/cosmolab_bg.webp')] bg-cover p-10 flex flex-col justify-between">
         {isRoot && (
           <div className="pt-30">
             <div className="w-full text-center text-4xl">
