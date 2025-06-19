@@ -1,23 +1,23 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import LoungeComment from '../../common/LoungeComment';
-import { useEffect, useState } from 'react';
-import { useTalkStore } from '../../../stores/talkStore';
-import FollowButton from '../../common/FollowButton';
-import TalkDetailSkeleton from './TalkDetailSkeleton';
-import Menu from '../../common/Menu';
-import supabase from '../../../utils/supabase';
-import { deleteTalkPostById } from '../../../api/talk/talk';
-import { fetchCommentsByPostId } from '../../../api/comments';
-import { CommentType } from '../../common/RealtimeComments';
-import PostLikeButton from '../../common/PostLikeButton';
-import { usercodeStore } from '../../../stores/usercodeStore';
-import Button from '../../common/Button';
-import Modal from '../../common/Modal';
-import { CircleAlert } from 'lucide-react';
+import { useNavigate, useParams } from "react-router-dom";
+import LoungeComment from "../../common/LoungeComment";
+import { useEffect, useState } from "react";
+import { useTalkStore } from "../../../stores/talkStore";
+import FollowButton from "../../common/FollowButton";
+import TalkDetailSkeleton from "./TalkDetailSkeleton";
+import Menu from "../../common/Menu";
+import supabase from "../../../utils/supabase";
+import { deleteTalkPostById } from "../../../api/talk/talk";
+import { fetchCommentsByPostId } from "../../../api/comments";
+import { CommentType } from "../../common/RealtimeComments";
+import PostLikeButton from "../../common/PostLikeButton";
+import { usercodeStore } from "../../../stores/usercodeStore";
+import Button from "../../common/Button";
+import Modal from "../../common/Modal";
+import { CircleAlert } from "lucide-react";
 
 export default function TalkDetail() {
   const navigate = useNavigate();
-  const profileImage = '/images/cosmos/alien.svg';
+  const profileImage = "/images/cosmos/alien.svg";
   // useParams ID 받기
   const { id } = useParams();
   const [comments, setComments] = useState<CommentType[] | null>(null);
@@ -46,7 +46,7 @@ export default function TalkDetail() {
         const comments = await fetchCommentsByPostId(postId!);
         setComments(comments);
       } catch (error) {
-        console.error('getComments 실패 : ', error);
+        console.error("getComments 실패 : ", error);
         setComments(null);
       }
     };
@@ -80,14 +80,14 @@ export default function TalkDetail() {
   // 날짜 포맷 추가
   function formatKoreanDate(dateString: string) {
     const date = new Date(dateString);
-    const day = date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    const day = date.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
-    const time = date.toLocaleTimeString('ko-KR', {
-      hour: '2-digit',
-      minute: '2-digit',
+    const time = date.toLocaleTimeString("ko-KR", {
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: false,
     });
     return `${day} ${time}`;
@@ -115,11 +115,11 @@ export default function TalkDetail() {
       const { success, message } = await deleteTalkPostById(postId);
 
       if (!success) {
-        console.error('게시글 삭제 실패:', message);
+        console.error("게시글 삭제 실패:", message);
         return;
       }
     } catch (error) {
-      console.error('삭제 실패:', error);
+      console.error("삭제 실패:", error);
     }
   };
 
@@ -176,7 +176,9 @@ export default function TalkDetail() {
                 onDelete={() => setShowConfirmDeleteModal(true)}
               />
             ) : (
-              profile_id && <FollowButton followingId={profile_id} />
+              profile_id && (
+                <FollowButton className="text-xs " followingId={profile_id} />
+              )
             )}
           </div>
 
@@ -206,7 +208,7 @@ export default function TalkDetail() {
                 />
               }
             />
-            
+
             {showConfirmDeleteModal && (
               <Modal
                 icon={<CircleAlert size={32} color="var(--red)" />}
@@ -217,7 +219,7 @@ export default function TalkDetail() {
                 onConfirm={async () => {
                   setShowConfirmDeleteModal(false);
                   await handleDelete();
-                  navigate('/lounge/talk');
+                  navigate("/lounge/talk");
                 }}
                 onCancel={() => setShowConfirmDeleteModal(false)}
               />
