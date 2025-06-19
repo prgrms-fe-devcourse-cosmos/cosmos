@@ -4,11 +4,10 @@ import {
   movieAvgRating,
   updateReviewById,
 } from "../../../api/films/review";
-import { Star } from "lucide-react";
+import { Star, CircleAlert } from "lucide-react";
 import supabase from "../../../utils/supabase";
 import ReviewLikeButton from "../../lounge/films/ReviewLikeButton";
-import Modal from '../../common/Modal';
-import { CircleAlert } from 'lucide-react';
+import Modal from "../../common/Modal";
 
 type Props = {
   reviews: MovieReviewWithLike[];
@@ -32,7 +31,8 @@ export default function ReviewList({
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
+  const [selectedDeleteReviewId, setSelectedDeleteReviewId] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -41,11 +41,9 @@ export default function ReviewList({
       } = await supabase.auth.getUser();
       setCurrentUserId(user?.id ?? null);
     };
-
     fetchUser();
   }, []);
 
-  // 한국 시간대로 날짜 포맷 함수
   function formatKoreanDateTime(isoString: string): string {
     const date = new Date(isoString);
     return date.toLocaleString("ko-KR", {
@@ -59,36 +57,30 @@ export default function ReviewList({
     });
   }
 
-  // 리뷰 삭제
-  const openDeleteModal = (reviewId: number) => {
-    setSelectedReviewId(reviewId);
-    setShowConfirmDeleteModal(true);
-  };
-
-  const handleDelete = async () => {
-    if (!selectedReviewId || !currentUserId) return;
+  const handleDelete = async (reviewId: number) => {
+    if (!currentUserId || selectedDeleteReviewId === null) return;
+    setIsDeleting(true);
 
     try {
-      await deleteReviewById(selectedReviewId, currentUserId);
-
-      setReviews((prev) => prev.filter((r) => r.id !== selectedReviewId));
-
+      await deleteReviewById(reviewId, currentUserId);
+      setReviews((prev) => prev.filter((r) => r.id !== reviewId));
       const newAvg = await movieAvgRating(movieId);
       onAvgRatingUpdate?.(newAvg!);
-
-    } catch (error) {
-      console.error("리뷰 삭제 중 오류:", error);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setShowConfirmDeleteModal(false);
+      setSelectedDeleteReviewId(null);
+      setIsDeleting(false);
     }
   };
 
-  // 리뷰 수정
   const handleEditClick = (review: MovieReviewWithLike) => {
     setEditingReviewId(review.id);
     setEditedContent(review.content);
     setEditedRating(review.rating);
   };
 
-  // 리뷰 수정 저장 핸들러
   const handleSave = async (reviewId: number) => {
     if (!currentUserId) return;
     try {
@@ -98,8 +90,6 @@ export default function ReviewList({
         editedRating,
         currentUserId
       );
-
-      // 성공 시 상태 업데이트
       setReviews((prev) =>
         prev.map((r) =>
           r.id === reviewId
@@ -108,8 +98,6 @@ export default function ReviewList({
         )
       );
       setEditingReviewId(null);
-
-      // 평균 평점 다시 계산
       const newAvg = await movieAvgRating(movieId);
       onAvgRatingUpdate?.(newAvg!);
     } catch (e) {
@@ -117,7 +105,6 @@ export default function ReviewList({
     }
   };
 
-  // 리뷰 없을 때 보여질 내용
   if (!reviews || reviews.length === 0) {
     return (
       <p className="text-[#909090] mb-[24px]">아직 작성된 리뷰가 없습니다.</p>
@@ -129,57 +116,72 @@ export default function ReviewList({
       {reviews.map((review) => (
         <div
           key={review.id}
-          className={`py-[12px] flex flex-col gap-[12px] px-2 rounded-[8px]
-          ${review.profile_id === currentUserId ? "bg-white/5" : ""}`}
+          className={`py-[12px] flex flex-col gap-[8px] px-2 rounded-[8px] ${review.profile_id === currentUserId ? "bg-white/5" : ""
+            }`}
         >
-          {/* 유저 정보 + 작성일 + 별점 + 수정/삭제/저장/취소 */}
-          <div className="flex justify-between items-center">
-            <div className="flex gap-4">
-              <h3 className=" text-xs md:text-sm lg:text-base font-bold text-white pt-[1px]">
-                {review.profiles.username}
-              </h3>
-              <p className="text-[10px] md:text-xs lg:text-sm text-[color:var(--gray-300)] pt-[2px] md:pt-[4px]">
+          <div className="flex items-start justify-between relative">
+            {/* 이름 + rating */}
+            <div>
+              <div className="flex items-center gap-2">
+                <h3
+                  className="text-xs md:text-sm lg:text-base font-bold text-white pt-[1px] max-w-[200px] truncate"
+                  title={review.profiles.username}
+                >
+                  {review.profiles.username}
+                </h3>
+
+                {/* 별점 바로 옆 */}
+                <div className="flex items-center">
+                  {editingReviewId === review.id ? (
+                    <div className="flex gap-1 items-center">
+                      {[1, 2, 3, 4, 5].map((i) => {
+                        const value = i * 2;
+                        const isFilled = hoverRating
+                          ? hoverRating >= value
+                          : editedRating >= value;
+                        return (
+                          <Star
+                            key={i}
+                            size={16}
+                            className="cursor-pointer text-[color:var(--primary-300)]"
+                            fill={isFilled ? "currentColor" : "none"}
+                            onClick={() => setEditedRating(value)}
+                            onMouseEnter={() => setHoverRating(value)}
+                            onMouseLeave={() => setHoverRating(0)}
+                          />
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="flex gap-1 items-center">
+                      {Array.from({ length: 5 }, (_, i) => {
+                        const isFilled = i < Math.round(review.rating / 2);
+                        return (
+                          <Star
+                            key={i}
+                            className="text-[color:var(--primary-300)] w-3 h-3 md:w-4 md:h-4"
+                            fill={isFilled ? "currentColor" : "none"}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 날짜는 이름 아래 */}
+              <p className="text-[10px] md:text-sm text-xs text-[color:var(--gray-300)] mt-1">
                 {formatKoreanDateTime(review.created_at)}
               </p>
-              {/* 별점 */}
-              {editingReviewId === review.id ? (
-                <div className="flex gap-1 items-center ">
-                  {[1, 2, 3, 4, 5].map((i) => {
-                    const value = i * 2;
-                    const isFilled = hoverRating
-                      ? hoverRating >= value
-                      : editedRating >= value;
-                    return (
-                      <Star
-                        key={i}
-                        size={16}
-                        className="cursor-pointer text-[color:var(--primary-300)]"
-                        fill={isFilled ? "currentColor" : "none"}
-                        onClick={() => setEditedRating(value)}
-                        onMouseEnter={() => setHoverRating(value)}
-                        onMouseLeave={() => setHoverRating(0)}
-                      />
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="flex gap-1 items-center">
-                  {Array.from({ length: 5 }, (_, i) => {
-                    const isFilled = i < Math.round(review.rating / 2);
-                    return (
-                      <Star
-                        key={i}
-                        className={`text-[color:var(--primary-300)] w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 `}
-                        fill={isFilled ? "currentColor" : "none"}
-                      />
-                    );
-                  })}
-                </div>
-              )}
             </div>
 
+            {/* 수정/삭제 버튼: 오른쪽 끝 상단 고정 */}
             {review.profile_id === currentUserId && (
-              <div className="text-[#909090] font-medium text-[12px]">
+              <div
+                className="absolute top-0.5 right-2 text-[#909090] font-medium md:text-sm text-xs flex
+                sm:static sm:bg-transparent sm:p-0 sm:flex-row sm:text-inherit"
+                style={{ position: "absolute" }}
+              >
                 {editingReviewId === review.id ? (
                   <>
                     <button
@@ -204,7 +206,10 @@ export default function ReviewList({
                       수정
                     </span>
                     <button
-                      onClick={() => openDeleteModal(review.id)}
+                      onClick={() => {
+                        setShowConfirmDeleteModal(true);
+                        setSelectedDeleteReviewId(review.id);
+                      }}
                       className="cursor-pointer hover:text-white"
                     >
                       삭제
@@ -219,40 +224,35 @@ export default function ReviewList({
             <input
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full px-2 py-1 bg-transparent 
-              border-b border-white/80 text-white text-sm md:text-[16px]
-              focus:outline-none"
+              className="w-full px-2 py-1 bg-transparent border-b border-white/80 text-white text-sm md:text-[16px] focus:outline-none"
             />
           ) : (
             <p className="text-xs md:text-sm lg:text-base">{review.content}</p>
           )}
 
           <div
-            className={`transition-opacity ${editingReviewId === review.id
-              ? "opacity-40 pointer-events-none"
-              : ""
+            className={`transition-opacity ${editingReviewId === review.id ? "opacity-40 pointer-events-none" : ""
               }`}
           >
-            <ReviewLikeButton
-              reviewId={review.id}
-              onLikeToggle={onLikeToggle}
-            />
+            <ReviewLikeButton reviewId={review.id} onLikeToggle={onLikeToggle} />
           </div>
         </div>
       ))}
-
       {showConfirmDeleteModal && (
         <Modal
-          icon={<CircleAlert size={40} color="#EF4444" />}
+          icon={<CircleAlert size={32} color="var(--red)" />}
           title="정말 삭제하시겠습니까?"
           description="삭제 후 복구가 불가능합니다."
           confirmButtonText="DELETE"
           cancelButtonText="CANCEL"
-          onConfirm={async () => {
-            setShowConfirmDeleteModal(false);
-            await handleDelete();
+          onConfirm={() => {
+            if (selectedDeleteReviewId !== null) {
+              handleDelete(selectedDeleteReviewId);
+            }
           }}
-          onCancel={() => setShowConfirmDeleteModal(false)}
+          onCancel={() => {
+            if (!isDeleting) setShowConfirmDeleteModal(false);
+          }}
         />
       )}
     </div>
