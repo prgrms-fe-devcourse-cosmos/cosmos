@@ -79,9 +79,7 @@ export async function DailyLoader() {
   const dateKR = getKoreanDate();
 
   const [y, m] = dateKR.split('-').map(Number);
-  // 테스트용 19일 고정 기존은 아래로 바꿔야함
-  const today = 19;
-  // const today = Number(dateKR.split('-')[2]);
+  const today = Number(dateKR.split('-')[2]);
 
   // 나사 데이터 로컬에 저장, 저장한게없으면 api불러오기
   try {
@@ -101,7 +99,16 @@ export async function DailyLoader() {
     } catch {
       try {
         const nasa = await nasaAPI('/apod', { params: { date: dateUS } });
-        nasaData = nasa.data;
+        const rawNasa = nasa.data;
+        nasaData = {
+          ...rawNasa,
+          url: rawNasa.url?.replace(/^http:\/\//, 'https://'),
+          hdurl: rawNasa.hdurl?.replace(/^http:\/\//, 'https://'),
+          thumbnail_url: rawNasa.thumbnail_url?.replace(
+            /^http:\/\//,
+            'https://'
+          ),
+        };
         localStorage.setItem(
           'nasa',
           JSON.stringify({ date: dateUS, data: nasaData })
@@ -122,9 +129,17 @@ export async function DailyLoader() {
             article.summary,
             article.id.toString()
           );
-          return { ...article, translatedSummary: summary };
+          return {
+            ...article,
+            translatedSummary: summary,
+            image_url: article.image_url?.replace(/^http:\/\//, 'https://'),
+          };
         } catch {
-          return { ...article, translatedSummary: null };
+          return {
+            ...article,
+            translatedSummary: null,
+            image_url: article.image_url?.replace(/^http:\/\//, 'https://'),
+          };
         }
       })
     );
