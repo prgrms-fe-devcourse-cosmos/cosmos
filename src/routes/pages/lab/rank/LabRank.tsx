@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../../../../components/common/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Leaderboard from "./Leaderboard";
 import usePuzzleLeaderBoard from "../../../../hooks/usePuzzleLeaderBoard";
 import useQuizLeaderBoard from "../../../../hooks/useQuizLeaderBoard";
@@ -13,11 +13,14 @@ const tabs = [
 ];
 
 export default function LabRank() {
-  const [selected, setSelected] = useState("puzzle");
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { puzzlePlayers, isLoading: puzzleLoading } = usePuzzleLeaderBoard();
   const { quizPlayers, isLoading: quizLoading } = useQuizLeaderBoard();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const defaultTab = searchParams.get("tab") ?? "puzzle";
+  const [selected, setSelected] = useState(defaultTab);
 
   const [indicatorProps, setIndicatorProps] = useState<{
     left: number;
