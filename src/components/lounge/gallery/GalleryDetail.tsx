@@ -15,7 +15,7 @@ import PostLikeButton from '../../common/PostLikeButton';
 import { usercodeStore } from '../../../stores/usercodeStore';
 import Button from '../../common/Button';
 import Modal from '../../common/Modal';
-import { CircleAlert, CircleCheckBig } from 'lucide-react';
+import { CircleAlert } from 'lucide-react';
 
 export default function GalleryDetail() {
   const { postid } = useParams();
@@ -29,7 +29,7 @@ export default function GalleryDetail() {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const [showDeleteCompleteModal, setShowDeleteCompleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -93,6 +93,7 @@ export default function GalleryDetail() {
   const handleDelete = async () => {
     if (!postid) return;
 
+    setIsDeleting(true);
     try {
       // 스토리지에서 해당 post_id 폴더의 모든 파일 삭제
       const { data: fileList, error: listError } = await supabase.storage
@@ -140,9 +141,13 @@ export default function GalleryDetail() {
 
       if (postError) throw postError;
 
-      setShowDeleteCompleteModal(true);
+      setShowConfirmDeleteModal(false);
+      navigate('/lounge/gallery');
+
     } catch (error) {
       console.error('삭제 중 오류 발생:', error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -243,26 +248,14 @@ export default function GalleryDetail() {
       </div>
       {showConfirmDeleteModal && (
         <Modal
-          icon={<CircleAlert size={40} color="#EF4444" />}
+          icon={<CircleAlert size={32} color="var(--red)" />}
           title="정말 삭제하시겠습니까?"
           description="삭제 후 복구가 불가능합니다."
           confirmButtonText="DELETE"
           cancelButtonText="CANCEL"
-          onConfirm={async () => {
-            setShowConfirmDeleteModal(false);
-            await handleDelete();
-          }}
-          onCancel={() => setShowConfirmDeleteModal(false)}
-        />
-      )}
-      {showDeleteCompleteModal && (
-        <Modal
-          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
-          title="게시글이 삭제되었습니다."
-          confirmButtonText="OK"
-          onConfirm={() => {
-            setShowConfirmDeleteModal(false);
-            navigate('/lounge/gallery');
+          onConfirm={handleDelete}
+          onCancel={() => {
+            if (!isDeleting) setShowConfirmDeleteModal(false);
           }}
         />
       )}

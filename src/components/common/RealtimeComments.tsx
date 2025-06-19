@@ -10,6 +10,8 @@ import {
 } from "../../api/comments";
 import { MessageSquareOff } from "lucide-react";
 import CommentInput from "./CommentInput";
+import Modal from "./Modal";
+import { CircleAlert } from 'lucide-react';
 
 export type CommentType = Database["public"]["Tables"]["comment"]["Row"] & {
   profiles?: {
@@ -37,6 +39,9 @@ export default function RealtimeComments({
   );
   const [commentInput, setCommentInput] = useState("");
   const channelRef = useRef<RealtimeChannel | null>(null);
+
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
 
   useEffect(() => {
     setComments(serverComments);
@@ -99,7 +104,26 @@ export default function RealtimeComments({
             });
           }
         )
+        .on(
+          "postgres_changes",
+          {
+            event: "DELETE",
+            schema: "public",
+            table: "comment",
+          },
+          (payload) => {
+            if (!mounted) return;
+            const deletedComment = payload.old as CommentType;
+
+            if (String(deletedComment.post_id) !== params.id) return;
+
+            setComments((oldComments) =>
+              oldComments?.filter((c) => c.id !== deletedComment.id) ?? null
+            );
+          }
+        )
         .subscribe();
+
       if (mounted) {
         channelRef.current = commentsChannel;
       }
@@ -132,16 +156,31 @@ export default function RealtimeComments({
     }
   };
 
-  const handleDeleteComment = async (commentId: number) => {
+  function requestDeleteComment(commentId: number) {
+    setDeleteTargetId(commentId);
+    setShowConfirmDeleteModal(true);
+  }
+
+  const confirmDeleteComment = async () => {
+    if (deleteTargetId === null) return;
+
     try {
-      await deleteComment(commentId, userId);
+      await deleteComment(deleteTargetId, userId);
       setComments(
         (oldComments) =>
-          oldComments?.filter((comment) => comment.id !== commentId) ?? null
+          oldComments?.filter((comment) => comment.id !== deleteTargetId) ?? null
       );
     } catch (e) {
       console.error("delete comment failed : ", e);
+    } finally {
+      setShowConfirmDeleteModal(false);
+      setDeleteTargetId(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDeleteModal(false);
+    setDeleteTargetId(null);
   };
 
   const handleUpdateComment = async (
@@ -172,7 +211,7 @@ export default function RealtimeComments({
               isSender={userId === comment.profile_id}
               comment={comment}
               key={comment.id}
-              onDelete={() => handleDeleteComment(comment.id)}
+              onDelete={() => requestDeleteComment(comment.id)}
               onUpdate={(updatedContent) =>
                 handleUpdateComment(comment.id, updatedContent)
               }
@@ -185,6 +224,19 @@ export default function RealtimeComments({
           </div>
         )}
       </section>
+
+      {showConfirmDeleteModal && (
+        <Modal
+          icon={<CircleAlert size={32} color="var(--red)" />}
+          title="정말 삭제하시겠습니까?"
+          description="삭제 후 복구가 불가능합니다."
+          confirmButtonText="DELETE"
+          cancelButtonText="CANCEL"
+          onConfirm={confirmDeleteComment}
+          onCancel={cancelDelete}
+        />
+      )}
+
       <form onSubmit={handleSubmitComment} className="w-full relative">
         <CommentInput
           commentInput={commentInput}

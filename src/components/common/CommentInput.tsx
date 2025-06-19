@@ -20,7 +20,7 @@ export default function CommentInput({
       <button
         type="submit"
         disabled={!commentInput.trim()}
-        className={`w-[20%] py-1 md:py-2 border-1 rounded-br-lg rounded-tr-lg cursor-pointer border-[color:var(--primary-300)] font-[yapari]  text-[10px] md:text-sm disabled:text-[color:var(--gray-200)] disabled:cursor-not-allowed ${
+        className={`w-[23%] py-1 md:py-2 border-1 rounded-br-lg rounded-tr-lg cursor-pointer border-[color:var(--primary-300)] font-[yapari] text-[9px] md:text-sm disabled:text-[color:var(--gray-200)] disabled:cursor-not-allowed ${
           isActive
             ? "bg-[color:var(--primary-300)] text-black font-medium"
             : "text-[color:var(--gray-200)] cursor-not-allowed"

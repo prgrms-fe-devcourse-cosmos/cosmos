@@ -33,7 +33,7 @@ export default function TalkEdit() {
 
     if (success) {
       reset();
-      navigate("/lounge/talk");
+      navigate(-1);
     } else {
       alert(message);
     }

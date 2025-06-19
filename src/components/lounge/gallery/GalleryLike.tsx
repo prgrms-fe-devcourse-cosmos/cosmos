@@ -149,7 +149,7 @@ export default function GalleryLike({
 
       {showLoginModal && (
         <Modal
-          icon={<CircleAlert size={40} color="#EF4444" />}
+          icon={<CircleAlert size={32} color="var(--red)" />}
           title="로그인이 필요한 서비스입니다."
           description="로그인 후 이용해주세요."
           confirmButtonText="LOGIN"

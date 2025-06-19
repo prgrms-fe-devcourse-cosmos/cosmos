@@ -79,7 +79,7 @@ export default function GalleryCard({ post, onLikeToggle }: GalleryCardProps) {
                 }
                 IconNotLiked={
                   <div>
-                    <Heart className="w-[10px] sm:w-3 h-[10px] sm:h-3 text-[color:var(--primary-300)]" />
+                    <Heart className="w-[10px] sm:w-3 h-[10px] sm:h-3 text-[color:var(--primary-300)] cursor-pointer" />
                   </div>
                 }
                 onToggle={(updatedLikeCount, liked) => {
