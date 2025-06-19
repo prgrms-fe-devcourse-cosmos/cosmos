@@ -113,7 +113,7 @@ export default function QuizScreen() {
             <div className="group">
               <Button
                 variant="hover_fill"
-                onClick={() => navigate("/lab/rank")}
+                onClick={() => navigate("/lab/rank?tab=quiz")}
               >
                 RANK
               </Button>
