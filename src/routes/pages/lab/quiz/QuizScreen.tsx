@@ -16,6 +16,12 @@ export default function QuizScreen() {
     useOutletContext<{ config: { difficulty: string } }>() ?? {};
   const difficulty = config?.difficulty ?? "";
 
+  useEffect(() => {
+    if (!config?.difficulty) {
+      navigate("/lab/quiz/config", { replace: true });
+    }
+  }, [config, navigate]);
+
   const userData = useAuthStore((state) => state.userData);
   const profileId = userData?.id;
 
