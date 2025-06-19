@@ -7,6 +7,7 @@ import {
   movieAvgRating,
 } from "../../../api/films/review";
 import supabase from "../../../utils/supabase";
+import { MovieReviewWithLike } from "../../../types/movie";
 
 type Props = {
   onReviewSubmit?: (review: MovieReviewWithLike) => void;
@@ -129,15 +130,18 @@ export default function ReviewForm({
         <button
           onClick={handleSubmit}
           disabled={!isInputActive}
-          className={`w-[23%] py-1 md:py-2 border-1 rounded-br-lg rounded-tr-lg cursor-pointer border-[color:var(--primary-300)] font-[yapari] text-[9px] md:text-sm  ${isInputActive
+          className={`w-[23%] py-1 md:py-2 border-1 rounded-br-lg rounded-tr-lg cursor-pointer border-[color:var(--primary-300)] font-[yapari] text-[9px] md:text-sm  ${
+            isInputActive
               ? "bg-[color:var(--primary-300)] text-black font-medium"
               : "text-[color:var(--gray-200)] cursor-not-allowed"
-            }`}
+          }`}
         >
           ENTER
         </button>
       </div>
-      {error && <p className="text-[#E24413] text-xs md:text-sm pl-1 -mt-2">{error}</p>}
+      {error && (
+        <p className="text-[#E24413] text-xs md:text-sm pl-1 -mt-2">{error}</p>
+      )}
     </div>
   );
 }

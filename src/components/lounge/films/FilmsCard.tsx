@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Star } from "lucide-react";
+import { Movie } from "../../../types/movie";
 
 export default function FilmCard({ movie }: { movie: Movie }) {
   return (

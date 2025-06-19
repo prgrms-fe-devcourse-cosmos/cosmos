@@ -5,6 +5,7 @@ import FollowButton from "../common/FollowButton";
 import { useAuthStore } from "../../stores/authStore";
 import FollowListModal from "./FollowListModal";
 import { useFollowStore } from "../../stores/followStore";
+import { Follow, Profile } from "../../types/type";
 
 export default function UserHeader({
   isOwner,

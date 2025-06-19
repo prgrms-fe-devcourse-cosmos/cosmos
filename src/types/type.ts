@@ -1,4 +1,4 @@
-type Profile = {
+export type Profile = {
   avatar_url: string | null;
   bio: string | null;
   created_at: string;
@@ -9,7 +9,7 @@ type Profile = {
   username: string;
 };
 
-type Post = {
+export type Post = {
   content: string;
   created_at: string;
   id: number;
@@ -20,7 +20,7 @@ type Post = {
   updated_at: string | null;
 };
 
-type Follow = {
+export type Follow = {
   created_at: string;
   follower_id: string;
   following_id: string;

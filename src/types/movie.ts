@@ -1,4 +1,4 @@
-interface Movie {
+export interface Movie {
   id: number;
   title: string;
   overview: string;
@@ -8,7 +8,7 @@ interface Movie {
   director?: string;
 }
 
-interface SpaceMovieState {
+export interface SpaceMovieState {
   spaceMovies: Movie[];
   loading: boolean;
   fetchSpaceMovies: () => Promise<void>;
@@ -28,7 +28,7 @@ interface SpaceMovieState {
   resetAndFetchMovies: () => Promise<void>;
 }
 
-interface MovieDetail {
+export interface MovieDetail {
   id: number;
   title: string;
   poster_path: string;
@@ -56,14 +56,14 @@ interface MovieDetail {
   };
 }
 
-interface MovieDetailStore {
+export interface MovieDetailStore {
   detail: MovieDetail | null;
   loading: boolean;
   fetchDetail: (id: string | number) => Promise<void>;
 }
 
 // 리뷰 좋아요 포함 타입
-type MovieReviewWithLike = {
+export type MovieReviewWithLike = {
   id: number;
   content: string;
   rating: number;

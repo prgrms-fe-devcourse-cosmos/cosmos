@@ -5,6 +5,7 @@ import Button from "../common/Button";
 import EditProfileImage from "./EditProfileImage";
 import { resetImage, updateProfile } from "../../api/user/profile";
 import { useAuthStore } from "../../stores/authStore";
+import { Profile } from "../../types/type";
 
 export default function EditProfileModal({
   userData,

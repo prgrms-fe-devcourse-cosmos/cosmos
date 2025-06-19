@@ -9,6 +9,7 @@ import PostViewTabs from "../../components/userpage/PostViewTabs";
 import UserPostList from "../../components/userpage/UserPostList";
 import FollowerPostList from "../../components/userpage/FollowerPostList";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
+import { Follow, Post, Profile } from "../../types/type";
 
 export default function UserPage() {
   const code = useParams().code;
