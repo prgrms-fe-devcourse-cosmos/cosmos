@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import FollowButton from "../common/FollowButton";
 import { LucideX } from "lucide-react";
+import { Profile } from "../../types/type";
 
 type FollowListModalProps = {
   title: "Followers" | "Following";

@@ -2,6 +2,7 @@ import { LucideHeart, LucideMessageSquare } from "lucide-react";
 import supabase from "../../utils/supabase";
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
+import { Post } from "../../types/type";
 
 export default function UserPostList({ posts }: { posts: Post[] | null }) {
   const [commentCounts, setCommentCounts] = useState<{ [key: number]: number }>(

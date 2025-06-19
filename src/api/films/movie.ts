@@ -1,3 +1,4 @@
+import { Movie, MovieDetail } from "../../types/movie";
 import { movieFetch } from "../../utils/movie";
 
 // TMDB 관련 API 함수 모음

@@ -8,6 +8,7 @@ import Button from "../../common/Button";
 import FilmsTrailerModal from "./FilmsTrailerModal";
 import { movieAvgRating } from "../../../api/films/review";
 import { Play, Star } from "lucide-react";
+import { MovieReviewWithLike } from "../../../types/movie";
 
 export default function FilmsDetail() {
   const { id } = useParams();

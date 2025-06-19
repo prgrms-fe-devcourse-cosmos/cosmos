@@ -4,6 +4,7 @@ import {
   getSearchMovies,
   getSpaceMovies,
 } from "../api/films/movie";
+import { MovieDetailStore, SpaceMovieState } from "../types/movie";
 
 export const useMovieStore = create<SpaceMovieState>((set, get) => ({
   //  영화 리스트

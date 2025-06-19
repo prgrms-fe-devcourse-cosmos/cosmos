@@ -1,5 +1,6 @@
 // 리뷰 Supabase 관련 API
 
+import { MovieReviewWithLike } from "../../types/movie";
 import supabase from "../../utils/supabase";
 
 // 리뷰에 달린 좋아요가 있으면 먼저 삭제

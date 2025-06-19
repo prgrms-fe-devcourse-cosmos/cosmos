@@ -1,3 +1,5 @@
+import { Profile } from "../../types/type";
+
 export default function UserBio({ userData }: { userData: Profile }) {
   return (
     <div className="border-l border-[var(--primary-300)] py-4">

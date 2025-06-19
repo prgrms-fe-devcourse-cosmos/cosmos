@@ -8,6 +8,7 @@ import { Star, CircleAlert } from "lucide-react";
 import supabase from "../../../utils/supabase";
 import ReviewLikeButton from "../../lounge/films/ReviewLikeButton";
 import Modal from "../../common/Modal";
+import { MovieReviewWithLike } from "../../../types/movie";
 
 type Props = {
   reviews: MovieReviewWithLike[];
@@ -31,7 +32,9 @@ export default function ReviewList({
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const [selectedDeleteReviewId, setSelectedDeleteReviewId] = useState<number | null>(null);
+  const [selectedDeleteReviewId, setSelectedDeleteReviewId] = useState<
+    number | null
+  >(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
@@ -116,8 +119,9 @@ export default function ReviewList({
       {reviews.map((review) => (
         <div
           key={review.id}
-          className={`py-[12px] flex flex-col gap-[8px] px-2 rounded-[8px] ${review.profile_id === currentUserId ? "bg-white/5" : ""
-            }`}
+          className={`py-[12px] flex flex-col gap-[8px] px-2 rounded-[8px] ${
+            review.profile_id === currentUserId ? "bg-white/5" : ""
+          }`}
         >
           <div className="flex items-start justify-between relative">
             {/* 이름 + rating */}
@@ -231,10 +235,16 @@ export default function ReviewList({
           )}
 
           <div
-            className={`transition-opacity ${editingReviewId === review.id ? "opacity-40 pointer-events-none" : ""
-              }`}
+            className={`transition-opacity ${
+              editingReviewId === review.id
+                ? "opacity-40 pointer-events-none"
+                : ""
+            }`}
           >
-            <ReviewLikeButton reviewId={review.id} onLikeToggle={onLikeToggle} />
+            <ReviewLikeButton
+              reviewId={review.id}
+              onLikeToggle={onLikeToggle}
+            />
           </div>
         </div>
       ))}
