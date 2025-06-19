@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CircleCheckBig, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import {
   createReview,
   ensureMovieExists,
   movieAvgRating,
 } from "../../../api/films/review";
 import supabase from "../../../utils/supabase";
-import Modal from "../../common/Modal";
 
 type Props = {
   onReviewSubmit?: (review: MovieReviewWithLike) => void;
@@ -26,18 +25,6 @@ export default function ReviewForm({
   const [isLogin, setIsLogin] = useState(false);
   const [loginNotice, setLoginNotice] = useState(false);
   const isInputActive = content.trim() && rating > 0;
-
-  // 모달 상태 추가
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<{
-    title: string;
-    description?: string;
-    confirmText?: string;
-  }>({
-    title: "",
-    description: "",
-    confirmText: "확인",
-  });
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -71,17 +58,10 @@ export default function ReviewForm({
       const newAvg = await movieAvgRating(movieId);
       onAvgRatingUpdate?.(newAvg!);
 
-      // 리뷰 등록 완료
-      setModalContent({
-        title: "리뷰 등록 완료!",
-        description: "감사합니다. 소중한 의견이 등록되었습니다.",
-        confirmText: "닫기",
-      });
-      setModalOpen(true);
-
       // 초기화
       setContent("");
       setRating(0);
+      setError("");
     } catch (e: unknown) {
       console.error(e);
 
@@ -149,24 +129,14 @@ export default function ReviewForm({
         <button
           onClick={handleSubmit}
           disabled={!isInputActive}
-          className={`w-[20%] py-2 md:py-3 border-1 rounded-br-lg rounded-tr-lg cursor-pointer border-[color:var(--primary-300)] font-[yapari]  text-[10px] md:text-sm  ${
-            isInputActive
+          className={`w-[23%] py-1 md:py-2 border-1 rounded-br-lg rounded-tr-lg cursor-pointer border-[color:var(--primary-300)] font-[yapari] text-[9px] md:text-sm  ${isInputActive
               ? "bg-[color:var(--primary-300)] text-black font-medium"
               : "text-[color:var(--gray-200)] cursor-not-allowed"
-          }`}
+            }`}
         >
           ENTER
         </button>
       </div>
-      {modalOpen && (
-        <Modal
-          icon={<CircleCheckBig size={40} color="var(--primary-300)" />}
-          title={modalContent.title}
-          description={modalContent.description}
-          confirmButtonText={modalContent.confirmText}
-          onConfirm={() => setModalOpen(false)}
-        />
-      )}
       {error && <p className="text-[#E24413] text-xs md:text-sm pl-1 -mt-2">{error}</p>}
     </div>
   );
