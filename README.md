@@ -140,14 +140,17 @@
 > - NASA의 APOD 이미지 또는 TMDB 영화 포스터를 이용한 조각 퍼즐 게임
 > - 주제(Category)와 난이도(Difficulty)를 선택하여 퍼즐 진행
 <br>
+
 > 퍼즐 설정 (config) : zustand
 > - 카테고리 : space, film
 > - 난이도 : easy, medium, hard
 <br>
+
 > 게임 화면
 > - react-jigsaw-puzzle 라이브러리 활용
 > - 난이도별 조각 수 및 제한 시간 설정: easy → 3x3, hard → 5x5, 시간도 비례
 <br>
+
 > 게임 결과
 > - 점수 = (남은 시간 / 제한 시간) × 난이도 계수 × 100
 > - Supabase를 통해 사용자의 퍼즐 점수 DB에 저장
