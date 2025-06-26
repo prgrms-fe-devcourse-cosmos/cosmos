@@ -12,10 +12,8 @@
 > https://devcourse-cosmos.netlify.app/
 
 ## 🌌 프로젝트 소개
-<mark>Cosmos는 우주가 궁금한 누구나 쉽고 재미있게 우주를 접할 수 있도록 만든<br>
-커뮤니티 기반 우주 정보 플랫폼입니다.
-매일 업데이트되는 이미지와 뉴스, 사용자 콘텐츠와 게임을 통해
-우주를 더 가깝고 친숙하게 경험할 수 있습니다.</mark>
+<mark>Cosmos는 우주가 궁금한 누구나 쉽고 재미있게 우주를 접할 수 있도록 만든 커뮤니티 기반 우주 정보 플랫폼입니다.<br>
+매일 업데이트되는 이미지와 뉴스, 사용자 콘텐츠와 게임을 통해 우주를 더 가깝고 친숙하게 경험할 수 있습니다.</mark>
 
 - Cosmos는 천문학이 낯설고 어려운 사람도 재미있게 우주를 접할 수 있는 환경을 제공합니다.
 - 매일 NASA의 오늘의 우주 이미지와 최신 우주 뉴스, 천문 이벤트 정보를 자동으로 업데이트합니다.
@@ -42,3 +40,13 @@
 | **Design**           | ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)                                                                                                                  |
 | **Deployment**       | ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)                                                                                                           |
 
+
+
+## 👩‍🚀 팀원 소개 
+
+|                                      송지은                                      |                                      현혜주                                      |                                      김은지                                      |                                      김태연                                       |                                      최원일                                      | 
+| :------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
+| <img width="160px" src="https://github.com/user-attachments/assets/1e8272aa-8254-40b3-bd30-a37bbf1db577" /> | <img width="160px" src="https://github.com/user-attachments/assets/7734ac66-3427-4a01-9d7f-2072be3f0283" /> | <img width="160px" src="https://github.com/user-attachments/assets/4f803409-8979-454d-97f3-df8171225aaf" /> | <img width="160px" src="https://github.com/user-attachments/assets/ab18c001-6f75-4c10-80e5-2436544fb543" /> | <img width="160px" src="https://github.com/user-attachments/assets/2b572d0f-3013-4882-bc0e-f5596b8cc727" /> 
+|                [@jieun22222](https://github.com/jieun22222)                  |                  [@hxe_zu](https://github.com/hxezu)                  |                    [@Kim Eunji](https://github.com/keemeunji)                    |                     [@TYss00](https://github.com/TYss00)                     |                        [@WON](https://github.com/won431236)
+
+<br>
