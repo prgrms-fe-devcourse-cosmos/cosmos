@@ -122,16 +122,19 @@
   - MutationObserver와 themeChanged 이벤트를 통해 시스템 혹은 사용자 설정에 따라 실시간으로 테마(light/dark)를 감지 및 반영합니다.
 
 ### 2. Daily Space
+<mark> 오늘의 우주 이미지와 뉴스, 천문 캘린더까지 매일 새로운 우주를 탐험할 수 있어요. </mark> <br><br>
 #### 2.1. Image of the Day
 #### 2.2. Space News
 #### 2.3. Cosmo Events
 
 ### 3. Lounge
+<mark> 우주 영화 리뷰, 밤하늘 사진 갤러리, 그리고 자유로운 우주 토론이 가능한 통합 커뮤니티 공간이에요. </mark> <br><br>
 #### 3.1. Space Films
 #### 3.2. Stargazer Gallery
 #### 3.3. Cosmo Talk
 
 ### 4. Cosmo Lab
+<mark> 우주 이미지 퍼즐, 과학 퀴즈, 그리고 실시간 랭킹으로 지식과 재미를 동시에 경험하는 인터랙티브 학습 공간을 마련했어요. </mark> <br><br>
 #### 4.1. Puzzle
 #### 4.2. Quiz
 #### 4.3. Rank
@@ -144,8 +147,10 @@
 
 ### 7. Contact
 
-### 8. 404 
+- Cosmo 프로젝트 깃허브 레포지토리로 이동할수 있는 버튼을 두었습니다.
+- 각 팀원들의 이름을 클릭하면 해당 팀원의 깃허브 페이지로 이동합니다.
 
+### 8. 404 Not Found
 
 ---
 
