@@ -123,12 +123,24 @@
 
 ### 2. Daily Space
 <mark> 오늘의 우주 이미지와 뉴스, 천문 캘린더까지 매일 새로운 우주를 탐험할 수 있어요. </mark> <br>
+
 #### 2.1. Image of the Day
+- NASA APOD API를 통해 매일 새로운 우주 이미지와 설명을 제공합니다.
+- 설명 텍스트는 원문 ↔ 번역 전환이 가능합니다.
+- 이때 번역은 Gemini API를 활용하여 자연스러운 번역 기능을 제공합니다.
+<br>
+
 #### 2.2. Space News
+- Spaceflight News API를 통해 최신 우주 뉴스를 제공합니다.
+- 뉴스 카드에는 제목과 OpenAI API 기반으로 번역된 요약문이 함께 제공됩니다.
+- 클릭 시 해당 뉴스의 원문 기사로 이동하게 됩니다.
+<br>
+
 #### 2.3. Cosmo Events
 
 ### 3. Lounge
 <mark> 우주 영화 리뷰, 밤하늘 사진 갤러리, 그리고 자유로운 우주 토론이 가능한 통합 커뮤니티 공간이에요. </mark> <br>
+
 #### 3.1. Space Films
 #### 3.2. Stargazer Gallery
 #### 3.3. Cosmo Talk
@@ -136,9 +148,7 @@
 ### 4. Cosmo Lab
 <mark> 우주 이미지 퍼즐, 과학 퀴즈, 그리고 실시간 랭킹으로 지식과 재미를 동시에 경험하는 인터랙티브 학습 공간을 마련했어요. </mark> <br>
 #### 4.1. Puzzle
-> 기능 개요
-> - NASA의 APOD 이미지 또는 TMDB 영화 포스터를 이용한 조각 퍼즐 게임
-> - 주제(Category)와 난이도(Difficulty)를 선택하여 퍼즐 진행
+NASA의 APOD 이미지 또는 TMDB 영화 포스터를 이용한 조각 퍼즐 게임으로, 주제(Category)와 난이도(Difficulty)를 선택하여 퍼즐을 진행합니다.
 <br>
 
 > 퍼즐 설정 (config) : zustand
@@ -159,7 +169,9 @@
 <br>
 
 #### 4.2. Quiz
+
 #### 4.3. Rank
+퍼즐과 퀴즈의 각 명예의 전당을 확인할 수 있는 랭킹 페이지로써 다른 사용자와 점수를 비교하고 경쟁하며 게임의 몰입도를 높였습니다.
 
 ### 5. My Page
 
