@@ -122,20 +122,37 @@
   - MutationObserver와 themeChanged 이벤트를 통해 시스템 혹은 사용자 설정에 따라 실시간으로 테마(light/dark)를 감지 및 반영합니다.
 
 ### 2. Daily Space
-<mark> 오늘의 우주 이미지와 뉴스, 천문 캘린더까지 매일 새로운 우주를 탐험할 수 있어요. </mark> <br><br>
+<mark> 오늘의 우주 이미지와 뉴스, 천문 캘린더까지 매일 새로운 우주를 탐험할 수 있어요. </mark> <br>
 #### 2.1. Image of the Day
 #### 2.2. Space News
 #### 2.3. Cosmo Events
 
 ### 3. Lounge
-<mark> 우주 영화 리뷰, 밤하늘 사진 갤러리, 그리고 자유로운 우주 토론이 가능한 통합 커뮤니티 공간이에요. </mark> <br><br>
+<mark> 우주 영화 리뷰, 밤하늘 사진 갤러리, 그리고 자유로운 우주 토론이 가능한 통합 커뮤니티 공간이에요. </mark> <br>
 #### 3.1. Space Films
 #### 3.2. Stargazer Gallery
 #### 3.3. Cosmo Talk
 
 ### 4. Cosmo Lab
-<mark> 우주 이미지 퍼즐, 과학 퀴즈, 그리고 실시간 랭킹으로 지식과 재미를 동시에 경험하는 인터랙티브 학습 공간을 마련했어요. </mark> <br><br>
+<mark> 우주 이미지 퍼즐, 과학 퀴즈, 그리고 실시간 랭킹으로 지식과 재미를 동시에 경험하는 인터랙티브 학습 공간을 마련했어요. </mark> <br>
 #### 4.1. Puzzle
+- 기능 개요
+> NASA의 APOD 이미지 또는 TMDB 영화 포스터를 이용한 조각 퍼즐 게임
+> 주제(Category)와 난이도(Difficulty)를 선택하여 퍼즐 진행
+
+- 퍼즐 설정 (config) : zustand
+> 카테고리 : space, film
+> 난이도 : easy, medium, hard
+
+- 게임 화면
+> react-jigsaw-puzzle 라이브러리 활용
+> 난이도별 조각 수 및 제한 시간 설정: easy → 3x3, hard → 5x5, 시간도 비례
+
+- 게임 결과
+> 점수 = (남은 시간 / 제한 시간) × 난이도 계수 × 100
+> Supabase를 통해 사용자의 퍼즐 점수 DB에 저장
+> 퍼즐 이미지에 대한 설명은 Open AI 를 활용하여 자동 번역 및 요약 처리
+
 #### 4.2. Quiz
 #### 4.3. Rank
 
