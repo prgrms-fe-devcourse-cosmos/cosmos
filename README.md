@@ -28,3 +28,17 @@
 함께 별을 보고, 이야기를 나누고, 게임을 즐기며 우주를 더 가깝게 느껴보세요 🚀
 
 
+
+## 💻 Stacks
+
+| 구분                 | 기술                                                                                                                                                                                                             |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Core**             | ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) |
+| **Build Tool**       | ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)                                                                                                                    |
+| **Style**            | ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white)   ![Threejs](https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white)                                                                                           |
+| **State Management** | ![Zustand](https://img.shields.io/badge/Zustand-FF9640?style=flat-square&logo=Zustand&logoColor=white)                                                                                                           |
+| **Version & Issues** | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)         |
+| **Database**    | ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)             |
+| **Design**           | ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)                                                                                                                  |
+| **Deployment**       | ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)                                                                                                           |
+
