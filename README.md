@@ -106,6 +106,31 @@
   - Explore, Community, Games, About 섹션 링크로 구성된 하단 메뉴를 제공합니다.
   - MutationObserver와 themeChanged 이벤트를 통해 시스템 혹은 사용자 설정에 따라 실시간으로 테마(light/dark)를 감지 및 반영합니다.
 
+### 2. Daily Space
+#### 2.1. Image of the Day
+#### 2.2. Space News
+#### 2.3. Cosmo Events
+
+### 3. Lounge
+#### 3.1. Space Films
+#### 3.2. Stargazer Gallery
+#### 3.3. Cosmo Talk
+
+### 4. Cosmo Lab
+#### 4.1. Puzzle
+#### 4.2. Quiz
+#### 4.3. Rank
+
+### 5. My Page
+
+### 6. Auth
+#### 6.1. Login
+#### 6.2. Sign Up
+
+### 7. Contact
+
+### 8. 404 
+
 
 ---
 
