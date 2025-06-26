@@ -96,7 +96,15 @@
 
 
 ## ✨ 페이지별 기능
-### 1. 메인페이지
+
+### 1. HOME
+  <mark>HOME 페이지는 COSMOS를 처음 접하는 유저도 흥미를 가질 수 있도록 구성된 랜딩 페이지입니다.</mark>
+  
+  - 테마(다크/라이트)에 따라 지구 또는 달 3D 모델이 표시됩니다.
+  - react-globe.gl과 three.js를 이용하여 회전하는 지구를 구현하고, 마우스 위치에 따라 줌 기능이 조절 가능합니다.
+  - GSAP ScrollTrigger로 스크롤에 따라 주요 기능 3가지를 카드 형태로 시각화합니다.
+  - Explore, Community, Games, About 섹션 링크로 구성된 하단 메뉴를 제공합니다.
+  - MutationObserver와 themeChanged 이벤트를 통해 시스템 혹은 사용자 설정에 따라 실시간으로 테마(light/dark)를 감지 및 반영합니다.
 
 
 ---
