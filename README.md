@@ -69,7 +69,7 @@
    -  Open AI API를 이용한 번역 + 요약 시스템 구축
    -  Gemini API 를 이용한 단순 번역 시스템 구축
    -  BLEU, BERTScore 기반 성능 평가로 번역 방식 선택 , 결과는 Supabase에 캐싱해 성능과 효율을 함께 개선
-- Supabase Realtime 데이터베이스를 활용한 댓글 CRUD(Create, Read, Update, Delete) 및 실시간 업데이트
+- Supabase Realtime 데이터베이스를 활용한 댓글 CRUD 및 실시간 업데이트
 - 마이페이지 내 사용자 프로필 수정 기능 구현 (이미지의 경우 Storage 기능을 활용하여 처리)
 - three.js 기반 지구·달 3D 모델과 인터랙티브 요소(Lottie·GSAP)를 활용한 홈·Contact 페이지 구현
 - 헤더 및 사이드 메뉴 구현
