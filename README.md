@@ -202,6 +202,9 @@
 밤하늘의 사진들을 서로 공유하는 갤러리 공간이다.
 <br>
 
+> pc
+
+
 - 갤러리에 들어가면 스켈레톤ui이후 로딩이됩니다.
 
 <img src="https://github.com/user-attachments/assets/027b3a03-05d8-464d-b178-f41e62aff25a" width="100%" alt="스켈레톤ui" />
@@ -266,6 +269,14 @@
 <br>
 
 
+> 모바일
+
+- 모바일 반응형도 작동한다.
+
+<img src="https://github.com/user-attachments/assets/18f327e2-df96-4ea6-b8e6-69457b5bddf9" height="500" alt="모바일이벤트" />
+
+
+<br><br>
 
 #### 3.3. Cosmo Talk
 
