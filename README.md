@@ -133,7 +133,7 @@
 
 <img src="https://github.com/user-attachments/assets/4f87db85-b27d-47d5-af5e-9e95c3310102" width="100%" alt="오늘의 나사사진" />
 
-
+<br>
 - 그후로는 캐시에 저장되어 로딩이 빠르다.
 
 <img src="https://github.com/user-attachments/assets/176d2c3f-f09f-4345-8db9-1adfa3fc3832" width="100%" alt="오늘의 나사사진" />
@@ -148,7 +148,7 @@
 
 <img src="https://github.com/user-attachments/assets/795ade97-9a35-4deb-9c84-f0db6d8b3fe9" width="100%" alt="오늘의 나사사진" />
 
-
+<br>
 > 모바일
 
 <img src="https://github.com/user-attachments/assets/957e02f8-bf47-42cd-b423-15b0575766af" height="500" alt="모바일 UI 나사" />
@@ -164,7 +164,7 @@
 
 <img src="https://github.com/user-attachments/assets/9cae6da9-dc37-4045-8e63-157c3f6a75d2" width="100%" alt="오늘의 뉴스" />
 
-
+<br>
 > 모바일
 
 <img src="https://github.com/user-attachments/assets/d54cbcba-8f90-4edb-8ba1-e256003dd828" height="500" alt="모바일 UI 뉴스" />
@@ -179,12 +179,12 @@
 
 <img src="https://github.com/user-attachments/assets/41db070a-0d81-43e3-b7b9-a6875b59d0a8" width="100%" alt="이벤트있을떄" />
 
-
+<br>
 > 이벤트가 없을때
 
 <img src="https://github.com/user-attachments/assets/a65a096e-3aaa-42f9-88a7-edbe13f87275" width="100%" alt="이벤트없을떄" />
 
-
+<br>
 > 모바일 이벤트
 
 <img src="https://github.com/user-attachments/assets/3d15fda9-b059-4563-a1c1-b6df38cb2912" height="500" alt="모바일이벤트" />
