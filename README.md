@@ -129,6 +129,16 @@
 ### 2. Daily Space
 <mark> 오늘의 우주 이미지와 뉴스, 천문 캘린더까지 매일 새로운 우주를 탐험할 수 있어요. </mark> <br>
 
+- 처음으로 들어갈떄는 데이터를 받아와야하므로 로딩이있다.
+
+<img src="https://github.com/user-attachments/assets/4f87db85-b27d-47d5-af5e-9e95c3310102" width="100%" alt="오늘의 나사사진" />
+
+
+- 그후로는 캐시에 저장되어 로딩이 빠르다.
+
+<img src="https://github.com/user-attachments/assets/176d2c3f-f09f-4345-8db9-1adfa3fc3832" width="100%" alt="오늘의 나사사진" />
+
+
 #### 2.1. Image of the Day
 - NASA APOD API를 통해 매일 새로운 우주 이미지와 설명을 제공합니다.
 - 설명 텍스트는 원문 ↔ 번역 전환이 가능합니다.
@@ -137,6 +147,7 @@
 > pc
 
 <img src="https://github.com/user-attachments/assets/795ade97-9a35-4deb-9c84-f0db6d8b3fe9" width="100%" alt="오늘의 나사사진" />
+
 
 > 모바일
 
@@ -153,6 +164,7 @@
 
 <img src="https://github.com/user-attachments/assets/9cae6da9-dc37-4045-8e63-157c3f6a75d2" width="100%" alt="오늘의 뉴스" />
 
+
 > 모바일
 
 <img src="https://github.com/user-attachments/assets/d54cbcba-8f90-4edb-8ba1-e256003dd828" height="500" alt="모바일 UI 뉴스" />
@@ -167,9 +179,11 @@
 
 <img src="https://github.com/user-attachments/assets/41db070a-0d81-43e3-b7b9-a6875b59d0a8" width="100%" alt="이벤트있을떄" />
 
+
 > 이벤트가 없을때
 
 <img src="https://github.com/user-attachments/assets/a65a096e-3aaa-42f9-88a7-edbe13f87275" width="100%" alt="이벤트없을떄" />
+
 
 > 모바일 이벤트
 
@@ -181,7 +195,12 @@
 <mark> 우주 영화 리뷰, 밤하늘 사진 갤러리, 그리고 자유로운 우주 토론이 가능한 통합 커뮤니티 공간이에요. </mark> <br>
 
 #### 3.1. Space Films
+
+
 #### 3.2. Stargazer Gallery
+밤하늘의 사진들을 서로 공유하는 갤러리 공간이다.
+
+
 #### 3.3. Cosmo Talk
 
 <br><br>
