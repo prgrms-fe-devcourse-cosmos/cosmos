@@ -136,7 +136,7 @@
   
 > pc
 
-<img src="https://github.com/user-attachments/assets/7b7404b8-c105-4802-b66b-8c1887950ed8" width="100%" alt="오늘의 나사사진" />
+<img src="https://github.com/user-attachments/assets/795ade97-9a35-4deb-9c84-f0db6d8b3fe9" width="100%" alt="오늘의 나사사진" />
 
 > 모바일
 
@@ -173,7 +173,7 @@
 
 > 모바일 이벤트
 
-<img src="https://github.com/user-attachments/assets/3d15fda9-b059-4563-a1c1-b6df38cb2912" width="100%" alt="모바일이벤트" />
+<img src="https://github.com/user-attachments/assets/3d15fda9-b059-4563-a1c1-b6df38cb2912" height="500" alt="모바일이벤트" />
 
 <br><br>
 
