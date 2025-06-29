@@ -260,6 +260,7 @@
 
 
 - 로그인안한사용자는 좋아요와 게시글에 들어갈수없습니다.
+- post버튼이 비활성화가되어 글을 작성할수없습니다.
   
 <img src="https://github.com/user-attachments/assets/947e8452-f4a3-4a12-92b3-a92de18ebac3" width="100%" alt="게시글삭제" />
 <br>
