@@ -237,7 +237,7 @@ NASA의 APOD 이미지 또는 TMDB 영화 포스터를 이용한 조각 퍼즐 �
 - 잘못된 경로로 접근할 경우 사용자에게 404 Not Found 페이지를 표시합니다.
 - 팀원들에게 연락할 수 있는 Contact 페이지 또는 홈으로 이동이 가능한 버튼을 두었습니다.
 
-<img src="https://github.com/user-attachments/assets/078b8456-2bda-4143-a136-6785584b1756" width="100%" alt="오늘의 나사사진" />
+<img src="https://github.com/user-attachments/assets/b6e2617e-70bc-4862-b925-252b1af3ef0c" width="100%" alt="오늘의 나사사진" />
 
 
 ---
