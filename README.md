@@ -136,7 +136,7 @@
   
 > pc
 
-![오늘의 나사사진](https://github.com/user-attachments/assets/7b7404b8-c105-4802-b66b-8c1887950ed8)
+<img src="https://github.com/user-attachments/assets/7b7404b8-c105-4802-b66b-8c1887950ed8" width="100%" alt="오늘의 나사사진" />
 
 > 모바일
 
@@ -151,7 +151,7 @@
 
 > pc
 
-![뉴스](https://github.com/user-attachments/assets/9cae6da9-dc37-4045-8e63-157c3f6a75d2)
+<img src="https://github.com/user-attachments/assets/9cae6da9-dc37-4045-8e63-157c3f6a75d2" width="100%" alt="오늘의 뉴스" />
 
 > 모바일
 
@@ -165,15 +165,15 @@
 
 > 이벤트가 있을떄
 
-![스크린샷 2025-06-29 오후 12 47 53](https://github.com/user-attachments/assets/41db070a-0d81-43e3-b7b9-a6875b59d0a8)
+<img src="https://github.com/user-attachments/assets/41db070a-0d81-43e3-b7b9-a6875b59d0a8" width="100%" alt="이벤트있을떄" />
 
 > 이벤트가 없을때
 
-![스크린샷 2025-06-29 오후 12 46 31](https://github.com/user-attachments/assets/a65a096e-3aaa-42f9-88a7-edbe13f87275)
+<img src="https://github.com/user-attachments/assets/a65a096e-3aaa-42f9-88a7-edbe13f87275" width="100%" alt="이벤트없을떄" />
 
 > 모바일 이벤트
 
-![IMG_6257](https://github.com/user-attachments/assets/3d15fda9-b059-4563-a1c1-b6df38cb2912)
+<img src="https://github.com/user-attachments/assets/3d15fda9-b059-4563-a1c1-b6df38cb2912" width="100%" alt="모바일이벤트" />
 
 <br><br>
 
