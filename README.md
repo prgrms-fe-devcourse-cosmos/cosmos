@@ -97,8 +97,16 @@
 - 이미지/폰트 크기 최적화 및 전반적인 디자인 QA 작업을 통한 시각적 완성도 향상
 
 👩🏽‍🚀 김은지
-> 
-
+> Lab - Quiz
+- Supabase 연동으로 난이도별 퀴즈 문제 출제 및 사용자 답안 저장
+- 커스텀 훅(useQuiz)으로 상태 관리 및 퀴즈 로직 구현
+- OX형과 4지선다형 문제 유형 지원
+- 난이도별 가중치 점수 계산 및 누적 점수 관리
+- React Router 기반 퀴즈 난이도별 플레이 흐름 구현
+> 공통 컴포넌트
+- 재사용 가능한 드롭다운, 모달 공통 컴포넌트 제작
+- 상태 및 이벤트 처리 로직 캡슐화로 유지 보수성 강화
+- React Portal을 통한 모달 UI 레이어 분리 및 접근성 고려
 
 👨🏾‍🚀 김태연
 > IMAGE OF THE DAY
@@ -148,12 +156,12 @@
 ### 2. Daily Space
 <mark> 오늘의 우주 이미지와 뉴스, 천문 캘린더까지 매일 새로운 우주를 탐험할 수 있어요. </mark> <br>
 
-- 처음으로 들어갈떄는 데이터를 받아와야하므로 로딩이있다.
+- 처음 컴포넌트가 렌더링될 때, 데이터를 받아와야 해서 로딩 상태가 존재합니다.
 
 <img src="https://github.com/user-attachments/assets/4f87db85-b27d-47d5-af5e-9e95c3310102" width="100%" alt="스페이스 첫로딩" />
 
 
-- 그후로는 캐시에 저장되어 로딩이 빠르다.
+- 첫 데이터 로딩 이후에는 캐시에 저장되어 재접속 시 로딩 속도가 훨씬 빨라집니다.
 
 <img src="https://github.com/user-attachments/assets/176d2c3f-f09f-4345-8db9-1adfa3fc3832" width="100%" alt="스페이스 첫로딩이후" />
 
@@ -192,15 +200,15 @@
 
 
 #### 2.3. Cosmo Events
-- 한국천문연구원 API를 통해 이번달의 국내우주 이벤트를 가져옵니다.
-- 오늘의 우주이벤트와 이번달의 우주이벤트들이 나옵니다.
+- 한국천문연구원 API를 통해 이번 달의 국내 우주 이벤트를 가져옵니다.
+- 오늘의 우주 이벤트와 이번 달의 우주 이벤트들이 나옵니다.
 
-> 이벤트가 있을떄
+> 이벤트가 있을 때
 
 <img src="https://github.com/user-attachments/assets/41db070a-0d81-43e3-b7b9-a6875b59d0a8" width="100%" alt="이벤트있을떄" />
 
 
-> 이벤트가 없을때
+> 이벤트가 없을 때
 
 <img src="https://github.com/user-attachments/assets/a65a096e-3aaa-42f9-88a7-edbe13f87275" width="100%" alt="이벤트없을떄" />
 
@@ -284,65 +292,65 @@
 > pc
 
 
-- 갤러리에 들어가면 스켈레톤ui이후 로딩이됩니다.
+- 갤러리에 접속하면 스켈레톤 UI가 먼저 표시된 후 실제 콘텐츠가 로딩됩니다.
 
 <img src="https://github.com/user-attachments/assets/027b3a03-05d8-464d-b178-f41e62aff25a" width="100%" alt="스켈레톤ui" />
 <br>
 
 
-- 최신순,좋아요순으로 정렬됩니다.
+- 게시글을 최신순과 좋아요순으로 정렬할 수 있습니다.
   
 <img src="https://github.com/user-attachments/assets/df97e88d-df8d-4533-82de-d0a860922f46" width="100%" alt="정렬" />
 <br>
 
 
-- 게시글 검색을 할수있습니다.
-- 게시글 검색기록이 생깁니다.
-- x버튼 클릭시 검색기록이 삭제가 됩니다.
+- 게시글을 검색할 수 있습니다.
+- 검색 기록이 자동으로 저장됩니다.
+- 검색 기록 옆의 X 버튼을 클릭하면 해당 기록이 삭제됩니다.
   
 <img src="https://github.com/user-attachments/assets/86232e87-78bc-46cb-bd21-223b162c5231" width="100%" alt="검색" />
 <br>
 
 
-- 게시글 생성할수있습니다. 
+- 게시글을 생성할 수 있습니다. 
   
 <img src="https://github.com/user-attachments/assets/fdae9bd4-91e2-4183-9467-c0e1df9e9e0a" width="100%" alt="게시글생성" />
 <br>
 
 
-- 게시글에 슈퍼베이스 realtime으로 실시간으로 댓글을 달수있습니다.
+- 게시글에 Supabase Realtime을 활용해 실시간으로 댓글을 작성할 수 있습니다.
   
 <img src="https://github.com/user-attachments/assets/5cb810b6-9f4d-4bfb-a084-79fbba4103b3" width="100%" alt="게시글댓글" />
 <br>
 
 
-- 댓글을 수정할수있습니다.
+- 댓글을 수정할 수 있습니다.
   
 <img src="https://github.com/user-attachments/assets/fd35b5cf-916c-4ba9-9c2b-5bf44bf47aac" width="100%" alt="게시글댓글수정" />
 <br>
 
 
-- 게시글을 수정할수있습니다.
+- 게시글을 수정할 수 있습니다.
   
 <img src="https://github.com/user-attachments/assets/4f36a9ef-169d-4a61-b9d0-58e5ecc181b0" width="100%" alt="게시글수정" />
 <br>
 
 
-- 게시글을 삭제할수있습니다.
+- 게시글을 삭제할 수 있습니다.
   
 <img src="https://github.com/user-attachments/assets/499966df-613a-4408-927f-0a72dcdc6f75" width="100%" alt="게시글삭제" />
 <br>
 
 
-- 다른작성자의 게시물는 팔로우와 언팔로우가 나옵니다.
-- 프로필을 클릭시 사용자의 페이지로 이동됩니다.
+- 다른 작성자의 게시물에는 팔로우 및 언팔로우 버튼이 표시됩니다.
+- 프로필 클릭 시 해당 사용자의 페이지로 이동합니다.
   
 <img src="https://github.com/user-attachments/assets/c7a8515e-57f8-404b-9bff-da0273190533" width="100%" alt="게시글삭제" />
 <br>
 
 
-- 로그인안한사용자는 좋아요와 게시글에 들어갈수없습니다.
-- post버튼이 비활성화가되어 글을 작성할수없습니다.
+- 비로그인 사용자는 좋아요 기능과 게시글 열람이 제한됩니다.
+- 또한, 글 작성을 위한 post 버튼이 비활성화되어 글 작성이 불가능합니다.
   
 <img src="https://github.com/user-attachments/assets/947e8452-f4a3-4a12-92b3-a92de18ebac3" width="100%" alt="게시글삭제" />
 <br>
@@ -350,7 +358,7 @@
 
 > 모바일
 
-- 모바일 반응형도 작동한다.
+- 모바일 환경에서도 반응형 디자인이 적용되어 최적화된 화면을 제공합니다.
 
 <img src="https://github.com/user-attachments/assets/18f327e2-df96-4ea6-b8e6-69457b5bddf9" height="500" alt="모바일이벤트" />
 
@@ -385,6 +393,19 @@ NASA의 APOD 이미지 또는 TMDB 영화 포스터를 이용한 조각 퍼즐 �
 <br>
 
 #### 4.2. Quiz
+> 퀴즈 설정 (config) : 상태관리 (useState, useOutletContext)
+> - 난이도 : LV.1, LV.2, LV.3
+<br>
+
+> 게임 화면
+> - OX형 / 4지선다형 문제 유형 지원
+> - Supabase에서 난이도별 문제 데이터 불러와 무작위 10문제 출제
+> - 사용자 선택 저장 및 이전/다음 문제 이동 시 답안 유지 및 수정 가능
+<br>
+
+> 게임 결과
+> - 점수 = (맞춘 문제 개수 × 난이도 계수) × 10
+> - Supabase에 사용자 답안과 점수 저장 및 기존 점수와 합산하여 랭킹 반영
 
 #### 4.3. Rank
 다른 사용자와 점수를 비교하고 경쟁하게 함으로써 게임의 몰입도를 높였습니다.
