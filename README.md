@@ -151,7 +151,7 @@
 
 > pc
 
-![뉴스](https://github.com/user-attachments/assets/62df226e-181f-4739-a80a-05efb7357009)
+![뉴스](https://github.com/user-attachments/assets/9cae6da9-dc37-4045-8e63-157c3f6a75d2)
 
 > 모바일
 
