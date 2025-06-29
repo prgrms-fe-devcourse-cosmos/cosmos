@@ -134,8 +134,6 @@
 <img src="https://github.com/user-attachments/assets/4f87db85-b27d-47d5-af5e-9e95c3310102" width="100%" alt="오늘의 나사사진" />
 
 
-<br>
-
 - 그후로는 캐시에 저장되어 로딩이 빠르다.
 
 <img src="https://github.com/user-attachments/assets/176d2c3f-f09f-4345-8db9-1adfa3fc3832" width="100%" alt="오늘의 나사사진" />
@@ -150,8 +148,6 @@
 > pc
 
 <img src="https://github.com/user-attachments/assets/795ade97-9a35-4deb-9c84-f0db6d8b3fe9" width="100%" alt="오늘의 나사사진" />
-
-<br>
 
 
 > 모바일
@@ -168,8 +164,6 @@
 > pc
 
 <img src="https://github.com/user-attachments/assets/9cae6da9-dc37-4045-8e63-157c3f6a75d2" width="100%" alt="오늘의 뉴스" />
-
-<br>
 
 
 > 모바일
