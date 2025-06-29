@@ -140,7 +140,7 @@
 
 > 모바일
 
-![ScreenRecording_06-29-2025 13-06-45_1](https://github.com/user-attachments/assets/957e02f8-bf47-42cd-b423-15b0575766af)
+<img src="https://github.com/user-attachments/assets/957e02f8-bf47-42cd-b423-15b0575766af" height="500" alt="모바일 UI 나사" />
 
 <br>
 
@@ -155,7 +155,7 @@
 
 > 모바일
 
-![ScreenRecording_06-29-2025 13-03-11_1](https://github.com/user-attachments/assets/d54cbcba-8f90-4edb-8ba1-e256003dd828)
+<img src="https://github.com/user-attachments/assets/d54cbcba-8f90-4edb-8ba1-e256003dd828" height="500" alt="모바일 UI 뉴스" />
 
 <br>
 
