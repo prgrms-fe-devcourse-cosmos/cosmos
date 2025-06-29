@@ -215,12 +215,14 @@
 
 
 - 게시글 검색을 할수있습니다.
+- 게시글 검색기록이 생깁니다.
+- x버튼 클릭시 검색기록이 삭제가 됩니다.
   
 <img src="https://github.com/user-attachments/assets/86232e87-78bc-46cb-bd21-223b162c5231" width="100%" alt="검색" />
 <br>
 
 
-- 게시글 생성할수있습니다.
+- 게시글 생성할수있습니다. 
   
 <img src="https://github.com/user-attachments/assets/fdae9bd4-91e2-4183-9467-c0e1df9e9e0a" width="100%" alt="게시글생성" />
 <br>
