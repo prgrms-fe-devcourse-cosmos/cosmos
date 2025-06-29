@@ -131,12 +131,12 @@
 
 - 처음으로 들어갈떄는 데이터를 받아와야하므로 로딩이있다.
 
-<img src="https://github.com/user-attachments/assets/4f87db85-b27d-47d5-af5e-9e95c3310102" width="100%" alt="오늘의 나사사진" />
+<img src="https://github.com/user-attachments/assets/4f87db85-b27d-47d5-af5e-9e95c3310102" width="100%" alt="스페이스 첫로딩" />
 
 
 - 그후로는 캐시에 저장되어 로딩이 빠르다.
 
-<img src="https://github.com/user-attachments/assets/176d2c3f-f09f-4345-8db9-1adfa3fc3832" width="100%" alt="오늘의 나사사진" />
+<img src="https://github.com/user-attachments/assets/176d2c3f-f09f-4345-8db9-1adfa3fc3832" width="100%" alt="스페이스 첫로딩이후" />
 
 <br><br>
 
@@ -200,6 +200,68 @@
 
 #### 3.2. Stargazer Gallery
 밤하늘의 사진들을 서로 공유하는 갤러리 공간이다.
+<br>
+
+- 갤러리에 들어가면 스켈레톤ui이후 로딩이됩니다.
+
+<img src="https://github.com/user-attachments/assets/027b3a03-05d8-464d-b178-f41e62aff25a" width="100%" alt="스켈레톤ui" />
+<br>
+
+
+- 최신순,좋아요순으로 정렬됩니다.
+  
+<img src="https://github.com/user-attachments/assets/df97e88d-df8d-4533-82de-d0a860922f46" width="100%" alt="정렬" />
+<br>
+
+
+- 게시글 검색을 할수있습니다.
+  
+<img src="https://github.com/user-attachments/assets/86232e87-78bc-46cb-bd21-223b162c5231" width="100%" alt="검색" />
+<br>
+
+
+- 게시글 생성할수있습니다.
+  
+<img src="https://github.com/user-attachments/assets/fdae9bd4-91e2-4183-9467-c0e1df9e9e0a" width="100%" alt="게시글생성" />
+<br>
+
+
+- 게시글에 슈퍼베이스 realtime으로 실시간으로 댓글을 달수있습니다.
+  
+<img src="https://github.com/user-attachments/assets/5cb810b6-9f4d-4bfb-a084-79fbba4103b3" width="100%" alt="게시글댓글" />
+<br>
+
+
+- 댓글을 수정할수있습니다.
+  
+<img src="https://github.com/user-attachments/assets/fd35b5cf-916c-4ba9-9c2b-5bf44bf47aac" width="100%" alt="게시글댓글수정" />
+<br>
+
+
+- 게시글을 수정할수있습니다.
+  
+<img src="https://github.com/user-attachments/assets/4f36a9ef-169d-4a61-b9d0-58e5ecc181b0" width="100%" alt="게시글수정" />
+<br>
+
+
+- 게시글을 삭제할수있습니다.
+  
+<img src="https://github.com/user-attachments/assets/499966df-613a-4408-927f-0a72dcdc6f75" width="100%" alt="게시글삭제" />
+<br>
+
+
+- 다른작성자의 게시물는 팔로우와 언팔로우가 나옵니다.
+- 프로필을 클릭시 사용자의 페이지로 이동됩니다.
+  
+<img src="https://github.com/user-attachments/assets/c7a8515e-57f8-404b-9bff-da0273190533" width="100%" alt="게시글삭제" />
+<br>
+
+
+- 로그인안한사용자는 좋아요와 게시글에 들어갈수없습니다.
+  
+<img src="https://github.com/user-attachments/assets/947e8452-f4a3-4a12-92b3-a92de18ebac3" width="100%" alt="게시글삭제" />
+<br>
+
 
 
 #### 3.3. Cosmo Talk
