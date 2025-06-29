@@ -264,6 +264,15 @@
 - 영화 목록 및 상세 페이지 진입 시 스켈레톤 표시
  
 ![녹음 2025-06-29 215509](https://github.com/user-attachments/assets/bb553603-2401-4ca0-b60f-c03d11e19865)
+<br>
+
+> 반응형
+
+| 영화 목록 (모바일) | 영화 목록 (태블릿) |
+|------------------------|-------------------------|
+|![chrome-capture-2025-06-29_m](https://github.com/user-attachments/assets/1732ed82-a4b7-4e7e-b603-e6a074c94fc1)|![chrome-capture-2025-06-29_t](https://github.com/user-attachments/assets/5bc09c38-fa48-4460-a0c5-5842334b236b)|
+| **영화 상세 (모바일)** | **영화 상세 (태블릿)** |
+|![chrome-capture-2025-06-29_d_m](https://github.com/user-attachments/assets/f81f9b38-c5d5-411a-9ece-2f5c139b2685)|![chrome-capture-2025-06-29_d_t](https://github.com/user-attachments/assets/ef9c15e0-200f-4915-8b12-69f48b88b255)|
 
 #### 3.2. Stargazer Gallery
 밤하늘의 사진들을 서로 공유하는 갤러리 공간입니다.
