@@ -215,10 +215,58 @@
 <mark> 우주 영화 리뷰, 밤하늘 사진 갤러리, 그리고 자유로운 우주 토론이 가능한 통합 커뮤니티 공간이에요. </mark> <br>
 
 #### 3.1. Space Films
+우주 영화 정보를 탐색하고, 리뷰를 작성할 수 있는 콘텐츠 공간입니다.
+<br>
 
+> 무한 스크롤 영화 목록
+- TMDB API 기반 영화 리스트
+- 사용자 스크롤에 따라 자동 로딩
+
+![녹음 2025-06-29 220612](https://github.com/user-attachments/assets/820a2da7-ba32-4f4a-8e3b-064ae81e2071)
+
+<br>
+
+- 최신순 / 평점순 정렬
+
+![2025-06-29 220935](https://github.com/user-attachments/assets/c7cfb8e2-94fa-4351-b5d7-a809ba9b2e60)
+
+<br>
+
+> 영화 상세 페이지
+- 영화의 포스터, 제목, 감독, 개봉일 등 상세 정보를 볼 수 있습니다.
+
+![chrome-capture-2025-06-29](https://github.com/user-attachments/assets/ffc93998-5b16-4b9e-a30b-a4b1a1a56333)
+
+<br>
+
+- 포스터 클릭 시 관련 트레일러가 보여집니다.
+  
+![2025-06-29 221548](https://github.com/user-attachments/assets/d96a46db-19ab-488c-981a-dd4e993d8ee4)
+
+<br>
+
+> 영화 상세 페이지 - 리뷰
+- 평점과 리뷰를 등록할 수 있습니다.
+- 사용자가 작성한 리뷰는 별도 스타일로 강조되어 표시됩니다.
+- 전체 사용자 리뷰의 평점 평균이 즉시 계산되어 반영됩니다.
+
+![2025-06-29 223017](https://github.com/user-attachments/assets/7bdc8ded-6b79-4e25-bbbd-28a70be86bfa)
+
+<br>
+
+- 본인이 작성한 리뷰는 수정, 삭제 할 수 있으며 UI에 즉시 반영됩니다.
+
+![2025-06-29 223537](https://github.com/user-attachments/assets/9a42c11b-2f7b-4056-a1c3-b5d6d614241d)
+
+<br>
+  
+> Skeleton UI 적용
+- 영화 목록 및 상세 페이지 진입 시 스켈레톤 표시
+ 
+![녹음 2025-06-29 215509](https://github.com/user-attachments/assets/bb553603-2401-4ca0-b60f-c03d11e19865)
 
 #### 3.2. Stargazer Gallery
-밤하늘의 사진들을 서로 공유하는 갤러리 공간이다.
+밤하늘의 사진들을 서로 공유하는 갤러리 공간입니다.
 <br>
 
 > pc
