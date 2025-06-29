@@ -135,9 +135,11 @@
 - 이때 번역은 Gemini API를 활용하여 자연스러운 번역 기능을 제공합니다.
   
 > pc
+
 ![오늘의 나사사진](https://github.com/user-attachments/assets/7b7404b8-c105-4802-b66b-8c1887950ed8)
 
 > 모바일
+
 ![ScreenRecording_06-29-2025 13-06-45_1](https://github.com/user-attachments/assets/957e02f8-bf47-42cd-b423-15b0575766af)
 
 <br>
@@ -148,9 +150,11 @@
 - 클릭 시 해당 뉴스의 원문 기사로 이동하게 됩니다.
 
 > pc
+
 ![뉴스](https://github.com/user-attachments/assets/62df226e-181f-4739-a80a-05efb7357009)
 
 > 모바일
+
 ![ScreenRecording_06-29-2025 13-03-11_1](https://github.com/user-attachments/assets/d54cbcba-8f90-4edb-8ba1-e256003dd828)
 
 <br>
@@ -160,12 +164,15 @@
 - 오늘의 우주이벤트와 이번달의 우주이벤트들이 나옵니다.
 
 > 이벤트가 있을떄
+
 ![스크린샷 2025-06-29 오후 12 47 53](https://github.com/user-attachments/assets/41db070a-0d81-43e3-b7b9-a6875b59d0a8)
 
 > 이벤트가 없을때
+
 ![스크린샷 2025-06-29 오후 12 46 31](https://github.com/user-attachments/assets/a65a096e-3aaa-42f9-88a7-edbe13f87275)
 
 > 모바일 이벤트
+
 ![IMG_6257](https://github.com/user-attachments/assets/3d15fda9-b059-4563-a1c1-b6df38cb2912)
 
 <br><br>
