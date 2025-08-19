@@ -150,7 +150,7 @@
   - GSAP ScrollTrigger로 스크롤에 따라 주요 기능 3가지를 카드 형태로 시각화합니다.
   - Explore, Community, Games, About 섹션 링크로 구성된 하단 메뉴를 제공합니다.
   - MutationObserver와 themeChanged 이벤트를 통해 시스템 혹은 사용자 설정에 따라 실시간으로 테마(light/dark)를 감지 및 반영합니다.
-<img src="https://github.com/user-attachments/assets/846b36d9-eee9-4cc3-a909-123b3fc5f5e8" width="100%" alt="스페이스 첫로딩" />
+<img src="https://github.com/user-attachments/assets/846b36d9-eee9-4cc3-a909-123b3fc5f5e8" width="100%" alt="랜딩페이지" />
 
 <br><br>
 
